@@ -5,6 +5,7 @@ import Footer from './component/Footer'
 import Navigator from './component/Navigator'
 import Reviews from './component/Reviews';
 import RegisterForm from './component/RegisterForm';
+import Collections from './component/Collections';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Navigator/>
       <Reviews/>
       <RegisterForm/>
+      <Collections/>
       <Footer/>
     </div>
   )

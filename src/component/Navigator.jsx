@@ -8,7 +8,7 @@ function Navigator() {
                 <a className="navbar-brand col-lg-2 offset-lg-1" href="#Home">
                     <img src="./assets/images/logo.jpg" className="img-thumbnail" alt="Logo" />
                 </a>
-                <div className="col-lg-3"></div>
+                <div className="col-lg-2"></div>
                 <form className="form-inline mx-auto search-bar col-lg-2 align-self-center">
                     <input className="form-control mr-sm-2" type="search" placeholder="Tìm kiếm..." aria-label="Search" />
                 </form>
@@ -16,7 +16,8 @@ function Navigator() {
                     <div className="row">
                         <i className="bi bi-facebook social-icons" />
                         <i className="bi bi-instagram social-icons" />
-                        <i className="bi bi-cart3 social-icons" />
+                        <a href="#Cart">GIỎ HÀNG<i className="bi bi-cart3 social-icons" /></a>
+                        {/* <i className="bi bi-cart3 social-icons" /> */}
                     </div>
                 </div>
             </div>

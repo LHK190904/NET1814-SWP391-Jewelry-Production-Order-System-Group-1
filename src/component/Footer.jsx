@@ -3,7 +3,7 @@ function Footer() {
     return (
         <div className="container-fluid text-start bg-dark">
             <div className="row" id="footer-details">
-                <div className="col-lg-4">
+                <div className="col-lg-3 offset-lg-2">
                     <h5>Chi nhánh</h5>
                     <div>Quận 3</div>
                     <div>Quận 12</div>
@@ -17,7 +17,7 @@ function Footer() {
                     <div>Visa</div>
                     <div>Momo</div>
                 </div>
-                <div className="col-lg-4">
+                <div className="col-lg-3">
                     <h5>Kết nối với chúng tôi</h5>
                     <div>Facebook</div>
                     <div>Instagram</div>
