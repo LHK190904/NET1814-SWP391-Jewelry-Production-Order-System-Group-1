@@ -19,7 +19,7 @@ function Footer() {
                 </div>
                 <div className="col-lg-4">
                     <h5>Kết nối với chúng tôi</h5>
-                    <div>Facebook</div>
+                    <div>Discord</div>
                     <div>Instagram</div>
                     <div>Zalo</div>
                 </div>
