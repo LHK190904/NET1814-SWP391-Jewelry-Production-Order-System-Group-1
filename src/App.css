@@ -1,20 +1,17 @@
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
-.nav-link { 
+nav ul { 
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1% 0 0 0;
+}
+nav ul li a { 
+    text-decoration: none;
     color: #d6c33a;
-    font-size: 120%;
 }
-.navbar-nav a:hover { 
-    color:#b6a83a;
-}
-.social-icons { 
-    width: 25%;
-    height: 25%;
-    color: #b6a83a;
-}
-#header-details img { 
-    max-width: 50%;
-}
-#footer-details div { 
+#icons, #icons a { 
+    display: flex;
+    justify-content: space-around;
     color: #d6c33a;
+    text-decoration: none;
 }

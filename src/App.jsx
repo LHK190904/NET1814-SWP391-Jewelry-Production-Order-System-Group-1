@@ -6,16 +6,14 @@ import Navigator from './component/Navigator'
 import Reviews from './component/Reviews';
 import RegisterForm from './component/RegisterForm';
 import Collections from './component/Collections';
+import Carousel from './component/Carousel';
+import Login from './pages/login';
 
 
 function App() {
   return (
     <div>
-      <Navigator/>
-      <Reviews/>
-      <RegisterForm/>
-      <Collections/>
-      <Footer/>
+      <Login/>
     </div>
   )
 }
