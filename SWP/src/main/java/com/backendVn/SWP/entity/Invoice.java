@@ -14,8 +14,8 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer invoiceId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "requestId")
+    @ManyToOne
+    @JoinColumn(name = "requestId")
     private Request request;
 
     private Date createdAt;
