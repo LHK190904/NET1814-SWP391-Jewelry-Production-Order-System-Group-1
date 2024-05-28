@@ -1,24 +1,31 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "\"User\"")
+@Table(name = "Users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UserID", nullable = false)
     private Integer id;
 
+    @Size(max = 50)
+    @NotNull
     @Column(name = "UserName", nullable = false, length = 50)
     private String userName;
 
+    @Size(max = 50)
+    @NotNull
     @Column(name = "Password", nullable = false, length = 50)
     private String password;
 
+    @Size(max = 100)
     @Column(name = "Email", length = 100)
     private String email;
 
@@ -26,6 +33,7 @@ public class User {
     @Column(name = "Address")
     private String address;
 
+    @Size(max = 50)
     @Column(name = "Title", length = 50)
     private String title;
 
@@ -39,13 +47,13 @@ public class User {
     private Set<Request> customerRequests = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "saleStaffID")
-    private Set<Request> saleStaffRequests = new LinkedHashSet<>();
+    private Set<Request> saleRequests = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "designStaff")
-    private Set<RequestOrder> designStaffRequestOrders = new LinkedHashSet<>();
+    private Set<RequestOrder> designRequestOrders = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "productionStaff")
-    private Set<RequestOrder> productionStaffRequestOrders = new LinkedHashSet<>();
+    private Set<RequestOrder> produceRequestOrders = new LinkedHashSet<>();
 
     public Integer getId() {
         return id;
@@ -119,28 +127,28 @@ public class User {
         this.customerRequests = customerRequests;
     }
 
-    public Set<Request> getSaleStaffRequests() {
-        return saleStaffRequests;
+    public Set<Request> getSaleRequests() {
+        return saleRequests;
     }
 
-    public void setSaleStaffRequests(Set<Request> saleStaffRequests) {
-        this.saleStaffRequests = saleStaffRequests;
+    public void setSaleRequests(Set<Request> saleRequests) {
+        this.saleRequests = saleRequests;
     }
 
-    public Set<RequestOrder> getDesignStaffRequestOrders() {
-        return designStaffRequestOrders;
+    public Set<RequestOrder> getDesignRequestOrders() {
+        return designRequestOrders;
     }
 
-    public void setDesignStaffRequestOrders(Set<RequestOrder> designStaffRequestOrders) {
-        this.designStaffRequestOrders = designStaffRequestOrders;
+    public void setDesignRequestOrders(Set<RequestOrder> designRequestOrders) {
+        this.designRequestOrders = designRequestOrders;
     }
 
-    public Set<RequestOrder> getProductionStaffRequestOrders() {
-        return productionStaffRequestOrders;
+    public Set<RequestOrder> getProduceRequestOrders() {
+        return produceRequestOrders;
     }
 
-    public void setProductionStaffRequestOrders(Set<RequestOrder> productionStaffRequestOrders) {
-        this.productionStaffRequestOrders = productionStaffRequestOrders;
+    public void setProduceRequestOrders(Set<RequestOrder> produceRequestOrders) {
+        this.produceRequestOrders = produceRequestOrders;
     }
 
 }
