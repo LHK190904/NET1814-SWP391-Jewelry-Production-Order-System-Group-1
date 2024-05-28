@@ -13,7 +13,7 @@ import Login from './pages/login';
 function App() {
   return (
     <div>
-      <Login lol ngu/>
+      <Login/>
     </div>
   )
 }
