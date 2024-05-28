@@ -1,7 +1,7 @@
 package com.backendVn.SWP.controllers;
 
+import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.entities.User;
-import com.backendVn.SWP.repositories.UserRepository;
 import com.backendVn.SWP.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +26,12 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public User createUserRequest(@RequestBody UserCreationRequest request) {
+        return userService.createUser(request);
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable String id, @RequestBody User user) {
+    public User updateUser(@PathVariable Integer id, @RequestBody User user) {
         user.setId(id);
         return userService.saveUser(user);
     }

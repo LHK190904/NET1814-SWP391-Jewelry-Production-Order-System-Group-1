@@ -43,7 +43,7 @@ public class RequestOrder {
     @OneToMany(mappedBy = "requestOrderID")
     private Set<RequestOrderDetail> requestOrderDetails = new LinkedHashSet<>();
 
-    @OneToOne(mappedBy = "requestOrderID")
+    @OneToOne(mappedBy = "requestOrder")
     private WarrantyCard warrantyCard;
 
     public Integer getId() {

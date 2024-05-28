@@ -11,7 +11,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UserID", nullable = false)
-    private String id;
+    private Integer id;
 
     @Column(name = "UserName", nullable = false, length = 50)
     private String userName;
@@ -47,11 +47,11 @@ public class User {
     @OneToMany(mappedBy = "productionStaff")
     private Set<RequestOrder> productionStaffRequestOrders = new LinkedHashSet<>();
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
