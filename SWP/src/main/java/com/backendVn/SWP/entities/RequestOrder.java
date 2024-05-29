@@ -1,17 +1,17 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Entity
+@Table(name = "request_order")
 public class RequestOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "RequestOrderID", nullable = false)
+    @Column(name = "request_orderid", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,28 +23,23 @@ public class RequestOrder {
     private Design designID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DesignStaff")
+    @JoinColumn(name = "design_staff")
     private User designStaff;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ProductionStaff")
+    @JoinColumn(name = "production_staff")
     private User productionStaff;
 
+    @Size(max = 50)
     @Column(name = "Status", length = 50)
     private String status;
 
     @ColumnDefault("getdate()")
-    @Column(name = "CreatedAt")
+    @Column(name = "created_at")
     private Instant createdAt;
 
-    @Column(name = "EndAt")
+    @Column(name = "end_at")
     private Instant endAt;
-
-    @OneToMany(mappedBy = "requestOrderID")
-    private Set<RequestOrderDetail> requestOrderDetails = new LinkedHashSet<>();
-
-    @OneToOne(mappedBy = "requestOrder")
-    private WarrantyCard warrantyCard;
 
     public Integer getId() {
         return id;
@@ -108,22 +103,6 @@ public class RequestOrder {
 
     public void setEndAt(Instant endAt) {
         this.endAt = endAt;
-    }
-
-    public Set<RequestOrderDetail> getRequestOrderDetails() {
-        return requestOrderDetails;
-    }
-
-    public void setRequestOrderDetails(Set<RequestOrderDetail> requestOrderDetails) {
-        this.requestOrderDetails = requestOrderDetails;
-    }
-
-    public WarrantyCard getWarrantyCard() {
-        return warrantyCard;
-    }
-
-    public void setWarrantyCard(WarrantyCard warrantyCard) {
-        this.warrantyCard = warrantyCard;
     }
 
 }

@@ -20,17 +20,17 @@ public class Request {
     private User customerID;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "SaleStaffID", nullable = false)
+    @JoinColumn(name = "Sale_StaffID", nullable = false)
     private User saleStaffID;
 
     @ColumnDefault("getdate()")
-    @Column(name = "CreatedAt")
+    @Column(name = "created_at")
     private Instant createdAt;
 
-    @Column(name = "RecievedAt")
+    @Column(name = "recieved_at")
     private Instant recievedAt;
 
-    @Column(name = "EndAt")
+    @Column(name = "end_at")
     private Instant endAt;
 
     @Column(name = "Status", length = 50)

@@ -17,11 +17,11 @@ public class Process {
     private Request requestID;
 
     @ColumnDefault("getdate()")
-    @Column(name = "UpdatedAt")
+    @Column(name = "updated_at")
     private Instant updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UpdatedBy")
+    @JoinColumn(name = "updated_by")
     private User updatedBy;
 
     @Column(name = "Status", length = 50)

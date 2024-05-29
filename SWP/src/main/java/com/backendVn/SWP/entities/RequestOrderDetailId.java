@@ -13,7 +13,7 @@ public class RequestOrderDetailId implements Serializable {
     @Column(name = "MaterialID", nullable = false)
     private Integer materialID;
 
-    @Column(name = "RequestOrderID", nullable = false)
+    @Column(name = "Request_OrderID", nullable = false)
     private Integer requestOrderID;
 
     public Integer getMaterialID() {

@@ -1,5 +1,7 @@
 package com.backendVn.SWP.dtos.request;
 
+import jakarta.validation.constraints.Size;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -7,7 +9,10 @@ import java.util.Objects;
  * DTO for {@link com.backendVn.SWP.entities.User}
  */
 public class UserCreationRequest implements Serializable {
+    @Size(min = 3,message = "Username must be at least 3 characters")
     private final String userName;
+
+    @Size(min = 8, message = "Password must be at least 8 characters")
     private final String password;
     private final String email;
     private final String address;

@@ -17,8 +17,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUserById(String id) {
-        return userRepository.findById(id).orElse(null);
+    public User getUserById(Integer id) {
+        return userRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public User saveUser(User user) {
@@ -27,6 +28,10 @@ public class UserService {
 
     public User createUser(UserCreationRequest request) {
         User user = new User();
+
+        if (userRepository.existsByUserName(request.getUserName()))
+            throw new RuntimeException("User existed.");
+
         user.setUserName(request.getUserName());
         user.setPassword(request.getPassword());
         user.setEmail(request.getEmail());
@@ -35,7 +40,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(String id) {
+    public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
 }

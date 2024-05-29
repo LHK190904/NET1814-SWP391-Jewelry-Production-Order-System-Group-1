@@ -17,7 +17,7 @@ public class User {
 
     @Size(max = 50)
     @NotNull
-    @Column(name = "UserName", nullable = false, length = 50)
+    @Column(name = "user_name", nullable = false, length = 50)
     private String userName;
 
     @Size(max = 50)

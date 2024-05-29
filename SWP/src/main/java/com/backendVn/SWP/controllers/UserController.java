@@ -3,6 +3,7 @@ package com.backendVn.SWP.controllers;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable String id) {
+    public User getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
 
     @PostMapping
-    public User createUserRequest(@RequestBody UserCreationRequest request) {
+    public User createUserRequest(@RequestBody @Valid UserCreationRequest request) {
         return userService.createUser(request);
     }
 
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable String id) {
+    public void deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
     }
 }

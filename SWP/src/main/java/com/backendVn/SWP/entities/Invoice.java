@@ -20,7 +20,7 @@ public class Invoice {
     private Request requestID;
 
     @ColumnDefault("getdate()")
-    @Column(name = "CreatedAt")
+    @Column(name = "Created_At")
     private Instant createdAt;
 
     @Column(name = "TotalCost", precision = 18, scale = 2)

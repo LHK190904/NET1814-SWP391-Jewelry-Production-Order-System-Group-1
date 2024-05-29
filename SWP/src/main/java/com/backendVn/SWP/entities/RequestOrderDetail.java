@@ -16,7 +16,7 @@ public class RequestOrderDetail {
 
     @MapsId("requestOrderID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "RequestOrderID", nullable = false)
+    @JoinColumn(name = "Request_OrderID", nullable = false)
     private RequestOrder requestOrderID;
 
     @Column(name = "Weight", precision = 18, scale = 2)

@@ -5,20 +5,21 @@ import jakarta.persistence.*;
 import java.time.Instant;
 
 @Entity
+@Table(name = "warranty_card")
 public class WarrantyCard {
     @Id
-    @Column(name = "RequestOrderID", nullable = false)
+    @Column(name = "request_orderid", nullable = false)
     private Integer id;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "RequestOrderID", nullable = false)
+    @JoinColumn(name = "request_orderid", nullable = false)
     private RequestOrder requestOrder;
 
-    @Column(name = "CreatedAt")
+    @Column(name = "created_at")
     private Instant createdAt;
 
-    @Column(name = "EndAt")
+    @Column(name = "end_at")
     private Instant endAt;
 
     public Integer getId() {

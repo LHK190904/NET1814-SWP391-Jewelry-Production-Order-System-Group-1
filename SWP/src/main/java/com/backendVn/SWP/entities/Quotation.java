@@ -18,14 +18,14 @@ public class Quotation {
     private Request requestID;
 
     @ColumnDefault("getdate()")
-    @Column(name = "CreatedAt")
+    @Column(name = "created_at")
     private Instant createdAt;
 
-    @Column(name = "ApprovedAt")
+    @Column(name = "approved_at")
     private Instant approvedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ApproveBy")
+    @JoinColumn(name = "approve_by")
     private User approveBy;
 
     @Column(name = "Cost", precision = 18, scale = 2)
