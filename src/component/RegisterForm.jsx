@@ -24,8 +24,8 @@ function RegisterForm() {
                         </div>
                     </div>
                     <div className="row">
-                        <button type="submit" className="btn col-lg-4 offset-lg-2">ĐĂNG KÝ</button>
-                        <button type="cancel" className="btn col-lg-4">HỦY</button>
+                        <button type="submit" className="btn col-lg-4 offset-lg-2 bg-dark" style={{color: "#d6c33a"}}>ĐĂNG KÝ</button>
+                        <button type="cancel" className="btn col-lg-4 border">HỦY</button>
                     </div>
                 </div>
             </form>

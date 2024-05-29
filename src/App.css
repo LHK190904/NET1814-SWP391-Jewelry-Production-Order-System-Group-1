@@ -1,17 +1,31 @@
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
-nav ul { 
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Navigator */
+nav ul {
     display: flex;
     justify-content: space-evenly;
     padding: 1% 0 0 0;
 }
-nav ul li a { 
+
+nav ul li a {
     text-decoration: none;
     color: #d6c33a;
 }
-#icons, #icons a { 
+
+#icons,
+#icons a {
     display: flex;
     justify-content: space-around;
     color: #d6c33a;
     text-decoration: none;
+}
+
+/* Footer */
+#footer div, #footer h3 {
+    color: #d6c33a;
 }

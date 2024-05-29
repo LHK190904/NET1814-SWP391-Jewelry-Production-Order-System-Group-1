@@ -4,7 +4,7 @@ export default function Collections() {
     return (
         <div className='container-fluid'>
             <h3 className='text-center'>BỘ SƯU TẬP</h3>
-            <div className='row'>
+            <div className='row align-self-center'>
                 <div className='col-lg-3 offset-lg-2'>BỘ SƯU TẬP 1</div>
                 <div className='col-lg-5'>
                     <img src="./assets/images/product.jpg" alt="product1" />

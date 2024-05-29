@@ -1,7 +1,7 @@
 import React from "react";
 function Footer() {
     return (
-        <footer className="bg-black text-white text-center py-4">
+        <footer className="bg-black text-center py-4" id="footer">
             <div className="container-fluid text-start">
                 <div className="row" id="footer-details">
                     <div className="col-lg-3 offset-lg-2">
