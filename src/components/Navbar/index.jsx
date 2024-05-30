@@ -4,26 +4,26 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <div className="bg-black text-[#d6c33a]">
-      <div className="flex justify-between items-center p-4">
-        <a className="navbar-brand" href="#Home">
+      <div className="items-center grid grid-cols-12">
+        <a className="col-start-2 col-span-3 " href="#Home">
           <img
             src="./src/assets/images/logo.jpg"
             className="img-thumbnail"
             alt="Logo"
           />
         </a>
-        <form className="form-inline mx-auto search-bar text-black">
+        <form className="col-start-5 col-span-3 search-bar text-black">
           <input
-            className="form-control mr-sm-2"
+            className="form-control w-full rounded-lg p-2"
             type="search"
             placeholder="Tìm kiếm..."
             aria-label="Search"
           />
         </form>
-        <div className="flex space-x-4">
-          <i className="bi bi-facebook social-icons  " />
+        <div className="col-start-10">
+          <i className="bi bi-facebook social-icons" />
           <i className="bi bi-instagram social-icons" />
-          <Link to={"/cart"}>
+          <Link to={"/cart"} className="flex items-center">
             GIỎ HÀNG
             <i className="bi bi-cart3 social-icons ml-2" />
           </Link>
