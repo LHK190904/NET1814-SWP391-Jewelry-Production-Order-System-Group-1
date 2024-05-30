@@ -5,13 +5,13 @@ export default function Navbar() {
   return (
     <div className="bg-black text-[#d6c33a]">
       <div className="items-center grid grid-cols-12">
-        <a className="col-start-2 col-span-3 " href="#Home">
+        <Link to={"/"} className="col-start-2 col-span-3">
           <img
             src="./src/assets/images/logo.jpg"
             className="img-thumbnail"
             alt="Logo"
           />
-        </a>
+        </Link>
         <form className="col-start-5 col-span-3 search-bar text-black">
           <input
             className="form-control w-full rounded-lg p-2"
@@ -29,7 +29,7 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
-      <div className="p-4 bg-[#2A2A2A] text-[#d6c33a]">
+      <div className="p-4 bg-[#2A2A2A] text-[#d6c33a] font-bold">
         <nav>
           <ul className="flex justify-around">
             <li>
