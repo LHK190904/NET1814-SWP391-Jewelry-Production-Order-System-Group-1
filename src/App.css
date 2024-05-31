@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    *{
+        font-family: "Jura", sans-serif;
+        font-optical-sizing: auto;
+    }
+}
