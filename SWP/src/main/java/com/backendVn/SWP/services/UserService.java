@@ -1,6 +1,7 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
+import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,16 @@ public class UserService {
         user.setEmail(request.getEmail());
         user.setAddress(request.getAddress());
         user.setTitle(request.getTitle());
+        return userRepository.save(user);
+    }
+
+    public User updateUser(Integer id ,UserUpdateRequest userUpdateRequest) {
+        User user = getUserById(id);
+
+        user.setPassword(userUpdateRequest.getPassword());
+        user.setAddress(userUpdateRequest.getAddress());
+        user.setEmail(userUpdateRequest.getEmail());
+
         return userRepository.save(user);
     }
 

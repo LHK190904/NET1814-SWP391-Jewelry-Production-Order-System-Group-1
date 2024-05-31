@@ -40,12 +40,12 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>6.5.2.Final</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>6.2.0.Final</version>
-		</dependency>
+<!--bỏ ra để sử dụng validator bản 8.0.2 do conflict nên ko sử dụng được validation-->
+<!--		<dependency>-->
+<!--			<groupId>org.hibernate.validator</groupId>-->
+<!--			<artifactId>hibernate-validator</artifactId>-->
+<!--			<version>6.2.0.Final</version>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
