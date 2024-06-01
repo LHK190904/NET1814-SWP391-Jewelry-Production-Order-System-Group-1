@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <div className="p-4 bg-[#2A2A2A] text-[#F7EF8A] font-bold ">
+    <div className="p-4 bg-[#2A2A2A] text-[#F7EF8A] font-bold z-10 w-full sticky top-0">
       <nav>
         <ul className="flex justify-around">
           <li>
