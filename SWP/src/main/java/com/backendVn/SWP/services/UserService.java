@@ -3,6 +3,8 @@ package com.backendVn.SWP.services;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.entities.User;
+import com.backendVn.SWP.exception.AppException;
+import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,7 @@ public class UserService {
         User user = new User();
 
         if (userRepository.existsByUserName(request.getUserName()))
-            throw new RuntimeException("User existed.");
+            throw new AppException(ErrorCode.USER_EXISTED);
 
         user.setUserName(request.getUserName());
         user.setPassword(request.getPassword());

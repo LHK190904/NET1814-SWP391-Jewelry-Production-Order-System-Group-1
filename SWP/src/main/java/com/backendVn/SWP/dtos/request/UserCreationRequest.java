@@ -9,10 +9,10 @@ import java.util.Objects;
  * DTO for {@link com.backendVn.SWP.entities.User}
  */
 public class UserCreationRequest implements Serializable {
-    @Size(min = 3,message = "Username must be at least 3 characters")
+    @Size(min = 3,message = "INVALID_USERNAME")
     private final String userName;
 
-    @Size(min = 8, message = "Password must be at least 8 characters")
+    @Size(min = 8, message = "INVALID_PASSWORD")
     private final String password;
     private final String email;
     private final String address;

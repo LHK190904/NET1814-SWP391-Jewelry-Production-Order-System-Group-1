@@ -1,5 +1,6 @@
 package com.backendVn.SWP.controllers;
 
+import com.backendVn.SWP.dtos.request.ApiResponse;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.entities.User;
@@ -29,8 +30,10 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUserRequest(@RequestBody @Valid UserCreationRequest request) {
-        return userService.createUser(request);
+    public ApiResponse<User> createUserRequest(@RequestBody @Valid UserCreationRequest request) {
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.createUser(request));
+        return apiResponse;
     }
 
     @PutMapping("/{id}")

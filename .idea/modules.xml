@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/NET1814-SWP391-Jewelry-Production-Order-System-Group-1.iml" filepath="$PROJECT_DIR$/.idea/NET1814-SWP391-Jewelry-Production-Order-System-Group-1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SWP/SWP.iml" filepath="$PROJECT_DIR$/SWP/SWP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/NET1814-SWP391-Jewelry-Production-Order-System-Group-1 Public.iml" filepath="$PROJECT_DIR$/.idea/NET1814-SWP391-Jewelry-Production-Order-System-Group-1 Public.iml" />
     </modules>
   </component>
 </project>

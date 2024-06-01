@@ -4,9 +4,9 @@ package com.backendVn.SWP.dtos.request;
  * DTO for {@link com.backendVn.SWP.entities.User}
  */
 public class UserUpdateRequest {
-    private final String password;
-    private final String email;
-    private final String address;
+    private String password;
+    private String email;
+    private String address;
 
     public UserUpdateRequest(String password, String email, String address) {
         this.password = password;
@@ -14,15 +14,30 @@ public class UserUpdateRequest {
         this.address = address;
     }
 
+    public UserUpdateRequest() {
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
