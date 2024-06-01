@@ -23,13 +23,18 @@ function Header() {
         <div className="col-start-10">
           {/* <i className="bi bi-facebook social-icons" />
           <i className="bi bi-instagram social-icons" /> */}
-          <i className="fa-brands fa-instagram w-10" style={{color: '#f7ef8a'}} />
-  
-         
+          <i
+            className="fa-brands fa-instagram w-10"
+            style={{ color: "#f7ef8a" }}
+          />
+          <i
+            className="fa-brands fa-facebook w-10"
+            style={{ color: "#f7ef8a" }}
+          />
           <Link to={"/cart"} className="flex items-center">
             GIỎ HÀNG
-            <i className="bi bi-cart3 social-icons ml-2" />
           </Link>
+          <i className="bi bi-cart3 social-icons ml-2" />
         </div>
       </div>
     </>
