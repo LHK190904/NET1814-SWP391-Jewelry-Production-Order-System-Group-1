@@ -26,7 +26,6 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/all")
     public List<User> getAllUsers1() {
         return userService.getAllUsers1();
     }
@@ -38,10 +37,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ApiResponse<User> createUserRequest(@RequestBody @Valid UserCreationRequest request) {
-        ApiResponse<User> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.createUser(request));
-        return apiResponse;
+    public ApiResponse<UserResponse> createUserRequest(@RequestBody @Valid UserCreationRequest request) {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.createUser(request))
+                .build();
     }
 
     @PutMapping("/{id}")

@@ -15,6 +15,8 @@ public class GlobalExceptionHandler {
 
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+        System.out.println("RuntimeException: " + exception.getMessage());
+        exception.printStackTrace();
 
 
         return ResponseEntity.badRequest().body(apiResponse);

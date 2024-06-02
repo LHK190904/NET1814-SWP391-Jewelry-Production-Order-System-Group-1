@@ -5,7 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * DTO for {@link com.backendVn.SWP.entities.User}
@@ -24,6 +23,4 @@ public class UserCreationRequest implements Serializable {
     String email;
     String address;
     String title;
-
-
 }

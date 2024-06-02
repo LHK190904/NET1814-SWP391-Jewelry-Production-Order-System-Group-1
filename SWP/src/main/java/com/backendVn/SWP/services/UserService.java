@@ -12,6 +12,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.List;
 public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
+    PasswordEncoder passwordEncoder;
 
 
     public List<UserResponse> getAllUsers() {
@@ -38,17 +41,19 @@ public class UserService {
                         .orElseThrow(() -> new RuntimeException("User not found")));
     }
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
-
-    public User createUser(UserCreationRequest request) {
+    public UserResponse createUser(UserCreationRequest request) {
         if (userRepository.existsByUserName(request.getUserName()))
             throw new AppException(ErrorCode.USER_EXISTED);
+
         User user = userMapper.toUser(request);
+        System.out.println("Creating user: " + user);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        System.out.println("Encoded password: " + user.getPassword());
 
+        User savedUser = userRepository.save(user);
+        System.out.println("Saved user: " + savedUser);
 
-        return userRepository.save(user);
+        return userMapper.toUserResponse(savedUser);
     }
 
     public UserResponse updateUser(Integer id ,UserUpdateRequest request) {

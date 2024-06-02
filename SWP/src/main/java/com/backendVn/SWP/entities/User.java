@@ -17,12 +17,12 @@ public class User {
 
     @Size(max = 50)
     @NotNull
-    @Column(name = "user_name", nullable = false, length = 50)
+    @Column(name = "user_name", nullable = false, length = 225)
     private String userName;
 
-    @Size(max = 50)
+    @Size(max = 225)
     @NotNull
-    @Column(name = "Password", nullable = false, length = 50)
+    @Column(name = "Password", nullable = false, length = 225)
     private String password;
 
     @Size(max = 100)
