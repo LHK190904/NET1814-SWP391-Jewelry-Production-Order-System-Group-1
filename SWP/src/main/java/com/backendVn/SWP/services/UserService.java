@@ -2,27 +2,40 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
+import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
+import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.UserRepository;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
+    UserMapper userMapper;
 
-    public List<User> getAllUsers() {
+
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(userMapper::toUserResponse).toList();
+    }
+
+    public List<User> getAllUsers1() {
         return userRepository.findAll();
     }
 
-    public User getUserById(Integer id) {
-        return userRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("User not found"));
+    public UserResponse getUserById(Integer id) {
+        return userMapper.toUserResponse(userRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("User not found")));
     }
 
     public User saveUser(User user) {
@@ -30,27 +43,19 @@ public class UserService {
     }
 
     public User createUser(UserCreationRequest request) {
-        User user = new User();
-
         if (userRepository.existsByUserName(request.getUserName()))
             throw new AppException(ErrorCode.USER_EXISTED);
+        User user = userMapper.toUser(request);
 
-        user.setUserName(request.getUserName());
-        user.setPassword(request.getPassword());
-        user.setEmail(request.getEmail());
-        user.setAddress(request.getAddress());
-        user.setTitle(request.getTitle());
+
         return userRepository.save(user);
     }
 
-    public User updateUser(Integer id ,UserUpdateRequest userUpdateRequest) {
-        User user = getUserById(id);
-
-        user.setPassword(userUpdateRequest.getPassword());
-        user.setAddress(userUpdateRequest.getAddress());
-        user.setEmail(userUpdateRequest.getEmail());
-
-        return userRepository.save(user);
+    public UserResponse updateUser(Integer id ,UserUpdateRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userMapper.updateUser(user, request);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     public void deleteUser(Integer id) {

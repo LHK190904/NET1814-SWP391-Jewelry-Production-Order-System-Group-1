@@ -3,29 +3,37 @@ package com.backendVn.SWP.controllers;
 import com.backendVn.SWP.dtos.request.ApiResponse;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
+import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.User;
-import com.backendVn.SWP.repositories.UserRepository;
 import com.backendVn.SWP.services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
-
-    @Autowired
-    private UserService userService;
+    UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/all")
+    public List<User> getAllUsers1() {
+        return userService.getAllUsers1();
+    }
+
+
     @GetMapping("/{userID}")
-    public User getUserById(@PathVariable Integer userID) {
+    public UserResponse getUserById(@PathVariable Integer userID) {
         return userService.getUserById(userID);
     }
 
@@ -37,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Integer id,@RequestBody UserUpdateRequest userUpdateRequest) {
+    public UserResponse updateUser(@PathVariable Integer id,@RequestBody @Valid UserUpdateRequest userUpdateRequest) {
         return  userService.updateUser(id, userUpdateRequest);
     }
 

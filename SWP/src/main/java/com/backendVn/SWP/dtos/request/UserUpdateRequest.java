@@ -1,43 +1,22 @@
 package com.backendVn.SWP.dtos.request;
 
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 /**
  * DTO for {@link com.backendVn.SWP.entities.User}
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults (level = AccessLevel.PRIVATE)
 public class UserUpdateRequest {
-    private String password;
-    private String email;
-    private String address;
+    @Size(min = 8,message = "INVALID_PASSWORD")
+    String password;
+    String email;
+    String address;
 
-    public UserUpdateRequest(String password, String email, String address) {
-        this.password = password;
-        this.email = email;
-        this.address = address;
-    }
 
-    public UserUpdateRequest() {
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }
