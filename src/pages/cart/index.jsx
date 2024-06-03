@@ -10,7 +10,7 @@ export default function Cart() {
           <h2 className="font-bold text-center">DANH SÁCH YÊU CẦU</h2>
           <li>
             <div className="grid grid-cols-4">
-              <Link to={"/"}>
+              <Link to={"/product-details"}>
                 <img
                   src="./src/assets/images/product.jpg"
                   alt=""
@@ -18,7 +18,7 @@ export default function Cart() {
                 />
               </Link>
               <span className="grid col-start-2 col-span-2">
-                <Link to={"/"}>
+                <Link to={"/product-details"}>
                   <p>Tên sản phẩm</p>
                 </Link>
                 <p>Nguyên vật liệu</p>
@@ -47,7 +47,7 @@ export default function Cart() {
             <p className="grid col-start-2 text-right font-bold">125</p>
           </div>
           <div className="flex gap-4">
-            <button className="w-1/2 bg-gray-800 text-yellow-300 py-2 px-4 rounded-md">
+            <button className="w-1/2 bg-gray-800 mainColor py-2 px-4 rounded-md">
               <Link to={"/"}>ĐẶT YÊU CẦU</Link>
             </button>
             <button className="w-1/2 bg-gray-800 text-yellow-300 py-2 px-4 rounded-md">

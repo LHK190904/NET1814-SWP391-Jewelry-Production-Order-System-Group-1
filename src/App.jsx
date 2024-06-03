@@ -1,9 +1,6 @@
 // src/App.jsx
 import React from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import About from "./pages/about";
@@ -13,6 +10,7 @@ import Blog from "./pages/blog";
 import Register from "./pages/register";
 import Cart from "./pages/cart";
 import Layout from "./components/layout";
+import ProductDetails from "./pages/product-details";
 
 function App() {
   const router = createBrowserRouter([
@@ -48,17 +46,20 @@ function App() {
         },
         {
           path: "/cart",
-          element: <Cart />
+          element: <Cart />,
         },
         {
           path: "/login",
-          element: <Login />
+          element: <Login />,
         },
-       
+        {
+          path: "/product-details",
+          element: <ProductDetails />,
+        },
       ],
     },
   ]);
-  return <RouterProvider router={router}/>
+  return <RouterProvider router={router} />;
 }
 
 export default App;

@@ -75,7 +75,7 @@ function RegisterForm() {
               <div className="flex space-x-4">
                 <button
                   type="submit"
-                  className="w-1/2 bg-gray-800 text-yellow-300 py-2 px-4 rounded-md"
+                  className="w-1/2 bg-gray-800 text-[#F7EF8A] py-2 px-4 rounded-md"
                 >
                   ĐĂNG KÝ
                 </button>

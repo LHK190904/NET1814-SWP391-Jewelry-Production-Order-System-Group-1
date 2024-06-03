@@ -12,7 +12,7 @@ function LoginForm() {
 
     // const apiEndpoint = "http://172.20.10.3:8080/user";
     // api thu nghiem
-    const apiEndpoint = "https://6628a3dc54afcabd073664dc.mockapi.io/Login";
+    const apiEndpoint = "https://664ef13afafad45dfae19e02.mockapi.io/Movie";
 
     try {
       const response = await axios.post(
@@ -33,7 +33,7 @@ function LoginForm() {
       if (data.success) {
         console.log("Logged in successfully");
         handleCancel();
-        navigate("/dashboard");
+        navigate("/");
       } else {
         setErrorMessage(data.message || "Login failed");
       }
