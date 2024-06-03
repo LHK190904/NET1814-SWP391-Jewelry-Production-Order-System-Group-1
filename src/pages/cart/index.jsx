@@ -47,10 +47,10 @@ export default function Cart() {
             <p className="grid col-start-2 text-right font-bold">125</p>
           </div>
           <div className="flex gap-4">
-            <button className="w-1/2 bg-gray-800 mainColor py-2 px-4 rounded-md">
+            <button className="w-1/2 bg-gray-800 text-[#F7EF8A] py-2 px-4 rounded-md">
               <Link to={"/"}>ĐẶT YÊU CẦU</Link>
             </button>
-            <button className="w-1/2 bg-gray-800 text-yellow-300 py-2 px-4 rounded-md">
+            <button className="w-1/2 bg-gray-800 text-[#F7EF8A] py-2 px-4 rounded-md">
               <Link to={"/"}>VỀ TRANG CHỦ</Link>
             </button>
           </div>
