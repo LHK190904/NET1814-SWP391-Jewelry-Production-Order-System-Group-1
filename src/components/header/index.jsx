@@ -2,11 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Header() {
+
+
+
+  
   return (
     <div>
       <div className="items-center grid grid-cols-12 bg-black text-[#F7EF8A]">
-        <Link to={"/"} className="col-start-3 col-span-2">
-          <img src="./src/assets/images/logo.jpg" alt="Logo" />
+        <Link to={"/"} className="col-start-2 col-span-2 mb-4 mt-4">
+          <img
+            className="h-52 w-54 "
+            src="./src/assets/images/logo.png"
+            alt="Logo"
+          />
         </Link>
         <form className="col-start-5 col-span-4 search-bar text-[#F7EF8A]">
           <input
@@ -38,6 +46,17 @@ function Header() {
             ></img>
           </Link>
           <i className="bi bi-cart3 social-icons ml-2" />
+        </div>
+        <div className=" col-start-12">
+
+          <img
+            className="inline-block h-8 w-8 rounded-full ring-2 ring-[#F7EF8A]"
+            src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt=""
+          />
+          <span>
+            <Link to={"/login"}>ĐĂNG NHẬP</Link>
+          </span>
         </div>
       </div>
     </div>

@@ -21,9 +21,7 @@ export default function Navbar() {
           <li>
             <Link to={"/blog"}>BLOG</Link>
           </li>
-          <li>
-            <Link to={"/login"}>ĐĂNG NHẬP</Link>
-          </li>
+         
         </ul>
       </nav>
     </div>
