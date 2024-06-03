@@ -1,6 +1,6 @@
 package com.backendVn.SWP.controllers;
 
-import com.backendVn.SWP.dtos.request.ApiResponse;
+import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.request.AuthenticationRequest;
 import com.backendVn.SWP.dtos.request.IntrospectRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
