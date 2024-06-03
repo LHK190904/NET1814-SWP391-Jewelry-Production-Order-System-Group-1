@@ -2,8 +2,11 @@ package com.backendVn.SWP.controllers;
 
 import com.backendVn.SWP.dtos.request.ApiResponse;
 import com.backendVn.SWP.dtos.request.AuthenticationRequest;
+import com.backendVn.SWP.dtos.request.IntrospectRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
+import com.backendVn.SWP.dtos.response.IntrospectResponse;
 import com.backendVn.SWP.services.AuthenticationService;
+import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -19,13 +24,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     AuthenticationService authenticationService;
 
-    @PostMapping("/login")
+    @PostMapping("/login_token")
     ApiResponse<AuthenticationResponse> authencicate(@RequestBody AuthenticationRequest request){
-        boolean result = authenticationService.authenticate(request);
+        var result = authenticationService.authenticate(request);
         return ApiResponse.<AuthenticationResponse>builder()
-                .result(AuthenticationResponse.builder()
-                        .authenticated(result)
-                        .build())
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/introspect_token")
+    ApiResponse<IntrospectResponse> authencicate(@RequestBody IntrospectRequest request)
+            throws ParseException, JOSEException {
+        var result = authenticationService.introspect(request);
+        return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
                 .build();
     }
 }
