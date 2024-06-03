@@ -1,11 +1,13 @@
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\configs\SecurityConfig.java
+D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\controllers\AdminController.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\controllers\AuthenticationController.java
-D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\controllers\UserController.java
-D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\request\ApiResponse.java
+D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\controllers\CustomerController.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\request\AuthenticationRequest.java
+D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\request\CustomerRegisterRequest.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\request\IntrospectRequest.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\request\UserCreationRequest.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\request\UserUpdateRequest.java
+D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\response\ApiResponse.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\response\AuthenticationResponse.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\response\IntrospectResponse.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\dtos\response\UserResponse.java
@@ -39,5 +41,6 @@ D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\repositories\UserRepository.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\repositories\WarrantyCardRepository.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\services\AuthenticationService.java
+D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\services\CustomerService.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\services\UserService.java
 D:\studying\FPT-lessons\SWP-391\NET1814-Jewelry-Production-Order-System-Group-1\SWP\src\main\java\com\backendVn\SWP\SwpApplication.java
