@@ -10,13 +10,17 @@ export default function Cart() {
           <h2 className="font-bold text-center">DANH SÁCH YÊU CẦU</h2>
           <li>
             <div className="grid grid-cols-4">
-              <img
-                src="./src/assets/images/product.jpg"
-                alt=""
-                className="grid col-start-1"
-              />
+              <Link to={"/"}>
+                <img
+                  src="./src/assets/images/product.jpg"
+                  alt=""
+                  className="grid col-start-1"
+                />
+              </Link>
               <span className="grid col-start-2 col-span-2">
-                <p>Tên sản phẩm</p>
+                <Link to={"/"}>
+                  <p>Tên sản phẩm</p>
+                </Link>
                 <p>Nguyên vật liệu</p>
                 <p>Khối lượng</p>
                 <p>Bản thiết kế</p>
