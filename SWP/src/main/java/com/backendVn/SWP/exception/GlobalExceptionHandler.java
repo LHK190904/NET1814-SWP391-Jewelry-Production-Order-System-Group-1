@@ -1,6 +1,6 @@
 package com.backendVn.SWP.exception;
 
-import com.backendVn.SWP.dtos.request.ApiResponse;
+import com.backendVn.SWP.dtos.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,5 +1,6 @@
 package com.backendVn.SWP.mappers;
 
+import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.dtos.response.UserResponse;
@@ -58,5 +59,22 @@ public class UserMapperImpl implements UserMapper {
         userResponse.title( user.getTitle() );
 
         return userResponse.build();
+    }
+
+    @Override
+    public User toUser(CustomerRegisterRequest customerRegisterRequest) {
+        if ( customerRegisterRequest == null ) {
+            return null;
+        }
+
+        User user = new User();
+
+        user.setUserName( customerRegisterRequest.getUserName() );
+        user.setPassword( customerRegisterRequest.getPassword() );
+        user.setEmail( customerRegisterRequest.getEmail() );
+        user.setAddress( customerRegisterRequest.getAddress() );
+        user.setTitle( customerRegisterRequest.getTitle() );
+
+        return user;
     }
 }
