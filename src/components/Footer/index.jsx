@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="bg-black text-[#F7EF8A] flex justify-around p-2">
+    <footer className="bg-black text-[#F7EF8A] flex justify-around p-2 w-screen">
       <div className="grid grid-cols-1 grid-rows-6 gap-1">
         <div className="font-bold">Chi nhánh</div>
         <div>Q12</div>

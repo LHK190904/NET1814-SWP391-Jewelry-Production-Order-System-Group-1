@@ -1,5 +1,5 @@
 // src/App.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -12,11 +12,20 @@ import Cart from "./pages/cart";
 import Layout from "./components/layout";
 import Error from "./pages/error";
 import Admin from "./pages/admin";
+import authService from "./services/authService";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const currentUser = authService.getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  }, []);
+
   const router = createBrowserRouter([
     {
-      //cha
       path: "/",
       element: <Layout />,
 
@@ -53,17 +62,16 @@ function App() {
           path: "/login",
           element: <Login />,
         },
-       
       ],
     },
     {
-      path:"/error",
-      element:<Error/>
+      path: "/error",
+      element: <Error />,
     },
     {
-      path:"/admin",
-      element:<Admin/>
-    }
+      path: "/admin",
+      element: <Admin />,
+    },
   ]);
   return <RouterProvider router={router} />;
 }

@@ -1,12 +1,10 @@
-// src/services/authService.js
 import axios from "axios";
 
-// Set up the base URL for your API
-const API_URL = "https://664ef13afafad45dfae19e02.mockapi.io/Movie/";
+const API_URL = "https://664ef13afafad45dfae19e02.mockapi.io/Movie";
 
 const login = async (username, password) => {
   try {
-    const response = await axios.get(`${API_URL}/users`); // Ensure URL is constructed correctly
+    const response = await axios.get(`${API_URL}`);
 
     const users = response.data;
     const user = users.find(
@@ -14,14 +12,13 @@ const login = async (username, password) => {
     );
 
     if (user) {
-      // Simulating token generation for the demo
       const token = "dummy-token";
       const userData = { ...user, token };
 
-      // Store the user token and user info in local storage
       localStorage.setItem("user", JSON.stringify(userData));
       return userData;
     } else {
+      console.log("Wrong username or password");
       throw new Error("Invalid username or password");
     }
   } catch (error) {

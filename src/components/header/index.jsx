@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import authService from "../../services/authService";
 
 function Header() {
+  const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const currentUser = authService.getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
+    }
+  }, []);
 
-
-  
+  function handleLogout() {
+    authService.logout();
+    setUser(null);
+  }
   return (
     <div>
-      <div className="items-center grid grid-cols-12 bg-black text-[#F7EF8A]">
+      <div className="items-center w-screen grid grid-cols-12 bg-black text-[#F7EF8A]">
         <Link to={"/"} className="col-start-2 col-span-2 mb-4 mt-4">
           <img
             className="h-52 w-54 "
@@ -48,15 +58,23 @@ function Header() {
           <i className="bi bi-cart3 social-icons ml-2" />
         </div>
         <div className=" col-start-12">
-
           <img
             className="inline-block h-8 w-8 rounded-full ring-2 ring-[#F7EF8A]"
             src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
             alt=""
           />
-          <span>
-            <Link to={"/login"}>ĐĂNG NHẬP</Link>
-          </span>
+          {user ? (
+            <div className="flex items-center gap-2">
+              <span>{user.username}</span>
+              <button onClick={handleLogout} className="text-[#F7EF8A]">
+                ĐĂNG XUẤT
+              </button>
+            </div>
+          ) : (
+            <Link to={"/login"} className="text-[#F7EF8A]">
+              ĐĂNG NHẬP
+            </Link>
+          )}
         </div>
       </div>
     </div>

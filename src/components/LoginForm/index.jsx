@@ -1,4 +1,3 @@
-// src/components/LoginForm.js
 import React, { useState } from "react";
 import authService from "../../services/authService";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,10 +8,10 @@ function LoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const user = await authService.login(userName, password); // Correct variable name here
+      const user = await authService.login(userName, password);
       if (user) {
         navigate("/");
       } else {
@@ -20,6 +19,8 @@ function LoginForm() {
       }
     } catch (error) {
       setErrorMessage(error.message);
+    } finally {
+      handleCancel();
     }
   };
 
@@ -30,14 +31,14 @@ function LoginForm() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#434343]">
+    <div className="flex items-center justify-center w-screen min-h-screen bg-[#434343]">
       <div className="bg-white shadow-md rounded-lg w-full max-w-lg text-center">
         <h4 className="text-base font-semibold p-4 border-b">ĐĂNG NHẬP</h4>
         <div className="p-6">
           {errorMessage && (
             <div className="mb-4 text-red-500">{errorMessage}</div>
           )}
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleLogin}>
             <div className="space-y-4">
               <div className="flex items-center">
                 <label className="w-1/4 text-right mr-4" htmlFor="username">
@@ -49,8 +50,8 @@ function LoginForm() {
                     className="form-input w-full p-2 border border-gray-300 rounded-md"
                     id="username"
                     placeholder="Tài khoản"
-                    onChange={(e) => setUserName(e.target.value)} // Update state
-                    value={userName} // Correct variable name here
+                    onChange={(e) => setUserName(e.target.value)}
+                    value={userName}
                     required
                   />
                 </div>
@@ -65,7 +66,7 @@ function LoginForm() {
                     className="form-input w-full p-2 border border-gray-300 rounded-md"
                     id="password"
                     placeholder="Mật khẩu"
-                    onChange={(e) => setPassword(e.target.value)} // Update state
+                    onChange={(e) => setPassword(e.target.value)}
                     value={password}
                     required
                   />

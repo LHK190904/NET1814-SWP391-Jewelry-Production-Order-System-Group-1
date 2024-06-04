@@ -1,11 +1,9 @@
-// src/services/authorService.js
 import authService from "./authService";
 
 const getUserRoles = async () => {
   const user = authService.getCurrentUser();
   if (user) {
     try {
-      // Assuming roles are already a part of the user object
       return user.role ? [user.role] : [];
     } catch (error) {
       throw new Error("Failed to get roles");
@@ -19,7 +17,6 @@ const checkPermission = async (permission) => {
   const user = authService.getCurrentUser();
   if (user) {
     try {
-      // Assuming permissions are based on roles
       const roles = await getUserRoles();
       return roles.includes(permission);
     } catch (error) {
