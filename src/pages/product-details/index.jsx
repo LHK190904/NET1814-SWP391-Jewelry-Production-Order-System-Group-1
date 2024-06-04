@@ -48,7 +48,7 @@ function ProductDetails() {
             </div>
             <div className="flex justify-between">
               <span>Mã sản phẩm:</span>
-              <span className="font-bold text-[#F7EF8A]">BV 4804</span>
+              <span className="font-bold text-[#F7EF8A]">(BV 4804)</span>
             </div>
           </div>
           <div className="flex items-center my-4">

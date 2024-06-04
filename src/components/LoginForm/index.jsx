@@ -1,5 +1,6 @@
+// src/components/LoginForm.js
 import React, { useState } from "react";
-import axios from "axios";
+import authService from "../../services/authService";
 import { Link, useNavigate } from "react-router-dom";
 
 function LoginForm() {
@@ -7,41 +8,21 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  async function handleSubmit(event) {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // const apiEndpoint = "http://172.20.10.3:8080/user";
-    // api thu nghiem
-    const apiEndpoint = "https://664ef13afafad45dfae19e02.mockapi.io/Movie";
-
     try {
-      const response = await axios.post(
-        apiEndpoint,
-        {
-          userName: userName,
-          password: password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const data = response.data;
-      console.log(data);
-      if (data.success) {
-        console.log("Logged in successfully");
-        handleCancel();
+      const user = await authService.login(userName, password); // Correct variable name here
+      if (user) {
         navigate("/");
       } else {
-        setErrorMessage(data.message || "Login failed");
+        setErrorMessage("Login failed");
       }
     } catch (error) {
-      console.error("There was a problem with the login request:", error);
-      setErrorMessage("An error occurred. Please try again.");
+      setErrorMessage(error.message);
     }
-  }
+  };
+
   function handleCancel() {
     setUserName("");
     setPassword("");
@@ -50,7 +31,7 @@ function LoginForm() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#434343]">
-      <div className="bg-[#E9E9E9] shadow-md rounded-lg w-full max-w-lg text-center">
+      <div className="bg-white shadow-md rounded-lg w-full max-w-lg text-center">
         <h4 className="text-base font-semibold p-4 border-b">ĐĂNG NHẬP</h4>
         <div className="p-6">
           {errorMessage && (
@@ -59,17 +40,17 @@ function LoginForm() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <div className="flex items-center">
-                <label className="w-1/4 text-right mr-4" htmlFor="fullName">
+                <label className="w-1/4 text-right mr-4" htmlFor="username">
                   Tài khoản:
                 </label>
                 <div className="flex-grow">
                   <input
                     type="text"
                     className="form-input w-full p-2 border border-gray-300 rounded-md"
-                    id="fullName"
+                    id="username"
                     placeholder="Tài khoản"
-                    onChange={(e) => setUserName(e.target.value)}
-                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)} // Update state
+                    value={userName} // Correct variable name here
                     required
                   />
                 </div>
@@ -84,7 +65,7 @@ function LoginForm() {
                     className="form-input w-full p-2 border border-gray-300 rounded-md"
                     id="password"
                     placeholder="Mật khẩu"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)} // Update state
                     value={password}
                     required
                   />
@@ -97,18 +78,7 @@ function LoginForm() {
                 >
                   ĐĂNG NHẬP
                 </button>
-                {/* <button
-                  type="cancel"
-                  className="w-1/2 bg-white border border-gray-300 py-2 px-4 rounded-md"
-                  onClick={handleCancel}
-                >
-                  HỦY
-                </button> */}
-
-                <button
-                  className="flex w-1/2 justify-center bg-white border border-gray-300 rounded-md py-2 px-2 gap-1 text-base "
-                  // onClick={handleLoginGoogle}
-                >
+                <button className="flex w-1/2 justify-center bg-white border border-gray-300 rounded-md py-2 px-2 gap-1 text-base">
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1024px-Google_%22G%22_logo.svg.png"
                     alt=""
