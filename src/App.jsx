@@ -10,7 +10,6 @@ import Blog from "./pages/blog";
 import Register from "./pages/register";
 import Cart from "./pages/cart";
 import Layout from "./components/layout";
-import ProductDetails from "./pages/product-details";
 
 function App() {
   const router = createBrowserRouter([
@@ -52,10 +51,7 @@ function App() {
           path: "/login",
           element: <Login />,
         },
-        {
-          path: "/product-details",
-          element: <ProductDetails />,
-        },
+       
       ],
     },
   ]);
