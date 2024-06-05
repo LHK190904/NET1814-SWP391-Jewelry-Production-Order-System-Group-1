@@ -197,9 +197,24 @@ function Admin() {
     setIsModalOpen(true);
   };
   const handleOk = () => {
-    setIsModalOpen(false);
+    form.submit();
   };
-  const handleCancel = () => {
+  async function handleSubmit(values) {
+    console.log(values);
+    try {
+      const response = await axios.post(
+        "https://663ddef6e1913c476795b585.mockapi.io/account",
+        values
+      );
+      setData([...data, { ...response.data, key: response.data.id }]);
+      form.resetFields();
+      handleHideModal();
+    } catch (error) {
+      console.error("Failed to create account:", error);
+    }
+  }
+
+  const handleHideModal = () => {
     setIsModalOpen(false);
   };
 
@@ -253,83 +268,122 @@ function Admin() {
           }
           open={isModalOpen}
           onOk={handleOk}
-          onCancel={handleCancel}
+          onCancel={handleHideModal}
         >
-          <div className="ml-3">
-            <h2 className="font-semibold">Tên đăng nhập</h2>
-            <input className="rounded-md pl-2 w-80 h-8 border border-inherit" />
-          </div>
-          <div className="ml-3">
-            <h2 className="font-semibold">Mật khẩu</h2>
-            <input className="rounded-md pl-2 w-80 h-8 border border-inherit" />
-          </div>
-          <div className="ml-3">
-            <h2 className="font-semibold">Email</h2>
-            <input className="rounded-md pl-2 w-80 h-8 border border-inherit" />
-          </div>
-
-          <Menu
-            as="div"
-            className="relative inline-block text-left ml-10 w-[170px]"
-          >
-            <div className="w-[200px]">
-              <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 items-center h-8 mt-6">
-                {selectedRole}
-                <ChevronDownIcon
-                  className="-mr-1 h-5 w-5 text-gray-400"
-                  aria-hidden="true"
-                />
-              </MenuButton>
-            </div>
-
-            <Transition
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
+          <Form form={form} onFinish={handleSubmit} layout="vertical">
+            <Form.Item
+              name="username"
+              label="Tên đăng nhập"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the username!",
+                },
+              ]}
             >
-              <MenuItems className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <MenuItem
-                  className="w-full"
-                  as="button"
-                  onClick={() => setSelectedRole("Nhân viên bán hàng")}
+              <Input className="rounded-md pl-2 w-80 h-8 border border-inherit" />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              label="Mật khẩu"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the password!",
+                },
+              ]}
+            >
+              <Input.Password className="rounded-md pl-2 w-80 h-8 border border-inherit" />
+            </Form.Item>
+            <Form.Item
+              name="email"
+              label="Email"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the email!",
+                },
+              ]}
+            >
+              <Input className="rounded-md pl-2 w-80 h-8 border border-inherit" />
+            </Form.Item>
+            <Form.Item
+              name="role"
+              label="Vị trí"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select the role!",
+                },
+              ]}
+            >
+              <Menu
+                as="div"
+                className="relative inline-block text-left ml-10 w-[190px]"
+              >
+                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 items-center h-8 ">
+                  {selectedRole}
+                  <ChevronDownIcon
+                    className="-mr-1 h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </MenuButton>
+                <Transition
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
                 >
-                  <div className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                    Nhân viên bán hàng
-                  </div>
-                </MenuItem>
-                <MenuItem
-                  className="w-full"
-                  as="button"
-                  onClick={() => setSelectedRole("Nhân viên thiết kế")}
-                >
-                  <div className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                    Nhân viên thiết kế
-                  </div>
-                </MenuItem>
-                <MenuItem
-                  className="w-full"
-                  as="button"
-                  onClick={() => setSelectedRole("Quản lí")}
-                >
-                  <div className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                    Quản lí
-                  </div>
-                </MenuItem>
-                <MenuItem
-                  className="w-full"
-                  as="button"
-                  onClick={() => setSelectedRole("Nhân viên gia công")}
-                >
-                  <div className="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                    Nhân viên gia công
-                  </div>
-                </MenuItem>
-              </MenuItems>
-            </Transition>
-          </Menu>
+                  <MenuItems className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <MenuItem
+                      className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      as="button"
+                      onClick={() => {
+                        form.setFieldsValue({ role: "Nhân viên bán hàng" });
+                        setSelectedRole("Nhân viên bán hàng");
+                      }}
+                    >
+                      Nhân viên bán hàng
+                    </MenuItem>
+                    <MenuItem
+                      className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      as="button"
+                      onClick={() => {
+                        form.setFieldsValue({ role: "Nhân viên thiết kế" });
+                        setSelectedRole("Nhân viên thiết kế");
+                      }}
+                    >
+                      Nhân viên thiết kế
+                    </MenuItem>
+                    <MenuItem
+                      className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      as="button"
+                      onClick={() => {
+                        form.setFieldsValue({ role: "Quản lí" });
+                        setSelectedRole("Quản lí");
+                      }}
+                    >
+                      Quản lí
+                    </MenuItem>
+                    <MenuItem
+                      className="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      as="button"
+                      onClick={() => {
+                        form.setFieldsValue({ role: "Nhân viên gia công" });
+                        setSelectedRole("Nhân viên gia công");
+                      }}
+                    >
+                      {/* <div className="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"> */}
+                      Nhân viên gia công
+                      {/* </div> */}
+                    </MenuItem>
+                  </MenuItems>
+                </Transition>
+              </Menu>
+            </Form.Item>
+          </Form>
         </Modal>
       </div>
       <div className="p-5">
