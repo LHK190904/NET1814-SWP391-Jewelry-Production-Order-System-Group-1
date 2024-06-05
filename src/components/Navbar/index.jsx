@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const [user, setUser] = useState(null);
   return (
-    <div className="p-4 bg-[#2A2A2A] w-screen text-[#F7EF8A] font-bold z-10  sticky top-0">
+    <div className="p-4 bg-[#2A2A2A]  w-screen text-[#F7EF8A] font-bold z-10  sticky top-0">
       <nav>
-        <ul className="flex justify-around">
+        <ul className="flex justify-around gap-4">
           <li>
             <Link to={"/"}>TRANG CHỦ</Link>
           </li>

@@ -18,15 +18,18 @@ function Header() {
   }
   return (
     <div>
-      <div className="items-center w-screen grid grid-cols-12 bg-black text-[#F7EF8A]">
-        <Link to={"/"} className="col-start-2 col-span-2 mb-4 mt-4">
+      <div className="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 bg-black text-[#F7EF8A] items-center w-full">
+        <Link
+          to={"/"}
+          className="lg:col-start-2 lg:col-span-2 md:col-start-2 md:col-span-2 sm:col-start-2 sm:col-span-2"
+        >
           <img
-            className="h-52 w-54 "
+            className="lg:h-52 lg:w-54 "
             src="./src/assets/images/logo.png"
             alt="Logo"
           />
         </Link>
-        <form className="col-start-5 col-span-4 search-bar text-[#F7EF8A]">
+        <form className="lg:col-start-5 lg:col-span-4 md:col-start-5 md:col-span-3 sm:col-start-5 sm:col-span-3 search-bar text-[#F7EF8A] mx-3">
           <input
             className="form-control w-full rounded-full p-2 bg-[#434343] placeholder-[#F7EF8A]"
             type="search"
@@ -35,7 +38,7 @@ function Header() {
           />
         </form>
 
-        <div className="col-start-10 flex gap-4">
+        <div className="xl:col-start-10 lg:col-start-10 md:col-start-9 sm:col-start-9 flex gap-1 xl:gap-10 lg:gap-4 md:gap-8 sm:gap-4">
           <img
             alt="svgImg"
             className="w-6 h-6"
@@ -48,7 +51,6 @@ function Header() {
           />
 
           <Link to={"/cart"} className=" flex items-center">
-            <span className="w-28 text-center text-lg">GIỎ HÀNG</span>
             <img
               className="w-6 h-6 "
               alt=""
@@ -57,21 +59,21 @@ function Header() {
           </Link>
           <i className="bi bi-cart3 social-icons ml-2" />
         </div>
-        <div className=" col-start-12">
-          <img
-            className="inline-block h-8 w-8 rounded-full ring-2 ring-[#F7EF8A]"
-            src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
-          />
+        <div className=" col-start-12 sm:col-start-11 lg:col-start-12 xl:col-start-11">
           {user ? (
             <div className="flex items-center gap-2">
+              <img
+                className="inline-block h-8 w-8 rounded-full ring-2 ring-[#F7EF8A]"
+                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
               <span>{user.username}</span>
               <button onClick={handleLogout} className="text-[#F7EF8A]">
                 ĐĂNG XUẤT
               </button>
             </div>
           ) : (
-            <Link to={"/login"} className="text-[#F7EF8A]">
+            <Link to={"/login"} className="text-[#F7EF8A] mr-4">
               ĐĂNG NHẬP
             </Link>
           )}

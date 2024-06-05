@@ -32,8 +32,8 @@ function Login() {
     setErrorMessage("");
   }
   return (
-    <div className="flex items-center justify-center w-screen min-h-screen bg-[#434343]">
-      <div className="bg-white shadow-md rounded-lg w-full max-w-lg text-center">
+    <div className="flex items-center justify-center w-full lg:min-h-screen bg-[#434343]">
+      <div className="bg-white shadow-md rounded-lg w-full max-w-lg text-center m-4">
         <h4 className="text-base font-semibold p-4 border-b">ĐĂNG NHẬP</h4>
         <div className="p-6">
           {errorMessage && (

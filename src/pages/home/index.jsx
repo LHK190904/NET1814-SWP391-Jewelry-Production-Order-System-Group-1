@@ -4,7 +4,7 @@ import Carousel from "../../components/carousel";
 export default function Home() {
   return (
     <div>
-      <div className="w-screen h-fit">
+      <div className="w-full h-fit">
         <Carousel />
       </div>
       <div className="flex items-center justify-center h-screen bg-white">

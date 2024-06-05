@@ -17,8 +17,8 @@ function Register() {
     setAddress("");
   }
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#434343]">
-      <div className="bg-[#E9E9E9] shadow-md rounded-lg w-full max-w-lg text-center">
+    <div className="flex items-center justify-center lg:min-h-screen bg-[#434343]">
+      <div className="bg-[#E9E9E9] shadow-md rounded-lg w-full max-w-lg text-center m-4">
         <h4 className="text-2xl font-semibold p-4 border-b">ĐĂNG KÝ</h4>
         <div className="p-6">
           <form className="space-y-6" onSubmit={handleSubmit}>

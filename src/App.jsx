@@ -13,6 +13,7 @@ import Layout from "./components/layout";
 import Error from "./pages/error";
 import Admin from "./pages/admin";
 import authService from "./services/authService";
+import ProductDetails from "./pages/product-details";
 
 function App() {
   const router = createBrowserRouter([
@@ -52,6 +53,10 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/product-details",
+          element: <ProductDetails />,
         },
       ],
     },

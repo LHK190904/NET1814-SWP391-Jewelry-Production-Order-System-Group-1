@@ -51,7 +51,7 @@ function ProductDetails() {
               <span className="font-bold text-[#F7EF8A]">(BV 4804)</span>
             </div>
           </div>
-          <div className="flex items-center my-4">
+          <div className="flex items-center justify-between my-4">
             <span className="mr-2">Chọn số lượng:</span>
             <button className="bg-white text-black w-8 h-8 rounded-full flex items-center justify-center">
               -
