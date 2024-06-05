@@ -232,6 +232,11 @@ function Admin() {
     setData(listAfterDelete);
   }
 
+  async function handleUpdateAccount(id, ) { 
+    await axios.put(
+      `https://663ddef6e1913c476795b585.mockapi.io/account/${id}`
+    );
+  }
   return (
     <>
       <div className="bg-[#353640] text-white h-40 flex justify-center items-center text-2xl">

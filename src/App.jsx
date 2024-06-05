@@ -15,15 +15,6 @@ import Admin from "./pages/admin";
 import authService from "./services/authService";
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const currentUser = authService.getCurrentUser();
-    if (currentUser) {
-      setUser(currentUser);
-    }
-  }, []);
-
   const router = createBrowserRouter([
     {
       path: "/",

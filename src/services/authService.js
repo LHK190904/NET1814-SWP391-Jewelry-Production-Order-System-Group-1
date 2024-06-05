@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "https://664ef13afafad45dfae19e02.mockapi.io/Movie";
+// https://663ddef6e1913c476795b585.mockapi.io/account
+// https://664ef13afafad45dfae19e02.mockapi.io/Movie
+const API_URL = "https://663ddef6e1913c476795b585.mockapi.io/account";
 
 const login = async (username, password) => {
   try {

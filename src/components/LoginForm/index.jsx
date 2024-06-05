@@ -7,6 +7,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState(null);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -14,6 +15,7 @@ function LoginForm() {
       const user = await authService.login(userName, password);
       if (user) {
         navigate("/");
+        setCurrentUser(user);
       } else {
         setErrorMessage("Login failed");
       }
