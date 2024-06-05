@@ -20,7 +20,7 @@ function Login() {
         setErrorMessage("Login failed");
       }
     } catch (error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error.message || "Invalid username or password");
     } finally {
       handleCancel();
     }
