@@ -59,7 +59,7 @@ function Header() {
           </Link>
           <i className="bi bi-cart3 social-icons ml-2" />
         </div>
-        <div className=" col-start-12 sm:col-start-11 lg:col-start-12 xl:col-start-11">
+        <div className=" col-start-12 sm:col-start-11 lg:col-start-12 xl:col-start-12">
           {user ? (
             <div className="flex items-center gap-2">
               <img

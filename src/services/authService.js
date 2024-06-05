@@ -1,21 +1,17 @@
 import axios from "axios";
 
-// https://663ddef6e1913c476795b585.mockapi.io/account
-// https://664ef13afafad45dfae19e02.mockapi.io/Movie
-const API_URL = "https://663ddef6e1913c476795b585.mockapi.io/account";
+const API_URL = "http://localhost:8080/auth/login_token";
 
 const login = async (username, password) => {
   try {
-    const response = await axios.get(`${API_URL}`);
+    const payload = { username, password };
 
-    const users = response.data;
-    const user = users.find(
-      (user) => user.username === username && user.password === password
-    );
+    // Use POST request to send the login data
+    const response = await axios.post(API_URL, payload);
 
-    if (user) {
-      const token = "dummy-token";
-      const userData = { ...user, token };
+    const user = response.data;
+    if (user && user.token) {
+      const userData = { ...user };
 
       localStorage.setItem("user", JSON.stringify(userData));
       return userData;
@@ -24,6 +20,7 @@ const login = async (username, password) => {
       throw new Error("Invalid username or password");
     }
   } catch (error) {
+    console.error("Login error:", error);
     throw new Error(error.response?.data?.message || "Login failed");
   }
 };

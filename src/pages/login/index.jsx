@@ -31,6 +31,7 @@ function Login() {
     setPassword("");
     setErrorMessage("");
   }
+
   return (
     <div className="flex items-center justify-center w-full lg:min-h-screen bg-[#434343]">
       <div className="bg-white shadow-md rounded-lg w-full max-w-lg text-center m-4">
@@ -99,4 +100,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;
