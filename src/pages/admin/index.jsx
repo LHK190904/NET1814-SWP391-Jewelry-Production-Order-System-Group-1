@@ -1,12 +1,4 @@
 import { useEffect, useState } from "react";
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Transition,
-} from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Navbar from "../../components/navbar";
 import {
   Button,
@@ -15,11 +7,14 @@ import {
   InputNumber,
   Modal,
   Popconfirm,
+  Select,
   Table,
   Typography,
   message,
 } from "antd";
 import axios from "axios";
+
+const { Option } = Select;
 
 const EditableCell = ({
   editing,
@@ -31,14 +26,69 @@ const EditableCell = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
+  let inputNode;
+  if (dataIndex === "role") {
+    inputNode = (
+      <Select>
+        <Option value="Nhân viên bán hàng">Nhân viên bán hàng</Option>
+        <Option value="Nhân viên thiết kế">Nhân viên thiết kế</Option>
+        <Option value="Quản lí">Quản lí</Option>
+        <Option value="Nhân viên gia công">Nhân viên gia công</Option>
+      </Select>
+    );
+  } else {
+    inputNode = inputType === "number" ? <InputNumber /> : <Input />;
+  }
+
   return (
     <td {...restProps}>
       {editing ? (
         <Form.Item
           name={dataIndex}
           style={{ margin: 0 }}
-          rules={[{ required: true, message: `Không được để trống` }]}
+          rules={[
+            { required: true, message: `Không được để trống` },
+            ...(dataIndex === "email"
+              ? [{ type: "email", message: "Email không hợp lệ" }]
+              : []),
+            ...(dataIndex === "username"
+              ? [
+                  {
+                    validator: (_, value) => {
+                      if (value !== value.trim()) {
+                        return Promise.reject(
+                          new Error(
+                            "Không được có khoảng trắng ở đầu hoặc cuối"
+                          )
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  },
+                ]
+              : []),
+            ...(dataIndex === "password"
+              ? [
+                  {
+                    validator: (_, value) => {
+                      if (!value || value.trim().length < 4) {
+                        return Promise.reject(
+                          new Error("Mật khẩu phải có ít nhất 4 ký tự")
+                        );
+                      }
+                      if (value !== value.trim()) {
+                        return Promise.reject(
+                          new Error(
+                            "Không được có khoảng trắng ở đầu hoặc cuối"
+                          )
+                        );
+                      }
+                      return Promise.resolve();
+                    },
+                  },
+                ]
+              : []),
+          ]}
         >
           {inputNode}
         </Form.Item>
@@ -51,15 +101,14 @@ const EditableCell = ({
 
 function Admin() {
   const [form] = Form.useForm();
-  const [createForm] = Form.useForm(); // Thêm form mới cho create
+  const [createForm] = Form.useForm(); // create form
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [loading, setLoading] = useState(false);
-  const [selectedRole, setSelectedRole] = useState("Vị trí");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => setIsModalOpen(true);
- 
+
   const handleOk = () => {
     createForm.validateFields().then((values) => {
       handleSubmit(values);
@@ -68,7 +117,7 @@ function Admin() {
 
   const handleHideModal = () => setIsModalOpen(false);
 
-  // handle submit in createForm 
+  // handle submit in createForm
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -78,7 +127,6 @@ function Admin() {
       );
       setData([...data, { ...response.data, key: response.data.id }]);
       createForm.resetFields();
-      setSelectedRole("Vị trí");
       handleHideModal();
       message.success("Tạo tài khoản thành công");
     } catch (error) {
@@ -121,6 +169,7 @@ function Admin() {
       message.error("Failed to delete account.");
     }
   };
+
   const handleUpdateAccount = async (id, updatedData) => {
     try {
       await axios.put(
@@ -266,7 +315,7 @@ function Admin() {
         <h1>Welcome Admin</h1>
       </div>
       <Navbar />
-      <div className="bg-[#D9D9D9] h-80 flex pt-5 justify-center">
+      <div className="bg-[#D9D9D9] h-60 flex pt-5 justify-center">
         <Button type="primary" onClick={showModal}>
           Tạo tài khoản
         </Button>
@@ -279,126 +328,84 @@ function Admin() {
           onCancel={handleHideModal}
           confirmLoading={loading}
         >
-          {/* Sử dụng createForm cho form tạo tài khoản */}
           <Form form={createForm} layout="vertical">
             <Form.Item
               name="username"
               label="Tên đăng nhập"
-              rules={[{ required: true, message: "Hãy nhập tên đăng nhập" }]}
+              rules={[
+                { required: true, message: "Không được để trống" },
+                {
+                  validator: (_, value) => {
+                    if (value !== value.trim()) {
+                      return Promise.reject(
+                        new Error("Không được có khoảng trắng ở đầu hoặc cuối")
+                      );
+                    }
+                    return Promise.resolve();
+                  },
+                },
+              ]}
             >
-              <Input className="text-black border border-inherit" />
+              <Input placeholder="Nhập tên đăng nhập" />
             </Form.Item>
             <Form.Item
               name="email"
               label="Email"
               rules={[
-                { required: true, message: "Hãy nhập email" },
+                { required: true, message: "Không được để trống" },
                 { type: "email", message: "Email không hợp lệ" },
               ]}
             >
-              <Input className="text-black border border-inherit" />
+              <Input placeholder="Nhập email" />
             </Form.Item>
             <Form.Item
               name="password"
               label="Mật khẩu"
-              rules={[{ required: true, message: "Hãy nhập mật khẩu" }]}
+              rules={[
+                { required: true, message: "Không được để trống" },
+                {
+                  validator: (_, value) => {
+                    if (!value || value.trim().length < 4) {
+                      return Promise.reject(
+                        new Error("Mật khẩu phải có ít nhất 4 ký tự")
+                      );
+                    }
+                    if (value !== value.trim()) {
+                      return Promise.reject(
+                        new Error("Không được có khoảng trắng ở đầu hoặc cuối")
+                      );
+                    }
+                    return Promise.resolve();
+                  },
+                },
+              ]}
             >
-              <Input.Password className="text-black border border-inherit" />
+              <Input.Password placeholder="Nhập mật khẩu" />
             </Form.Item>
             <Form.Item
               name="role"
               label="Vị trí"
-              rules={[{ required: true, message: "Hãy chọn vị trí" }]}
+              rules={[{ required: true, message: "Không được để trống" }]}
             >
-              <Menu
-                as="div"
-                className="relative inline-block text-left ml-10 w-[190px]"
-              >
-                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 items-center h-8 ">
-                  {selectedRole}
-                  <ChevronDownIcon
-                    className="-mr-1 h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                </MenuButton>
-                <Transition
-                  // enter="transition ease-out duration-100"
-                  // enterFrom="transform opacity-0 scale-95"
-                  // enterTo="transform opacity-100 scale-100"
-                  // leave="transition ease-in duration-75"
-                  // leaveFrom="transform opacity-100 scale-100"
-                  // leaveTo="transform opacity-0 scale-95"
-                >
-                  <MenuItems className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <MenuItem
-                      className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                      as="button"
-                      onClick={() => {
-                        createForm.setFieldsValue({
-                          role: "Nhân viên bán hàng",
-                        });
-                        setSelectedRole("Nhân viên bán hàng");
-                      }}
-                    >
-                      Nhân viên bán hàng
-                    </MenuItem>
-                    <MenuItem
-                      className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                      as="button"
-                      onClick={() => {
-                        createForm.setFieldsValue({
-                          role: "Nhân viên thiết kế",
-                        });
-                        setSelectedRole("Nhân viên thiết kế");
-                      }}
-                    >
-                      Nhân viên thiết kế
-                    </MenuItem>
-                    <MenuItem
-                      className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                      as="button"
-                      onClick={() => {
-                        createForm.setFieldsValue({ role: "Quản lí" });
-                        setSelectedRole("Quản lí");
-                      }}
-                    >
-                      Quản lí
-                    </MenuItem>
-                    <MenuItem
-                      className="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                      as="button"
-                      onClick={() => {
-                        createForm.setFieldsValue({
-                          role: "Nhân viên gia công",
-                        });
-                        setSelectedRole("Nhân viên gia công");
-                      }}
-                    >
-                      Nhân viên gia công
-                    </MenuItem>
-                  </MenuItems>
-                </Transition>
-              </Menu>
+              <Select placeholder="Chọn vị trí">
+                <Option value="Nhân viên bán hàng">Nhân viên bán hàng</Option>
+                <Option value="Nhân viên thiết kế">Nhân viên thiết kế</Option>
+                <Option value="Quản lí">Quản lí</Option>
+                <Option value="Nhân viên gia công">Nhân viên gia công</Option>
+              </Select>
             </Form.Item>
           </Form>
         </Modal>
       </div>
-      <div className="flex justify-center pt-5">
+      <div>
         <Form form={form} component={false}>
           <Table
-            className="w-full"
-            components={{
-              body: {
-                cell: EditableCell,
-              },
-            }}
+            components={{ body: { cell: EditableCell } }}
             bordered
             dataSource={data}
             columns={mergedColumns}
             rowClassName="editable-row"
-            pagination={{
-              onChange: cancel,
-            }}
+            pagination={{ onChange: cancel }}
           />
         </Form>
       </div>
