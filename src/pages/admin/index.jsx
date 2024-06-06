@@ -17,6 +17,7 @@ import {
   Popconfirm,
   Table,
   Typography,
+  message,
 } from "antd";
 import axios from "axios";
 
@@ -36,15 +37,8 @@ const EditableCell = ({
       {editing ? (
         <Form.Item
           name={dataIndex}
-          style={{
-            margin: 0,
-          }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}`,
-            },
-          ]}
+          style={{ margin: 0 }}
+          rules={[{ required: true, message: `Please Input ${title}` }]}
         >
           {inputNode}
         </Form.Item>
@@ -59,6 +53,84 @@ function Admin() {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("Vị trí");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => setIsModalOpen(true);
+  const handleOk = () => form.submit();
+
+  const handleHideModal = () => setIsModalOpen(false);
+
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "https://663ddef6e1913c476795b585.mockapi.io/account",
+        values
+      );
+      setData([...data, { ...response.data, key: response.data.id }]);
+      form.resetFields();
+      setSelectedRole("Vị trí");
+      handleHideModal();
+      message.success("Tạo tài khoản thành công");
+    } catch (error) {
+      console.error("Failed to create account:", error);
+      message.error("Failed to create account.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAccount = async () => {
+    try {
+      const response = await axios.get(
+        "https://663ddef6e1913c476795b585.mockapi.io/account"
+      );
+      const formattedData = response.data.map((account) => ({
+        ...account,
+        key: account.id,
+      }));
+      setData(formattedData);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAccount();
+  }, []);
+
+  const handleDeleteAccount = async (id) => {
+    try {
+      await axios.delete(
+        `https://663ddef6e1913c476795b585.mockapi.io/account/${id}`
+      );
+      const listAfterDelete = data.filter((account) => account.id !== id);
+      setData(listAfterDelete);
+      message.success("Account deleted successfully!");
+    } catch (error) {
+      console.error("Failed to delete account:", error);
+      message.error("Failed to delete account.");
+    }
+  };
+  const handleUpdateAccount = async (id, updatedData) => {
+    try {
+      await axios.put(
+        `https://663ddef6e1913c476795b585.mockapi.io/account/${id}`,
+        updatedData
+      );
+      const updatedDataSource = data.map((item) =>
+        item.id === id ? { ...item, ...updatedData } : item
+      );
+      setData(updatedDataSource);
+      message.success("Account updated successfully!");
+    } catch (error) {
+      console.error("Failed to update account:", error);
+      message.error("Failed to update account.");
+    }
+  };
+
   const isEditing = (record) => record.key === editingKey;
 
   const edit = (record) => {
@@ -72,9 +144,7 @@ function Admin() {
     setEditingKey(record.key);
   };
 
-  const cancel = () => {
-    setEditingKey("");
-  };
+  const cancel = () => setEditingKey("");
 
   const save = async (key) => {
     try {
@@ -83,12 +153,11 @@ function Admin() {
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
         const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
+        const updatedData = { ...item, ...row };
+        newData.splice(index, 1, updatedData);
         setData(newData);
         setEditingKey("");
+        await handleUpdateAccount(key, updatedData);
       } else {
         newData.push(row);
         setData(newData);
@@ -129,7 +198,6 @@ function Admin() {
       editable: true,
     },
     {
-      // title: 'Operation',
       dataIndex: "operation",
       width: "10%",
       render: (_, record) => {
@@ -138,9 +206,7 @@ function Admin() {
           <span>
             <Typography.Link
               onClick={() => save(record.key)}
-              style={{
-                marginRight: 8,
-              }}
+              style={{ marginRight: 8 }}
             >
               Lưu
             </Typography.Link>
@@ -157,7 +223,6 @@ function Admin() {
       },
     },
     {
-      // title: "Action",
       dataIndex: "id",
       key: "id",
       render: (id) => (
@@ -175,9 +240,7 @@ function Admin() {
   ];
 
   const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
+    if (!col.editable) return col;
     return {
       ...col,
       onCell: (record) => ({
@@ -190,68 +253,6 @@ function Admin() {
     };
   });
 
-  // Modal
-  const [selectedRole, setSelectedRole] = useState("Vị trí");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    form.submit();
-  };
-  async function handleSubmit(values) {
-    console.log(values);
-    try {
-      const response = await axios.post(
-        "https://663ddef6e1913c476795b585.mockapi.io/account",
-        values
-      );
-      setData([...data, { ...response.data, key: response.data.id }]);
-      form.resetFields();
-      handleHideModal();
-    } catch (error) {
-      console.error("Failed to create account:", error);
-    }
-  }
-
-  const handleHideModal = () => {
-    setIsModalOpen(false);
-  };
-
-  async function fetchAccount() {
-    try {
-      const response = await axios.get(
-        "https://663ddef6e1913c476795b585.mockapi.io/account"
-      );
-      // Thêm key vào từng phần tử của mảng dữ liệu
-      const formattedData = response.data.map((account) => ({
-        ...account,
-        key: account.id, // Sử dụng id làm key
-      }));
-      setData(formattedData); // Sử dụng dữ liệu từ API để cập nhật state
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
-  }
-
-  useEffect(() => {
-    fetchAccount();
-  }, []);
-
-  //handleDelete
-  async function handleDeleteAccount(id) {
-    await axios.delete(
-      `https://663ddef6e1913c476795b585.mockapi.io/account/${id}`
-    );
-    const listAfterDelete = data.filter((account) => account.id !== id);
-    setData(listAfterDelete);
-  }
-
-  async function handleUpdateAccount(id, ) { 
-    await axios.put(
-      `https://663ddef6e1913c476795b585.mockapi.io/account/${id}`
-    );
-  }
   return (
     <>
       <div className="bg-[#353640] text-white h-40 flex justify-center items-center text-2xl">
@@ -269,53 +270,34 @@ function Admin() {
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleHideModal}
+          confirmLoading={loading}
         >
           <Form form={form} onFinish={handleSubmit} layout="vertical">
             <Form.Item
               name="username"
               label="Tên đăng nhập"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the username!",
-                },
-              ]}
+              rules={[{ required: true, message: "Nhập tên đăng nhập" }]}
             >
               <Input className="rounded-md pl-2 w-80 h-8 border border-inherit" />
             </Form.Item>
             <Form.Item
               name="password"
               label="Mật khẩu"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the password!",
-                },
-              ]}
+              rules={[{ required: true, message: "Nhập mật khẩu" }]}
             >
               <Input.Password className="rounded-md pl-2 w-80 h-8 border border-inherit" />
             </Form.Item>
             <Form.Item
               name="email"
               label="Email"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the email!",
-                },
-              ]}
+              rules={[{ required: true, message: "Hãy nhập email" }]}
             >
               <Input className="rounded-md pl-2 w-80 h-8 border border-inherit" />
             </Form.Item>
             <Form.Item
               name="role"
               label="Vị trí"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select the role!",
-                },
-              ]}
+              rules={[{ required: true, message: "Hãy chọn vị trí" }]}
             >
               <Menu
                 as="div"
@@ -375,9 +357,7 @@ function Admin() {
                         setSelectedRole("Nhân viên gia công");
                       }}
                     >
-                      {/* <div className="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"> */}
                       Nhân viên gia công
-                      {/* </div> */}
                     </MenuItem>
                   </MenuItems>
                 </Transition>
@@ -389,18 +369,12 @@ function Admin() {
       <div className="p-5">
         <Form form={form} component={false}>
           <Table
-            components={{
-              body: {
-                cell: EditableCell,
-              },
-            }}
+            components={{ body: { cell: EditableCell } }}
             bordered
             dataSource={data}
             columns={mergedColumns}
             rowClassName="editable-row"
-            pagination={{
-              onChange: cancel,
-            }}
+            pagination={{ onChange: cancel }}
           />
         </Form>
       </div>
