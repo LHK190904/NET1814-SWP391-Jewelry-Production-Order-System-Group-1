@@ -4,7 +4,10 @@ const API_URL = "http://localhost:8080/auth/login_token";
 
 const login = async (username, password) => {
   try {
-    const payload = { userName: username, password };
+    const payload = {
+      userName: username,
+      password,
+    };
     const response = await axios.post(API_URL, payload);
 
     const { token, authenticated } = response.data.result;

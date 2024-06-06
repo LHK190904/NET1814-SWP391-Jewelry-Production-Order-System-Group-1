@@ -13,10 +13,10 @@ export default function Navbar() {
             <Link to={"/about"}>THÔNG TIN</Link>
           </li>
           <li>
-            <Link to={"/designs"}>THIẾT KẾ</Link>
+            <Link to={"/collections"}>BỘ SƯU TẬP</Link>
           </li>
           <li>
-            <Link to={"/collections"}>BỘ SƯU TẬP</Link>
+            <Link to={"/designs"}>THIẾT KẾ</Link>
           </li>
           <li>
             <Link to={"/blog"}>BLOG</Link>

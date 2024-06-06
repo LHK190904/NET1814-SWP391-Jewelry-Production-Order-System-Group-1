@@ -1,20 +1,47 @@
+import axios from "axios";
+import { stringify } from "postcss";
 import React, { useState } from "react";
 
 function Register() {
+  const API_URL = "";
+
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
-    console.log("Registered");
-    handleCancel();
+    try {
+      const payload = {
+        userName,
+        password,
+        address,
+        email,
+      };
+      const response = await axios.post(API_URL, payload);
+      const { token, authenticated } = response.data.result;
+      if (authenticated) {
+        const userData = { userName, token };
+        localStorage.setItem("user", JSON.stringify(userData));
+        console.log("Registration succesfully");
+      } else {
+        console.log("Registration failed");
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      handleCancel;
+    }
   }
 
   function handleCancel() {
     setUserName("");
     setPassword("");
     setAddress("");
+    setEmail("");
+    setError("");
   }
   return (
     <div className="flex items-center justify-center lg:min-h-screen bg-[#434343]">
@@ -67,7 +94,21 @@ function Register() {
                     placeholder="Địa chỉ"
                     onChange={(e) => setAddress(e.target.value)}
                     value={address}
-                    required
+                  />
+                </div>
+              </div>
+              <div className="flex items-center">
+                <label className="w-1/4 text-right mr-4" htmlFor="address">
+                  Email:
+                </label>
+                <div className="flex-grow">
+                  <input
+                    type="email"
+                    className="form-input w-full p-2 border border-gray-300 rounded-md"
+                    id="address"
+                    placeholder="Email"
+                    onChange={(e) => setAddress(e.target.value)}
+                    value={email}
                   />
                 </div>
               </div>
