@@ -38,7 +38,7 @@ const EditableCell = ({
         <Form.Item
           name={dataIndex}
           style={{ margin: 0 }}
-          rules={[{ required: true, message: `Please Input ${title}` }]}
+          rules={[{ required: true, message: `Không được để trống` }]}
         >
           {inputNode}
         </Form.Item>
