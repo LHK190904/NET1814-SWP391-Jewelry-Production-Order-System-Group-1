@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function ProductDetails() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleShowModal() {
+    setIsOpen(true);
+  }
+  function handleHideModal() {
+    setIsOpen(false);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    handleHideModal();
+  }
   return (
     <div className="bg-[#434343] flex flex-col items-center w-full min-h-screen pt-10 px-4">
       <h2 className="text-2xl font-bold text-[#F7EF8A] mb-4">TÊN SẢN PHẨM</h2>
@@ -62,8 +75,11 @@ function ProductDetails() {
             </button>
           </div>
           <div className="flex flex-col">
-            <button className="rounded-lg bg-gray-800 text-[#F7EF8A] p-4">
-              <Link to={"/cart"}>ĐẶT GIA CÔNG NGAY</Link>
+            <button
+              className="rounded-lg bg-gray-800 text-[#F7EF8A] p-4"
+              onClick={handleShowModal}
+            >
+              ĐẶT YÊU CẦU
             </button>
             <button className="rounded-lg bg-[#F7EF8A] text-gray-800 p-4">
               <Link to={"/cart"}>THÊM VÀO GIỎ HÀNG</Link>
@@ -74,6 +90,54 @@ function ProductDetails() {
           </div>
         </div>
       </div>
+      {isOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg w-1/3 p-6">
+            <h3 className="text-2xl font-bold mb-4">Form Liên Hệ</h3>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700">Họ và Tên:</label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border rounded-lg"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Email:</label>
+                <input
+                  type="email"
+                  className="w-full px-3 py-2 border rounded-lg"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Nội dung:</label>
+                <textarea
+                  className="w-full px-3 py-2 border rounded-lg"
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+              <div className="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  className="bg-gray-500 text-white px-4 py-2 rounded-lg"
+                  onClick={handleHideModal}
+                >
+                  Hủy
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Gửi
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
