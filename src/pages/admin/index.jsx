@@ -38,7 +38,7 @@ const EditableCell = ({
         <Form.Item
           name={dataIndex}
           style={{ margin: 0 }}
-          rules={[{ required: true, message: `Please Input ${title}` }]}
+          rules={[{ required: true, message: `Không được để trống` }]}
         >
           {inputNode}
         </Form.Item>
@@ -51,6 +51,7 @@ const EditableCell = ({
 
 function Admin() {
   const [form] = Form.useForm();
+  const [createForm] = Form.useForm(); // Thêm form mới cho create
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [loading, setLoading] = useState(false);
@@ -58,10 +59,16 @@ function Admin() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => setIsModalOpen(true);
-  const handleOk = () => form.submit();
+ 
+  const handleOk = () => {
+    createForm.validateFields().then((values) => {
+      handleSubmit(values);
+    });
+  };
 
   const handleHideModal = () => setIsModalOpen(false);
 
+  // handle submit in createForm 
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -70,7 +77,7 @@ function Admin() {
         values
       );
       setData([...data, { ...response.data, key: response.data.id }]);
-      form.resetFields();
+      createForm.resetFields();
       setSelectedRole("Vị trí");
       handleHideModal();
       message.success("Tạo tài khoản thành công");
@@ -272,27 +279,31 @@ function Admin() {
           onCancel={handleHideModal}
           confirmLoading={loading}
         >
-          <Form form={form} onFinish={handleSubmit} layout="vertical">
+          {/* Sử dụng createForm cho form tạo tài khoản */}
+          <Form form={createForm} layout="vertical">
             <Form.Item
               name="username"
               label="Tên đăng nhập"
-              rules={[{ required: true, message: "Nhập tên đăng nhập" }]}
+              rules={[{ required: true, message: "Hãy nhập tên đăng nhập" }]}
             >
-              <Input className="rounded-md pl-2 w-80 h-8 border border-inherit" />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              label="Mật khẩu"
-              rules={[{ required: true, message: "Nhập mật khẩu" }]}
-            >
-              <Input.Password className="rounded-md pl-2 w-80 h-8 border border-inherit" />
+              <Input className="text-black border border-inherit" />
             </Form.Item>
             <Form.Item
               name="email"
               label="Email"
-              rules={[{ required: true, message: "Hãy nhập email" }]}
+              rules={[
+                { required: true, message: "Hãy nhập email" },
+                { type: "email", message: "Email không hợp lệ" },
+              ]}
             >
-              <Input className="rounded-md pl-2 w-80 h-8 border border-inherit" />
+              <Input className="text-black border border-inherit" />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              label="Mật khẩu"
+              rules={[{ required: true, message: "Hãy nhập mật khẩu" }]}
+            >
+              <Input.Password className="text-black border border-inherit" />
             </Form.Item>
             <Form.Item
               name="role"
@@ -311,19 +322,21 @@ function Admin() {
                   />
                 </MenuButton>
                 <Transition
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
+                  // enter="transition ease-out duration-100"
+                  // enterFrom="transform opacity-0 scale-95"
+                  // enterTo="transform opacity-100 scale-100"
+                  // leave="transition ease-in duration-75"
+                  // leaveFrom="transform opacity-100 scale-100"
+                  // leaveTo="transform opacity-0 scale-95"
                 >
                   <MenuItems className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <MenuItem
                       className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       as="button"
                       onClick={() => {
-                        form.setFieldsValue({ role: "Nhân viên bán hàng" });
+                        createForm.setFieldsValue({
+                          role: "Nhân viên bán hàng",
+                        });
                         setSelectedRole("Nhân viên bán hàng");
                       }}
                     >
@@ -333,7 +346,9 @@ function Admin() {
                       className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       as="button"
                       onClick={() => {
-                        form.setFieldsValue({ role: "Nhân viên thiết kế" });
+                        createForm.setFieldsValue({
+                          role: "Nhân viên thiết kế",
+                        });
                         setSelectedRole("Nhân viên thiết kế");
                       }}
                     >
@@ -343,7 +358,7 @@ function Admin() {
                       className="block w-full px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       as="button"
                       onClick={() => {
-                        form.setFieldsValue({ role: "Quản lí" });
+                        createForm.setFieldsValue({ role: "Quản lí" });
                         setSelectedRole("Quản lí");
                       }}
                     >
@@ -353,7 +368,9 @@ function Admin() {
                       className="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       as="button"
                       onClick={() => {
-                        form.setFieldsValue({ role: "Nhân viên gia công" });
+                        createForm.setFieldsValue({
+                          role: "Nhân viên gia công",
+                        });
                         setSelectedRole("Nhân viên gia công");
                       }}
                     >
@@ -366,15 +383,22 @@ function Admin() {
           </Form>
         </Modal>
       </div>
-      <div className="p-5">
+      <div className="flex justify-center pt-5">
         <Form form={form} component={false}>
           <Table
-            components={{ body: { cell: EditableCell } }}
+            className="w-full"
+            components={{
+              body: {
+                cell: EditableCell,
+              },
+            }}
             bordered
             dataSource={data}
             columns={mergedColumns}
             rowClassName="editable-row"
-            pagination={{ onChange: cancel }}
+            pagination={{
+              onChange: cancel,
+            }}
           />
         </Form>
       </div>

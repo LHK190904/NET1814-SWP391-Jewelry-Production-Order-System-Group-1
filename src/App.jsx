@@ -1,5 +1,3 @@
-// src/App.jsx
-import React, { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -12,7 +10,6 @@ import Cart from "./pages/cart";
 import Layout from "./components/layout";
 import Error from "./pages/error";
 import Admin from "./pages/admin";
-import authService from "./services/authService";
 import ProductDetails from "./pages/product-details";
 
 function App() {
@@ -55,7 +52,7 @@ function App() {
           element: <Login />,
         },
         {
-          path: "/product-details",
+          path: "/product-details/:productId",
           element: <ProductDetails />,
         },
       ],
