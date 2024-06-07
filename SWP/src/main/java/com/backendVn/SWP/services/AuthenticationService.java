@@ -4,7 +4,6 @@ import com.backendVn.SWP.dtos.request.AuthenticationRequest;
 import com.backendVn.SWP.dtos.request.IntrospectRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.dtos.response.IntrospectResponse;
-import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.repositories.UserRepository;
@@ -50,7 +49,7 @@ public class AuthenticationService {
         if (!authenticated)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        var token = generateToken(user);
+        var token = generateToken(request.getUserName());
 
         return AuthenticationResponse.builder()
                 .token(token)
@@ -58,16 +57,16 @@ public class AuthenticationService {
                 .build();
     }
 
-    private String generateToken(User user) {
+    private String generateToken(String username) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getUserName())
+                .subject(username)
                 .issuer("Jewelry_Production_Order.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
-                .claim("scope", user.getTitle())
+                .claim("role", "idk")
                 .build();
         Payload payload = new Payload(claimsSet.toJSONObject());
 

@@ -1,6 +1,5 @@
 package com.backendVn.SWP.dtos.request;
 
-import com.backendVn.SWP.enums.Title;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +17,6 @@ public class UserUpdateRequest {
     String password;
     String email;
     String address;
-    Title title;
 
 
 }

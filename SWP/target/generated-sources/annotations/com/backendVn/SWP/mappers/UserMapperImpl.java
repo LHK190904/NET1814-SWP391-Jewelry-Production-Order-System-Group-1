@@ -21,15 +21,15 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        User.UserBuilder user = User.builder();
+        User user = new User();
 
-        user.userName( userCreationRequest.getUserName() );
-        user.password( userCreationRequest.getPassword() );
-        user.email( userCreationRequest.getEmail() );
-        user.address( userCreationRequest.getAddress() );
-        user.title( userCreationRequest.getTitle() );
+        user.setUserName( userCreationRequest.getUserName() );
+        user.setPassword( userCreationRequest.getPassword() );
+        user.setEmail( userCreationRequest.getEmail() );
+        user.setAddress( userCreationRequest.getAddress() );
+        user.setTitle( userCreationRequest.getTitle() );
 
-        return user.build();
+        return user;
     }
 
     @Override
@@ -41,7 +41,6 @@ public class UserMapperImpl implements UserMapper {
         user.setPassword( userUpdateRequest.getPassword() );
         user.setEmail( userUpdateRequest.getEmail() );
         user.setAddress( userUpdateRequest.getAddress() );
-        user.setTitle( userUpdateRequest.getTitle() );
     }
 
     @Override
@@ -68,14 +67,14 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        User.UserBuilder user = User.builder();
+        User user = new User();
 
-        user.userName( customerRegisterRequest.getUserName() );
-        user.password( customerRegisterRequest.getPassword() );
-        user.email( customerRegisterRequest.getEmail() );
-        user.address( customerRegisterRequest.getAddress() );
-        user.title( customerRegisterRequest.getTitle() );
+        user.setUserName( customerRegisterRequest.getUserName() );
+        user.setPassword( customerRegisterRequest.getPassword() );
+        user.setEmail( customerRegisterRequest.getEmail() );
+        user.setAddress( customerRegisterRequest.getAddress() );
+        user.setTitle( customerRegisterRequest.getTitle() );
 
-        return user.build();
+        return user;
     }
 }

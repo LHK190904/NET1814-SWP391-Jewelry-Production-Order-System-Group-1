@@ -2,8 +2,8 @@
 <project version="4">
   <component name="JpaBuddyIdeaProjectConfig" newRepositoryParent="org.springframework.data.jpa.repository.JpaRepository">
     <option name="defaultUnitInitialized" value="true" />
-    <option name="reLastEntityCreationPackage" value="src/main/java/com/backendVn/SWP/entities" />
+    <option name="reLastEntityCreationPackage" value="SWP/src/main/java/com/backendVn/SWP/entities" />
     <option name="renamerInitialized" value="true" />
-    <option name="reverseEngineeringLastDbConnectionId" value="36417669-ec0a-420d-b8bc-f9ef4ad48e96" />
+    <option name="reverseEngineeringLastDbConnectionId" value="497f6afe-832d-4d36-af28-86926b2cd7c3" />
   </component>
 </project>

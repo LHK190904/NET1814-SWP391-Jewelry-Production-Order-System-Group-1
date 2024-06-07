@@ -10,9 +10,6 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,19 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AdminController {
-    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
     UserService userService;
 
     @GetMapping
-    public ApiResponse<List<UserResponse>> getAllUsers() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        log.info("Username: {}", authentication.getName());
-        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
-
-        return ApiResponse.<List<UserResponse>>builder()
-                .result(userService.getAllUsers())
-                .build();
+    public List<UserResponse> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     public List<User> getAllUsers1() {
@@ -43,10 +32,8 @@ public class AdminController {
 
 
     @GetMapping("/{userID}")
-    public ApiResponse<UserResponse> getUserById(@PathVariable Integer userID) {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.getUserById(userID))
-                .build();
+    public UserResponse getUserById(@PathVariable Integer userID) {
+        return userService.getUserById(userID);
     }
 
     @PostMapping

@@ -1,7 +1,6 @@
 package com.backendVn.SWP.dtos.response;
 
 
-import com.backendVn.SWP.enums.Title;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,5 +15,5 @@ public class UserResponse {
     String password;
     String email;
     String address;
-    Title title;
+    String title;
 }

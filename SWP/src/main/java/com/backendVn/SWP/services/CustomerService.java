@@ -5,7 +5,6 @@ import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.entities.User;
-import com.backendVn.SWP.enums.Title;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.UserMapper;
@@ -43,7 +42,7 @@ public class CustomerService {
         if (userRepository.existsByUserName(request.getUserName()))
             throw new AppException(ErrorCode.USER_EXISTED);
 
-        request.setTitle(Title.CUSTOMER);
+        request.setTitle("Customer");
 
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
