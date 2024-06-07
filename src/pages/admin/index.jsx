@@ -13,6 +13,7 @@ import {
   message,
 } from "antd";
 import axios from "axios";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -26,6 +27,12 @@ const EditableCell = ({
   children,
   ...restProps
 }) => {
+  const [visible, setVisible] = useState(false); // State to handle password visibility
+
+  const toggleVisibility = () => {
+    setVisible(!visible);
+  };
+
   let inputNode;
   if (dataIndex === "role") {
     inputNode = (
@@ -35,6 +42,15 @@ const EditableCell = ({
         <Option value="Quản lí">Quản lí</Option>
         <Option value="Nhân viên gia công">Nhân viên gia công</Option>
       </Select>
+    );
+  } else if (dataIndex === "password") {
+    inputNode = (
+      <Input.Password
+        iconRender={(visible) =>
+          visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
+        }
+        visibilityToggle
+      />
     );
   } else {
     inputNode = inputType === "number" ? <InputNumber /> : <Input />;
@@ -92,6 +108,15 @@ const EditableCell = ({
         >
           {inputNode}
         </Form.Item>
+      ) : dataIndex === "password" ? (
+        <div>
+          {visible ? record.password : "••••••"}
+          <Button
+            type="link"
+            icon={visible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+            onClick={toggleVisibility}
+          />
+        </div>
       ) : (
         children
       )}
@@ -101,7 +126,7 @@ const EditableCell = ({
 
 function Admin() {
   const [form] = Form.useForm();
-  const [createForm] = Form.useForm(); // create form
+  const [createForm] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [loading, setLoading] = useState(false);
@@ -117,7 +142,6 @@ function Admin() {
 
   const handleHideModal = () => setIsModalOpen(false);
 
-  // handle submit in createForm
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
@@ -131,7 +155,7 @@ function Admin() {
       message.success("Tạo tài khoản thành công");
     } catch (error) {
       console.error("Failed to create account:", error);
-      message.error("Failed to create account.");
+      message.error("Tạo tài khoản thất bại.");
     } finally {
       setLoading(false);
     }
@@ -163,10 +187,10 @@ function Admin() {
       );
       const listAfterDelete = data.filter((account) => account.id !== id);
       setData(listAfterDelete);
-      message.success("Account deleted successfully!");
+      message.success("Xóa tài khoản thành công!");
     } catch (error) {
       console.error("Failed to delete account:", error);
-      message.error("Failed to delete account.");
+      message.error("Xóa tài khoản thất bại.");
     }
   };
 
@@ -180,10 +204,10 @@ function Admin() {
         item.id === id ? { ...item, ...updatedData } : item
       );
       setData(updatedDataSource);
-      message.success("Account updated successfully!");
+      message.success("Chỉnh sửa thành công!");
     } catch (error) {
       console.error("Failed to update account:", error);
-      message.error("Failed to update account.");
+      message.error("Chỉnh sửa thất bại.");
     }
   };
 
@@ -205,6 +229,14 @@ function Admin() {
   const save = async (key) => {
     try {
       const row = await form.validateFields();
+      const usernameExists = data.some(
+        (account) => account.username === row.username && account.key !== key
+      );
+      if (usernameExists) {
+        message.error("Tên đăng nhập đã tồn tại");
+        return;
+      }
+
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
@@ -341,6 +373,11 @@ function Admin() {
                         new Error("Không được có khoảng trắng ở đầu hoặc cuối")
                       );
                     }
+                    if (data.some((account) => account.username === value)) {
+                      return Promise.reject(
+                        new Error("Tên đăng nhập đã tồn tại")
+                      );
+                    }
                     return Promise.resolve();
                   },
                 },
@@ -348,6 +385,7 @@ function Admin() {
             >
               <Input placeholder="Nhập tên đăng nhập" />
             </Form.Item>
+
             <Form.Item
               name="email"
               label="Email"
