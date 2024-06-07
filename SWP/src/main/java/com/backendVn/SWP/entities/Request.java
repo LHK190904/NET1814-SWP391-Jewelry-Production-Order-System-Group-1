@@ -2,6 +2,7 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
@@ -14,6 +15,9 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RequestID", nullable = false)
     private Integer id;
+
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "CustomerID", nullable = false)
@@ -34,7 +38,7 @@ public class Request {
     private Instant endAt;
 
     @Column(name = "Status", length = 50)
-    private String status;
+    private String status = "Unapproved";
 
     @OneToMany(mappedBy = "requestID")
     private Set<Invoice> invoices = new LinkedHashSet<>();

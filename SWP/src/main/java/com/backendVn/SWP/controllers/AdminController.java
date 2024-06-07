@@ -22,8 +22,10 @@ public class AdminController {
     UserService userService;
 
     @GetMapping
-    public List<UserResponse> getAllUsers() {
-        return userService.getAllUsers();
+    public ApiResponse<List<UserResponse>> getAllUsers() {
+        return ApiResponse.<List<UserResponse>>builder()
+                .result(userService.getAllUsers())
+                .build();
     }
 
     public List<User> getAllUsers1() {
@@ -44,8 +46,10 @@ public class AdminController {
     }
 
     @PutMapping("/{id}")
-    public UserResponse updateUser(@PathVariable Integer id,@RequestBody @Valid UserUpdateRequest userUpdateRequest) {
-        return  userService.updateUser(id, userUpdateRequest);
+    public ApiResponse<UserResponse> updateUser(@PathVariable Integer id,@RequestBody @Valid UserUpdateRequest userUpdateRequest) {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.updateUser(id, userUpdateRequest))
+                .build();
     }
 
     @DeleteMapping("/{id}")

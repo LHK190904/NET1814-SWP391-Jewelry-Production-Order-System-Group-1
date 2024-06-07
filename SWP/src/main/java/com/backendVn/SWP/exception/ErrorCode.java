@@ -8,7 +8,9 @@ public enum ErrorCode {
     INVALID_PASSWORD(1004, "Password must be at least 8 characters"),
     USER_NOT_EXISTED(1005, "User not existed"),
     UNAUTHENTICATED(1006, "Unauthenticated user"),
-    INTERNAL_SERVER_ERROR(1007, "Internal server error")
+    INTERNAL_SERVER_ERROR(1007, "Internal server error"),
+    REQUEST_NOT_FOUND(1008, "Request not found"),
+    DESCRIPTION_EMPTY(1009, "Description cannot be empty")
     ;
     private int code;
     private String message;
