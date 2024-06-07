@@ -4,6 +4,7 @@ import com.backendVn.SWP.dtos.request.RequestCreationRequest;
 import com.backendVn.SWP.dtos.request.RequestUpdateRequest;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.entities.Request;
+import com.backendVn.SWP.entities.User;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,8 @@ public class RequestMapperImpl implements RequestMapper {
 
         Request request = new Request();
 
+        request.setDescription( requestCreationRequest.getDescription() );
+
         return request;
     }
 
@@ -31,6 +34,7 @@ public class RequestMapperImpl implements RequestMapper {
             return;
         }
 
+        request.setDescription( requestUpdateRequest.getDescription() );
         request.setRecievedAt( requestUpdateRequest.getRecievedAt() );
         request.setEndAt( requestUpdateRequest.getEndAt() );
         request.setStatus( requestUpdateRequest.getStatus() );
@@ -44,11 +48,45 @@ public class RequestMapperImpl implements RequestMapper {
 
         RequestResponse.RequestResponseBuilder requestResponse = RequestResponse.builder();
 
+        requestResponse.customerID( requestCustomerIDId( request ) );
+        requestResponse.saleStaffID( requestSaleStaffIDId( request ) );
+        requestResponse.id( request.getId() );
+        requestResponse.description( request.getDescription() );
         requestResponse.status( request.getStatus() );
         requestResponse.createdAt( request.getCreatedAt() );
         requestResponse.recievedAt( request.getRecievedAt() );
         requestResponse.endAt( request.getEndAt() );
 
         return requestResponse.build();
+    }
+
+    private Integer requestCustomerIDId(Request request) {
+        if ( request == null ) {
+            return null;
+        }
+        User customerID = request.getCustomerID();
+        if ( customerID == null ) {
+            return null;
+        }
+        Integer id = customerID.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
+    }
+
+    private Integer requestSaleStaffIDId(Request request) {
+        if ( request == null ) {
+            return null;
+        }
+        User saleStaffID = request.getSaleStaffID();
+        if ( saleStaffID == null ) {
+            return null;
+        }
+        Integer id = saleStaffID.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
     }
 }

@@ -38,7 +38,7 @@ public class Request {
     private Instant endAt;
 
     @Column(name = "Status", length = 50)
-    private String status = "Unapproved";
+    private String status;
 
     @OneToMany(mappedBy = "requestID")
     private Set<Invoice> invoices = new LinkedHashSet<>();

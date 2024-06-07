@@ -11,9 +11,10 @@ import java.time.Instant;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestResponse {
-    Integer requestId;
-    Integer customerId;
+    Integer id;
     String description;
+    Integer customerID;
+    Integer saleStaffID;
     String status;
     Instant createdAt;
     Instant recievedAt;
