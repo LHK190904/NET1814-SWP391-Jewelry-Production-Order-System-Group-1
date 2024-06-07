@@ -31,7 +31,8 @@ public class RequestService {
         User customer = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        Request request = requestMapper.toRequest(requestCreationRequest);
+        Request request = new Request();
+        request.setDescription(requestCreationRequest.getDescription());
         request.setCustomerID(customer);
         request.setStatus("Unapproved");
         request.setCreatedAt(Instant.now());

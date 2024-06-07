@@ -21,10 +21,9 @@ import java.util.List;
 public class RequestController {
     RequestService requestService;
 
-    @PostMapping
-    public ApiResponse<RequestResponse> createRequest(@RequestBody @Valid RequestCreationRequest requestCreationRequest,
-                                                      @RequestParam Integer userId) {
-        RequestResponse requestResponse = requestService.createRequest(requestCreationRequest, userId);
+    @PostMapping("/{Id}")
+    public ApiResponse<RequestResponse> createRequest(@PathVariable Integer Id, @RequestBody @Valid RequestCreationRequest requestCreationRequest) {
+        RequestResponse requestResponse = requestService.createRequest(requestCreationRequest, Id);
         return ApiResponse.<RequestResponse>builder()
                 .result(requestResponse)
                 .build();

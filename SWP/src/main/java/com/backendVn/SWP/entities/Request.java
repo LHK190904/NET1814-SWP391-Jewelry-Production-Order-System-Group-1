@@ -16,7 +16,7 @@ public class Request {
     @Column(name = "RequestID", nullable = false)
     private Integer id;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "Description", nullable = false)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -24,7 +24,7 @@ public class Request {
     private User customerID;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Sale_StaffID", nullable = false)
+    @JoinColumn(name = "Sale_StaffID")
     private User saleStaffID;
 
     @ColumnDefault("getdate()")
@@ -54,6 +54,14 @@ public class Request {
 
     @OneToMany(mappedBy = "requestID")
     private Set<RequestOrder> requestOrders = new LinkedHashSet<>();
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Integer getId() {
         return id;
