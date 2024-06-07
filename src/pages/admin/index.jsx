@@ -34,7 +34,7 @@ const EditableCell = ({
   };
 
   let inputNode;
-  if (dataIndex === "role") {
+  if (dataIndex === "title") {
     inputNode = (
       <Select>
         <Option value="Nhân viên bán hàng">Nhân viên bán hàng</Option>
@@ -67,7 +67,7 @@ const EditableCell = ({
             ...(dataIndex === "email"
               ? [{ type: "email", message: "Email không hợp lệ" }]
               : []),
-            ...(dataIndex === "username"
+            ...(dataIndex === "userName"
               ? [
                   {
                     validator: (_, value) => {
@@ -215,10 +215,10 @@ function Admin() {
 
   const edit = (record) => {
     form.setFieldsValue({
-      username: "",
+      userName: "",
       email: "",
       password: "",
-      role: "",
+      title: "",
       ...record,
     });
     setEditingKey(record.key);
@@ -229,10 +229,10 @@ function Admin() {
   const save = async (key) => {
     try {
       const row = await form.validateFields();
-      const usernameExists = data.some(
-        (account) => account.username === row.username && account.key !== key
+      const userNameExists = data.some(
+        (account) => account.userName === row.userName && account.key !== key
       );
-      if (usernameExists) {
+      if (userNameExists) {
         message.error("Tên đăng nhập đã tồn tại");
         return;
       }
@@ -242,6 +242,7 @@ function Admin() {
       if (index > -1) {
         const item = newData[index];
         const updatedData = { ...item, ...row };
+        delete updatedData.key; // Loại bỏ thuộc tính key
         newData.splice(index, 1, updatedData);
         setData(newData);
         setEditingKey("");
@@ -261,7 +262,7 @@ function Admin() {
       title: (
         <span className="text-2xl font-bold text-[#64748B]">Tên đăng nhập</span>
       ),
-      dataIndex: "username",
+      dataIndex: "userName",
       width: "25%",
       editable: true,
     },
@@ -281,7 +282,7 @@ function Admin() {
     },
     {
       title: <span className="text-2xl font-bold text-[#64748B]">Vị trí </span>,
-      dataIndex: "role",
+      dataIndex: "title",
       width: "10%",
       editable: true,
     },
@@ -362,7 +363,7 @@ function Admin() {
         >
           <Form form={createForm} layout="vertical">
             <Form.Item
-              name="username"
+              name="userName"
               label="Tên đăng nhập"
               rules={[
                 { required: true, message: "Không được để trống" },
@@ -373,7 +374,7 @@ function Admin() {
                         new Error("Không được có khoảng trắng ở đầu hoặc cuối")
                       );
                     }
-                    if (data.some((account) => account.username === value)) {
+                    if (data.some((account) => account.userName === value)) {
                       return Promise.reject(
                         new Error("Tên đăng nhập đã tồn tại")
                       );
@@ -421,7 +422,7 @@ function Admin() {
               <Input.Password placeholder="Nhập mật khẩu" />
             </Form.Item>
             <Form.Item
-              name="role"
+              name="title"
               label="Vị trí"
               rules={[{ required: true, message: "Không được để trống" }]}
             >
