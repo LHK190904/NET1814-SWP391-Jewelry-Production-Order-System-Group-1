@@ -37,10 +37,10 @@ const EditableCell = ({
   if (dataIndex === "title") {
     inputNode = (
       <Select>
-        <Option value="Nhân viên bán hàng">Nhân viên bán hàng</Option>
-        <Option value="Nhân viên thiết kế">Nhân viên thiết kế</Option>
-        <Option value="Quản lí">Quản lí</Option>
-        <Option value="Nhân viên gia công">Nhân viên gia công</Option>
+        <Option value="SALE_STAFF">Nhân viên bán hàng</Option>
+        <Option value="DESIGN_STAFF">Nhân viên thiết kế</Option>
+        <Option value="MANAGER">Quản lí</Option>
+        <Option value="PRODUCTION_STAFF">Nhân viên gia công</Option>
       </Select>
     );
   } else if (dataIndex === "password") {
@@ -145,11 +145,8 @@ function Admin() {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        "https://663ddef6e1913c476795b585.mockapi.io/account",
-        values
-      );
-      setData([...data, { ...response.data, key: response.data.id }]);
+      const response = await axios.post("http://localhost:8080/user", values);
+      setData([...data, { ...response.data.result, key: response.data.id }]);
       createForm.resetFields();
       handleHideModal();
       message.success("Tạo tài khoản thành công");
@@ -160,13 +157,10 @@ function Admin() {
       setLoading(false);
     }
   };
-
   const fetchAccount = async () => {
     try {
-      const response = await axios.get(
-        "https://663ddef6e1913c476795b585.mockapi.io/account"
-      );
-      const formattedData = response.data.map((account) => ({
+      const response = await axios.get("http://localhost:8080/user");
+      const formattedData = response.data.result.map((account) => ({
         ...account,
         key: account.id,
       }));
@@ -182,9 +176,7 @@ function Admin() {
 
   const handleDeleteAccount = async (id) => {
     try {
-      await axios.delete(
-        `https://663ddef6e1913c476795b585.mockapi.io/account/${id}`
-      );
+      await axios.delete(`http://localhost:8080/user/${id}`);
       const listAfterDelete = data.filter((account) => account.id !== id);
       setData(listAfterDelete);
       message.success("Xóa tài khoản thành công!");
@@ -196,10 +188,7 @@ function Admin() {
 
   const handleUpdateAccount = async (id, updatedData) => {
     try {
-      await axios.put(
-        `https://663ddef6e1913c476795b585.mockapi.io/account/${id}`,
-        updatedData
-      );
+      await axios.put(`http://localhost:8080/user/${id}`, updatedData);
       const updatedDataSource = data.map((item) =>
         item.id === id ? { ...item, ...updatedData } : item
       );
@@ -427,10 +416,10 @@ function Admin() {
               rules={[{ required: true, message: "Không được để trống" }]}
             >
               <Select placeholder="Chọn vị trí">
-                <Option value="Nhân viên bán hàng">Nhân viên bán hàng</Option>
-                <Option value="Nhân viên thiết kế">Nhân viên thiết kế</Option>
-                <Option value="Quản lí">Quản lí</Option>
-                <Option value="Nhân viên gia công">Nhân viên gia công</Option>
+                <Option value="MANAGER">Quản lí</Option>
+                <Option value="SALE_STAFF">Nhân viên bán hàng</Option>
+                <Option value="DESIGN_STAFF">Nhân viên thiết kế</Option>
+                <Option value="PRODUCTION_STAFF">Nhân viên gia công</Option>
               </Select>
             </Form.Item>
           </Form>
