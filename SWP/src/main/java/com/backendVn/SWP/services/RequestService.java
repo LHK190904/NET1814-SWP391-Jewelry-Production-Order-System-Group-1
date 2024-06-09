@@ -1,6 +1,7 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.RequestCreationRequest;
+import com.backendVn.SWP.dtos.request.RequestSalesUpdateRequest;
 import com.backendVn.SWP.dtos.request.RequestUpdateRequest;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.entities.Request;
@@ -46,6 +47,22 @@ public class RequestService {
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
         requestMapper.updateRequestFromDto(request, requestUpdateRequest);
+        Request updatedRequest = requestRepository.save(request);
+
+        return requestMapper.toRequestResponse(updatedRequest);
+    }
+
+    public RequestResponse updateRequestBySales(Integer id, RequestSalesUpdateRequest requestSalesUpdateRequest) {
+        Request request = requestRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        User saleStaff = userRepository.findById(requestSalesUpdateRequest.getSaleStaffId())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        request.setSaleStaffID(saleStaff);
+        request.setRecievedAt(requestSalesUpdateRequest.getReceivedAt());
+        request.setStatus("Pending Quotation");
+
         Request updatedRequest = requestRepository.save(request);
 
         return requestMapper.toRequestResponse(updatedRequest);
