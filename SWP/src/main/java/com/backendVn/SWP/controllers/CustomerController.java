@@ -5,15 +5,14 @@ import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.request.AuthenticationRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
+import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.services.AuthenticationService;
 import com.backendVn.SWP.services.CustomerService;
+import com.backendVn.SWP.services.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cust")
@@ -22,12 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
     CustomerService customerService;
+    UserService userService;
 
     @PostMapping("/register_token")
     ApiResponse<AuthenticationResponse> register(@RequestBody CustomerRegisterRequest request){
         var result = customerService.register(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
+                .build();
+    }
+
+    @GetMapping("/myInfo")
+    ApiResponse<UserResponse> getMyInfo(){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getMyInfo())
                 .build();
     }
 
