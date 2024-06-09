@@ -13,6 +13,7 @@ import {
   message,
 } from "antd";
 import axios from "axios";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -26,15 +27,30 @@ const EditableCell = ({
   children,
   ...restProps
 }) => {
+  const [visible, setVisible] = useState(false); // State to handle password visibility
+
+  const toggleVisibility = () => {
+    setVisible(!visible);
+  };
+
   let inputNode;
-  if (dataIndex === "role") {
+  if (dataIndex === "title") {
     inputNode = (
       <Select>
-        <Option value="Nhân viên bán hàng">Nhân viên bán hàng</Option>
-        <Option value="Nhân viên thiết kế">Nhân viên thiết kế</Option>
-        <Option value="Quản lí">Quản lí</Option>
-        <Option value="Nhân viên gia công">Nhân viên gia công</Option>
+        <Option value="SALE_STAFF">Nhân viên bán hàng</Option>
+        <Option value="DESIGN_STAFF">Nhân viên thiết kế</Option>
+        <Option value="MANAGER">Quản lí</Option>
+        <Option value="PRODUCTION_STAFF">Nhân viên gia công</Option>
       </Select>
+    );
+  } else if (dataIndex === "password") {
+    inputNode = (
+      <Input.Password
+        iconRender={(visible) =>
+          visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
+        }
+        visibilityToggle
+      />
     );
   } else {
     inputNode = inputType === "number" ? <InputNumber /> : <Input />;
@@ -51,7 +67,7 @@ const EditableCell = ({
             ...(dataIndex === "email"
               ? [{ type: "email", message: "Email không hợp lệ" }]
               : []),
-            ...(dataIndex === "username"
+            ...(dataIndex === "userName"
               ? [
                   {
                     validator: (_, value) => {
@@ -92,6 +108,15 @@ const EditableCell = ({
         >
           {inputNode}
         </Form.Item>
+      ) : dataIndex === "password" ? (
+        <div>
+          {visible ? record.password : "••••••"}
+          <Button
+            type="link"
+            icon={visible ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+            onClick={toggleVisibility}
+          />
+        </div>
       ) : (
         children
       )}
@@ -101,7 +126,7 @@ const EditableCell = ({
 
 function Admin() {
   const [form] = Form.useForm();
-  const [createForm] = Form.useForm(); // create form
+  const [createForm] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [loading, setLoading] = useState(false);
@@ -117,32 +142,25 @@ function Admin() {
 
   const handleHideModal = () => setIsModalOpen(false);
 
-  // handle submit in createForm
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        "https://663ddef6e1913c476795b585.mockapi.io/account",
-        values
-      );
-      setData([...data, { ...response.data, key: response.data.id }]);
+      const response = await axios.post("http://localhost:8080/user", values);
+      setData([...data, { ...response.data.result, key: response.data.id }]);
       createForm.resetFields();
       handleHideModal();
       message.success("Tạo tài khoản thành công");
     } catch (error) {
       console.error("Failed to create account:", error);
-      message.error("Failed to create account.");
+      message.error("Tạo tài khoản thất bại.");
     } finally {
       setLoading(false);
     }
   };
-
   const fetchAccount = async () => {
     try {
-      const response = await axios.get(
-        "https://663ddef6e1913c476795b585.mockapi.io/account"
-      );
-      const formattedData = response.data.map((account) => ({
+      const response = await axios.get("http://localhost:8080/user");
+      const formattedData = response.data.result.map((account) => ({
         ...account,
         key: account.id,
       }));
@@ -158,32 +176,27 @@ function Admin() {
 
   const handleDeleteAccount = async (id) => {
     try {
-      await axios.delete(
-        `https://663ddef6e1913c476795b585.mockapi.io/account/${id}`
-      );
+      await axios.delete(`http://localhost:8080/user/${id}`);
       const listAfterDelete = data.filter((account) => account.id !== id);
       setData(listAfterDelete);
-      message.success("Account deleted successfully!");
+      message.success("Xóa tài khoản thành công!");
     } catch (error) {
       console.error("Failed to delete account:", error);
-      message.error("Failed to delete account.");
+      message.error("Xóa tài khoản thất bại.");
     }
   };
 
   const handleUpdateAccount = async (id, updatedData) => {
     try {
-      await axios.put(
-        `https://663ddef6e1913c476795b585.mockapi.io/account/${id}`,
-        updatedData
-      );
+      await axios.put(`http://localhost:8080/user/${id}`, updatedData);
       const updatedDataSource = data.map((item) =>
         item.id === id ? { ...item, ...updatedData } : item
       );
       setData(updatedDataSource);
-      message.success("Account updated successfully!");
+      message.success("Chỉnh sửa thành công!");
     } catch (error) {
       console.error("Failed to update account:", error);
-      message.error("Failed to update account.");
+      message.error("Chỉnh sửa thất bại.");
     }
   };
 
@@ -191,10 +204,10 @@ function Admin() {
 
   const edit = (record) => {
     form.setFieldsValue({
-      username: "",
+      userName: "",
       email: "",
       password: "",
-      role: "",
+      title: "",
       ...record,
     });
     setEditingKey(record.key);
@@ -205,11 +218,20 @@ function Admin() {
   const save = async (key) => {
     try {
       const row = await form.validateFields();
+      const userNameExists = data.some(
+        (account) => account.userName === row.userName && account.key !== key
+      );
+      if (userNameExists) {
+        message.error("Tên đăng nhập đã tồn tại");
+        return;
+      }
+
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
         const item = newData[index];
         const updatedData = { ...item, ...row };
+        delete updatedData.key; // Loại bỏ thuộc tính key
         newData.splice(index, 1, updatedData);
         setData(newData);
         setEditingKey("");
@@ -229,7 +251,7 @@ function Admin() {
       title: (
         <span className="text-2xl font-bold text-[#64748B]">Tên đăng nhập</span>
       ),
-      dataIndex: "username",
+      dataIndex: "userName",
       width: "25%",
       editable: true,
     },
@@ -249,7 +271,7 @@ function Admin() {
     },
     {
       title: <span className="text-2xl font-bold text-[#64748B]">Vị trí </span>,
-      dataIndex: "role",
+      dataIndex: "title",
       width: "10%",
       editable: true,
     },
@@ -330,7 +352,7 @@ function Admin() {
         >
           <Form form={createForm} layout="vertical">
             <Form.Item
-              name="username"
+              name="userName"
               label="Tên đăng nhập"
               rules={[
                 { required: true, message: "Không được để trống" },
@@ -341,6 +363,11 @@ function Admin() {
                         new Error("Không được có khoảng trắng ở đầu hoặc cuối")
                       );
                     }
+                    if (data.some((account) => account.userName === value)) {
+                      return Promise.reject(
+                        new Error("Tên đăng nhập đã tồn tại")
+                      );
+                    }
                     return Promise.resolve();
                   },
                 },
@@ -348,6 +375,7 @@ function Admin() {
             >
               <Input placeholder="Nhập tên đăng nhập" />
             </Form.Item>
+
             <Form.Item
               name="email"
               label="Email"
@@ -383,15 +411,15 @@ function Admin() {
               <Input.Password placeholder="Nhập mật khẩu" />
             </Form.Item>
             <Form.Item
-              name="role"
+              name="title"
               label="Vị trí"
               rules={[{ required: true, message: "Không được để trống" }]}
             >
               <Select placeholder="Chọn vị trí">
-                <Option value="Nhân viên bán hàng">Nhân viên bán hàng</Option>
-                <Option value="Nhân viên thiết kế">Nhân viên thiết kế</Option>
-                <Option value="Quản lí">Quản lí</Option>
-                <Option value="Nhân viên gia công">Nhân viên gia công</Option>
+                <Option value="MANAGER">Quản lí</Option>
+                <Option value="SALE_STAFF">Nhân viên bán hàng</Option>
+                <Option value="DESIGN_STAFF">Nhân viên thiết kế</Option>
+                <Option value="PRODUCTION_STAFF">Nhân viên gia công</Option>
               </Select>
             </Form.Item>
           </Form>
