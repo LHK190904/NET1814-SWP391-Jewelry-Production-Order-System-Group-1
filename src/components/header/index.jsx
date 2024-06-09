@@ -18,7 +18,7 @@ function Header() {
   }
   return (
     <div>
-      <div className="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 bg-black text-[#F7EF8A] items-center w-full">
+      <div className="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 bg-black text-[#F7EF8A] items-center w-screen">
         <Link
           to={"/"}
           className="lg:col-start-2 lg:col-span-2 md:col-start-2 md:col-span-2 sm:col-start-2 sm:col-span-2"

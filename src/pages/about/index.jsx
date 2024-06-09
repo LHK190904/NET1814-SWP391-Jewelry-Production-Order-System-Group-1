@@ -2,7 +2,7 @@ import React from "react";
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-[#434343] flex flex-col items-center py-12">
+    <div className="w-screen bg-[#434343] flex flex-col items-center py-12">
       <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-8">
         <h1 className="text-4xl font-bold text-center mb-8">About Us</h1>
         <p className="text-lg leading-relaxed mb-4">

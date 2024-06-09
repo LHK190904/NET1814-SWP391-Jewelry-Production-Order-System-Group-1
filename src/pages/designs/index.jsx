@@ -21,25 +21,29 @@ export default function Designs() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#434343] p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen w-screen bg-[#434343] p-4">
       <h1 className="text-4xl font-bold text-white mb-8">Designs Page</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map((product) => (
-          <Link
-            key={product.id}
-            to={`/product-details/${product.id}`}
-            className="no-underline"
-          >
-            <div className="bg-white rounded-lg p-6 shadow-lg w-full max-w-sm">
-              <h2 className="text-2xl font-bold mb-2">
-                {product.product_name}
-              </h2>
-              <p className="text-gray-700 mb-1">Price: {product.price}</p>
-              <p className="text-gray-700 mb-1">Material: {product.material}</p>
-              <p className="text-gray-700 mb-1">Type: {product.type}</p>
-            </div>
-          </Link>
-        ))}
+        {products
+          .filter((product) => product.type === "ring")
+          .map((product) => (
+            <Link
+              key={product.id}
+              to={`/product-details/${product.id}`}
+              className="no-underline"
+            >
+              <div className="bg-white rounded-lg p-6 shadow-lg w-full max-w-sm">
+                <h2 className="text-2xl font-bold mb-2">
+                  {product.product_name}
+                </h2>
+                <p className="text-gray-700 mb-1">Price: {product.price}</p>
+                <p className="text-gray-700 mb-1">
+                  Material: {product.material}
+                </p>
+                <p className="text-gray-700 mb-1">Type: {product.type}</p>
+              </div>
+            </Link>
+          ))}
       </div>
     </div>
   );

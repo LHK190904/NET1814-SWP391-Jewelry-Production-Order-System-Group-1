@@ -11,6 +11,10 @@ import Layout from "./components/layout";
 import Error from "./pages/error";
 import Admin from "./pages/admin";
 import ProductDetails from "./pages/product-details";
+import Saler from "./pages/saler";
+import ManagerRequest from "./pages/manager/request";
+import ManagerOrder from "./pages/manager/order";
+import ManagerAssign from "./pages/manager/assign";
 
 function App() {
   const router = createBrowserRouter([
@@ -64,6 +68,22 @@ function App() {
     {
       path: "/admin",
       element: <Admin />,
+    },
+    {
+      path: " /saler",
+      element: <Saler />,
+    },
+    {
+      path: "/manager/request",
+      element: <ManagerRequest />,
+    },
+    {
+      path: "/manager/order",
+      element: <ManagerOrder />,
+    },
+    {
+      path: "manager/assign",
+      element: <ManagerAssign />,
     },
   ]);
   return <RouterProvider router={router} />;

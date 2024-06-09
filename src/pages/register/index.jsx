@@ -1,10 +1,11 @@
 import axios from "axios";
 import { stringify } from "postcss";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const API_URL = "";
-
+  const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
@@ -21,11 +22,12 @@ function Register() {
         email,
       };
       const response = await axios.post(API_URL, payload);
-      const { token, authenticated } = response.data.result;
+      const { token, authenticated } = response.data;
       if (authenticated) {
         const userData = { userName, token };
         localStorage.setItem("user", JSON.stringify(userData));
         console.log("Registration succesfully");
+        navigate("/");
       } else {
         console.log("Registration failed");
       }
@@ -44,7 +46,7 @@ function Register() {
     setError("");
   }
   return (
-    <div className="flex items-center justify-center lg:min-h-screen bg-[#434343]">
+    <div className="flex items-center justify-center lg:min-h-screen w-screen bg-[#434343]">
       <div className="bg-[#E9E9E9] shadow-md rounded-lg w-full max-w-lg text-center m-4">
         <h4 className="text-2xl font-semibold p-4 border-b">ĐĂNG KÝ</h4>
         <div className="p-6">
@@ -107,7 +109,7 @@ function Register() {
                     className="form-input w-full p-2 border border-gray-300 rounded-md"
                     id="address"
                     placeholder="Email"
-                    onChange={(e) => setAddress(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     value={email}
                   />
                 </div>

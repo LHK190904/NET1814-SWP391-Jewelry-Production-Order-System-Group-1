@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Cart() {
   return (
-    <div className="h-screen bg-[#434343] ">
+    <div className="h-screen w-screen bg-[#434343] ">
       <h1 className="text-4xl font-bold text-white text-center">Cart Page</h1>
       <div className="grid grid-cols-12">
         <ul className="grid col-start-2 col-span-6 bg-white p-4 rounded-lg">

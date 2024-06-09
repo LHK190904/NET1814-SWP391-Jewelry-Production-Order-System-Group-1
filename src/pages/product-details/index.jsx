@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { Modal, Button, Input, Form } from "antd";
 
 function ProductDetails() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -22,36 +23,28 @@ function ProductDetails() {
     fetchProductDetails();
   }, [productId]);
 
-  const modalRef = useRef(null);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
-  function handleShowModal() {
-    setIsOpen(true);
-  }
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
-  function handleHideModal() {
-    setIsOpen(false);
-  }
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        form.resetFields();
+        console.log("Received values of form: ", values);
+        setIsModalOpen(false);
+      })
+      .catch((info) => {
+        console.log("Validate Failed:", info);
+      });
+  };
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    handleHideModal();
-  }
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        handleHideModal();
-      }
-    }
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
+  const [form] = Form.useForm();
 
   if (!product) {
     return <div>Loading...</div>;
@@ -125,7 +118,7 @@ function ProductDetails() {
           <div className="flex flex-col">
             <button
               className="rounded-lg bg-gray-800 text-[#F7EF8A] p-4"
-              onClick={handleShowModal}
+              onClick={showModal}
             >
               ĐẶT YÊU CẦU
             </button>
@@ -138,63 +131,58 @@ function ProductDetails() {
           </div>
         </div>
       </div>
-      {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div
-            ref={modalRef}
-            className="bg-white rounded-lg w-11/12 md:w-1/2 lg:w-1/3 p-6 relative"
+      <Modal
+        title="YÊU CẦU TƯ VẤN GIA CÔNG"
+        visible={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          name="form_in_modal"
+          initialValues={{
+            modifier: "public",
+          }}
+        >
+          <Form.Item
+            name="name"
+            label="Họ và Tên"
+            rules={[
+              {
+                required: true,
+                message: "Hãy nhập Họ và Tên của bạn",
+              },
+            ]}
           >
-            <button
-              className="absolute top-2 right-2 text-gray-700 w-4 h-4"
-              onClick={handleHideModal}
-            >
-              X
-            </button>
-            <h3 className="text-2xl font-bold mb-4">Form Liên Hệ</h3>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700">Họ và Tên:</label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border rounded-lg"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Email:</label>
-                <input
-                  type="email"
-                  className="w-full px-3 py-2 border rounded-lg"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Nội dung:</label>
-                <textarea
-                  className="w-full px-3 py-2 border rounded-lg"
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
-              <div className="flex justify-end space-x-4">
-                <button
-                  type="button"
-                  className="bg-gray-500 text-white px-4 py-2 rounded-lg"
-                  onClick={handleHideModal}
-                >
-                  Hủy
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-                >
-                  Gửi
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              {
+                required: true,
+                message: "Hãy nhập Email của bạn",
+              },
+            ]}
+          >
+            <Input type="email" />
+          </Form.Item>
+          <Form.Item
+            name="content"
+            label="Nội dung"
+            rules={[
+              {
+                required: true,
+                message: "Hãy nhập Nội dung yêu cầu",
+              },
+            ]}
+          >
+            <Input.TextArea rows={4} />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }
