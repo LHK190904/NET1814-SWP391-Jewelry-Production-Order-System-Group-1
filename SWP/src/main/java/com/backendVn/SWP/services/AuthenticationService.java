@@ -67,7 +67,7 @@ public class AuthenticationService {
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
-                .claim("scope", user.getTitle())
+                .claim("scope", user.getTitle().toUpperCase())
                 .build();
         Payload payload = new Payload(claimsSet.toJSONObject());
 

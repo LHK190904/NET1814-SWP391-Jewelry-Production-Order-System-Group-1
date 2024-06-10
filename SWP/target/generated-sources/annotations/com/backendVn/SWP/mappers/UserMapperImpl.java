@@ -21,15 +21,15 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        User user = new User();
+        User.UserBuilder user = User.builder();
 
-        user.setUserName( userCreationRequest.getUserName() );
-        user.setPassword( userCreationRequest.getPassword() );
-        user.setEmail( userCreationRequest.getEmail() );
-        user.setAddress( userCreationRequest.getAddress() );
-        user.setTitle( userCreationRequest.getTitle() );
+        user.userName( userCreationRequest.getUserName() );
+        user.password( userCreationRequest.getPassword() );
+        user.email( userCreationRequest.getEmail() );
+        user.address( userCreationRequest.getAddress() );
+        user.title( userCreationRequest.getTitle() );
 
-        return user;
+        return user.build();
     }
 
     @Override
@@ -67,14 +67,14 @@ public class UserMapperImpl implements UserMapper {
             return null;
         }
 
-        User user = new User();
+        User.UserBuilder user = User.builder();
 
-        user.setUserName( customerRegisterRequest.getUserName() );
-        user.setPassword( customerRegisterRequest.getPassword() );
-        user.setEmail( customerRegisterRequest.getEmail() );
-        user.setAddress( customerRegisterRequest.getAddress() );
-        user.setTitle( customerRegisterRequest.getTitle() );
+        user.userName( customerRegisterRequest.getUserName() );
+        user.password( customerRegisterRequest.getPassword() );
+        user.email( customerRegisterRequest.getEmail() );
+        user.address( customerRegisterRequest.getAddress() );
+        user.title( customerRegisterRequest.getTitle() );
 
-        return user;
+        return user.build();
     }
 }

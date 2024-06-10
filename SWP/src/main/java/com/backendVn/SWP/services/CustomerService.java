@@ -42,7 +42,7 @@ public class CustomerService {
         if (userRepository.existsByUserName(request.getUserName()))
             throw new AppException(ErrorCode.USER_EXISTED);
 
-        request.setTitle("Customer");
+        request.setTitle("CUSTOMER");
 
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));

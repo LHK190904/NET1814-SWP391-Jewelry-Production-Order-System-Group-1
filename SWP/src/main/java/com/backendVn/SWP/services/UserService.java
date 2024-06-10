@@ -30,22 +30,19 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::toUserResponse).toList();
     }
 
-    public List<User> getAllUsers1() {
-        return userRepository.findAll();
-    }
-
-    @PostAuthorize("returnObject.username == authentication.name")
+    @PostAuthorize("returnObject.userName == authentication.name")
     public UserResponse getUserById(Integer id) {
         return userMapper.toUserResponse(userRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException("User not found")));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public UserResponse createUser(UserCreationRequest request) {
         if (userRepository.existsByUserName(request.getUserName()))
             throw new AppException(ErrorCode.USER_EXISTED);
@@ -71,6 +68,7 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public UserResponse updateUser(Integer id ,UserUpdateRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -78,6 +76,7 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }

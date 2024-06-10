@@ -36,11 +36,6 @@ public class AdminController {
                 .build();
     }
 
-    public List<User> getAllUsers1() {
-        return userService.getAllUsers1();
-    }
-
-
     @GetMapping("/{userID}")
     public UserResponse getUserById(@PathVariable Integer userID) {
         return userService.getUserById(userID);
