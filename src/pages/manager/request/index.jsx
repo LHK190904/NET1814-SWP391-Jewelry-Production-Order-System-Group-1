@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { Modal, Button } from "antd";
 
 function ManagerRequest() {
@@ -41,60 +40,56 @@ function ManagerRequest() {
       <h1 className="text-center text-[#F7EF8A] font-extrabold p-10">
         REQUEST MANAGEMENT
       </h1>
-      <div className="flex items-start justify-center">
-        <table className="table-auto w-3/4 bg-white border-collapse">
-          <thead>
-            <tr>
-              <th className="border px-4 py-2">REQUEST ID</th>
-              <th className="border px-4 py-2">SALER ID</th>
-              <th className="border px-4 py-2">DETAILS</th>
-              <th className="border px-4 py-2">STATUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item) => (
-              <tr key={item.reqId}>
-                <td className="border px-4 py-2">{item.reqId}</td>
-                <td className="border px-4 py-2">{item.salerId}</td>
-                <td className="border px-4 py-2">
+      <div className="grid grid-cols-4 w-3/4 mx-auto bg-white p-4 rounded-lg">
+        <div className="col-span-1 bg-gray-400 p-2 font-bold">REQUEST ID</div>
+        <div className="col-span-1 bg-gray-400 p-2 font-bold">SALER ID</div>
+        <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
+          DETAILS
+        </div>
+        <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
+          STATUS
+        </div>
+        {data.map((item) => (
+          <React.Fragment key={item.reqId}>
+            <div className="col-span-1 border p-2">{item.reqId}</div>
+            <div className="col-span-1 border p-2">{item.salerId}</div>
+            <div className="col-span-1 border p-2 text-center">
+              <Button
+                type="link"
+                onClick={() => handleDetailsClick(item.details)}
+              >
+                Details
+              </Button>
+            </div>
+            <div className="col-span-1 border p-2 text-center">
+              {statuses[item.reqId] === "action" ? (
+                <div>
                   <Button
                     type="link"
-                    onClick={() => handleDetailsClick(item.details)}
+                    onClick={() => handleApprove(item.reqId)}
+                    className="text-green-500 mr-2"
                   >
-                    Details
+                    Approve
                   </Button>
-                </td>
-                <td className="border px-4 py-2">
-                  {statuses[item.reqId] === "action" ? (
-                    <div>
-                      <Button
-                        type="link"
-                        onClick={() => handleApprove(item.reqId)}
-                        className="text-green-500 mr-2"
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        type="link"
-                        onClick={() => handleDeny(item.reqId)}
-                        className="text-red-500"
-                      >
-                        Deny
-                      </Button>
-                    </div>
-                  ) : (
-                    <Button
-                      type="link"
-                      onClick={() => handleStatusClick(item.reqId)}
-                    >
-                      {statuses[item.reqId] || item.status}
-                    </Button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  <Button
+                    type="link"
+                    onClick={() => handleDeny(item.reqId)}
+                    className="text-red-500"
+                  >
+                    Deny
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  type="link"
+                  onClick={() => handleStatusClick(item.reqId)}
+                >
+                  {statuses[item.reqId] || item.status}
+                </Button>
+              )}
+            </div>
+          </React.Fragment>
+        ))}
       </div>
 
       <Modal

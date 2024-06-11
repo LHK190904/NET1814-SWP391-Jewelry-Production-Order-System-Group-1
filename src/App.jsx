@@ -15,6 +15,7 @@ import Saler from "./pages/saler";
 import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
 import ManagerAssign from "./pages/manager/assign";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   const router = createBrowserRouter([
@@ -86,7 +87,11 @@ function App() {
       element: <ManagerAssign />,
     },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
+  );
 }
 
 export default App;

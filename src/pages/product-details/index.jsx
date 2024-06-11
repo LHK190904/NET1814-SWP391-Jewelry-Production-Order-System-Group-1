@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { Modal, Button, Input, Form } from "antd";
+import { useCart } from "../../context/CartContext"; // Corrected import path
 
 function ProductDetails() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -37,6 +39,7 @@ function ProductDetails() {
       .then((values) => {
         form.resetFields();
         console.log("Received values of form: ", values);
+        addToCart({ ...product, ...values });
         setIsModalOpen(false);
       })
       .catch((info) => {

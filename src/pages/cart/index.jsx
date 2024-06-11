@@ -1,58 +1,41 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 export default function Cart() {
+  const { cart } = useCart();
+
   return (
-    <div className="h-screen w-screen bg-[#434343] ">
-      <h1 className="text-4xl font-bold text-white text-center">Cart Page</h1>
-      <div className="grid grid-cols-12">
-        <ul className="grid col-start-2 col-span-6 bg-white p-4 rounded-lg">
-          <h2 className="font-bold text-center">DANH SÁCH YÊU CẦU</h2>
-          <li>
-            <div className="grid grid-cols-4">
-              <Link to={"/product-details"}>
-                <img
-                  src="./src/assets/images/product.jpg"
-                  alt=""
-                  className="grid col-start-1"
-                />
-              </Link>
-              <span className="grid col-start-2 col-span-2">
-                <Link to={"/product-details"}>
-                  <p>Tên sản phẩm</p>
-                </Link>
-                <p>Nguyên vật liệu</p>
-                <p>Khối lượng</p>
-                <p>Bản thiết kế</p>
-              </span>
-              <span className="col-start-4">
-                <p>Thời gian tạo đơn:</p>
-                <p>Saler:</p>
-                <p>Product Staff:</p>
-                <p>Design Staff:</p>
-              </span>
-            </div>
-          </li>
-        </ul>
-        <div className="grid col-start-9 col-span-3 bg-white p-4 rounded-lg">
-          <h2 className="font-bold text-center">TỔNG CÁC YÊU CẦU</h2>
-          <div className="grid grid-cols-2">
-            <p className="grid col-start-1 col-span-1">Giá gốc</p>
-            <p className="grid col-start-2 text-right">100</p>
-            <p className="grid col-start-1 col-span-1">Tiền công</p>
-            <p className="grid col-start-2 text-right">15</p>
-            <p className="grid col-start-1 col-span-1">Phí (VAT)</p>
-            <p className="grid col-start-2 text-right">10%</p>
-            <p className="grid col-start-1 col-span-1 font-bold">TỔNG CỘNG</p>
-            <p className="grid col-start-2 text-right font-bold">125</p>
+    <div className="bg-[#434343] min-h-screen w-screen">
+      <div className="grid grid-cols-12 gap-4 pt-4">
+        <div className="col-start-2 col-span-5 bg-gray-300 text-center p-1 rounded-lg">
+          <h1 className="bg-gray-400 p-4">YÊU CẦU</h1>
+          <div className="grid grid-cols-6 border">
+            <div className="col-span-1 p-2 font-bold">NHÂN VIÊN BÁN HÀNG</div>
+            <div className="col-span-1 p-2 font-bold">THỜI ĐIỂM TẠO</div>
+            <div className="col-span-1 p-2 font-bold">THỜI ĐIỂM TIẾP NHẬN</div>
+            <div className="col-span-1 p-2 font-bold">THỜI ĐIỂM GỬI</div>
+            <div className="col-span-1 p-2 font-bold">TRẠNG THÁI</div>
+            <div className="col-span-1 p-2 font-bold">MÔ TẢ</div>
           </div>
-          <div className="flex gap-4">
-            <button className="w-1/2 bg-gray-800 text-[#F7EF8A] py-2 px-4 rounded-md">
-              <Link to={"/"}>ĐẶT YÊU CẦU</Link>
-            </button>
-            <button className="w-1/2 bg-gray-800 text-[#F7EF8A] py-2 px-4 rounded-md">
-              <Link to={"/"}>VỀ TRANG CHỦ</Link>
-            </button>
+          {cart.map((item, index) => (
+            <div className="grid grid-cols-6 border" key={index}>
+              <div className="col-span-1 p-2 bg-white">{item.product_name}</div>
+              <div className="col-span-1 p-2 bg-white">{item.price}</div>
+              <div className="col-span-1 p-2 bg-white">{item.material}</div>
+              <div className="col-span-1 p-2 bg-white">{item.type}</div>
+              <div className="col-span-1 p-2 bg-white">1</div>
+            </div>
+          ))}
+        </div>
+        <div className="col-start-7 col-span-5 bg-gray-300 text-center p-1 rounded-lg">
+          <h1 className="bg-gray-400 p-4">ĐƠN HÀNG</h1>
+          <div className="grid grid-cols-6 border">
+            <div className="col-span-1">BẢN THIẾT KẾ</div>
+            <div className="col-span-1">NHÂN VIÊN THIẾT KẾ</div>
+            <div className="col-span-1">NHÂN VIÊN GIA CÔNG</div>
+            <div className="col-span-1">THỜI ĐIỂM TẠO</div>
+            <div className="col-span-1">THỜI ĐIỂM KẾT THÚC</div>
+            <div className="col-span-1">TRẠNG THÁI</div>
           </div>
         </div>
       </div>
