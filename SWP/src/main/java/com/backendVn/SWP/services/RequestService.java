@@ -25,7 +25,6 @@ import java.util.List;
 public class RequestService {
     RequestRepository requestRepository;
     UserRepository userRepository;
-    UserMapper userMapper;
     RequestMapper requestMapper;
 
     public RequestResponse createRequest(RequestCreationRequest requestCreationRequest, Integer userId) {

@@ -1,12 +1,19 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "Quotation")
 public class Quotation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,53 +37,5 @@ public class Quotation {
 
     @Column(name = "Cost", precision = 18, scale = 2)
     private BigDecimal cost;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Request getRequestID() {
-        return requestID;
-    }
-
-    public void setRequestID(Request requestID) {
-        this.requestID = requestID;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getApprovedAt() {
-        return approvedAt;
-    }
-
-    public void setApprovedAt(Instant approvedAt) {
-        this.approvedAt = approvedAt;
-    }
-
-    public User getApproveBy() {
-        return approveBy;
-    }
-
-    public void setApproveBy(User approveBy) {
-        this.approveBy = approveBy;
-    }
-
-    public BigDecimal getCost() {
-        return cost;
-    }
-
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
-    }
 
 }
