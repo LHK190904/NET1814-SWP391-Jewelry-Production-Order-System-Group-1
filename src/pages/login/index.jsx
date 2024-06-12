@@ -15,34 +15,24 @@ function Login() {
       const user = await authService.login(userName, password);
       if (user) {
         setCurrentUser(user);
-        if (user.role == "admin") {
-          navigate("/admin");
-        } else if (user.role === "manager") {
-          navigate("/manager");
-        } else if (user.role === "saler") {
-          navigate("saler");
-        } else if (user.role === "designer") {
-          navigate("/designer");
-        } else if (user.role === "production") {
-          navigate("/production");
+        if (user.title === "ADMIN") {
+          navigate("/admin"); // Navigate to admin page if user is an admin
         } else {
-          navigate("/");
+          navigate("/customer"); // Navigate to customer page if user is a customer
         }
       } else {
         setErrorMessage("Login failed");
       }
     } catch (error) {
-      setErrorMessage(error.message || "Invalid username or password");
-    } finally {
-      handleCancel();
+      setErrorMessage(error.message);
     }
   };
 
-  function handleCancel() {
+  const handleCancel = () => {
     setUserName("");
     setPassword("");
     setErrorMessage("");
-  }
+  };
 
   return (
     <div className="flex items-center justify-center w-screen lg:min-h-screen bg-[#434343]">

@@ -1,3 +1,4 @@
+import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -7,7 +8,7 @@ import Collections from "./pages/collections";
 import Blog from "./pages/blog";
 import Register from "./pages/register";
 import Cart from "./pages/cart";
-import Layout from "./components/layout";
+import Layout from "./components/Layout";
 import Error from "./pages/error";
 import Admin from "./pages/admin";
 import ProductDetails from "./pages/product-details";
@@ -16,6 +17,27 @@ import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
 import { CartProvider } from "./context/CartContext";
 import ManagerRequestOrder from "./pages/manager";
+import ProtectedRoute from "./components/ProtectedRoute";
+import authService from "./services/authService";
+
+const getCurrentUser = () => {
+  return authService.getCurrentUser();
+};
+
+const isAuthenticated = () => {
+  const user = getCurrentUser();
+  return user && user.token;
+};
+
+const isAdmin = () => {
+  const user = getCurrentUser();
+  return user && user.title === "ADMIN";
+};
+
+const isCustomer = () => {
+  const user = getCurrentUser();
+  return user && user.title === "CUSTOMER";
+};
 
 function App() {
   const router = createBrowserRouter([
@@ -68,25 +90,43 @@ function App() {
     },
     {
       path: "/admin",
-      element: <Admin />,
+      element: <ProtectedRoute element={<Admin />} isAllowed={isAdmin()} />,
     },
     {
       path: "/saler",
-      element: <Saler />,
+      element: (
+        <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
+      ),
     },
     {
       path: "/manager/request",
-      element: <ManagerRequest />,
+      element: (
+        <ProtectedRoute
+          element={<ManagerRequest />}
+          isAllowed={isAuthenticated()}
+        />
+      ),
     },
     {
       path: "/manager/order",
-      element: <ManagerOrder />,
+      element: (
+        <ProtectedRoute
+          element={<ManagerOrder />}
+          isAllowed={isAuthenticated()}
+        />
+      ),
     },
     {
       path: "/manager",
-      element: <ManagerRequestOrder />,
+      element: (
+        <ProtectedRoute
+          element={<ManagerRequestOrder />}
+          isAllowed={isAuthenticated()}
+        />
+      ),
     },
   ]);
+
   return (
     <CartProvider>
       <RouterProvider router={router} />
