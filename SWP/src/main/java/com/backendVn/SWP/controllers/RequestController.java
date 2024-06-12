@@ -39,10 +39,9 @@ public class RequestController {
     }
 
     @PutMapping("/sales/{id}")
-    public ApiResponse<RequestResponse> updateRequestBySales(@PathVariable Integer id, @RequestBody @Valid RequestSalesUpdateRequest requestSalesUpdateRequest) {
-        RequestResponse requestResponse = requestService.updateRequestBySales(id, requestSalesUpdateRequest);
+    public ApiResponse<RequestResponse> updateRequestBySales(@PathVariable Integer id) {
         return ApiResponse.<RequestResponse>builder()
-                .result(requestResponse)
+                .result(requestService.updateRequestBySales(id))
                 .build();
     }
 

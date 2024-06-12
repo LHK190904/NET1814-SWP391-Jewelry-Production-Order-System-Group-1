@@ -14,6 +14,7 @@ import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -51,21 +52,25 @@ public class RequestService {
         return requestMapper.toRequestResponse(updatedRequest);
     }
 
-    public RequestResponse updateRequestBySales(Integer id, RequestSalesUpdateRequest requestSalesUpdateRequest) {
+    public RequestResponse updateRequestBySales(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        User saleStaff = userRepository.findById(requestSalesUpdateRequest.getSaleStaffId())
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+
+        User saleStaff = userRepository.findByUserName(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         request.setSaleStaffID(saleStaff);
-        request.setRecievedAt(requestSalesUpdateRequest.getReceivedAt());
+        request.setRecievedAt(Instant.now());
         request.setStatus("Pending Quotation");
 
         Request updatedRequest = requestRepository.save(request);
 
         return requestMapper.toRequestResponse(updatedRequest);
     }
+
 
     public void deleteRequest(Integer id) {
         Request request = requestRepository.findById(id)
