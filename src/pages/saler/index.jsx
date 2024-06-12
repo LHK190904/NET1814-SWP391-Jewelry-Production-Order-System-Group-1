@@ -1,25 +1,21 @@
-import { Button, Form, Input, Modal, Space, Table, Tag } from "antd";
+import { Button, Form, Input, Modal, Space, Table, Tag, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import FormItem from "antd/es/form/FormItem";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useRequests } from "../../context/RequestContext.jsx";
 
 function Saler() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData] = useForm();
-  const [dataSource, setDataSource] = useState([]); //show infor bên ngoài
-  const [selectedRecord, setSelectedRecord] = useState(null); //show infor trong modal
-
-  const handleSendRequest = async (id) => {
-    console.log(id);
-  };
+  const [selectedRecord, setSelectedRecord] = useState(null);
+  const { requests, setRequests, sendRequest } = useRequests(); // Sử dụng context
 
   const handleAnnounce = async (id) => {
     console.log(id);
   };
 
   const handleShowModal = (record) => {
-    console.log(record);
     setSelectedRecord(record);
     setIsModalOpen(true);
   };
@@ -40,7 +36,7 @@ function Saler() {
       const response = await axios.get(
         "https://6628a3dc54afcabd073664dc.mockapi.io/saler"
       );
-      setDataSource(response.data);
+      setRequests(response.data);
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
@@ -50,7 +46,21 @@ function Saler() {
     fetchRequest();
   }, []);
 
-  const handleSubmit = async (values) => {};
+  const handleSubmit = async (values) => {
+    if (selectedRecord) {
+      const updatedRecord = {
+        ...selectedRecord,
+        ...values,
+        status: "Chưa xử lý",
+      };
+      setRequests((prevData) =>
+        prevData.map((record) =>
+          record.id === updatedRecord.id ? updatedRecord : record
+        )
+      );
+      handleHideModal();
+    }
+  };
 
   const columns = [
     {
@@ -78,9 +88,13 @@ function Saler() {
       dataIndex: "status",
       width: "10%",
       render: (status) => {
-        let color = status === "Approve" ? "green" : "volcano";
-        if (status === "Pending") {
+        let color = "volcano";
+        if (status === "Approve") {
+          color = "green";
+        } else if (status === "Pending") {
           color = "blue";
+        } else if (status === "Chưa xử lý") {
+          color = "gray";
         }
         return (
           <Tag color={color} key={status}>
@@ -96,16 +110,16 @@ function Saler() {
       render: (_, record) => (
         <Space size="middle">
           <Button type="primary" onClick={() => handleShowModal(record)}>
-            Lấy giá tự động
+            Nhập liệu
           </Button>
           <Button
-            onClick={() => handleSendRequest(record.id)}
+            onClick={() => sendRequest(record.id)}
             className="bg-green-400"
           >
-            Send to Manager
+            Gửi cho quản lý
           </Button>
           <Button onClick={() => handleAnnounce(record.id)}>
-            Announce to customer
+            Thông báo cho khách hàng
           </Button>
         </Space>
       ),
@@ -114,11 +128,11 @@ function Saler() {
 
   return (
     <>
-      <Table columns={columns} dataSource={dataSource} />
+      <Table columns={columns} dataSource={requests} />
 
       <Modal
         open={isModalOpen}
-        title="Nhập thông tin"
+        title={<div className="text-center text-lg ">Nhập thông tin</div>}
         onOk={handleOk}
         onCancel={handleHideModal}
         width="60%"

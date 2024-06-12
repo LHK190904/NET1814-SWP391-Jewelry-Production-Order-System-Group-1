@@ -16,28 +16,6 @@ import Saler from "./pages/saler";
 import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
 import { CartProvider } from "./context/CartContext";
-import ManagerRequestOrder from "./pages/manager";
-import ProtectedRoute from "./components/ProtectedRoute";
-import authService from "./services/authService";
-
-const getCurrentUser = () => {
-  return authService.getCurrentUser();
-};
-
-const isAuthenticated = () => {
-  const user = getCurrentUser();
-  return user && user.token;
-};
-
-const isAdmin = () => {
-  const user = getCurrentUser();
-  return user && user.title === "ADMIN";
-};
-
-const isCustomer = () => {
-  const user = getCurrentUser();
-  return user && user.title === "CUSTOMER";
-};
 
 function App() {
   const router = createBrowserRouter([
@@ -117,19 +95,16 @@ function App() {
       ),
     },
     {
-      path: "/manager",
-      element: (
-        <ProtectedRoute
-          element={<ManagerRequestOrder />}
-          isAllowed={isAuthenticated()}
-        />
-      ),
+      path: "manager/assign",
+      element: <ManagerAssign />,
     },
   ]);
 
   return (
     <CartProvider>
-      <RouterProvider router={router} />
+      <RequestProvider>
+        <RouterProvider router={router} />
+      </RequestProvider>
     </CartProvider>
   );
 }
