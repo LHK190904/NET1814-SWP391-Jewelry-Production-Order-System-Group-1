@@ -2,7 +2,7 @@ import axios from "axios";
 
 //https://664ef13afafad45dfae19e02.mockapi.io/Account
 //http://localhost:8080/auth/login_token
-const API_URL = "https://664ef13afafad45dfae19e02.mockapi.io/Account";
+const API_URL = "http://localhost:8080/auth/login_token";
 
 const login = async (username, password) => {
   try {
@@ -12,10 +12,11 @@ const login = async (username, password) => {
     };
     const response = await axios.post(API_URL, payload);
 
-    const { token, authenticated, role } = response.data;
+    const { token, authenticated } = response.data;
     if (authenticated) {
-      const userData = { username, token, role };
+      const userData = { username, token };
       localStorage.setItem("user", JSON.stringify(userData));
+      console.log(userData);
       return userData;
     } else {
       console.log("Wrong username or password");

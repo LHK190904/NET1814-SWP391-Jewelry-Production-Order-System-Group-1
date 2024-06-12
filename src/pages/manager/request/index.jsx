@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 
 function ManagerRequest() {
   const [popupDetails, setPopupDetails] = useState(null);
@@ -35,11 +36,37 @@ function ManagerRequest() {
     setPopupDetails(null);
   };
 
+  const navigate = useNavigate();
+
+  const handleNavigateClick = (path) => {
+    if (location.pathname !== path) {
+      navigate(path);
+    }
+  };
+
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
       <h1 className="text-center text-[#F7EF8A] font-extrabold p-10">
         REQUEST MANAGEMENT
       </h1>
+      <div className="grid grid-cols-8">
+        <div className="col-start-2 col-span-2">
+          <Button onClick={() => handleNavigateClick("/manager/request")}>
+            Request
+          </Button>
+          <Button onClick={() => handleNavigateClick("/manager/order")}>
+            Order
+          </Button>
+        </div>
+        <div className="col-start-6 col-span-2 flex justify-end">
+          <input
+            type="search"
+            placeholder="Search"
+            className="px-2 p-1 rounded-lg"
+          />
+          <Button>Filter</Button>
+        </div>
+      </div>
       <div className="grid grid-cols-4 w-3/4 mx-auto bg-white p-4 rounded-lg">
         <div className="col-span-1 bg-gray-400 p-2 font-bold">REQUEST ID</div>
         <div className="col-span-1 bg-gray-400 p-2 font-bold">SALER ID</div>

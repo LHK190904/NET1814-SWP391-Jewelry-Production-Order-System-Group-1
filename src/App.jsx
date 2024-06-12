@@ -14,8 +14,8 @@ import ProductDetails from "./pages/product-details";
 import Saler from "./pages/saler";
 import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
-import ManagerAssign from "./pages/manager/assign";
 import { CartProvider } from "./context/CartContext";
+import ManagerRequestOrder from "./pages/manager";
 
 function App() {
   const router = createBrowserRouter([
@@ -83,8 +83,8 @@ function App() {
       element: <ManagerOrder />,
     },
     {
-      path: "manager/assign",
-      element: <ManagerAssign />,
+      path: "/manager",
+      element: <ManagerRequestOrder />,
     },
   ]);
   return (
