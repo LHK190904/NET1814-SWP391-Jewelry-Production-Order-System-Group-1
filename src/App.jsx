@@ -71,7 +71,7 @@ function App() {
       element: <Admin />,
     },
     {
-      path: " /saler",
+      path: "/saler",
       element: <Saler />,
     },
     {
