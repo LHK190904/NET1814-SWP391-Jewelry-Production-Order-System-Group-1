@@ -38,6 +38,7 @@ public class UserMapperImpl implements UserMapper {
             return;
         }
 
+        user.setUserName( userUpdateRequest.getUserName() );
         user.setPassword( userUpdateRequest.getPassword() );
         user.setEmail( userUpdateRequest.getEmail() );
         user.setAddress( userUpdateRequest.getAddress() );
