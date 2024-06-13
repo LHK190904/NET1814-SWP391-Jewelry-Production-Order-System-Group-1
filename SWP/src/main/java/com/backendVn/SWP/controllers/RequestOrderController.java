@@ -47,4 +47,12 @@ public class RequestOrderController {
                 .result(requestOrderResponse)
                 .build();
     }
+
+    @PutMapping("/{requestOrderId}/assign-design/{designId}")
+    public ApiResponse<RequestOrderResponse> assignDesignToRequestOrder(@PathVariable Integer requestOrderId, @PathVariable Integer designId) {
+        return ApiResponse.<RequestOrderResponse>builder()
+                .result(requestOrderService.updateRequestOrderWithDesign(requestOrderId, designId))
+                .build();
+    }
+
 }

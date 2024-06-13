@@ -17,7 +17,9 @@ public enum ErrorCode {
     REQUEST_NOT_FOUND(1008, "Request not found", HttpStatus.NOT_FOUND),
     DESCRIPTION_EMPTY(1009, "Description cannot be empty", HttpStatus.BAD_REQUEST),
     QUOTATION_NOT_FOUND(1010, "Quotation not found", HttpStatus.NOT_FOUND),
-    REQUEST_ORDER_NOT_FOUND(1011, "Request Order not found", HttpStatus.NOT_FOUND)
+    REQUEST_ORDER_NOT_FOUND(1011, "Request Order not found", HttpStatus.NOT_FOUND),
+    DESIGN_NOT_FOUND(1012, "Request Order not found", HttpStatus.NOT_FOUND),
+    WARRANTY_CARD_NOT_FOUND(1008, "Warranty card not found", HttpStatus.NOT_FOUND),
     ;
     private int code;
     private String message;
