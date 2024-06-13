@@ -1,6 +1,5 @@
 package com.backendVn.SWP.mappers;
 
-import com.backendVn.SWP.dtos.request.RequestOrderCreationRequest;
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
 import com.backendVn.SWP.entities.Design;
 import com.backendVn.SWP.entities.Request;
@@ -15,19 +14,6 @@ import org.springframework.stereotype.Component;
 )
 @Component
 public class RequestOrderMapperImpl implements RequestOrderMapper {
-
-    @Override
-    public RequestOrder toRequestOrder(RequestOrderCreationRequest requestOrderCreationRequest) {
-        if ( requestOrderCreationRequest == null ) {
-            return null;
-        }
-
-        RequestOrder.RequestOrderBuilder requestOrder = RequestOrder.builder();
-
-        requestOrder.requestID( requestOrderCreationRequestToRequest( requestOrderCreationRequest ) );
-
-        return requestOrder.build();
-    }
 
     @Override
     public RequestOrderResponse toRequestOrderResponse(RequestOrder requestOrder) {
@@ -46,18 +32,6 @@ public class RequestOrderMapperImpl implements RequestOrderMapper {
         requestOrderResponse.createdAt( requestOrder.getCreatedAt() );
 
         return requestOrderResponse.build();
-    }
-
-    protected Request requestOrderCreationRequestToRequest(RequestOrderCreationRequest requestOrderCreationRequest) {
-        if ( requestOrderCreationRequest == null ) {
-            return null;
-        }
-
-        Request request = new Request();
-
-        request.setId( requestOrderCreationRequest.getRequestID() );
-
-        return request;
     }
 
     private Integer requestOrderRequestIDId(RequestOrder requestOrder) {

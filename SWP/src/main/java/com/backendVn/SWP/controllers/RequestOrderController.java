@@ -1,6 +1,5 @@
 package com.backendVn.SWP.controllers;
 
-import com.backendVn.SWP.dtos.request.RequestOrderCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
 import com.backendVn.SWP.services.RequestOrderService;
@@ -19,9 +18,9 @@ import java.util.List;
 public class RequestOrderController {
     RequestOrderService requestOrderService;
 
-    @PostMapping("/create")
-    public ApiResponse<RequestOrderResponse> createRequestOrder(@RequestBody @Valid RequestOrderCreationRequest requestOrderCreationRequest) {
-        RequestOrderResponse requestOrderResponse = requestOrderService.createRequestOrder(requestOrderCreationRequest);
+    @PostMapping("/{id}")
+    public ApiResponse<RequestOrderResponse> createRequestOrder(@PathVariable Integer id) {
+        RequestOrderResponse requestOrderResponse = requestOrderService.createRequestOrder(id);
         return ApiResponse.<RequestOrderResponse>builder()
                 .result(requestOrderResponse)
                 .build();

@@ -1,6 +1,5 @@
 package com.backendVn.SWP.services;
 
-import com.backendVn.SWP.dtos.request.RequestOrderCreationRequest;
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.RequestOrder;
@@ -25,8 +24,8 @@ public class RequestOrderService {
     RequestRepository requestRepository;
     RequestOrderMapper requestOrderMapper;
 
-    public RequestOrderResponse createRequestOrder(RequestOrderCreationRequest requestOrderCreationRequest) {
-        Request request = requestRepository.findById(requestOrderCreationRequest.getRequestID())
+    public RequestOrderResponse createRequestOrder(Integer id) {
+        Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
         RequestOrder requestOrder = RequestOrder.builder()

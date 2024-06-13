@@ -1,6 +1,5 @@
 package com.backendVn.SWP.mappers;
 
-import com.backendVn.SWP.dtos.request.RequestOrderCreationRequest;
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
 import com.backendVn.SWP.entities.RequestOrder;
 import org.mapstruct.Mapper;
@@ -8,8 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RequestOrderMapper {
-    @Mapping(target = "requestID.id", source = "requestID")
-    RequestOrder toRequestOrder(RequestOrderCreationRequest requestOrderCreationRequest);
 
     @Mapping(target = "requestID", source = "requestID.id")
     @Mapping(target = "designID", source = "designID.id")

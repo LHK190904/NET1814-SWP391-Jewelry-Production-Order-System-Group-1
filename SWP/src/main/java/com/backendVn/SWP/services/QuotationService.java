@@ -61,7 +61,7 @@ public class QuotationService {
         User user = userRepository.findByUserName(username).get();
 
         quotation.setApproveBy(user);
-        quotation.setCreatedAt(Instant.now());
+        quotation.setApprovedAt(Instant.now());
 
         Quotation savedQuotation = quotationRepository.save(quotation);
 
