@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../components/navbar";
+import Navbar from "../../components/Navbar";
 import {
   Button,
   Form,
@@ -14,7 +14,7 @@ import {
 } from "antd";
 import axios from "axios";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-
+import { getToken } from "../../services/authService";
 const { Option } = Select;
 
 const EditableCell = ({
@@ -159,14 +159,16 @@ function Admin() {
   };
   const fetchAccount = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/user");
-      const formattedData = response.data.result.map((account) => ({
-        ...account,
-        key: account.id,
-      }));
-      setData(formattedData);
+      const token = getToken();
+      if (!token) {
+        throw new Error("No token found");
+      }
+      const config = { headers: { Authorization: `Bearer ${token}` } }; // Fixed headers typo and added space in Bearer
+      const response = await axios.get("http://localhost:8080/user", config);
+      setData(response.data.result.map((item) => ({ ...item, key: item.id })));
     } catch (error) {
-      console.error("Failed to fetch data:", error);
+      console.log("Failed to fetch account:", error);
+      message.error("Failed to fetch account");
     }
   };
 
