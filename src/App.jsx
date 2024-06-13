@@ -91,13 +91,15 @@ function App() {
     },
     {
       path: "/admin",
-      element: <ProtectedRoute element={<Admin />} isAllowed={isAdmin()} />,
+      element:<Admin/>
+      //  <ProtectedRoute element={<Admin />} isAllowed={isAdmin()} />,
     },
     {
       path: "/saler",
-      element: (
-        <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
-      ),
+      element:<Saler />
+      //  (
+      //   <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
+      // ),
     },
     {
       path: "/manager/request",

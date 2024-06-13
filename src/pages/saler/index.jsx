@@ -8,7 +8,7 @@ import { useRequests } from "../../context/RequestContext.jsx";
 function Saler() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData] = useForm();
-  const [selectedRecord, setSelectedRecord] = useState(null);
+  const [selectedRecord, setSelectedRecord] = useState("");
   const { requests, setRequests, sendRequest } = useRequests(); // Sử dụng context
 
   const handleAnnounce = async (id) => {
@@ -22,7 +22,7 @@ function Saler() {
 
   const handleHideModal = () => {
     setIsModalOpen(false);
-    setSelectedRecord(null);
+    setSelectedRecord("");
   };
 
   const handleOk = () => {
@@ -110,7 +110,7 @@ function Saler() {
       render: (_, record) => (
         <Space size="middle">
           <Button type="primary" onClick={() => handleShowModal(record)}>
-            Nhập liệu
+            Lấy giá
           </Button>
           <Button
             onClick={() => sendRequest(record.id)}
@@ -128,11 +128,12 @@ function Saler() {
 
   return (
     <>
+    <div className="text-center font-extrabold text-5xl mb-10 bg-[#353640] text-white h-44 ">Xử lý yêu cầu</div>
       <Table columns={columns} dataSource={requests} />
 
       <Modal
         open={isModalOpen}
-        title={<div className="text-center text-lg ">Nhập thông tin</div>}
+        title={<div className="text-center text-2xl">Nhập thông tin</div>}
         onOk={handleOk}
         onCancel={handleHideModal}
         width="60%"
@@ -145,7 +146,7 @@ function Saler() {
           </Button>,
         ]}
       >
-        <p>Mã yêu cầu: {selectedRecord?.id}</p>
+        <p className="text-lg font-semibold mb-10">Mã yêu cầu: {selectedRecord.id}</p>
         <Form form={formData}>
           <div className="flex flex-row gap-4">
             <div className="flex flex-col flex-wrap w-1/2">
