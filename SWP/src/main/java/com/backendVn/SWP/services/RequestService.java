@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -88,6 +89,19 @@ public class RequestService {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
         return requestMapper.toRequestResponse(request);
+    }
+
+    public List<RequestResponse> getAllRequestsUnprocessed() {
+        return requestRepository.findByCondition().stream()
+                .map(requestMapper::toRequestResponse)
+                .toList();
+    }
+
+    public List<RequestResponse> getAllRequestsByStaffId(Integer id) {
+        User user = userRepository.findById(id).get();
+        return requestRepository.findBySaleStaffID(user).stream()
+                .map(requestMapper::toRequestResponse)
+                .toList();
     }
 
 }

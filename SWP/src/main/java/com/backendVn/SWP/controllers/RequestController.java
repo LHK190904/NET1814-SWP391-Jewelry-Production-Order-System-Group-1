@@ -61,4 +61,18 @@ public class RequestController {
                 .build();
     }
 
+    @GetMapping("/unprocessedWork")
+    public ApiResponse<List<RequestResponse>> getUnprocessedRequests() {
+        return ApiResponse.<List<RequestResponse>>builder()
+                .result(requestService.getAllRequestsUnprocessed())
+                .build();
+    }
+
+    @GetMapping("/saleStaffRequest/{id}")
+    public ApiResponse<List<RequestResponse>> getSaleStaffRequests(@PathVariable Integer id) {
+        return ApiResponse.<List<RequestResponse>>builder()
+                .result(requestService.getAllRequestsByStaffId(id))
+                .build();
+    }
+
 }
