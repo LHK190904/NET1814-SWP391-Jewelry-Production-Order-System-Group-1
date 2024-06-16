@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -20,8 +19,6 @@ import ManagerRequestOrder from "./pages/manager";
 import ProtectedRoute from "./components/ProtectedRoute";
 import authService from "./services/authService";
 import { RequestProvider } from "./context/RequestContext";
-import Designer from "./pages/designer";
-import ProductionStaff from "./pages/production-staff";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -93,29 +90,21 @@ function App() {
     },
     {
       path: "/admin",
-      element: <Admin />,
-      //  <ProtectedRoute element={<Admin />} isAllowed={isAdmin()} />,
+      element: <ProtectedRoute element={<Admin />} isAllowed={isAdmin()} />,
     },
+    // {
+    //   path: "/saler",
+    //   element: (
+    //      <Saler />
+    //     <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
+    //   ),
+    // },
     {
       path: "/saler",
-      element: (
-        <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
-      ),
-    },
-    {
-      path: "/designer",
-      element: (
-        <ProtectedRoute element={<Designer />} isAllowed={isAuthenticated()} />
-      ),
-    },
-    {
-      path: "/production-staff",
-      element: (
-        <ProtectedRoute
-          element={<ProductionStaff />}
-          isAllowed={isAuthenticated()}
-        />
-      ),
+      element: <Saler />,
+      //  (
+      //   <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
+      // ),
     },
     {
       path: "/manager/request",

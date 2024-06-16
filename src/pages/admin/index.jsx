@@ -12,9 +12,9 @@ import {
   Typography,
   message,
 } from "antd";
-import axios from "axios";
+import axiosInstance from "../../services/axiosInstance";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { getToken } from "../../services/authService";
+
 const { Option } = Select;
 
 const EditableCell = ({
@@ -41,6 +41,7 @@ const EditableCell = ({
         <Option value="DESIGN_STAFF">Nhân viên thiết kế</Option>
         <Option value="MANAGER">Quản lí</Option>
         <Option value="PRODUCTION_STAFF">Nhân viên gia công</Option>
+        <Option value="ADMIN">Quản trị viên</Option>
       </Select>
     );
   } else if (dataIndex === "password") {
@@ -145,7 +146,7 @@ function Admin() {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8080/user", values);
+      const response = await axiosInstance.post("/user", values);
       setData([...data, { ...response.data.result, key: response.data.id }]);
       createForm.resetFields();
       handleHideModal();
@@ -157,14 +158,10 @@ function Admin() {
       setLoading(false);
     }
   };
+
   const fetchAccount = async () => {
     try {
-      const token = getToken();
-      if (!token) {
-        throw new Error("No token found");
-      }
-      const config = { headers: { Authorization: `Bearer ${token}` } }; // Fixed headers typo and added space in Bearer
-      const response = await axios.get("http://localhost:8080/user", config);
+      const response = await axiosInstance.get("/user");
       setData(response.data.result.map((item) => ({ ...item, key: item.id })));
     } catch (error) {
       console.log("Failed to fetch account:", error);
@@ -178,7 +175,7 @@ function Admin() {
 
   const handleDeleteAccount = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/user/${id}`);
+      await axiosInstance.delete(`/user/${id}`);
       const listAfterDelete = data.filter((account) => account.id !== id);
       setData(listAfterDelete);
       message.success("Xóa tài khoản thành công!");
@@ -190,7 +187,7 @@ function Admin() {
 
   const handleUpdateAccount = async (id, updatedData) => {
     try {
-      await axios.put(`http://localhost:8080/user/${id}`, updatedData);
+      await axiosInstance.put(`/user/${id}`, updatedData);
       const updatedDataSource = data.map((item) =>
         item.id === id ? { ...item, ...updatedData } : item
       );
@@ -422,6 +419,7 @@ function Admin() {
                 <Option value="SALE_STAFF">Nhân viên bán hàng</Option>
                 <Option value="DESIGN_STAFF">Nhân viên thiết kế</Option>
                 <Option value="PRODUCTION_STAFF">Nhân viên gia công</Option>
+                <Option value="ADMIN">Quản trị viên</Option>
               </Select>
             </Form.Item>
           </Form>
