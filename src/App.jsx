@@ -20,6 +20,8 @@ import ManagerRequestOrder from "./pages/manager";
 import ProtectedRoute from "./components/ProtectedRoute";
 import authService from "./services/authService";
 import { RequestProvider } from "./context/RequestContext";
+import Designer from "./pages/designer";
+import ProductionStaff from "./pages/production-staff";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -96,10 +98,24 @@ function App() {
     },
     {
       path: "/saler",
-      element: <Saler />,
-      //  (
-      //   <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
-      // ),
+      element: (
+        <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
+      ),
+    },
+    {
+      path: "/designer",
+      element: (
+        <ProtectedRoute element={<Designer />} isAllowed={isAuthenticated()} />
+      ),
+    },
+    {
+      path: "/production-staff",
+      element: (
+        <ProtectedRoute
+          element={<ProductionStaff />}
+          isAllowed={isAuthenticated()}
+        />
+      ),
     },
     {
       path: "/manager/request",
