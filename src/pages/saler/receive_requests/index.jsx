@@ -1,8 +1,6 @@
-// src/pages/ReceiveRequests.jsx
-
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { Table, Button } from "antd";
+import axiosInstance from "../../../services/axiosInstance";
+import { Button, Table, Tag, Space } from "antd";
 import { Link, useLocation } from "react-router-dom";
 
 function ReceiveRequests() {
@@ -15,37 +13,53 @@ function ReceiveRequests() {
 
   const fetchRequests = async () => {
     try {
-      const response = await axios.get(
-        "https://6628a3dc54afcabd073664dc.mockapi.io/receive"
-      );
+      const response = await axiosInstance.get("/saler");
       setRequests(response.data);
     } catch (error) {
-      console.error("Failed to fetch requests:", error);
+      console.error("Không thể lấy yêu cầu:", error);
     }
   };
 
-  const handleAcceptRequest = async (record) => {
-    try {
-      await axios.put(
-        `https://6628a3dc54afcabd073664dc.mockapi.io/saler/${record.id}`,
-        { status: "Processing" }
-      );
-      setRequests(requests.filter((request) => request.id !== record.id));
-    } catch (error) {
-      console.error("Failed to accept request:", error);
-    }
+  const handleAnnounce = (id) => {
+    console.log("Thông báo cho khách hàng:", id);
+  };
+
+  const handleSendToManager = (id) => {
+    console.log("Gửi cho quản lý:", id);
   };
 
   const columns = [
-    { title: "Request ID", dataIndex: "id", key: "id" },
-    { title: "Detail", dataIndex: "detail", key: "detail" },
+    { title: "Mã yêu cầu", dataIndex: "id", key: "id" },
+    { title: "Chi tiết", dataIndex: "detail", key: "detail" },
+    { title: "Giá", dataIndex: "price", key: "price" },
     {
-      title: "Action",
+      title: "Trạng thái",
+      key: "status",
+      dataIndex: "status",
+      render: (status) => {
+        let color = "volcano";
+        if (status === "Approve") color = "green";
+        if (status === "Pending") color = "blue";
+        if (status === "Chưa xử lý") color = "gray";
+        return (
+          <Tag color={color} key={status}>
+            {status}
+          </Tag>
+        );
+      },
+    },
+    {
+      title: "Hành động",
       key: "action",
       render: (_, record) => (
-        <Button type="primary" onClick={() => handleAcceptRequest(record)}>
-          Nhận đơn
-        </Button>
+        <Space size="middle">
+          <Button onClick={() => handleSendToManager(record.id)}>
+            Gửi cho quản lý
+          </Button>
+          <Button onClick={() => handleAnnounce(record.id)}>
+            Thông báo cho khách hàng
+          </Button>
+        </Space>
       ),
     },
   ];
@@ -55,18 +69,28 @@ function ReceiveRequests() {
       <h1 className="text-6xl font-extrabold pb-9 bg-slate-400 text-center">
         Nhân viên bán hàng
       </h1>
-      <Link
-          className={`mr-4 ${location.pathname === "/saler/receive_requests" ? "underline font-bold" : ""}`}
+      <div className="mb-4">
+        <Link
+          className={`mr-4 ${
+            location.pathname === "/saler/receive_requests"
+              ? "underline font-bold"
+              : ""
+          }`}
           to="/saler/receive_requests"
         >
-          Nhận đơn để xử lí
+          Nhận đơn để xử lý
         </Link>
         <Link
-          className={`${location.pathname === "/saler/process_requests" ? "underline font-bold" : ""}`}
+          className={`${
+            location.pathname === "/saler/process_requests"
+              ? "underline font-bold"
+              : ""
+          }`}
           to="/saler/process_requests"
         >
           Đơn đã nhận
         </Link>
+      </div>
       <Table columns={columns} dataSource={requests} />
     </div>
   );
