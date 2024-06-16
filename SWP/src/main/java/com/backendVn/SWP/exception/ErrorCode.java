@@ -19,8 +19,10 @@ public enum ErrorCode {
     QUOTATION_NOT_FOUND(1010, "Quotation not found", HttpStatus.NOT_FOUND),
     REQUEST_ORDER_NOT_FOUND(1011, "Request Order not found", HttpStatus.NOT_FOUND),
     DESIGN_NOT_FOUND(1012, "Request Order not found", HttpStatus.NOT_FOUND),
-    WARRANTY_CARD_NOT_FOUND(1008, "Warranty card not found", HttpStatus.NOT_FOUND),
-    INVOICE_NOT_FOUND(1008, "Invoice card not found", HttpStatus.NOT_FOUND)
+    WARRANTY_CARD_NOT_FOUND(1013, "Warranty card not found", HttpStatus.NOT_FOUND),
+    INVOICE_NOT_FOUND(1014, "Invoice card not found", HttpStatus.NOT_FOUND),
+    MATERIAL_NOT_FOUND(1015, "Invoice card not found", HttpStatus.NOT_FOUND),
+    INVOICE_DETAIL_NOT_FOUND(1016, "Invoice card not found", HttpStatus.NOT_FOUND)
     ;
     private int code;
     private String message;
