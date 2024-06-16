@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=SWP1;encrypt=false
+    username: sa
+    password: Abc@1234
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+
+jwt:
+  signerKey: "ha+MtmyenlAuB5AZutl1uNHRhrkmDGfFI7xpExHY50pZP+50iuif23teGaUwNa1I"

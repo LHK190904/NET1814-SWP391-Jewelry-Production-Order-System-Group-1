@@ -45,7 +45,7 @@ public class WarrantyCardService {
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
         warrantyCardMapper.updateWarranty(warrantyCard, warrantyCardCreationRequest);
 
-        return warrantyCardMapper.toWarrantyCardResponse(warrantyCard);
+        return warrantyCardMapper.toWarrantyCardResponse(warrantyCardRepository.save(warrantyCard));
     }
 
     public void deleteWarrantyCard(Integer id) {

@@ -47,9 +47,8 @@ public class RequestService {
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
         requestMapper.updateRequestFromDto(request, requestUpdateRequest);
-        Request updatedRequest = requestRepository.save(request);
 
-        return requestMapper.toRequestResponse(updatedRequest);
+        return requestMapper.toRequestResponse(requestRepository.save(request));
     }
 
     public RequestResponse updateRequestBySales(Integer id) {

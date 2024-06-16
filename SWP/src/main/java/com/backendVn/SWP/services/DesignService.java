@@ -48,7 +48,7 @@ public class DesignService {
         Design design = designRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
         designMapper.updateDesign(design, designUpdateRequest);
-        return designMapper.toDesignResponse(design);
+        return designMapper.toDesignResponse(designRepository.save(design));
     }
 
     public DesignResponse getDesignById(Integer id) {
