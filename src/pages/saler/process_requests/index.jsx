@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
 import authService from "../../../services/authService";
-import { Button, Modal, Form, Input, Table, Tag, Space } from "antd";
+import { Button, Modal, Form, Input, Table, Tag, Space, message, InputNumber } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 import FormItem from "antd/es/form/FormItem";
 
 function ProcessRequests() {
@@ -14,7 +15,7 @@ function ProcessRequests() {
   const [customerInfo, setCustomerInfo] = useState(null);
   const [formData] = useForm();
   const location = useLocation();
-  const [salerId, setSalerId] = useState(null);
+  const [salerId, setSalerId] = useState("8"); // test api fake
 
   useEffect(() => {
     const user = authService.getCurrentUser();
@@ -33,7 +34,10 @@ function ProcessRequests() {
 
   const fetchRequests = async () => {
     try {
-      const response = await axiosInstance.get("/saler");
+      const response = await axios.get(
+        "https://6628a3dc54afcabd073664dc.mockapi.io/saler"
+      );
+
       setRequests(
         response.data.filter((request) => request.saleId === salerId)
       );
@@ -61,7 +65,10 @@ function ProcessRequests() {
   const handleSubmit = async (values) => {
     try {
       const updatedRecord = { ...selectedRecord, ...values, status: "Pending" };
-      await axiosInstance.put(`/saler/${selectedRecord.id}`, updatedRecord);
+      await axios.put(
+        `https://6628a3dc54afcabd073664dc.mockapi.io/saler/${selectedRecord.id}`,
+        updatedRecord
+      );
       setRequests(
         requests.map((request) =>
           request.id === updatedRecord.id ? updatedRecord : request
@@ -77,8 +84,27 @@ function ProcessRequests() {
     console.log("Thông báo cho khách hàng:", id);
   };
 
-  const handleSendToManager = (id) => {
-    console.log("Gửi cho quản lý:", id);
+  const handleSendToManager = async (record) => {
+    if (!record.cost) {
+      message.warning("Bạn chưa lấy giá cho đơn hàng này.");
+      return;
+    }
+
+    try {
+      const updatedRecord = { ...record, status: "Processing" };
+      await axios.put(
+        `https://6628a3dc54afcabd073664dc.mockapi.io/saler/${record.id}`,
+        updatedRecord
+      );
+      setRequests(
+        requests.map((request) =>
+          request.id === updatedRecord.id ? updatedRecord : request
+        )
+      );
+      message.success("Đã gửi cho quản lý!");
+    } catch (error) {
+      console.error("Không thể cập nhật trạng thái yêu cầu:", error);
+    }
   };
 
   const handleShowCustomerInfo = (record) => {
@@ -94,7 +120,7 @@ function ProcessRequests() {
   const columns = [
     { title: "Mã yêu cầu", dataIndex: "id", key: "id" },
     { title: "Chi tiết", dataIndex: "detail", key: "detail" },
-    { title: "Giá", dataIndex: "price", key: "price" },
+    { title: "Giá", dataIndex: "cost", key: "cost" },
     {
       title: "Trạng thái",
       key: "status",
@@ -102,8 +128,8 @@ function ProcessRequests() {
       render: (status) => {
         let color = "volcano";
         if (status === "Approve") color = "green";
-        if (status === "Pending") color = "blue";
-        if (status === "Chưa xử lý") color = "gray";
+        if (status === "Processing") color = "blue";
+        if (status === "Pending") color = "gray";
         return (
           <Tag color={color} key={status}>
             {status}
@@ -119,7 +145,7 @@ function ProcessRequests() {
           <Button type="primary" onClick={() => handleShowModal(record)}>
             Lấy giá
           </Button>
-          <Button onClick={() => handleSendToManager(record.id)}>
+          <Button onClick={() => handleSendToManager(record)}>
             Gửi cho quản lý
           </Button>
           <Button onClick={() => handleAnnounce(record.id)}>
@@ -183,8 +209,28 @@ function ProcessRequests() {
         <Form form={formData}>
           <div className="flex flex-row gap-4">
             <div className="flex flex-col flex-wrap w-1/2">
-              <FormItem label="Giá" name="price">
+               <FormItem label="Giá vật liệu" name="material">
                 <Input />
+              </FormItem>
+              <FormItem label="Trọng lượng" name="weight">
+                <Input />
+              </FormItem>
+              <FormItem label="Tiền công" name="laborCost">
+                <Input />
+              </FormItem>
+            </div>
+            <div className="flex flex-col flex-wrap w-1/2">
+              <FormItem label="Tiền đá" name="stoneCost">
+                <Input />
+              </FormItem>
+              <FormItem label="Đá chính" name="mainStone">
+                <Input />
+              </FormItem>
+              <FormItem label="Vật liệu" name="materialCost">
+                <Input />
+              </FormItem>
+              <FormItem label="Giá" name="cost" >
+                <InputNumber />
               </FormItem>
             </div>
           </div>
@@ -194,7 +240,6 @@ function ProcessRequests() {
       <Modal
         open={isCustomerModalOpen}
         title={<div className="text-center text-2xl">Thông tin khách hàng</div>}
-        onOk={handleHideCustomerModal}
         onCancel={handleHideCustomerModal}
         width="60%"
         footer={[

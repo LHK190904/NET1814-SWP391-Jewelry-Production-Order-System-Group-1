@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
-import { Button, Table, Tag, Space } from "antd";
+import { Button, Table } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 function ReceiveRequests() {
   const [requests, setRequests] = useState([]);
@@ -13,53 +14,41 @@ function ReceiveRequests() {
 
   const fetchRequests = async () => {
     try {
-      const response = await axiosInstance.get("/saler");
-      setRequests(response.data);
+      // const response = await axiosInstance.get("/saler");
+      const response = await axios.get(
+        "https://6628a3dc54afcabd073664dc.mockapi.io/saler"
+      );
+      // Chỉ hiển thị các yêu cầu chưa được nhận (saleId là rỗng hoặc null)
+      const unassignedRequests = response.data.filter(
+        (request) => !request.saleId
+      );
+      setRequests(unassignedRequests);
     } catch (error) {
       console.error("Không thể lấy yêu cầu:", error);
     }
   };
-
-  const handleAnnounce = (id) => {
-    console.log("Thông báo cho khách hàng:", id);
+  const handleAcceptRequest = async (record) => {
+    try {
+      await axios.put(
+        `https://6628a3dc54afcabd073664dc.mockapi.io/saler/${record.id}`,
+        { status: "Processing",saleId:"8" }   // test api fake
+      );
+      setRequests(requests.filter((request) => request.id !== record.id));
+    } catch (error) {
+      console.error("Failed to accept request:", error);
+    }
   };
-
-  const handleSendToManager = (id) => {
-    console.log("Gửi cho quản lý:", id);
-  };
-
   const columns = [
     { title: "Mã yêu cầu", dataIndex: "id", key: "id" },
     { title: "Chi tiết", dataIndex: "detail", key: "detail" },
-    { title: "Giá", dataIndex: "price", key: "price" },
-    {
-      title: "Trạng thái",
-      key: "status",
-      dataIndex: "status",
-      render: (status) => {
-        let color = "volcano";
-        if (status === "Approve") color = "green";
-        if (status === "Pending") color = "blue";
-        if (status === "Chưa xử lý") color = "gray";
-        return (
-          <Tag color={color} key={status}>
-            {status}
-          </Tag>
-        );
-      },
-    },
+
     {
       title: "Hành động",
       key: "action",
       render: (_, record) => (
-        <Space size="middle">
-          <Button onClick={() => handleSendToManager(record.id)}>
-            Gửi cho quản lý
-          </Button>
-          <Button onClick={() => handleAnnounce(record.id)}>
-            Thông báo cho khách hàng
-          </Button>
-        </Space>
+        <Button type="primary" onClick={() => handleAcceptRequest(record)}>
+          Nhận đơn
+        </Button>
       ),
     },
   ];
