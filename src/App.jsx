@@ -15,10 +15,11 @@ import Saler from "./pages/saler";
 import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
 import { CartProvider } from "./context/CartContext";
-import ManagerRequestOrder from "./pages/manager";
 import ProtectedRoute from "./components/ProtectedRoute";
 import authService from "./services/authService";
 import { RequestProvider } from "./context/RequestContext";
+import Designer from "./pages/designer";
+import ProductionStaff from "./pages/production-staff";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -125,10 +126,16 @@ function App() {
       ),
     },
     {
-      path: "/manager",
+      path: "/designer",
+      element: (
+        <ProtectedRoute element={<Designer />} isAllowed={isAuthenticated()} />
+      ),
+    },
+    {
+      path: "/production-staff",
       element: (
         <ProtectedRoute
-          element={<ManagerRequestOrder />}
+          element={<ProductionStaff />}
           isAllowed={isAuthenticated()}
         />
       ),

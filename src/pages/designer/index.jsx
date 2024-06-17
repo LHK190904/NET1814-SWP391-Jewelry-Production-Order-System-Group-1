@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -23,6 +24,8 @@ function Designer() {
     setSelectedItem(item);
   };
 
+  const handleOK = () => {};
+
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
       <div className="grid grid-cols-12 gap-4">
@@ -42,7 +45,14 @@ function Designer() {
                   {selectedItem.description || "Description"}
                 </div>
                 <div className="col-span-1">Design</div>
-                <div className="col-span-1">Button</div>
+                <div className="col-span-1">
+                  <Button
+                    onClick={() => handleOK(selectedItem.orderID)}
+                    className="bg-blue-400 font-bold"
+                  >
+                    Submit
+                  </Button>
+                </div>
               </React.Fragment>
             ) : (
               <div className="col-span-5 text-center">
