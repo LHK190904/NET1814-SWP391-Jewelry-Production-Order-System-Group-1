@@ -69,4 +69,17 @@ public class RequestController {
                 .build();
     }
 
+    @GetMapping("/unrecievedRequest")
+    public ApiResponse<List<RequestResponse>> getUnrecievedRequests() {
+        return ApiResponse.<List<RequestResponse>>builder()
+                .result(requestService.getUnrecievedRequests())
+                .build();
+    }
+
+    @GetMapping("/sales/{saleStaffId}")
+    public ApiResponse<List<RequestResponse>> getRequestsBySaleStaffId(@PathVariable Integer saleStaffId) {
+        return ApiResponse.<List<RequestResponse>>builder()
+                .result(requestService.getRequestBySaleStaffId(saleStaffId))
+                .build();
+    }
 }

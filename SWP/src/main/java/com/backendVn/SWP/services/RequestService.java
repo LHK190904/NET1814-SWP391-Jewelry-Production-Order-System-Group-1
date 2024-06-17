@@ -98,4 +98,18 @@ public class RequestService {
                 .toList();
     }
 
+    public List<RequestResponse> getUnrecievedRequests() {
+        return requestRepository.findAllBySaleStaffIDNull().stream()
+                .map(requestMapper::toRequestResponse)
+                .toList();
+    }
+
+    public List<RequestResponse> getRequestBySaleStaffId(Integer saleStaffId){
+        User user = userRepository.findById(saleStaffId).get();
+
+        return requestRepository.findAllBySaleStaffID(user).stream()
+                .map(requestMapper::toRequestResponse)
+                .toList();
+    }
+
 }
