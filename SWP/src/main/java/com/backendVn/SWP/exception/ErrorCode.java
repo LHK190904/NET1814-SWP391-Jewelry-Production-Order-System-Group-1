@@ -23,7 +23,16 @@ public enum ErrorCode {
     INVOICE_NOT_FOUND(1014, "Invoice card not found", HttpStatus.NOT_FOUND),
     MATERIAL_NOT_FOUND(1015, "Invoice card not found", HttpStatus.NOT_FOUND),
     INVOICE_DETAIL_NOT_FOUND(1016, "Invoice card not found", HttpStatus.NOT_FOUND),
-    REQUEST_STATUS_NOT_ALLOWED(1017, "Request status not allowed for update", HttpStatus.FORBIDDEN)
+    REQUEST_STATUS_NOT_ALLOWED(1017, "Request status not allowed for update", HttpStatus.FORBIDDEN),
+    END_DATE_INVALID(1018, "End date must be in the future", HttpStatus.BAD_REQUEST),
+    INVALID_EMAIL(1019, "Invalid email format", HttpStatus.BAD_REQUEST),
+    INVALID_TITLE(1020, "Invalid title", HttpStatus.BAD_REQUEST),
+    END_DATE_REQUIRED(1021, "End date is required", HttpStatus.BAD_REQUEST),
+    DESIGN_NAME_EMPTY(1022, "Design name cannot be empty", HttpStatus.BAD_REQUEST),
+    DESIGN_NAME_TOO_LONG(1023, "Design name cannot exceed 100 characters", HttpStatus.BAD_REQUEST),
+    DESCRIPTION_TOO_LONG(1024, "Description cannot exceed 255 characters", HttpStatus.BAD_REQUEST),
+    URL_IMAGE_TOO_LONG(1025, "URL image cannot exceed 255 characters", HttpStatus.BAD_REQUEST),
+    TOKEN_EMPTY(1026, "Token cannot be empty", HttpStatus.BAD_REQUEST);
     ;
     private int code;
     private String message;

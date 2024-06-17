@@ -1,5 +1,7 @@
 package com.backendVn.SWP.dtos.request;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,7 +22,12 @@ public class UserCreationRequest implements Serializable {
 
     @Size(min = 8, message = "INVALID_PASSWORD")
     String password;
+
+    @Email(message = "INVALID_EMAIL")
     String email;
+
     String address;
+
+    @Pattern(regexp = "ADMIN|PRODUCTIONSTAFF|DESIGNSTAFF|SALESTAFF|CUSTOMER|MANAGER", message = "INVALID_TITLE")
     String title;
 }
