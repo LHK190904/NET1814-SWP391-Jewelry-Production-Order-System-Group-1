@@ -69,6 +69,10 @@ public class RequestController {
                 .build();
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteRequest(@PathVariable Integer id) {
+        requestService.deleteRequest(id);
+    }
     @GetMapping("/unrecievedRequest")
     public ApiResponse<List<RequestResponse>> getUnrecievedRequests() {
         return ApiResponse.<List<RequestResponse>>builder()
