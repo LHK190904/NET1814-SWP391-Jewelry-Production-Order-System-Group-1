@@ -18,7 +18,7 @@ function Login() {
         if (user.title === "ADMIN") {
           navigate("/admin"); // Navigate to admin page if user is an admin
         } else {
-          navigate("/customer"); // Navigate to customer page if user is a customer
+          navigate("/"); // Navigate to customer page if user is a customer
         }
       } else {
         setErrorMessage("Login failed");

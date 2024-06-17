@@ -1,10 +1,9 @@
 import axios from "axios";
-import { stringify } from "postcss";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const API_URL = "";
+  const API_URL = "http://localhost:8080/cust/register_token";
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -22,19 +21,25 @@ function Register() {
         email,
       };
       const response = await axios.post(API_URL, payload);
-      const { token, authenticated } = response.data;
+      const token = response.data;
+      const authenticated = response.data;
       if (authenticated) {
-        const userData = { userName, token };
+        const userData = { userName, password, token };
         localStorage.setItem("user", JSON.stringify(userData));
-        console.log("Registration succesfully");
+        console.log("Registration successfully");
         navigate("/");
       } else {
         console.log("Registration failed");
+        setError("Registration failed. Please try again.");
       }
     } catch (error) {
-      setError(error);
+      console.error(
+        "Registration error:",
+        error.response?.data || error.message
+      );
+      setError("An error occurred during registration. Please try again.");
     } finally {
-      handleCancel;
+      handleCancel();
     }
   }
 
@@ -45,6 +50,7 @@ function Register() {
     setEmail("");
     setError("");
   }
+
   return (
     <div className="flex items-center justify-center lg:min-h-screen w-screen bg-[#434343]">
       <div className="bg-[#E9E9E9] shadow-md rounded-lg w-full max-w-lg text-center m-4">
@@ -100,20 +106,21 @@ function Register() {
                 </div>
               </div>
               <div className="flex items-center">
-                <label className="w-1/4 text-right mr-4" htmlFor="address">
+                <label className="w-1/4 text-right mr-4" htmlFor="email">
                   Email:
                 </label>
                 <div className="flex-grow">
                   <input
                     type="email"
                     className="form-input w-full p-2 border border-gray-300 rounded-md"
-                    id="address"
+                    id="email"
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                   />
                 </div>
               </div>
+              {error && <div className="text-red-500">{error}</div>}
               <div className="flex space-x-4">
                 <button
                   type="submit"
@@ -136,4 +143,5 @@ function Register() {
     </div>
   );
 }
+
 export default Register;

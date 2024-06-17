@@ -93,13 +93,6 @@ function App() {
       path: "/admin",
       element: <ProtectedRoute element={<Admin />} isAllowed={isAdmin()} />,
     },
-    // {
-    //   path: "/saler",
-    //   element: (
-    //      <Saler />
-    //     <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
-    //   ),
-    // },
     {
       path: "/saler",
       element: <Saler />,
