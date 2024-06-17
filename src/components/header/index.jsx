@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
 
 function Header() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
@@ -15,6 +16,7 @@ function Header() {
   function handleLogout() {
     authService.logout();
     setUser(null);
+    navigate("/");
   }
   return (
     <div>
@@ -38,7 +40,7 @@ function Header() {
           />
         </form>
 
-        <div className="xl:col-start-10 lg:col-start-10 md:col-start-9 sm:col-start-9 flex gap-1 xl:gap-10 lg:gap-4 md:gap-8 sm:gap-4 items-center">
+        <div className="xl:col-start-9 lg:col-start-10 md:col-start-9 sm:col-start-9 flex gap-1 xl:gap-10 lg:gap-4 md:gap-8 sm:gap-4 items-center">
           <img
             alt="svgImg"
             className="w-6 h-6"
@@ -51,7 +53,7 @@ function Header() {
           />
 
           <Link to={"/cart"} className=" flex items-center">
-            <span>GIỎ HÀNG</span>
+            <span className="font-light">GIỎ HÀNG</span>
             <img
               className="w-6 h-6 "
               alt=""
@@ -59,7 +61,7 @@ function Header() {
             ></img>
           </Link>
         </div>
-        <div className=" col-start-12 sm:col-start-11 lg:col-start-12 xl:col-start-12">
+        <div className=" col-start-12 sm:col-start-11 lg:col-start-12 xl:col-start-11">
           {user ? (
             <div className="flex items-center gap-2">
               <img

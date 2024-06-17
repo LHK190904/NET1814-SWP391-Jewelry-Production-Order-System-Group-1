@@ -31,12 +31,12 @@ function Designer() {
       <div className="grid grid-cols-12 gap-4">
         <div className="col-start-2 col-span-6 bg-white m-4 rounded-lg p-4">
           <h1 className="text-center">CHI TIẾT ĐƠN HÀNG</h1>
-          <div className="grid grid-cols-5 text-center mt-4">
+          <div className="grid grid-cols-4 text-center mt-4">
             <div className="col-span-1">ID ORDER</div>
             <div className="col-span-1">ID KHÁCH HÀNG</div>
             <div className="col-span-1">MÔ TẢ</div>
             <div className="col-span-1">BẢN THIẾT KẾ</div>
-            <div className="col-span-1"></div>
+
             {selectedItem ? (
               <React.Fragment key={selectedItem.orderID}>
                 <div className="col-span-1">{selectedItem.orderID}</div>
@@ -45,7 +45,7 @@ function Designer() {
                   {selectedItem.description || "Description"}
                 </div>
                 <div className="col-span-1">Design</div>
-                <div className="col-span-1">
+                <div className="col-span-4 flex justify-end">
                   <Button
                     onClick={() => handleOK(selectedItem.orderID)}
                     className="bg-blue-400 font-bold"

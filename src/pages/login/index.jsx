@@ -13,6 +13,7 @@ function Login() {
     event.preventDefault();
     try {
       const user = await authService.login(userName, password);
+      console.log(user);
       if (user) {
         setCurrentUser(user);
         if (user.title === "ADMIN") {

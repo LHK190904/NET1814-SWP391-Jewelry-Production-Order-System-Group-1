@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Carousel from "../../components/Carousel";
 import { Input, Modal, Form } from "antd";
-import { useCart } from "../../context/CartContext";
 import { useForm } from "antd/es/form/Form";
+import authService from "../../services/authService";
+import axios from "axios";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = useForm(); // Fix: destructuring assignment for useForm
-  const { addToCart } = useCart(); // Use the addToCart function from CartContext
+  const [form] = useForm();
 
   const handleShowModal = () => {
     setIsModalOpen(true);
@@ -22,17 +22,27 @@ export default function Home() {
   };
 
   const handleOk = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        console.log("Received values of form: ", values);
-        addToCart(values); // Add form values to the cart
-        setIsModalOpen(false);
-      })
-      .catch((info) => {
-        console.log("Validate Failed:", info);
-      });
+    form.validateFields().then((values) => {
+      form.resetFields();
+      const user = authService.getCurrentUser();
+      if (user && user.id) {
+        const API_URL = `http://localhost:8080/requests/${user.id}`;
+        axios
+          .post(API_URL, values, {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+          })
+          .then((response) => {
+            console.log("Success", response.data);
+            setIsModalOpen(false);
+          })
+          .catch((error) => {
+            console.error("Error", error);
+          });
+      }
+    });
   };
 
   return (

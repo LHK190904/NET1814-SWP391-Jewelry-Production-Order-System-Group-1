@@ -7,9 +7,9 @@ const login = async (username, password) => {
     const payload = { userName: username, password };
     const response = await axios.post(API_URL, payload);
 
-    const { token, authenticated, title } = response.data.result;
+    const { token, authenticated, title, id } = response.data.result;
     if (authenticated) {
-      const userData = { username, token, title };
+      const userData = { username, token, title, id };
       localStorage.setItem("user", JSON.stringify(userData));
       return userData;
     } else {
@@ -44,7 +44,7 @@ const isAdmin = () => {
 
 const isCustomer = () => {
   const user = getCurrentUser();
-  return user && user.title === "CUSTOMER";
+  return user && user.title === "CUSTOMER" && user.id;
 };
 
 export const getToken = () => {
