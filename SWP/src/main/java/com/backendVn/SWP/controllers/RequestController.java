@@ -2,8 +2,6 @@ package com.backendVn.SWP.controllers;
 
 
 import com.backendVn.SWP.dtos.request.RequestCreationRequest;
-import com.backendVn.SWP.dtos.request.RequestSalesUpdateRequest;
-import com.backendVn.SWP.dtos.request.RequestUpdateRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.services.RequestService;
@@ -31,8 +29,8 @@ public class RequestController {
     }
 
     @PutMapping("/{requestId}")
-    public ApiResponse<RequestResponse> updateRequestByCustomer(@PathVariable Integer requestId, @RequestBody @Valid RequestUpdateRequest requestUpdateRequest) {
-        RequestResponse requestResponse = requestService.updateRequestByCustomer(requestId, requestUpdateRequest);
+    public ApiResponse<RequestResponse> updateRequestByCustomer(@PathVariable Integer requestId, @RequestBody @Valid RequestCreationRequest requestCreationRequest) {
+        RequestResponse requestResponse = requestService.updateRequestByCustomer(requestId, requestCreationRequest);
         return ApiResponse.<RequestResponse>builder()
                 .result(requestResponse)
                 .build();

@@ -1,15 +1,12 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.RequestCreationRequest;
-import com.backendVn.SWP.dtos.request.RequestSalesUpdateRequest;
-import com.backendVn.SWP.dtos.request.RequestUpdateRequest;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestMapper;
-import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,11 +39,15 @@ public class RequestService {
         return requestMapper.toRequestResponse(savedRequest);
     }
 
-    public RequestResponse updateRequestByCustomer(Integer id, RequestUpdateRequest requestUpdateRequest) {
+    public RequestResponse updateRequestByCustomer(Integer id, RequestCreationRequest requestCreationRequest) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        requestMapper.updateRequestFromDto(request, requestUpdateRequest);
+        if ("Pending Quotation".equalsIgnoreCase(request.getStatus())) {
+            throw new AppException(ErrorCode.REQUEST_STATUS_NOT_ALLOWED);
+        }
+
+        requestMapper.updateRequestFromDto(request, requestCreationRequest);
 
         return requestMapper.toRequestResponse(requestRepository.save(request));
     }
@@ -65,9 +66,7 @@ public class RequestService {
         request.setRecievedAt(Instant.now());
         request.setStatus("Processing");
 
-        Request updatedRequest = requestRepository.save(request);
-
-        return requestMapper.toRequestResponse(updatedRequest);
+        return requestMapper.toRequestResponse(requestRepository.save(request));
     }
 
 

@@ -1,7 +1,6 @@
 package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.RequestCreationRequest;
-import com.backendVn.SWP.dtos.request.RequestUpdateRequest;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
@@ -29,15 +28,12 @@ public class RequestMapperImpl implements RequestMapper {
     }
 
     @Override
-    public void updateRequestFromDto(Request request, RequestUpdateRequest requestUpdateRequest) {
-        if ( requestUpdateRequest == null ) {
+    public void updateRequestFromDto(Request request, RequestCreationRequest requestCreationRequest) {
+        if ( requestCreationRequest == null ) {
             return;
         }
 
-        request.setDescription( requestUpdateRequest.getDescription() );
-        request.setRecievedAt( requestUpdateRequest.getRecievedAt() );
-        request.setEndAt( requestUpdateRequest.getEndAt() );
-        request.setStatus( requestUpdateRequest.getStatus() );
+        request.setDescription( requestCreationRequest.getDescription() );
     }
 
     @Override

@@ -3,13 +3,9 @@ package com.backendVn.SWP.controllers;
 
 import com.backendVn.SWP.dtos.request.DesignCreationRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
-import com.backendVn.SWP.dtos.request.RequestCreationRequest;
-import com.backendVn.SWP.dtos.request.RequestUpdateRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.DesignResponse;
-import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.services.DesignService;
-import com.backendVn.SWP.services.RequestService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

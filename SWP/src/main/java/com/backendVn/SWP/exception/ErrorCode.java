@@ -22,7 +22,8 @@ public enum ErrorCode {
     WARRANTY_CARD_NOT_FOUND(1013, "Warranty card not found", HttpStatus.NOT_FOUND),
     INVOICE_NOT_FOUND(1014, "Invoice card not found", HttpStatus.NOT_FOUND),
     MATERIAL_NOT_FOUND(1015, "Invoice card not found", HttpStatus.NOT_FOUND),
-    INVOICE_DETAIL_NOT_FOUND(1016, "Invoice card not found", HttpStatus.NOT_FOUND)
+    INVOICE_DETAIL_NOT_FOUND(1016, "Invoice card not found", HttpStatus.NOT_FOUND),
+    REQUEST_STATUS_NOT_ALLOWED(1017, "Request status not allowed for update", HttpStatus.FORBIDDEN)
     ;
     private int code;
     private String message;
