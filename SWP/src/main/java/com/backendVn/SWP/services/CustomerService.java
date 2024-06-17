@@ -54,6 +54,7 @@ public class CustomerService {
         return AuthenticationResponse.builder()
                 .token(token)
                 .authenticated(true)
+                .title("CUSTOMER")
                 .build();
     }
 
