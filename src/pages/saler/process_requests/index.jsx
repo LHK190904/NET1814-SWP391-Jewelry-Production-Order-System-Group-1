@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
 import authService from "../../../services/authService";
-import { Button, Modal, Form, Input, Table, Tag, Space, message, InputNumber } from "antd";
+import {
+  Button,
+  Modal,
+  Form,
+  Input,
+  Table,
+  Tag,
+  Space,
+  message,
+  InputNumber,
+} from "antd";
 import { useForm } from "antd/es/form/Form";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -15,10 +25,11 @@ function ProcessRequests() {
   const [customerInfo, setCustomerInfo] = useState(null);
   const [formData] = useForm();
   const location = useLocation();
-  const [salerId, setSalerId] = useState("8"); // test api fake
+  const [salerId, setSalerId] = useState("");
 
   useEffect(() => {
     const user = authService.getCurrentUser();
+    console.log(user.id);
     if (user && user.id) {
       setSalerId(user.id);
     } else {
@@ -34,13 +45,8 @@ function ProcessRequests() {
 
   const fetchRequests = async () => {
     try {
-      const response = await axios.get(
-        "https://6628a3dc54afcabd073664dc.mockapi.io/saler"
-      );
-
-      setRequests(
-        response.data.filter((request) => request.saleId === salerId)
-      );
+      const response = await axiosInstance.get(`/requests/sales/${salerId}`);
+      setRequests(response.data.result);
     } catch (error) {
       console.error("Không thể lấy yêu cầu:", error);
     }
@@ -63,37 +69,23 @@ function ProcessRequests() {
   };
 
   const handleSubmit = async (values) => {
-    try {
-      const updatedRecord = { ...selectedRecord, ...values, status: "Pending" };
-      await axios.put(
-        `https://6628a3dc54afcabd073664dc.mockapi.io/saler/${selectedRecord.id}`,
-        updatedRecord
-      );
-      setRequests(
-        requests.map((request) =>
-          request.id === updatedRecord.id ? updatedRecord : request
-        )
-      );
-      handleHideModal();
-    } catch (error) {
-      console.error("Không thể cập nhật yêu cầu:", error);
-    }
-  };
-
-  const handleAnnounce = (id) => {
-    console.log("Thông báo cho khách hàng:", id);
-  };
-
-  const handleSendToManager = async (record) => {
-    if (!record.cost) {
+    if (!values.cost) {
       message.warning("Bạn chưa lấy giá cho đơn hàng này.");
       return;
     }
 
     try {
-      const updatedRecord = { ...record, status: "Processing" };
+      const updatedRecord = {
+        ...selectedRecord,
+        ...values,
+        status: "Processing",
+      };
       await axios.put(
-        `https://6628a3dc54afcabd073664dc.mockapi.io/saler/${record.id}`,
+        `https://6628a3dc54afcabd073664dc.mockapi.io/saler/${selectedRecord.id}`,
+        updatedRecord
+      );
+      await axios.post(
+        `https://6628a3dc54afcabd073664dc.mockapi.io/manager`,
         updatedRecord
       );
       setRequests(
@@ -102,9 +94,14 @@ function ProcessRequests() {
         )
       );
       message.success("Đã gửi cho quản lý!");
+      handleHideModal();
     } catch (error) {
-      console.error("Không thể cập nhật trạng thái yêu cầu:", error);
+      console.error("Không thể cập nhật yêu cầu:", error);
     }
+  };
+
+  const handleAnnounce = (id) => {
+    console.log("Thông báo cho khách hàng:", id);
   };
 
   const handleShowCustomerInfo = (record) => {
@@ -144,9 +141,6 @@ function ProcessRequests() {
         <Space size="middle">
           <Button type="primary" onClick={() => handleShowModal(record)}>
             Lấy giá
-          </Button>
-          <Button onClick={() => handleSendToManager(record)}>
-            Gửi cho quản lý
           </Button>
           <Button onClick={() => handleAnnounce(record.id)}>
             Thông báo cho khách hàng
@@ -209,7 +203,7 @@ function ProcessRequests() {
         <Form form={formData}>
           <div className="flex flex-row gap-4">
             <div className="flex flex-col flex-wrap w-1/2">
-               <FormItem label="Giá vật liệu" name="material">
+              <FormItem label="Giá vật liệu" name="material">
                 <Input />
               </FormItem>
               <FormItem label="Trọng lượng" name="weight">
@@ -229,8 +223,18 @@ function ProcessRequests() {
               <FormItem label="Vật liệu" name="materialCost">
                 <Input />
               </FormItem>
-              <FormItem label="Giá" name="cost" >
-                <InputNumber />
+              <FormItem
+                label="Giá"
+                name="cost"
+                rules={[
+                  {
+                    required: true,
+                    type: "number",
+                    message: "Giá phải là số.",
+                  },
+                ]}
+              >
+                <InputNumber min={0} style={{ width: "100%" }} />
               </FormItem>
             </div>
           </div>

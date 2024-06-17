@@ -95,7 +95,7 @@ function App() {
       path: "/admin",
       element: <ProtectedRoute element={<Admin />} isAllowed={isAdmin()} />,
     },
-  // {
+    // {
     //   path: "/saler",
     //   element: (
     //      <Saler />
@@ -105,21 +105,21 @@ function App() {
     {
       path: "/saler/receive_requests",
       element: (
-        <ReceiveRequests />
-        // <ProtectedRoute
-        //   element={<ReceiveRequests />}
-        //   isAllowed={isAuthenticated()}
-        // />
+        // <ReceiveRequests />
+        <ProtectedRoute
+          element={<ReceiveRequests />}
+          isAllowed={isAuthenticated()}
+        />
       ),
     },
     {
       path: "/saler/process_requests",
       element: (
-        <ProcessRequests />
-        // <ProtectedRoute
-        //   element={<ProcessRequests />}
-        //   isAllowed={isAuthenticated()}
-        // />
+        // <ProcessRequests />
+        <ProtectedRoute
+          element={<ProcessRequests />}
+          isAllowed={isAuthenticated()}
+        />
       ),
     },
     {

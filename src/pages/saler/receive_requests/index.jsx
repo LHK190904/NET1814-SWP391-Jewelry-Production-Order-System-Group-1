@@ -14,33 +14,26 @@ function ReceiveRequests() {
 
   const fetchRequests = async () => {
     try {
-      // const response = await axiosInstance.get("/saler");
-      const response = await axios.get(
-        "https://6628a3dc54afcabd073664dc.mockapi.io/saler"
-      );
-      // Chỉ hiển thị các yêu cầu chưa được nhận (saleId là rỗng hoặc null)
-      const unassignedRequests = response.data.filter(
-        (request) => !request.saleId
-      );
-      setRequests(unassignedRequests);
+      const response = await axiosInstance.get("requests/unrecievedRequest");
+      console.log(response.data.result);
+      setRequests(response.data.result);
     } catch (error) {
       console.error("Không thể lấy yêu cầu:", error);
     }
   };
   const handleAcceptRequest = async (record) => {
     try {
-      await axios.put(
-        `https://6628a3dc54afcabd073664dc.mockapi.io/saler/${record.id}`,
-        { status: "Processing",saleId:"8" }   // test api fake
-      );
+      const respone = await axiosInstance.put(`requests/sales/${record.id}`);
       setRequests(requests.filter((request) => request.id !== record.id));
+      console.log(respone.data);
     } catch (error) {
       console.error("Failed to accept request:", error);
     }
   };
   const columns = [
     { title: "Mã yêu cầu", dataIndex: "id", key: "id" },
-    { title: "Chi tiết", dataIndex: "detail", key: "detail" },
+    { title: "Chi tiết", dataIndex: "description", key: "description" },
+    { title: "Thời gian tạo", dataIndex: "createdAt", key: "createdAt" },
 
     {
       title: "Hành động",
