@@ -89,4 +89,13 @@ public class RequestService {
         return requestMapper.toRequestResponse(request);
     }
 
+    public List<RequestResponse> getRequestsByCustomerId(Integer customerId) {
+        User customer = userRepository.findById(customerId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        List<Request> requests = requestRepository.findAllByCustomerID(customer);
+        return requests.stream()
+                .map(requestMapper::toRequestResponse)
+                .toList();
+    }
+
 }

@@ -22,26 +22,26 @@ import java.util.List;
 public class RequestController {
     RequestService requestService;
 
-    @PostMapping("/{Id}")
-    public ApiResponse<RequestResponse> createRequest(@PathVariable Integer Id, @RequestBody @Valid RequestCreationRequest requestCreationRequest) {
-        RequestResponse requestResponse = requestService.createRequest(requestCreationRequest, Id);
+    @PostMapping("/{userId}")
+    public ApiResponse<RequestResponse> createRequest(@PathVariable Integer userId, @RequestBody @Valid RequestCreationRequest requestCreationRequest) {
+        RequestResponse requestResponse = requestService.createRequest(requestCreationRequest, userId);
         return ApiResponse.<RequestResponse>builder()
                 .result(requestResponse)
                 .build();
     }
 
-    @PutMapping("/{id}")
-    public ApiResponse<RequestResponse> updateRequest(@PathVariable Integer id, @RequestBody @Valid RequestUpdateRequest requestUpdateRequest) {
-        RequestResponse requestResponse = requestService.updateRequest(id, requestUpdateRequest);
+    @PutMapping("/{requestId}")
+    public ApiResponse<RequestResponse> updateRequest(@PathVariable Integer requestId, @RequestBody @Valid RequestUpdateRequest requestUpdateRequest) {
+        RequestResponse requestResponse = requestService.updateRequest(requestId, requestUpdateRequest);
         return ApiResponse.<RequestResponse>builder()
                 .result(requestResponse)
                 .build();
     }
 
-    @PutMapping("/sales/{id}")
-    public ApiResponse<RequestResponse> updateRequestBySales(@PathVariable Integer id) {
+    @PutMapping("/sales/{requestId}")
+    public ApiResponse<RequestResponse> updateRequestBySales(@PathVariable Integer requestId) {
         return ApiResponse.<RequestResponse>builder()
-                .result(requestService.updateRequestBySales(id))
+                .result(requestService.updateRequestBySales(requestId))
                 .build();
     }
 
@@ -53,11 +53,19 @@ public class RequestController {
                 .build();
     }
 
-    @GetMapping("/{id}")
-    public ApiResponse<RequestResponse> getRequestById(@PathVariable Integer id) {
-        RequestResponse requestResponse = requestService.getRequestById(id);
+    @GetMapping("/{requestId}")
+    public ApiResponse<RequestResponse> getRequestById(@PathVariable Integer requestId) {
+        RequestResponse requestResponse = requestService.getRequestById(requestId);
         return ApiResponse.<RequestResponse>builder()
                 .result(requestResponse)
+                .build();
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public ApiResponse<List<RequestResponse>> getRequestsByCustomerId(@PathVariable Integer customerId) {
+        List<RequestResponse> requestResponses = requestService.getRequestsByCustomerId(customerId);
+        return ApiResponse.<List<RequestResponse>>builder()
+                .result(requestResponses)
                 .build();
     }
 
