@@ -31,8 +31,8 @@ public class RequestController {
     }
 
     @PutMapping("/{requestId}")
-    public ApiResponse<RequestResponse> updateRequest(@PathVariable Integer requestId, @RequestBody @Valid RequestUpdateRequest requestUpdateRequest) {
-        RequestResponse requestResponse = requestService.updateRequest(requestId, requestUpdateRequest);
+    public ApiResponse<RequestResponse> updateRequestByCustomer(@PathVariable Integer requestId, @RequestBody @Valid RequestUpdateRequest requestUpdateRequest) {
+        RequestResponse requestResponse = requestService.updateRequestByCustomer(requestId, requestUpdateRequest);
         return ApiResponse.<RequestResponse>builder()
                 .result(requestResponse)
                 .build();
@@ -73,6 +73,7 @@ public class RequestController {
     public void deleteRequest(@PathVariable Integer id) {
         requestService.deleteRequest(id);
     }
+
     @GetMapping("/unrecievedRequest")
     public ApiResponse<List<RequestResponse>> getUnrecievedRequests() {
         return ApiResponse.<List<RequestResponse>>builder()

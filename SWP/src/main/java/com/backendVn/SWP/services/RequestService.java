@@ -42,7 +42,7 @@ public class RequestService {
         return requestMapper.toRequestResponse(savedRequest);
     }
 
-    public RequestResponse updateRequest(Integer id, RequestUpdateRequest requestUpdateRequest) {
+    public RequestResponse updateRequestByCustomer(Integer id, RequestUpdateRequest requestUpdateRequest) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
@@ -63,7 +63,7 @@ public class RequestService {
 
         request.setSaleStaffID(saleStaff);
         request.setRecievedAt(Instant.now());
-        request.setStatus("Pending Quotation");
+        request.setStatus("Processing");
 
         Request updatedRequest = requestRepository.save(request);
 

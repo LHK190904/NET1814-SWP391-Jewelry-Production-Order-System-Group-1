@@ -12,7 +12,4 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestUpdateRequest {
     private String description;
-    private Instant recievedAt;
-    private Instant endAt;
-    private String status;
 }

@@ -37,6 +37,9 @@ public class QuotationService {
         quotation.setRequestID(request);
         quotation.setCreatedAt(Instant.now());
 
+        request.setStatus("Pending quotation");
+        requestRepository.save(request);
+
         Quotation savedQuotation = quotationRepository.save(quotation);
 
         return quotationMapper.toQuotationResponse(savedQuotation);
