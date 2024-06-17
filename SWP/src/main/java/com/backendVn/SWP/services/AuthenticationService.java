@@ -56,6 +56,7 @@ public class AuthenticationService {
                 .token(token)
                 .authenticated(true)
                 .title(user.getTitle())
+                .Id(user.getId())
                 .build();
     }
 
