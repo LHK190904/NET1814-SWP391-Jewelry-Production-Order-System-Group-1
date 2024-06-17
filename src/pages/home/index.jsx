@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Carousel from "../../components/Carousel";
+import Carousel from "../../components/carousel";
 import { Input, Modal, Form } from "antd";
 import { useForm } from "antd/es/form/Form";
 import authService from "../../services/authService";

@@ -7,11 +7,11 @@ import Collections from "./pages/collections";
 import Blog from "./pages/blog";
 import Register from "./pages/register";
 import Cart from "./pages/cart";
-import Layout from "./components/Layout";
+import Layout from "./components/layout";
 import Error from "./pages/error";
 import Admin from "./pages/admin";
 import ProductDetails from "./pages/product-details";
-import Saler from "./pages/saler";
+// import Saler from "./pages/saler";
 import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
 import { CartProvider } from "./context/CartContext";
@@ -20,6 +20,8 @@ import authService from "./services/authService";
 import { RequestProvider } from "./context/RequestContext";
 import Designer from "./pages/designer";
 import ProductionStaff from "./pages/production-staff";
+import ProcessRequests from "./pages/saler/process_requests";
+import ReceiveRequests from "./pages/saler/receive_requests";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -93,12 +95,32 @@ function App() {
       path: "/admin",
       element: <ProtectedRoute element={<Admin />} isAllowed={isAdmin()} />,
     },
+  // {
+    //   path: "/saler",
+    //   element: (
+    //      <Saler />
+    //     <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
+    //   ),
+    // },
     {
-      path: "/saler",
-      element: <Saler />,
-      //  (
-      //   <ProtectedRoute element={<Saler />} isAllowed={isAuthenticated()} />
-      // ),
+      path: "/saler/receive_requests",
+      element: (
+        <ReceiveRequests />
+        // <ProtectedRoute
+        //   element={<ReceiveRequests />}
+        //   isAllowed={isAuthenticated()}
+        // />
+      ),
+    },
+    {
+      path: "/saler/process_requests",
+      element: (
+        <ProcessRequests />
+        // <ProtectedRoute
+        //   element={<ProcessRequests />}
+        //   isAllowed={isAuthenticated()}
+        // />
+      ),
     },
     {
       path: "/manager/request",
