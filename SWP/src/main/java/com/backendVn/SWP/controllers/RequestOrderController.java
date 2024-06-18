@@ -55,4 +55,10 @@ public class RequestOrderController {
                 .build();
     }
 
+    @PutMapping("/{requestOrderId}/{designStaffId}/{productionStaffId}")
+    public ApiResponse<RequestOrderResponse> assignWork(@PathVariable Integer requestOrderId, @PathVariable Integer designStaffId, @PathVariable Integer productionStaffId){
+        return ApiResponse.<RequestOrderResponse>builder()
+                .result(requestOrderService.assignWork(requestOrderId, designStaffId, productionStaffId))
+                .build();
+    }
 }
