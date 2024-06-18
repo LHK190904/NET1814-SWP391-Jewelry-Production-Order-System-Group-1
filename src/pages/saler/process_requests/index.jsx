@@ -29,7 +29,7 @@ function ProcessRequests() {
 
   useEffect(() => {
     const user = authService.getCurrentUser();
-    console.log(user.id);
+    // console.log(user.id);
     if (user && user.id) {
       setSalerId(user.id);
     } else {
@@ -228,9 +228,9 @@ function ProcessRequests() {
                 name="cost"
                 rules={[
                   {
-                    required: true,
+                    // required: true,
                     type: "number",
-                    message: "Giá phải là số.",
+                    // message: "Giá phải là số.",
                   },
                 ]}
               >
