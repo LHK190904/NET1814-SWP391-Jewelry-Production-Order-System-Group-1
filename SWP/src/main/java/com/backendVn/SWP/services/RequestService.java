@@ -2,11 +2,13 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.RequestCreationRequest;
 import com.backendVn.SWP.dtos.response.RequestResponse;
+import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestMapper;
+import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class RequestService {
     RequestRepository requestRepository;
     UserRepository userRepository;
     RequestMapper requestMapper;
+    UserMapper userMapper;
 
     public RequestResponse createRequest(RequestCreationRequest requestCreationRequest, Integer userId) {
         User customer = userRepository.findById(userId)
@@ -111,4 +114,8 @@ public class RequestService {
                 .toList();
     }
 
+    public UserResponse getUserById(Integer id) {
+        return userMapper.toUserResponse(userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found")));
+    }
 }

@@ -4,6 +4,8 @@ package com.backendVn.SWP.controllers;
 import com.backendVn.SWP.dtos.request.RequestCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.RequestResponse;
+import com.backendVn.SWP.dtos.response.UserResponse;
+import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.services.RequestService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -83,6 +85,13 @@ public class RequestController {
     public ApiResponse<List<RequestResponse>> getRequestsBySaleStaffId(@PathVariable Integer saleStaffId) {
         return ApiResponse.<List<RequestResponse>>builder()
                 .result(requestService.getRequestBySaleStaffId(saleStaffId))
+                .build();
+    }
+
+    @GetMapping("/customerInfo/{customerId}")
+    public ApiResponse<UserResponse> getCustomerInfo(@PathVariable Integer customerId){
+        return ApiResponse.<UserResponse>builder()
+                .result(requestService.getUserById(customerId))
                 .build();
     }
 }
