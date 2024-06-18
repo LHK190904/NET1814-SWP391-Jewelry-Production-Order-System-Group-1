@@ -17,7 +17,7 @@ import ManagerOrder from "./pages/manager/order";
 import { CartProvider } from "./context/CartContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import authService from "./services/authService";
-import { RequestProvider } from "./context/RequestContext";
+// import { RequestProvider } from "./context/RequestContext";
 import Designer from "./pages/designer";
 import ProductionStaff from "./pages/production-staff";
 import ProcessRequests from "./pages/saler/process_requests";
@@ -104,8 +104,7 @@ function App() {
     // },
     {
       path: "/saler/receive_requests",
-      element: (
-        // <ReceiveRequests />
+      element: (   
         <ProtectedRoute
           element={<ReceiveRequests />}
           isAllowed={isAuthenticated()}
@@ -115,7 +114,6 @@ function App() {
     {
       path: "/saler/process_requests",
       element: (
-        // <ProcessRequests />
         <ProtectedRoute
           element={<ProcessRequests />}
           isAllowed={isAuthenticated()}
@@ -159,9 +157,9 @@ function App() {
 
   return (
     <CartProvider>
-      <RequestProvider>
+      {/* <RequestProvider> */}
         <RouterProvider router={router} />
-      </RequestProvider>
+      {/* </RequestProvider> */}
     </CartProvider>
   );
 }

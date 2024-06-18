@@ -14,7 +14,6 @@ import {
 } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { Link, useLocation } from "react-router-dom";
-import axios from "axios";
 import FormItem from "antd/es/form/FormItem";
 
 function ProcessRequests() {
@@ -25,32 +24,27 @@ function ProcessRequests() {
   const [customerInfo, setCustomerInfo] = useState(null);
   const [formData] = useForm();
   const location = useLocation();
-  const [salerId, setSalerId] = useState("");
+  const [saleName, setSaleName] = useState("");
 
   useEffect(() => {
-    const user = authService.getCurrentUser();
-    // console.log(user.id);
-    if (user && user.id) {
-      setSalerId(user.id);
-    } else {
-      console.error("Người dùng chưa đăng nhập");
-    }
+    const fetchSalerData = async () => {
+      const saler = authService.getCurrentUser();
+      if (saler && saler.id) {
+        setSaleName(saler.username);
+        console.log(saleName);
+        try {
+          const response = await axiosInstance.get(`/requests/sales/${saler.id}`);
+          setRequests(response.data.result);
+        } catch (error) {
+          console.error("Không thể lấy yêu cầu:", error);
+        }
+      } else {
+        console.error("Người dùng chưa đăng nhập");
+      }
+    };
+
+    fetchSalerData();
   }, []);
-
-  useEffect(() => {
-    if (salerId) {
-      fetchRequests();
-    }
-  }, [salerId]);
-
-  const fetchRequests = async () => {
-    try {
-      const response = await axiosInstance.get(`/requests/sales/${salerId}`);
-      setRequests(response.data.result);
-    } catch (error) {
-      console.error("Không thể lấy yêu cầu:", error);
-    }
-  };
 
   const handleShowModal = (record) => {
     setSelectedRecord(record);
@@ -80,14 +74,7 @@ function ProcessRequests() {
         ...values,
         status: "Processing",
       };
-      await axios.put(
-        `https://6628a3dc54afcabd073664dc.mockapi.io/saler/${selectedRecord.id}`,
-        updatedRecord
-      );
-      await axios.post(
-        `https://6628a3dc54afcabd073664dc.mockapi.io/manager`,
-        updatedRecord
-      );
+      await axiosInstance.post(`/quotation/${selectedRecord.id}`, updatedRecord);
       setRequests(
         requests.map((request) =>
           request.id === updatedRecord.id ? updatedRecord : request
@@ -95,6 +82,7 @@ function ProcessRequests() {
       );
       message.success("Đã gửi cho quản lý!");
       handleHideModal();
+      formData.resetFields();
     } catch (error) {
       console.error("Không thể cập nhật yêu cầu:", error);
     }
@@ -104,9 +92,15 @@ function ProcessRequests() {
     console.log("Thông báo cho khách hàng:", id);
   };
 
-  const handleShowCustomerInfo = (record) => {
-    setCustomerInfo(record);
-    setIsCustomerModalOpen(true);
+  const handleShowCustomerInfo = async (record) => {
+    try {
+      const response = await axiosInstance.get(`/requests/customerInfo/${record.customerID}`);
+      setCustomerInfo(response.data.result);
+      setIsCustomerModalOpen(true);
+    } catch (error) {
+      console.error("Không thể lấy thông tin khách hàng:", error);
+      message.error("Không thể lấy thông tin khách hàng.");
+    }
   };
 
   const handleHideCustomerModal = () => {
@@ -116,7 +110,8 @@ function ProcessRequests() {
 
   const columns = [
     { title: "Mã yêu cầu", dataIndex: "id", key: "id" },
-    { title: "Chi tiết", dataIndex: "detail", key: "detail" },
+    { title: "Chi tiết", dataIndex: "description", key: "description" },
+    { title: "Thời gian nhận đơn", dataIndex: "recievedAt", key: "recievedAt" },
     { title: "Giá", dataIndex: "cost", key: "cost" },
     {
       title: "Trạng thái",
@@ -126,7 +121,7 @@ function ProcessRequests() {
         let color = "volcano";
         if (status === "Approve") color = "green";
         if (status === "Processing") color = "blue";
-        if (status === "Pending") color = "gray";
+        if (status === "Pending Quotation") color = "gray";
         return (
           <Tag color={color} key={status}>
             {status}
@@ -156,8 +151,9 @@ function ProcessRequests() {
   return (
     <div>
       <h1 className="text-6xl font-extrabold pb-9 bg-slate-400 text-center">
-        Nhân viên bán hàng
+        Nhân viên bán hàng <h2>Tên: {saleName}</h2>
       </h1>
+
       <div className="mb-4">
         <Link
           className={`mr-4 ${
@@ -228,9 +224,7 @@ function ProcessRequests() {
                 name="cost"
                 rules={[
                   {
-                    // required: true,
                     type: "number",
-                    // message: "Giá phải là số.",
                   },
                 ]}
               >

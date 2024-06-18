@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
 import { Button, Table } from "antd";
 import { Link, useLocation } from "react-router-dom";
-import axios from "axios";
+import LogoutButton from "../../../components/logoutButton";
+
 
 function ReceiveRequests() {
   const [requests, setRequests] = useState([]);
@@ -21,20 +22,21 @@ function ReceiveRequests() {
       console.error("Không thể lấy yêu cầu:", error);
     }
   };
+
   const handleAcceptRequest = async (record) => {
     try {
-      const respone = await axiosInstance.put(`requests/sales/${record.id}`);
+      const response = await axiosInstance.put(`requests/sales/${record.id}`);
       setRequests(requests.filter((request) => request.id !== record.id));
-      console.log(respone.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Failed to accept request:", error);
     }
   };
+
   const columns = [
     { title: "Mã yêu cầu", dataIndex: "id", key: "id" },
     { title: "Chi tiết", dataIndex: "description", key: "description" },
     { title: "Thời gian tạo", dataIndex: "createdAt", key: "createdAt" },
-
     {
       title: "Hành động",
       key: "action",
@@ -48,9 +50,12 @@ function ReceiveRequests() {
 
   return (
     <div>
-      <h1 className="text-6xl font-extrabold pb-9 bg-slate-400 text-center">
-        Nhân viên bán hàng
-      </h1>
+      <div className="flex justify-between items-center pb-9 bg-slate-400">
+        <h1 className="text-6xl font-extrabold text-center">
+          Nhân viên bán hàng
+        </h1>
+        <LogoutButton />
+      </div>
       <div className="mb-4">
         <Link
           className={`mr-4 ${
