@@ -18,12 +18,8 @@ function Login() {
         setCurrentUser(user);
         if (user.title === "ADMIN") {
           navigate("/admin"); // Navigate to admin page if user is an admin
-        } else if (user.title === "SALER") {
-          navigate("/saler");
-        } else if (user.title === "DESIGNER") {
-          navigate("/designer");
-        } else if (user.title === "PRODUCTION") {
-          navigate("/production-staff");
+        } else if (user.title === "SALE_STAFF") {
+          navigate("/saler/receive_requests");
         } else {
           navigate("/"); // Navigate to customer page if user is a customer
         }

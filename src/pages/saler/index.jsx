@@ -4,6 +4,7 @@ import FormItem from "antd/es/form/FormItem";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRequests } from "../../context/RequestContext.jsx";
+import authService from "../../services/authService.js";
 
 function Saler() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,6 +62,11 @@ function Saler() {
       handleHideModal();
     }
   };
+  function handleLogout() {
+    authService.logout();
+    // setUser(null);
+    navigate("/");
+  }
 
   const columns = [
     {
