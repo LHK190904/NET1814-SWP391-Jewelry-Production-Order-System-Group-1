@@ -126,7 +126,7 @@ function ManagerOrder() {
       <h1 className="text-center text-[#F7EF8A] font-extrabold p-10">
         ORDER MANAGEMENT
       </h1>
-      <div className="grid grid-cols-8">
+      <div className="grid grid-cols-8 p-1">
         <div className="col-start-2 col-span-2">
           <Button onClick={() => handleNavigateClick("/manager/request")}>
             Request
@@ -138,7 +138,7 @@ function ManagerOrder() {
         <div className="col-start-6 col-span-2 flex justify-end">
           <input
             type="search"
-            placeholder="Search"
+            placeholder="Search . . ."
             className="px-2 p-1 rounded-lg"
           />
           <Button>Filter</Button>
