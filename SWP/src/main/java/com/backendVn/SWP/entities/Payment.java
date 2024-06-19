@@ -1,16 +1,24 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Nationalized;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Payment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PaymentID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,58 +32,14 @@ public class Payment {
     @Column(name = "PaymentDate")
     private Instant paymentDate;
 
+    @Size(max = 50)
+    @Nationalized
     @Column(name = "PaymentType", length = 50)
     private String paymentType;
 
+    @Size(max = 50)
+    @Nationalized
     @Column(name = "Status", length = 50)
     private String status;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Request getRequestID() {
-        return requestID;
-    }
-
-    public void setRequestID(Request requestID) {
-        this.requestID = requestID;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public Instant getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(Instant paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    public String getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(String paymentType) {
-        this.paymentType = paymentType;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
 }

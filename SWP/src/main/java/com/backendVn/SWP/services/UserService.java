@@ -11,11 +11,7 @@ import com.backendVn.SWP.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,19 +26,19 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+//    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(userMapper::toUserResponse).toList();
     }
 
-    @PostAuthorize("returnObject.userName == authentication.name")
+//    @PostAuthorize("returnObject.userName == authentication.name")
     public UserResponse getUserById(Integer id) {
         return userMapper.toUserResponse(userRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException("User not found")));
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+//    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public UserResponse createUser(UserCreationRequest request) {
         if (userRepository.existsByUserName(request.getUserName()))
             throw new AppException(ErrorCode.USER_EXISTED);
@@ -68,7 +64,7 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+//    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public UserResponse updateUser(Integer id ,UserUpdateRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -77,7 +73,7 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+//    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }

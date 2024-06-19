@@ -28,6 +28,6 @@ public class UserCreationRequest implements Serializable {
 
     String address;
 
-    @Pattern(regexp = "ADMIN|PRODUCTIONSTAFF|DESIGNSTAFF|SALESTAFF|CUSTOMER|MANAGER", message = "INVALID_TITLE")
+    @Pattern(regexp = "ADMIN|PRODUCTION_STAFF|DESIGN_STAFF|SALE_STAFF|CUSTOMER|MANAGER", message = "INVALID_TITLE")
     String title;
 }

@@ -42,6 +42,7 @@ public class UserMapperImpl implements UserMapper {
         user.setPassword( userUpdateRequest.getPassword() );
         user.setEmail( userUpdateRequest.getEmail() );
         user.setAddress( userUpdateRequest.getAddress() );
+        user.setTitle( userUpdateRequest.getTitle() );
     }
 
     @Override

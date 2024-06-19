@@ -13,6 +13,8 @@ import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class RequestService {
+    private static final Logger log = LoggerFactory.getLogger(RequestService.class);
     RequestRepository requestRepository;
     UserRepository userRepository;
     RequestMapper requestMapper;

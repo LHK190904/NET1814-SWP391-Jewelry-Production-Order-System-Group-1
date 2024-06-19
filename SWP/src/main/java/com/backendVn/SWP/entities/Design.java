@@ -1,68 +1,35 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import lombok.*;
+import org.hibernate.annotations.Nationalized;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Design {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DesignID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "DesignName", length = 100)
+    @Size(max = 100)
+    @Nationalized
+    @Column(name = "design_name", length = 100)
     private String designName;
 
+    @Nationalized
     @Lob
     @Column(name = "Description")
     private String description;
 
+    @Size(max = 255)
+    @Nationalized
     @Column(name = "URLImage")
     private String uRLImage;
-
-    @OneToMany(mappedBy = "designID")
-    private Set<RequestOrder> requestOrders = new LinkedHashSet<>();
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDesignName() {
-        return designName;
-    }
-
-    public void setDesignName(String designName) {
-        this.designName = designName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getURLImage() {
-        return uRLImage;
-    }
-
-    public void setURLImage(String uRLImage) {
-        this.uRLImage = uRLImage;
-    }
-
-    public Set<RequestOrder> getRequestOrders() {
-        return requestOrders;
-    }
-
-    public void setRequestOrders(Set<RequestOrder> requestOrders) {
-        this.requestOrders = requestOrders;
-    }
 
 }

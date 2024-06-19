@@ -1,16 +1,16 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
+@Getter
+@Setter
 @Entity
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "warranty_card")
 public class WarrantyCard {
     @Id
@@ -27,37 +27,5 @@ public class WarrantyCard {
 
     @Column(name = "end_at")
     private Instant endAt;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public RequestOrder getRequestOrder() {
-        return requestOrder;
-    }
-
-    public void setRequestOrder(RequestOrder requestOrder) {
-        this.requestOrder = requestOrder;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getEndAt() {
-        return endAt;
-    }
-
-    public void setEndAt(Instant endAt) {
-        this.endAt = endAt;
-    }
 
 }

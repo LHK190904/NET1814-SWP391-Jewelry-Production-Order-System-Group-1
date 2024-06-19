@@ -20,11 +20,11 @@ public class DesignMapperImpl implements DesignMapper {
             return null;
         }
 
-        Design design = new Design();
+        Design.DesignBuilder design = Design.builder();
 
-        design.setDesignName( designCreationRequest.getDesignName() );
+        design.designName( designCreationRequest.getDesignName() );
 
-        return design;
+        return design.build();
     }
 
     @Override

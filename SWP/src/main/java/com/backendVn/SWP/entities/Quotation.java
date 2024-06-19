@@ -7,17 +7,16 @@ import org.hibernate.annotations.ColumnDefault;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-@Entity
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Quotation")
+@NoArgsConstructor
+@Entity
 public class Quotation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "QuotationID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,9 +1,15 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class RequestOrderDetail {
     @EmbeddedId
@@ -14,44 +20,12 @@ public class RequestOrderDetail {
     @JoinColumn(name = "MaterialID", nullable = false)
     private Material materialID;
 
-    @MapsId("requestOrderID")
+    @MapsId("requestOrderid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Request_OrderID", nullable = false)
-    private RequestOrder requestOrderID;
+    @JoinColumn(name = "request_orderid", nullable = false)
+    private RequestOrder requestOrderid;
 
     @Column(name = "Weight", precision = 18, scale = 2)
     private BigDecimal weight;
-
-    public RequestOrderDetailId getId() {
-        return id;
-    }
-
-    public void setId(RequestOrderDetailId id) {
-        this.id = id;
-    }
-
-    public Material getMaterialID() {
-        return materialID;
-    }
-
-    public void setMaterialID(Material materialID) {
-        this.materialID = materialID;
-    }
-
-    public RequestOrder getRequestOrderID() {
-        return requestOrderID;
-    }
-
-    public void setRequestOrderID(RequestOrder requestOrderID) {
-        this.requestOrderID = requestOrderID;
-    }
-
-    public BigDecimal getWeight() {
-        return weight;
-    }
-
-    public void setWeight(BigDecimal weight) {
-        this.weight = weight;
-    }
 
 }

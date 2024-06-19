@@ -2,22 +2,23 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Nationalized;
 
 import java.time.Instant;
 
+@Getter
+@Setter
 @Entity
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "request_order")
 public class RequestOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "request_orderid", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,6 +38,7 @@ public class RequestOrder {
     private User productionStaff;
 
     @Size(max = 50)
+    @Nationalized
     @Column(name = "Status", length = 50)
     private String status;
 
@@ -46,69 +48,5 @@ public class RequestOrder {
 
     @Column(name = "end_at")
     private Instant endAt;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Request getRequestID() {
-        return requestID;
-    }
-
-    public void setRequestID(Request requestID) {
-        this.requestID = requestID;
-    }
-
-    public Design getDesignID() {
-        return designID;
-    }
-
-    public void setDesignID(Design designID) {
-        this.designID = designID;
-    }
-
-    public User getDesignStaff() {
-        return designStaff;
-    }
-
-    public void setDesignStaff(User designStaff) {
-        this.designStaff = designStaff;
-    }
-
-    public User getProductionStaff() {
-        return productionStaff;
-    }
-
-    public void setProductionStaff(User productionStaff) {
-        this.productionStaff = productionStaff;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getEndAt() {
-        return endAt;
-    }
-
-    public void setEndAt(Instant endAt) {
-        this.endAt = endAt;
-    }
 
 }

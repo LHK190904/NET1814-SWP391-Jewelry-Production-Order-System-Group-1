@@ -1,15 +1,23 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Nationalized;
 
 import java.time.Instant;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Process {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ProcessID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,47 +32,9 @@ public class Process {
     @JoinColumn(name = "updated_by")
     private User updatedBy;
 
+    @Size(max = 50)
+    @Nationalized
     @Column(name = "Status", length = 50)
     private String status;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Request getRequestID() {
-        return requestID;
-    }
-
-    public void setRequestID(Request requestID) {
-        this.requestID = requestID;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public User getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(User updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
 }

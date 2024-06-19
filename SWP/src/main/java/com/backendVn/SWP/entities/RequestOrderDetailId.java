@@ -2,48 +2,41 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class RequestOrderDetailId implements Serializable {
-    private static final long serialVersionUID = 110393245924314348L;
+    private static final long serialVersionUID = 8056738067555543619L;
+    @NotNull
     @Column(name = "MaterialID", nullable = false)
     private Integer materialID;
 
-    @Column(name = "Request_OrderID", nullable = false)
-    private Integer requestOrderID;
-
-    public Integer getMaterialID() {
-        return materialID;
-    }
-
-    public void setMaterialID(Integer materialID) {
-        this.materialID = materialID;
-    }
-
-    public Integer getRequestOrderID() {
-        return requestOrderID;
-    }
-
-    public void setRequestOrderID(Integer requestOrderID) {
-        this.requestOrderID = requestOrderID;
-    }
+    @NotNull
+    @Column(name = "request_orderid", nullable = false)
+    private Integer requestOrderid;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         RequestOrderDetailId entity = (RequestOrderDetailId) o;
-        return Objects.equals(this.requestOrderID, entity.requestOrderID) &&
+        return Objects.equals(this.requestOrderid, entity.requestOrderid) &&
                 Objects.equals(this.materialID, entity.materialID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestOrderID, materialID);
+        return Objects.hash(requestOrderid, materialID);
     }
 
 }

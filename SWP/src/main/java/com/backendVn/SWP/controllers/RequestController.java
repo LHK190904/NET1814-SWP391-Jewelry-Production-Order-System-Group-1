@@ -5,7 +5,6 @@ import com.backendVn.SWP.dtos.request.RequestCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
-import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.services.RequestService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;

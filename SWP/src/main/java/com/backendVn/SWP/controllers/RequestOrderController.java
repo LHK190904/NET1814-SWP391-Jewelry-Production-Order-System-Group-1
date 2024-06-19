@@ -2,6 +2,7 @@ package com.backendVn.SWP.controllers;
 
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
+import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.services.RequestOrderService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -61,4 +62,13 @@ public class RequestOrderController {
                 .result(requestOrderService.assignWork(requestOrderId, designStaffId, productionStaffId))
                 .build();
     }
+
+    @GetMapping("/getUserByRole/{role}")
+    public ApiResponse<List<UserResponse>> getUserByRole(@PathVariable String role) {
+        return ApiResponse.<List<UserResponse>>builder()
+                .result(requestOrderService.getUserByRole(role))
+                .build();
+    }
+
+
 }

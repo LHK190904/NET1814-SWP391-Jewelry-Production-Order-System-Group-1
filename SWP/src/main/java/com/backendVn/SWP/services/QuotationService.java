@@ -1,9 +1,7 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.QuotationCreationRequest;
-import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.dtos.response.QuotationResponse;
-import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;

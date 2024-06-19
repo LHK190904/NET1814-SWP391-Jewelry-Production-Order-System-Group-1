@@ -19,13 +19,13 @@ public class MaterialMapperImpl implements MaterialMapper {
             return null;
         }
 
-        Material material1 = new Material();
+        Material.MaterialBuilder material1 = Material.builder();
 
-        material1.setType( material.getType() );
-        material1.setPricePerUnit( material.getPricePerUnit() );
-        material1.setMaterialName( material.getMaterialName() );
+        material1.type( material.getType() );
+        material1.pricePerUnit( material.getPricePerUnit() );
+        material1.materialName( material.getMaterialName() );
 
-        return material1;
+        return material1.build();
     }
 
     @Override

@@ -1,20 +1,20 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Entity
+@Getter
+@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class InvoiceDetail {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "InvoiceDetailID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,45 +30,5 @@ public class InvoiceDetail {
 
     @Column(name = "TotalCost", precision = 18, scale = 2)
     private BigDecimal totalCost;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Invoice getInvoiceID() {
-        return invoiceID;
-    }
-
-    public void setInvoiceID(Invoice invoiceID) {
-        this.invoiceID = invoiceID;
-    }
-
-    public Material getMaterialID() {
-        return materialID;
-    }
-
-    public void setMaterialID(Material materialID) {
-        this.materialID = materialID;
-    }
-
-    public Integer getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Integer totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public BigDecimal getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
-    }
 
 }

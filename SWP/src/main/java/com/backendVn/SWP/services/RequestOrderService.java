@@ -1,6 +1,7 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
+import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.Design;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.RequestOrder;
@@ -8,6 +9,7 @@ import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestOrderMapper;
+import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.DesignRepository;
 import com.backendVn.SWP.repositories.RequestOrderRepository;
 import com.backendVn.SWP.repositories.RequestRepository;
@@ -27,8 +29,9 @@ public class RequestOrderService {
     RequestOrderRepository requestOrderRepository;
     RequestRepository requestRepository;
     RequestOrderMapper requestOrderMapper;
-    private final DesignRepository designRepository;
-    private final UserRepository userRepository;
+    DesignRepository designRepository;
+    UserRepository userRepository;
+    UserMapper userMapper;
 
     public RequestOrderResponse createRequestOrder(Integer id) {
         Request request = requestRepository.findById(id)
@@ -88,5 +91,10 @@ public class RequestOrderService {
         RequestOrder savedRequestOrder =requestOrderRepository.save(requestOrder);
 
         return requestOrderMapper.toRequestOrderResponse(savedRequestOrder);
+    }
+
+    public List<UserResponse> getUserByRole(String role){
+        return userRepository.findByTitle(role).stream()
+                .map(userMapper::toUserResponse).toList();
     }
 }
