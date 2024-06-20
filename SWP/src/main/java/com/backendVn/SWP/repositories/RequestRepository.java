@@ -13,4 +13,6 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findAllBySaleStaffIDNull();
 
     List<Request> findAllBySaleStaffID(User user);
+
+    List<Request> findByStatus(String status);
 }

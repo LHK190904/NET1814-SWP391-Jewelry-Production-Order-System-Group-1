@@ -9,6 +9,7 @@ import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestMapper;
 import com.backendVn.SWP.mappers.UserMapper;
+import com.backendVn.SWP.repositories.QuotationRepository;
 import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class RequestService {
     UserRepository userRepository;
     RequestMapper requestMapper;
     UserMapper userMapper;
+    private final QuotationRepository quotationRepository;
 
     public RequestResponse createRequest(RequestCreationRequest requestCreationRequest, Integer userId) {
         User customer = userRepository.findById(userId)
@@ -142,5 +144,10 @@ public class RequestService {
         Request savedRequest = requestRepository.save(request);
 
         return requestMapper.toRequestResponse(savedRequest);
+    }
+
+    public List<RequestResponse> getListOfRequestQuotations() {
+        List<Request> requests = requestRepository.findByStatus("Pending quotation");
+        return requests.stream().map(requestMapper::toRequestResponse).toList();
     }
 }

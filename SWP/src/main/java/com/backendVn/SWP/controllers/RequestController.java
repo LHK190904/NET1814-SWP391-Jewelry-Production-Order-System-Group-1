@@ -107,4 +107,11 @@ public class RequestController {
                 .result(requestService.denyQuotationFromCustomer(requestId))
                 .build();
     }
+
+    @GetMapping("/getPendingQuotationRequest")
+    public ApiResponse<List<RequestResponse>> getPendingQuotationRequests() {
+        return ApiResponse.<List<RequestResponse>>builder()
+                .result(requestService.getListOfRequestQuotations())
+                .build();
+    }
 }
