@@ -121,4 +121,15 @@ public class RequestService {
         return userMapper.toUserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found")));
     }
+
+    public RequestResponse  approveQuotationFromCustomer(Integer requestId) {
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        request.setStatus("Ordering");
+
+        Request savedRequest = requestRepository.save(request);
+
+        return requestMapper.toRequestResponse(savedRequest);
+    }
 }

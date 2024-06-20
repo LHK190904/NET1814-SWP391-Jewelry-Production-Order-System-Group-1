@@ -55,4 +55,11 @@ public class RequestOrderDetailService {
 
         return requestOrderDetailMapper.toRequestOrderDetailResponse(savedRequestOrderDetail);
     }
+
+    public RequestOrderDetailResponse updateRequestOrderDetail(RequestOrderDetailRequest requestOrderDetailRequest, RequestOrderDetailId requestOrderDetailId, Integer newMaterialId) {
+        RequestOrderDetail requestOrderDetail = requestOrderDetailRepository.findById(requestOrderDetailId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_DETAIL_NOT_FOUND));
+
+        return null;
+    }
 }

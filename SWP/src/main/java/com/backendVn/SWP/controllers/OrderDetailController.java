@@ -33,4 +33,10 @@ public class OrderDetailController {
                 .result(requestOrderDetailService.createRequestOrderDetail(request,requestOrderId,materialId))
                 .build();
     }
+
+    @PutMapping("/{requestOrderDetailId}/{newMaterialId}")
+    public ApiResponse<RequestOrderDetailResponse> updateOrderDetail(@PathVariable Integer requestOrderDetailId, @PathVariable Integer newMaterialId){
+        return ApiResponse.<RequestOrderDetailResponse>builder()
+                .build();
+    }
 }

@@ -56,6 +56,9 @@ public class QuotationService {
         Quotation quotation = quotationRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
 
+        Request request = requestRepository.findById(quotation.getRequestID().getId())
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
         var context = SecurityContextHolder.getContext();
         String username = context.getAuthentication().getName();
 
@@ -63,9 +66,22 @@ public class QuotationService {
 
         quotation.setApproveBy(user);
         quotation.setApprovedAt(Instant.now());
+        request.setStatus("Pending quotation for customer");
 
+        requestRepository.save(request);
         Quotation savedQuotation = quotationRepository.save(quotation);
 
         return quotationMapper.toQuotationResponse(savedQuotation);
     }
+
+    public QuotationResponse getQuotationById(Integer requestId){
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        Quotation quotation = quotationRepository.findByRequestID(request)
+                .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
+
+        return quotationMapper.toQuotationResponse(quotation);
+    }
+
 }

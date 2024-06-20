@@ -93,4 +93,11 @@ public class RequestController {
                 .result(requestService.getUserById(customerId))
                 .build();
     }
+
+    @PutMapping("/approveQuotationFromCustomer/{requestId}")
+    public ApiResponse<RequestResponse> approveQuotationFromCustomer(@PathVariable Integer requestId) {
+        return ApiResponse.<RequestResponse>builder()
+                .result(requestService.approveQuotationFromCustomer(requestId))
+                .build();
+    }
 }

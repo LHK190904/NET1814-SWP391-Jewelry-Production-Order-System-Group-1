@@ -32,7 +32,8 @@ public enum ErrorCode {
     DESIGN_NAME_TOO_LONG(1023, "Design name cannot exceed 100 characters", HttpStatus.BAD_REQUEST),
     DESCRIPTION_TOO_LONG(1024, "Description cannot exceed 255 characters", HttpStatus.BAD_REQUEST),
     URL_IMAGE_TOO_LONG(1025, "URL image cannot exceed 255 characters", HttpStatus.BAD_REQUEST),
-    TOKEN_EMPTY(1026, "Token cannot be empty", HttpStatus.BAD_REQUEST);
+    TOKEN_EMPTY(1026, "Token cannot be empty", HttpStatus.BAD_REQUEST),
+    REQUEST_ORDER_DETAIL_NOT_FOUND(1027, "Request Order detail not found", HttpStatus.NOT_FOUND),
     ;
     private int code;
     private String message;

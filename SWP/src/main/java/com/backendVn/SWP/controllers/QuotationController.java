@@ -3,6 +3,7 @@ package com.backendVn.SWP.controllers;
 import com.backendVn.SWP.dtos.request.QuotationCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.QuotationResponse;
+import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.services.QuotationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,9 @@ import java.util.List;
 public class QuotationController {
     QuotationService quotationService;
 
-    @PostMapping("/{Id}")
-    public ApiResponse<QuotationResponse> createQuotation(@PathVariable Integer Id, @RequestBody QuotationCreationRequest quotationCreationRequest){
-        QuotationResponse quotationResponse = quotationService.createQuotation(quotationCreationRequest, Id);
+    @PostMapping("/{requestId}")
+    public ApiResponse<QuotationResponse> createQuotation(@PathVariable Integer requestIdId, @RequestBody QuotationCreationRequest quotationCreationRequest){
+        QuotationResponse quotationResponse = quotationService.createQuotation(quotationCreationRequest, requestIdId);
         return ApiResponse.<QuotationResponse>builder()
                 .result(quotationResponse)
                 .build();
@@ -37,6 +38,13 @@ public class QuotationController {
     public ApiResponse<QuotationResponse> updateQuotation(@PathVariable Integer Id){
         return ApiResponse.<QuotationResponse>builder()
                 .result(quotationService.updateQuotation(Id))
+                .build();
+    }
+
+    @GetMapping("/{requestId}")
+    public ApiResponse<QuotationResponse> getQuotationByRequestId(@PathVariable Integer requestId){
+        return ApiResponse.<QuotationResponse>builder()
+                .result(quotationService.getQuotationById(requestId))
                 .build();
     }
 }

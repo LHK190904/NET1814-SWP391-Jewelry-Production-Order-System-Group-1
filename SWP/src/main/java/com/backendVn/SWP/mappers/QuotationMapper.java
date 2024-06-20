@@ -12,5 +12,6 @@ public interface QuotationMapper {
     Quotation toQuotation(QuotationCreationRequest quotationCreationRequest);
 
     @Mapping(target = "requestID", source = "requestID.id")
+    @Mapping(target = "approvedBy", source = "approveBy.id")
     QuotationResponse toQuotationResponse(Quotation quotation);
 }
