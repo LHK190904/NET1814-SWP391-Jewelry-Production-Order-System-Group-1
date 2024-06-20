@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
 
 function ManagerRequest() {
@@ -11,22 +11,9 @@ function ManagerRequest() {
 
   const fetchRequests = async () => {
     try {
-      const reqResponse = await axiosInstance.get(`requests`);
-      const quoResponse = await axiosInstance.get(`quotation`);
-
-      const reqs = reqResponse.data.result;
-      const quos = quoResponse.data.result;
-
-      // Merging requests and quotations based on requestID
-      const mergedData = reqs.map((request) => {
-        const quotation = quos.find((q) => q.requestID === request.id);
-        return {
-          ...request,
-          cost: quotation ? quotation.cost : "N/A",
-        };
-      });
-
-      setRequests(mergedData);
+      const response = await axiosInstance.get(``);
+      setRequests(response.data.result);
+      console.log(requests);
     } catch (error) {
       console.error(error);
     }
@@ -45,12 +32,22 @@ function ManagerRequest() {
     setStatuses((prev) => ({ ...prev, [reqId]: "action" }));
   };
 
-  const handleApprove = (reqId) => {
-    setStatuses((prev) => ({ ...prev, [reqId]: "Approved" }));
+  const handleApprove = async (quoID) => {
+    try {
+      const response = await axiosInstance.put(`quotation/update/${quoID}`);
+      console.log(response.data.result);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleDeny = (reqId) => {
-    setStatuses((prev) => ({ ...prev, [reqId]: "Denied" }));
+  const handleDeny = async (quoID) => {
+    try {
+      const response = await axiosInstance.put(`quotation/update/${quoID}`);
+      console.log(response.data.result);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleCloseModal = () => {

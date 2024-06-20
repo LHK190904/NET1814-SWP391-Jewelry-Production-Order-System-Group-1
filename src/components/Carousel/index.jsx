@@ -23,7 +23,7 @@ function Carousel(numberOfSlides = 1, autoplay = false) {
         autoplay={{ delay: 2500, disableOnInteraction: false }}
         pagination={true}
         modules={[Pagination, Autoplay]}
-        className="mySwiper w-screen"
+        className="w-screen"
         // slidesPerView={numberOfSlides}
       >
         {/* {banners.map((banner) => {

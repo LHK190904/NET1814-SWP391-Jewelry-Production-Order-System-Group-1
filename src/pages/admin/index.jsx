@@ -148,6 +148,7 @@ function Admin() {
     try {
       const response = await axiosInstance.post("/user", values);
       setData([...data, { ...response.data.result, key: response.data.id }]);
+      console.log(response.data.result);
       createForm.resetFields();
       handleHideModal();
       message.success("Tạo tài khoản thành công");
@@ -332,11 +333,11 @@ function Admin() {
 
   return (
     <>
-      <div className="bg-[#353640] text-white h-40 flex justify-center items-center text-2xl">
+      <div className="bg-[#353640] text-white h-40 flex justify-center items-center text-2xl w-screen">
         <h1>Welcome Admin</h1>
       </div>
       <Navbar />
-      <div className="bg-[#D9D9D9] h-60 flex pt-5 justify-center">
+      <div className="bg-[#D9D9D9] h-60 flex pt-5 justify-center w-screen">
         <Button type="primary" onClick={showModal}>
           Tạo tài khoản
         </Button>
@@ -425,7 +426,7 @@ function Admin() {
           </Form>
         </Modal>
       </div>
-      <div>
+      <div className="w-screen">
         <Form form={form} component={false}>
           <Table
             components={{ body: { cell: EditableCell } }}

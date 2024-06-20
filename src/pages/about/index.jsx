@@ -2,32 +2,55 @@ import React from "react";
 
 export default function About() {
   return (
-    <div className="w-screen bg-[#434343] flex flex-col items-center py-12">
-      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-8">
-        <h1 className="text-4xl font-bold text-center mb-8">About Us</h1>
-        <p className="text-lg leading-relaxed mb-4">
-          Welcome to our company! We are a team of passionate individuals
-          dedicated to providing the best service and products to our customers.
-          Our mission is to deliver high-quality solutions that exceed your
-          expectations.
-        </p>
-        <p className="text-lg leading-relaxed mb-4">
-          Founded in [Year], we have grown from a small startup to a
-          well-established organization with a diverse team of experts. Our
-          values are rooted in integrity, innovation, and customer satisfaction.
-          We believe in building long-lasting relationships with our clients and
-          continuously improving our offerings.
-        </p>
-        <p className="text-lg leading-relaxed mb-4">
-          Our team consists of professionals from various backgrounds, each
-          bringing unique skills and perspectives to the table. Together, we
-          work tirelessly to achieve our goals and support our clients in
-          reaching theirs.
-        </p>
-        <p className="text-lg leading-relaxed">
-          Thank you for choosing us. We look forward to working with you and
-          helping you succeed.
-        </p>
+    <div className="w-screen min-h-screen bg-[#434343]">
+      <div className="grid grid-cols-12 grid-rows-9">
+        <div className="grid col-start-2 col-span-4 row-start-4 text-xl text-white">
+          <h1 className="text-[#F7EF8A] text-4xl">WELCOME TO LUXE,</h1>
+          Your trusted partner in streamlining and optimizing jewelry production
+          orders. Our platform is designed to bring efficiency, transparency,
+          and ease to the intricate process of jewelry manufacturing.
+        </div>
+        <div className="grid col-start-7 col-span-2 row-start-3 row-span-3 ">
+          <img src="./src/assets/images/about2.jpg" alt="" className="w-full" />
+        </div>
+        <div className="grid col-start-10 col-span-2 row-start-2 row-span-3">
+          <img src="./src/assets/images/about3.jpg" alt="" />
+        </div>
+        <div className="grid col-start-9 col-span-2 row-start-4 row-span-4 ">
+          <img src="./src/assets/images/about1.jpg" alt="" className="ml-20" />
+        </div>
+        <div className="grid col-start-2 col-span-4 row-start-6 row-span-1 text-xl text-white">
+          <p className="text-[#F7EF8A] text-4xl">AT LUXE</p>
+          Our mission is to revolutionize the jewelry production industry by
+          providing a comprehensive order management system. We aim to empower
+          designers, manufacturers, and retailers to collaborate seamlessly,
+          ensuring that every piece of jewelry is crafted to perfection and
+          delivered on time.
+        </div>
+        <div className="grid col-start-8 col-span-4 row-start-7 row-span-1 items-end">
+          <p className="text-[#F7EF8A] text-4xl">WHAT WE OFFER</p>
+          <ul className="text-xl text-white">
+            <li>+ Efficient order tracking from design to delivery</li>
+            <li>+ Real-time updates and notifications</li>
+            <li>
+              + Comprehensive database of designers, materials, and
+              manufacturers
+            </li>
+            <li>+ Seamless communication channels for all stakeholders</li>
+            <li>
+              + Detailed analytics and reporting tools to optimize production
+            </li>
+          </ul>
+        </div>
+        <div className="grid col-start-2 col-span-4 row-start-8 row-span-1 text-white text-xl">
+          <p className="text-[#F7EF8A] text-4xl">OUR STORY</p>
+          Founded in 2024, JewelryPro was born out of a passion for both
+          technology and fine jewelry. Our founders, a team of seasoned
+          professionals in the jewelry and tech industries, recognized the need
+          for a robust system to manage the complexities of jewelry production.
+          With this vision, they set out to create a platform that bridges the
+          gap between traditional craftsmanship and modern technology.
+        </div>
       </div>
     </div>
   );

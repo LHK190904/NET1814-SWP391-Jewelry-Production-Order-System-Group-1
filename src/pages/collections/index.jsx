@@ -2,8 +2,8 @@ import React from "react";
 
 export default function Collections() {
   return (
-    <div className="flex items-center justify-center h-screen w-screen bg-[#434343]">
-      <h1 className="text-4xl font-bold text-white">Collections Page</h1>
+    <div className="min-h-screen w-screen bg-[#434343]">
+      <div className="grid grid-cols-12 bg-white">a</div>
     </div>
   );
 }

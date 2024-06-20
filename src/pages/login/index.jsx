@@ -17,11 +17,17 @@ function Login() {
       if (user) {
         setCurrentUser(user);
         if (user.title === "ADMIN") {
-          navigate("/admin"); // Navigate to admin page if user is an admin
+          navigate("/admin");
         } else if (user.title === "SALE_STAFF") {
           navigate("/saler/receive_requests");
+        } else if (user.title === "MANAGER") {
+          navigate("/manager/order");
+        } else if (user.title === "DESIGN_STAFF") {
+          navigate("/designer");
+        } else if (user.title === "PRODUCTION_STAFF") {
+          navigate("/production-staff");
         } else {
-          navigate("/"); // Navigate to customer page if user is a customer
+          navigate("/");
         }
       } else {
         setErrorMessage("Login failed");

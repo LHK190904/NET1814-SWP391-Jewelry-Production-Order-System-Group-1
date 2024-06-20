@@ -22,6 +22,7 @@ import Designer from "./pages/designer";
 import ProductionStaff from "./pages/production-staff";
 import ProcessRequests from "./pages/saler/process_requests";
 import ReceiveRequests from "./pages/saler/receive_requests";
+import Order from "./pages/order";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -85,6 +86,10 @@ function App() {
           path: "/product-details/:productId",
           element: <ProductDetails />,
         },
+        {
+          path: "/order/:requestID",
+          element: <Order />,
+        },
       ],
     },
     {
@@ -104,7 +109,7 @@ function App() {
     // },
     {
       path: "/saler/receive_requests",
-      element: (   
+      element: (
         <ProtectedRoute
           element={<ReceiveRequests />}
           isAllowed={isAuthenticated()}
@@ -158,7 +163,7 @@ function App() {
   return (
     <CartProvider>
       {/* <RequestProvider> */}
-        <RouterProvider router={router} />
+      <RouterProvider router={router} />
       {/* </RequestProvider> */}
     </CartProvider>
   );
