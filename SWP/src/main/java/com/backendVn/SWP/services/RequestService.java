@@ -132,4 +132,15 @@ public class RequestService {
 
         return requestMapper.toRequestResponse(savedRequest);
     }
+
+    public RequestResponse denyQuotationFromCustomer(Integer requestId) {
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        request.setStatus("Processing");
+
+        Request savedRequest = requestRepository.save(request);
+
+        return requestMapper.toRequestResponse(savedRequest);
+    }
 }
