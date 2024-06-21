@@ -74,14 +74,14 @@ public class QuotationService {
         return quotationMapper.toQuotationResponse(savedQuotation);
     }
 
-    public QuotationResponse getQuotationById(Integer requestId){
+    public List<QuotationResponse> getQuotationById(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        Quotation quotation = quotationRepository.findByRequestID(request)
+        List<Quotation> quotation = quotationRepository.findByRequestID(request)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
 
-        return quotationMapper.toQuotationResponse(quotation);
+        return quotation.stream().map(quotationMapper::toQuotationResponse).toList();
     }
 
 }

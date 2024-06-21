@@ -42,8 +42,8 @@ public class QuotationController {
     }
 
     @GetMapping("/{requestId}")
-    public ApiResponse<QuotationResponse> getQuotationByRequestId(@PathVariable Integer requestId){
-        return ApiResponse.<QuotationResponse>builder()
+    public ApiResponse<List<QuotationResponse>> getQuotationByRequestId(@PathVariable Integer requestId){
+        return ApiResponse.<List<QuotationResponse>>builder()
                 .result(quotationService.getQuotationById(requestId))
                 .build();
     }
