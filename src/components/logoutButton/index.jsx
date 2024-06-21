@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
 
@@ -11,7 +11,7 @@ function LogoutButton() {
   };
 
   return (
-    <button onClick={handleLogout} className="text-[#F7EF8A]">
+    <button className="bg-red-500 text-black rounded-md p-1" onClick={handleLogout}>
       ĐĂNG XUẤT
     </button>
   );

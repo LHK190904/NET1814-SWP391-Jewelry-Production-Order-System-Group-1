@@ -146,7 +146,9 @@ function Admin() {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
+      // console.log(values);
       const response = await axiosInstance.post("/user", values);
+
       setData([...data, { ...response.data.result, key: response.data.id }]);
       console.log(response.data.result);
       createForm.resetFields();

@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
 import { Button, Table } from "antd";
 import { Link, useLocation } from "react-router-dom";
+<<<<<<< HEAD
 import LogoutButton from "../../../components/LogoutButton";
+=======
+import LogoutButton from "../../../components/logoutButton";
+>>>>>>> 1c2dfb3 (upload picture in designer page)
 
 function ReceiveRequests() {
   const [requests, setRequests] = useState([]);
@@ -53,7 +57,9 @@ function ReceiveRequests() {
         <h1 className="text-6xl font-extrabold text-center">
           Nhân viên bán hàng
         </h1>
-        <LogoutButton />
+        <div className="mr-10">
+          <LogoutButton />
+        </div>
       </div>
       <div className="mb-4">
         <Link

@@ -15,6 +15,7 @@ import {
 import { useForm } from "antd/es/form/Form";
 import { Link, useLocation } from "react-router-dom";
 import FormItem from "antd/es/form/FormItem";
+import LogoutButton from "../../../components/logoutButton";
 
 function ProcessRequests() {
   const [requests, setRequests] = useState([]);
@@ -33,7 +34,9 @@ function ProcessRequests() {
         setSaleName(saler.username);
         console.log(saleName);
         try {
-          const response = await axiosInstance.get(`/requests/sales/${saler.id}`);
+          const response = await axiosInstance.get(
+            `/requests/sales/${saler.id}`
+          );
           setRequests(response.data.result);
         } catch (error) {
           console.error("Không thể lấy yêu cầu:", error);
@@ -74,7 +77,10 @@ function ProcessRequests() {
         ...values,
         status: "Processing",
       };
-      await axiosInstance.post(`/quotation/${selectedRecord.id}`, updatedRecord);
+      await axiosInstance.post(
+        `/quotation/${selectedRecord.id}`,
+        updatedRecord
+      );
       setRequests(
         requests.map((request) =>
           request.id === updatedRecord.id ? updatedRecord : request
@@ -94,7 +100,9 @@ function ProcessRequests() {
 
   const handleShowCustomerInfo = async (record) => {
     try {
-      const response = await axiosInstance.get(`/requests/customerInfo/${record.customerID}`);
+      const response = await axiosInstance.get(
+        `/requests/customerInfo/${record.customerID}`
+      );
       setCustomerInfo(response.data.result);
       setIsCustomerModalOpen(true);
     } catch (error) {
@@ -150,9 +158,14 @@ function ProcessRequests() {
 
   return (
     <div>
-      <h1 className="text-6xl font-extrabold pb-9 bg-slate-400 text-center">
-        Nhân viên bán hàng <h2>Tên: {saleName}</h2>
-      </h1>
+      <div className="flex justify-between items-center pb-9 bg-slate-400">
+        <h1 className="text-6xl font-extrabold pb-9 bg-slate-400 text-center">
+          Nhân viên bán hàng <h2>Tên: {saleName}</h2>
+        </h1>
+        <div className="mr-10">
+          <LogoutButton />
+        </div>
+      </div>
 
       <div className="mb-4">
         <Link
