@@ -17,6 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -74,14 +77,21 @@ public class QuotationService {
         return quotationMapper.toQuotationResponse(savedQuotation);
     }
 
-    public List<QuotationResponse> getQuotationById(Integer requestId){
+    public QuotationResponse getQuotationById(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
         List<Quotation> quotation = quotationRepository.findByRequestID(request)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
 
-        return quotation.stream().map(quotationMapper::toQuotationResponse).toList();
+        Collections.sort(quotation, new Comparator<Quotation>() {
+            @Override
+            public int compare(Quotation o1, Quotation o2) {
+                return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+            }
+        });
+
+        return quotationMapper.toQuotationResponse(quotation.getLast());
     }
 
 }
