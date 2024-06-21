@@ -84,6 +84,8 @@ public class QuotationService {
         List<Quotation> quotation = quotationRepository.findByRequestID(request)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
 
+        if(quotation.isEmpty())return new QuotationResponse();
+
         Collections.sort(quotation, new Comparator<Quotation>() {
             @Override
             public int compare(Quotation o1, Quotation o2) {

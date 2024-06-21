@@ -70,5 +70,8 @@ public class RequestOrderController {
                 .build();
     }
 
-
+    @GetMapping("/getOrderForDesigner/{designerStaffId}")
+    public ApiResponse<List<RequestOrderResponse>> getOrderForDesigner(@PathVariable Integer designerStaffId) {
+        return ApiResponse.<List<RequestOrderResponse>>builder().build();
+    }
 }

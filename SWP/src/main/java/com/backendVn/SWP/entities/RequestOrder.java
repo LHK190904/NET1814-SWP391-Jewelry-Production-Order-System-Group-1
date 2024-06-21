@@ -17,8 +17,8 @@ import java.time.Instant;
 @Table(name = "request_order")
 public class RequestOrder {
     @Id
-    @Column(name = "request_orderid", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "request_orderid", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -48,5 +48,10 @@ public class RequestOrder {
 
     @Column(name = "end_at")
     private Instant endAt;
+
+    @Nationalized
+    @Lob
+    @Column(name = "Description")
+    private String description;
 
 }

@@ -97,4 +97,13 @@ public class RequestOrderService {
         return userRepository.findByTitle(role).stream()
                 .map(userMapper::toUserResponse).toList();
     }
+
+    public List<RequestOrderResponse> getRequestOrdersByDesign(Integer designId){
+        User user = userRepository.findById(designId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        List<RequestOrder> requestOrders = requestOrderRepository.findAllByDesignStaff(user);
+
+        return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
+    }
 }
