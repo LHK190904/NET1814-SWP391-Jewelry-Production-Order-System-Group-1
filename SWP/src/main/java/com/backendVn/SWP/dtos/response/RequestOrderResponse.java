@@ -18,4 +18,5 @@ public class RequestOrderResponse {
     Integer productionStaff;
     String status;
     Instant createdAt;
+    String description;
 }

@@ -104,6 +104,7 @@ public class RequestOrderService {
 
         List<RequestOrder> requestOrders = requestOrderRepository.findAllByDesignStaff(user);
 
+        if(requestOrders.isEmpty())return null;
         return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
     }
 }
