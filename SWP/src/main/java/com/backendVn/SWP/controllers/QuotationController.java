@@ -20,8 +20,8 @@ public class QuotationController {
     QuotationService quotationService;
 
     @PostMapping("/{requestId}")
-    public ApiResponse<QuotationResponse> createQuotation(@PathVariable Integer requestIdId, @RequestBody QuotationCreationRequest quotationCreationRequest){
-        QuotationResponse quotationResponse = quotationService.createQuotation(quotationCreationRequest, requestIdId);
+    public ApiResponse<QuotationResponse> createQuotation(@PathVariable Integer requestId, @RequestBody QuotationCreationRequest quotationCreationRequest){
+        QuotationResponse quotationResponse = quotationService.createQuotation(quotationCreationRequest, requestId);
         return ApiResponse.<QuotationResponse>builder()
                 .result(quotationResponse)
                 .build();
