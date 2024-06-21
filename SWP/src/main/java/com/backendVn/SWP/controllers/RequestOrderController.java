@@ -1,8 +1,11 @@
 package com.backendVn.SWP.controllers;
 
+import com.backendVn.SWP.dtos.request.RequestOrderCreationRequest;
+import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
+import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.services.RequestOrderService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -20,8 +23,8 @@ public class RequestOrderController {
     RequestOrderService requestOrderService;
 
     @PostMapping("/{id}")
-    public ApiResponse<RequestOrderResponse> createRequestOrder(@PathVariable Integer id) {
-        RequestOrderResponse requestOrderResponse = requestOrderService.createRequestOrder(id);
+    public ApiResponse<RequestOrderResponse> createRequestOrder(@PathVariable Integer id, @RequestBody @Valid RequestOrderCreationRequest request) {
+        RequestOrderResponse requestOrderResponse = requestOrderService.createRequestOrder(id, request);
         return ApiResponse.<RequestOrderResponse>builder()
                 .result(requestOrderResponse)
                 .build();
