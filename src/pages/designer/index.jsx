@@ -46,7 +46,6 @@ function Designer() {
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
   };
-
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
   const handleUpload = async () => {
