@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, message, Upload, Modal, Image } from "antd";
 import uploadFile from "../../utils/upload";
+import LogoutButton from "../../components/logoutButton";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -14,13 +15,14 @@ const getBase64 = (file) =>
 
 function Designer() {
   const [listItems, setListItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
-  const API_URL = "https://664ef13afafad45dfae19e02.mockapi.io/Product";
+  const [folderURL, setFolderURL] = useState("");
+  const API_URL = "https://663ddef6e1913c476795b585.mockapi.io/account";
 
   const fetchInfo = async () => {
     try {
@@ -35,8 +37,16 @@ function Designer() {
     fetchInfo();
   }, []);
 
-  const handleItemClick = (item) => {
-    setSelectedItem(item);
+  const handleItemClick = async (item) => {
+    if (selectedItem?.orderID === item.orderID) return;
+    try {
+      const response = await axios.get(
+        `https://663ddef6e1913c476795b585.mockapi.io/account/${item.orderID}`
+      );
+      setSelectedItem({ ...item, folderURL: response.data.folderURL });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handlePreview = async (file) => {
@@ -46,27 +56,29 @@ function Designer() {
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
   };
+
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
   const handleUpload = async () => {
     setUploading(true);
-
     try {
-      // Tạo mảng các promises để tải lên tất cả các file
       const uploadPromises = fileList.map(async (file) => {
-        const url = await uploadFile(file.originFileObj);
-        return { url, id: selectedItem.orderID };  // Sử dụng orderID làm id
+        const url = await uploadFile(
+          file.originFileObj,
+          `orders/${selectedItem.orderID}`
+        );
+        return { url, id: selectedItem.orderID };
       });
 
-      // Chờ tất cả các upload hoàn tất
       const uploadedFiles = await Promise.all(uploadPromises);
+      const folderURL = `https://your-storage-url.com/orders/${selectedItem.orderID}`;
 
-      // Gửi yêu cầu lưu thông tin ảnh vào API
-      const response = await axios.post(
-        "https://663ddef6e1913c476795b585.mockapi.io/account",
-        uploadedFiles
-      );
+      await axios.post("https://663ddef6e1913c476795b585.mockapi.io/account", {
+        orderID: selectedItem.orderID,
+        folderURL: folderURL,
+      });
 
+      setFolderURL(folderURL);
       setFileList([]);
       message.success("Tải lên thành công.");
       setIsModalOpen(false);
@@ -81,7 +93,7 @@ function Designer() {
   const uploadButton = (
     <div>
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>Tải lên</div>
     </div>
   );
 
@@ -94,21 +106,39 @@ function Designer() {
     setFileList([]);
   };
 
+  const fetchImages = async () => {
+    try {
+      console.log(selectedItem.folderURL);
+      const response = await axios.get(selectedItem.folderURL);
+      const images = response.data.urls;
+      setSelectedItem((prevItem) => ({ ...prevItem, images: images }));
+    } catch (error) {
+      console.error("Error fetching images:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedItem && selectedItem.folderURL) {
+      fetchImages();
+    }
+  }, [selectedItem?.folderURL]);
+
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
       <div className="text-white text-7xl text-center">Design staff</div>
+      <div className="text-end mr-4">
+        <LogoutButton />
+      </div>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-start-1 col-span-9 bg-white m-4 rounded-lg p-4">
           <h1 className="text-center font-extrabold text-3xl">
-            CHI TIẾT ĐƠN HÀNG {selectedItem.orderID}
+            CHI TIẾT ĐƠN HÀNG {selectedItem?.orderID}
           </h1>
           <div className="grid grid-cols-2 text-center mt-4">
-            {/* <div className="col-span-1 font-bold">MÃ ĐƠN</div> */}
             <div className="col-span-1 font-bold">MÔ TẢ</div>
             <div className="col-span-1 font-bold">BẢN THIẾT KẾ</div>
             {selectedItem ? (
               <React.Fragment key={selectedItem.orderID}>
-                {/* <div className="col-span-1">{selectedItem.orderID}</div> */}
                 <div className="col-span-1 mt-2">
                   {selectedItem.description || "Descrption"}
                 </div>
@@ -116,6 +146,11 @@ function Designer() {
                   <Button icon={<UploadOutlined />} onClick={openModal}>
                     Chọn file
                   </Button>
+                </div>
+                <div className="col-span-2 mt-4">
+                  {selectedItem.images?.map((url, index) => (
+                    <Image key={index} src={url} />
+                  ))}
                 </div>
               </React.Fragment>
             ) : (
@@ -134,7 +169,9 @@ function Designer() {
             {listItems.map((item) => (
               <React.Fragment key={item.orderID}>
                 <div
-                  className="col-span-1 cursor-pointer"
+                  className={`col-span-1 cursor-pointer ${
+                    selectedItem?.orderID === item.orderID ? "underline" : ""
+                  }`}
                   onClick={() => handleItemClick(item)}
                 >
                   {item.orderID}

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Carousel from "../../components/Carousel";
+import { useState } from "react";
+import Carousel from "../../components/carousel";
 import { Input, Modal, Form } from "antd";
 import { useForm } from "antd/es/form/Form";
 import authService from "../../services/authService";
@@ -14,10 +14,6 @@ export default function Home() {
   };
 
   const handleHideModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
     setIsModalOpen(false);
   };
 
@@ -61,7 +57,7 @@ export default function Home() {
         title="YÊU CẦU TƯ VẤN GIA CÔNG"
         visible={isModalOpen}
         onOk={handleOk}
-        onCancel={handleCancel}
+        onCancel={handleHideModal}
       >
         <Form
           form={form}
