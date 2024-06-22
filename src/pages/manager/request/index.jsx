@@ -42,19 +42,21 @@ function ManagerRequest() {
     setStatuses((prev) => ({ ...prev, [reqId]: "action" }));
   };
 
-  const handleApprove = async (quoID) => {
+  const handleApprove = async (quoID, reqID) => {
     try {
       const response = await axiosInstance.put(`quotation/update/${quoID}`);
       console.log(response.data.result);
+      setStatuses((prev) => ({ ...prev, [reqID]: "Approved" }));
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDeny = async (quoID) => {
+  const handleDeny = async (quoID, reqID) => {
     try {
       const response = await axiosInstance.put(`quotation/update/${quoID}`);
       console.log(response.data.result);
+      setStatuses((prev) => ({ ...prev, [reqID]: "Denied" }));
     } catch (error) {
       console.error(error);
     }
@@ -122,25 +124,26 @@ function ManagerRequest() {
             <div className="col-span-1 border p-2 text-center bg-white">
               {statuses[item.id] === "action" ? (
                 <div>
-                  <Button
-                    type="link"
-                    onClick={() => handleApprove(item.quotation.id)}
-                    className="text-green-500 mr-2"
+                  <button
+                    onClick={() => handleApprove(item.quotation.id, item.id)}
+                    className="bg-green-400 text-black p-2 rounded-lg mr-2 "
                   >
                     Approve
-                  </Button>
-                  <Button
-                    type="link"
-                    onClick={() => handleDeny(item.quotation.id)}
-                    className="text-red-500"
+                  </button>
+                  <button
+                    onClick={() => handleDeny(item.quotation.id, item.id)}
+                    className="bg-red-400 text-black p-2 rounded-lg"
                   >
                     Deny
-                  </Button>
+                  </button>
                 </div>
               ) : (
-                <Button type="link" onClick={() => handleStatusClick(item.id)}>
+                <button
+                  onClick={() => handleStatusClick(item.id)}
+                  className="bg-blue-400 p-2 rounded-lg "
+                >
                   {statuses[item.id] || item.status}
-                </Button>
+                </button>
               )}
             </div>
           </React.Fragment>
