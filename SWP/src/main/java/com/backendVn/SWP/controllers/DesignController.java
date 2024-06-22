@@ -21,9 +21,9 @@ import java.util.List;
 public class DesignController {
     DesignService designService;
 
-    @PostMapping
-    public ApiResponse<DesignResponse> createDesign(@RequestBody @Valid DesignCreationRequest designCreationRequest) {
-        DesignResponse designResponse = designService.createDesign(designCreationRequest);
+    @PostMapping("/{requestOrderId}")
+    public ApiResponse<DesignResponse> createDesign(@RequestBody @Valid DesignCreationRequest designCreationRequest, @PathVariable Integer requestOrderId) {
+        DesignResponse designResponse = designService.createDesign(designCreationRequest, requestOrderId);
         return ApiResponse.<DesignResponse>builder()
                 .result(designResponse)
                 .build();

@@ -7,14 +7,14 @@ import org.hibernate.annotations.Nationalized;
 
 @Getter
 @Setter
+@Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class Design {
     @Id
-    @Column(name = "DesignID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "DesignID", nullable = false)
     private Integer id;
 
     @Size(max = 100)
@@ -27,8 +27,8 @@ public class Design {
     @Column(name = "Description")
     private String description;
 
-    @Size(max = 255)
     @Nationalized
+    @Lob
     @Column(name = "URLImage")
     private String uRLImage;
 

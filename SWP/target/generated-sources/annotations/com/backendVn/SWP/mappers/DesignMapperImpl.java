@@ -23,6 +23,7 @@ public class DesignMapperImpl implements DesignMapper {
         Design.DesignBuilder design = Design.builder();
 
         design.designName( designCreationRequest.getDesignName() );
+        design.description( designCreationRequest.getDescription() );
 
         return design.build();
     }
