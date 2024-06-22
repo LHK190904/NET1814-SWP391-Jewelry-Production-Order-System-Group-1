@@ -27,6 +27,7 @@ public class RequestOrderMapperImpl implements RequestOrderMapper {
         requestOrderResponse.designID( requestOrderDesignIDId( requestOrder ) );
         requestOrderResponse.designStaff( requestOrderDesignStaffId( requestOrder ) );
         requestOrderResponse.productionStaff( requestOrderProductionStaffId( requestOrder ) );
+        requestOrderResponse.description( requestOrder.getDescription() );
         requestOrderResponse.id( requestOrder.getId() );
         requestOrderResponse.status( requestOrder.getStatus() );
         requestOrderResponse.createdAt( requestOrder.getCreatedAt() );

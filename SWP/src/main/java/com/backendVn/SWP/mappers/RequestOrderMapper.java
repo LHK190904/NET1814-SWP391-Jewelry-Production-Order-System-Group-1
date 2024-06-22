@@ -12,5 +12,6 @@ public interface RequestOrderMapper {
     @Mapping(target = "designID", source = "designID.id")
     @Mapping(target = "designStaff", source = "designStaff.id")
     @Mapping(target = "productionStaff", source = "productionStaff.id")
+    @Mapping(target = "description", source = "description")
     RequestOrderResponse toRequestOrderResponse(RequestOrder requestOrder);
 }
