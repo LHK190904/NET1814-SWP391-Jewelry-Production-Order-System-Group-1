@@ -60,6 +60,15 @@ public class RequestOrderDetailService {
         RequestOrderDetail requestOrderDetail = requestOrderDetailRepository.findById(requestOrderDetailId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_DETAIL_NOT_FOUND));
 
-        return null;
+        requestOrderDetail = requestOrderDetailMapper.toRequestOrderDetail(requestOrderDetailRequest);
+
+        requestOrderDetail.getId().setMaterialID(newMaterialId);
+
+        Material newMaterial = materialRepository.findById(newMaterialId)
+                .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+        requestOrderDetail.setMaterialID(newMaterial);
+
+        return requestOrderDetailMapper
+                .toRequestOrderDetailResponse(requestOrderDetailRepository.save(requestOrderDetail));
     }
 }

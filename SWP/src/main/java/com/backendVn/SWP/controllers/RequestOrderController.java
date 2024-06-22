@@ -79,4 +79,11 @@ public class RequestOrderController {
                 .result(requestOrderService.getRequestOrdersByDesign(designerStaffId))
                 .build();
     }
+
+    @GetMapping("/getOrderByRequestIdForCustomer/{requestId}")
+    public ApiResponse<List<RequestOrderResponse>> getOrderByRequestIdForCustomer(@PathVariable Integer requestId){
+        return ApiResponse.<List<RequestOrderResponse>>builder()
+                .result(requestOrderService.getOrderByRequestIdForCustomer(requestId))
+                .build();
+    }
 }

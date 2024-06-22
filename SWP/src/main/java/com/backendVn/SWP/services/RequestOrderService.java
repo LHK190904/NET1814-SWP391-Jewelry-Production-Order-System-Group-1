@@ -109,4 +109,14 @@ public class RequestOrderService {
         if(requestOrders.isEmpty())return null;
         return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
     }
+
+    public List<RequestOrderResponse> getOrderByRequestIdForCustomer(Integer requestId){
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        List<RequestOrder> requestOrders = requestOrderRepository.findByRequestID(request);
+
+        if(requestOrders.isEmpty())return null;
+        return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
+    }
 }
