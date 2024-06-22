@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,5 +15,5 @@ public class DesignResponse {
     Integer id;
     String designName;
     String description;
-    String uRLImage;
+    List<String> listURLImage;
 }

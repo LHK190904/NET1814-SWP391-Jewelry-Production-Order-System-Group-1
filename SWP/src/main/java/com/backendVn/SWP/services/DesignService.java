@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,13 +25,10 @@ public class DesignService {
     DesignMapper designMapper;
     RequestOrderRepository requestOrderRepository;
 
-    public DesignResponse createDesign(DesignCreationRequest designCreationRequest, Integer requestOrderId){
-        RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
-                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
-
+    public String createCSV(List<String> listUrRLImage){
         String uRLImage = "";
 
-        for(String imageURL : designCreationRequest.getListURLImage()){
+        for(String imageURL : listUrRLImage){
             if (uRLImage.isEmpty()){
                 uRLImage = imageURL;
             } else {
@@ -38,12 +36,26 @@ public class DesignService {
             }
         }
 
+        return uRLImage;
+    }
+
+    public List<String> brokeCSV(String uRLImage){
+        return Arrays.stream(uRLImage.split(",")).toList();
+    }
+
+    public DesignResponse createDesign(DesignCreationRequest designCreationRequest, Integer requestOrderId){
+        RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+
         Design design = designMapper.toDesign(designCreationRequest);
-        design.setURLImage(uRLImage);
+        design.setURLImage(createCSV(designCreationRequest.getListURLImage()));
 
         Design savedDesign = designRepository.save(design);
 
-        return designMapper.toDesignResponse(savedDesign);
+        DesignResponse designResponse = designMapper.toDesignResponse(savedDesign);
+        designResponse.setListURLImage(brokeCSV(design.getURLImage()));
+
+        return designResponse;
     }
 
     public List<DesignResponse> getAllDesign() {
