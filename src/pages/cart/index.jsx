@@ -3,18 +3,33 @@ import authService from "../../services/authService";
 import axiosInstance from "../../services/axiosInstance";
 import { Link } from "react-router-dom";
 
-export default function request() {
+export default function Request() {
   const [requests, setRequests] = useState([]);
 
   const fetchRequests = async () => {
     try {
       const user = authService.getCurrentUser();
-      const response = await axiosInstance.get(`requests/customer/${user.id}`);
-      setRequests(
-        response.data.result.map((item) => ({ ...item, key: item.id }))
+      const reqRes = await axiosInstance.get(`requests/customer/${user.id}`);
+      const list = reqRes.data.result;
+
+      const combinedData = await Promise.all(
+        list.map(async (req) => {
+          try {
+            const quoRes = await axiosInstance.get(`quotation/${req.id}`);
+            return { ...req, quotation: quoRes.data.result };
+          } catch (error) {
+            console.error(
+              `Error fetching quotation for request ID ${req.id}`,
+              error
+            );
+            return { ...req, quotation: null };
+          }
+        })
       );
+
+      setRequests(combinedData);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching requests", error);
     }
   };
 
@@ -41,29 +56,28 @@ export default function request() {
             <div className="col-span-1 p-2 font-bold border">MÔ TẢ</div>
           </div>
           {requests.map((item, index) => (
-            <div key={index}>
-              <Link
-                to={`/order/${item.id}`}
-                className="grid grid-cols-7 border "
-              >
-                <div className="col-span-1 p-2 bg-white border">{item.id}</div>
-                <div className="col-span-1 p-2 bg-white border">
-                  {item.saleStaffID}
-                </div>
-                <div className="col-span-1 p-2 bg-white border">
-                  {item.status}
-                </div>
-                <div className="col-span-1 p-2 bg-white border">
-                  {item.createdAt}
-                </div>
-                <div className="col-span-1 p-2 bg-white border">
-                  {item.recievedAt}
-                </div>
-                <div className="col-span-1 p-2 bg-white border">{}</div>
-                <div className="col-span-1 p-2 bg-white border">
-                  {item.description}
-                </div>
-              </Link>
+            <div key={index} className="grid grid-cols-7 border ">
+              <div className="col-span-1 p-2 bg-white border">
+                <Link to={`/order/${item.id}`}>{item.id}</Link>
+              </div>
+              <div className="col-span-1 p-2 bg-white border">
+                {item.saleStaffID}
+              </div>
+              <div className="col-span-1 p-2 bg-white border">
+                {item.status}
+              </div>
+              <div className="col-span-1 p-2 bg-white border">
+                {item.createdAt}
+              </div>
+              <div className="col-span-1 p-2 bg-white border">
+                {item.receivedAt}
+              </div>
+              <div className="col-span-1 p-2 bg-white border">
+                {item.quotation ? item.quotation.cost : "N/A"}
+              </div>
+              <div className="col-span-1 p-2 bg-white border">
+                {item.description}
+              </div>
             </div>
           ))}
         </div>

@@ -8,11 +8,13 @@ function Order() {
 
   const fetchOrder = async () => {
     try {
-      const response = await axiosInstance.get(`request`);
-      const list = response.data.result.filter(
-        (request) => request.id === requestID
+      const response = await axiosInstance.get(`requests/${requestID}`);
+      const resultArray = [response.data.result];
+      const list = resultArray.filter(
+        (request) => request.id === parseInt(requestID, 10)
       );
       setRequests(list);
+      console.log(list);
     } catch (error) {
       console.error(error);
     }

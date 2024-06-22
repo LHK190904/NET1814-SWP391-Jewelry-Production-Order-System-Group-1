@@ -11,9 +11,19 @@ function ManagerRequest() {
 
   const fetchRequests = async () => {
     try {
-      const response = await axiosInstance.get(``);
-      setRequests(response.data.result);
-      console.log(requests);
+      const reqRes = await axiosInstance.get(
+        `requests/getPendingQuotationRequest`
+      );
+      const requestsData = reqRes.data.result;
+
+      const combinedData = await Promise.all(
+        requestsData.map(async (req) => {
+          const quoRes = await axiosInstance.get(`quotation/${req.id}`);
+          return { ...req, quotation: quoRes.data.result };
+        })
+      );
+
+      setRequests(combinedData);
     } catch (error) {
       console.error(error);
     }
@@ -107,21 +117,21 @@ function ManagerRequest() {
               </Button>
             </div>
             <div className="col-span-1 border p-2 text-center bg-white">
-              {item.cost}
+              {item.quotation.cost}
             </div>
             <div className="col-span-1 border p-2 text-center bg-white">
               {statuses[item.id] === "action" ? (
                 <div>
                   <Button
                     type="link"
-                    onClick={() => handleApprove(item.id)}
+                    onClick={() => handleApprove(item.quotation.id)}
                     className="text-green-500 mr-2"
                   >
                     Approve
                   </Button>
                   <Button
                     type="link"
-                    onClick={() => handleDeny(item.id)}
+                    onClick={() => handleDeny(item.quotation.id)}
                     className="text-red-500"
                   >
                     Deny

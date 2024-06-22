@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, message, Upload, Modal, Image } from "antd";
 import uploadFile from "../../utils/upload";
-import LogoutButton from "../../components/logoutButton";
+import LogoutButton from "../../components/LogoutButton";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {

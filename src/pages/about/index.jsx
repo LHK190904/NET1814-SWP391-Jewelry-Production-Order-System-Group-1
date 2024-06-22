@@ -16,7 +16,7 @@ export default function About() {
         <div className="grid col-start-10 col-span-2 row-start-2 row-span-3">
           <img src="./src/assets/images/about3.jpg" alt="" />
         </div>
-        <div className="grid col-start-9 col-span-2 row-start-4 row-span-4 ">
+        <div className="grid col-start-9 col-span-2 row-start-4 row-span-4">
           <img src="./src/assets/images/about1.jpg" alt="" className="ml-20" />
         </div>
         <div className="grid col-start-2 col-span-4 row-start-6 row-span-1 text-xl text-white">
