@@ -55,6 +55,9 @@ public class DesignService {
         DesignResponse designResponse = designMapper.toDesignResponse(savedDesign);
         designResponse.setListURLImage(brokeCSV(design.getURLImage()));
 
+        requestOrder.setDesignID(design);
+        requestOrderRepository.save(requestOrder);
+
         return designResponse;
     }
 

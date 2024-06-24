@@ -4,6 +4,7 @@ import com.backendVn.SWP.dtos.request.RequestOrderDetailRequest;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.RequestOrderDetailResponse;
+import com.backendVn.SWP.entities.RequestOrderDetailId;
 import com.backendVn.SWP.services.RequestOrderDetailService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -21,22 +22,24 @@ public class OrderDetailController {
     RequestOrderDetailService requestOrderDetailService;
 
     @GetMapping
-    public ApiResponse<List<RequestOrderDetailResponse>> getAllRequestOrderDetail(){
+    public ApiResponse<List<RequestOrderDetailResponse>> getAllRequestOrderDetail() {
         return ApiResponse.<List<RequestOrderDetailResponse>>builder()
                 .result(requestOrderDetailService.getAllRequestOrderDetails())
                 .build();
     }
 
     @PostMapping("/{requestOrderId}/{materialId}")
-    public ApiResponse<RequestOrderDetailResponse> addRequestOrderDetail(@RequestBody @Valid RequestOrderDetailRequest request, @PathVariable Integer requestOrderId,@PathVariable Integer materialId){
+    public ApiResponse<RequestOrderDetailResponse> addRequestOrderDetail(@RequestBody @Valid RequestOrderDetailRequest request, @PathVariable Integer requestOrderId, @PathVariable Integer materialId) {
         return ApiResponse.<RequestOrderDetailResponse>builder()
-                .result(requestOrderDetailService.createRequestOrderDetail(request,requestOrderId,materialId))
+                .result(requestOrderDetailService.createRequestOrderDetail(request, requestOrderId, materialId))
                 .build();
     }
 
     @PutMapping("/{requestOrderDetailId}/{newMaterialId}")
-    public ApiResponse<RequestOrderDetailResponse> updateOrderDetail(@PathVariable Integer requestOrderDetailId, @PathVariable Integer newMaterialId){
+    public ApiResponse<RequestOrderDetailResponse> updateOrderDetail(@RequestBody @Valid RequestOrderDetailRequest request, @PathVariable RequestOrderDetailId requestOrderDetailId, @PathVariable Integer newMaterialId) {
         return ApiResponse.<RequestOrderDetailResponse>builder()
+                .result(requestOrderDetailService.updateRequestOrderDetail(request, requestOrderDetailId, newMaterialId))
                 .build();
     }
 }
+
