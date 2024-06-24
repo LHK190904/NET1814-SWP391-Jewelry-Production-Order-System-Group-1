@@ -29,9 +29,9 @@ public class DesignController {
                 .build();
     }
 
-    @PutMapping("/{id}")
-    public ApiResponse<DesignResponse> updateDesign(@PathVariable Integer id, @RequestBody @Valid DesignUpdateRequest designUpdateRequest) {
-        DesignResponse designResponse = designService.updateDesign(id, designUpdateRequest);
+    @PutMapping("/{designId}")
+    public ApiResponse<DesignResponse> updateDesign(@PathVariable Integer designId, @RequestBody @Valid DesignUpdateRequest designUpdateRequest) {
+        DesignResponse designResponse = designService.updateDesign(designId, designUpdateRequest);
         return ApiResponse.<DesignResponse>builder()
                 .result(designResponse)
                 .build();

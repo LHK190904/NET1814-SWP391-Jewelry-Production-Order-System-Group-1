@@ -82,8 +82,8 @@ public class DesignService {
         designRepository.deleteById(id);
     }
 
-    public DesignResponse updateDesign(Integer id, DesignUpdateRequest designUpdateRequest) {
-        Design design = designRepository.findById(id)
+    public DesignResponse updateDesign(Integer designId, DesignUpdateRequest designUpdateRequest) {
+        Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
         designMapper.updateDesign(design, designUpdateRequest);
         return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));

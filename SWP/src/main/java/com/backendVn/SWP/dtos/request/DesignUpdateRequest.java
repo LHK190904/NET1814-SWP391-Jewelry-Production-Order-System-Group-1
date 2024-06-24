@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,8 +17,8 @@ public class DesignUpdateRequest {
     @Size(max = 100, message = "DESIGN_NAME_TOO_LONG")
     String designName;
 
-    @Size(max = 255, message = "DESCRIPTION_TOO_LONG")
+    @NotEmpty(message = "DESCRIPTION_EMPTY")
     String description;
 
-    String uRLImage;
+    List<String> listURLImage;
 }

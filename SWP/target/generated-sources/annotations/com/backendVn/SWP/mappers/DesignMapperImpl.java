@@ -38,7 +38,6 @@ public class DesignMapperImpl implements DesignMapper {
 
         design.setDesignName( designUpdateRequest.getDesignName() );
         design.setDescription( designUpdateRequest.getDescription() );
-        design.setURLImage( designUpdateRequest.getURLImage() );
     }
 
     @Override
