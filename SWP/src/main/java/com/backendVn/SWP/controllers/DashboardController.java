@@ -1,14 +1,13 @@
 package com.backendVn.SWP.controllers;
 
+import com.backendVn.SWP.dtos.response.ProductionStaffKPI;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.RevenueEachMonth;
 import com.backendVn.SWP.services.DashboardService;
-import com.backendVn.SWP.services.InvoiceService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +42,14 @@ public class DashboardController {
         long orderCount = dashboardService.countOrders();
         return ApiResponse.<Long>builder()
                 .result(orderCount)
+                .build();
+    }
+
+    @GetMapping("/production-staff-kpi")
+    public ApiResponse<List<ProductionStaffKPI>> getProductionStaffKPI() {
+        List<ProductionStaffKPI> kpiList = dashboardService.getProductionStaffKPI();
+        return ApiResponse.<List<ProductionStaffKPI>>builder()
+                .result(kpiList)
                 .build();
     }
 }
