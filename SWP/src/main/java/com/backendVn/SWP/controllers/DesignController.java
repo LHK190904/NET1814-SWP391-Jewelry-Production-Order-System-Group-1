@@ -46,9 +46,9 @@ public class DesignController {
                 .build();
     }
 
-    @GetMapping("/{id}")
-    public ApiResponse<DesignResponse> getDesignById(@PathVariable Integer id) {
-        DesignResponse designResponse = designService.getDesignById(id);
+    @GetMapping("/{requestOrderId}")
+    public ApiResponse<DesignResponse> getDesignById(@PathVariable Integer requestOrderId) {
+        DesignResponse designResponse = designService.getDesignById(requestOrderId);
         return ApiResponse.<DesignResponse>builder()
                 .result(designResponse)
                 .build();

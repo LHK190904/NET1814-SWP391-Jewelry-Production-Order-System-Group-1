@@ -28,11 +28,11 @@ public class DesignService {
     public String createCSV(List<String> listUrRLImage){
         String uRLImage = "";
 
-        for(String imageURL : listUrRLImage){
+        for(String imageURL : listUrRLImage) {
             if (uRLImage.isEmpty()){
                 uRLImage = imageURL;
             } else {
-                uRLImage = "," + imageURL;
+                uRLImage += "," + imageURL;
             }
         }
 
@@ -74,8 +74,11 @@ public class DesignService {
         return designMapper.toDesignResponse(designRepository.save(design));
     }
 
-    public DesignResponse getDesignById(Integer id) {
-        return designMapper.toDesignResponse(designRepository.findById(id)
+    public DesignResponse getDesignById(Integer requestOrderId) {
+        RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+
+        return designMapper.toDesignResponse(designRepository.findById(requestOrder.getDesignID().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND)));
     }
 }
