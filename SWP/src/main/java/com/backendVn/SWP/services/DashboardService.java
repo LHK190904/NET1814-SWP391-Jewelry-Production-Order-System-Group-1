@@ -11,43 +11,35 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.Year;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DashboardService {
-
     InvoiceRepository invoiceRepository;
     public List<RevenueEachMonth> sumRevenuePerMonth (){
-        List <Invoice> invoices= invoiceRepository.findAll();
-        Collections.sort(invoices, new Comparator<Invoice>() {
-            @Override
-            public int compare(Invoice o1, Invoice o2) {
-                return o1.getCreatedAt().compareTo(o2.getCreatedAt());
-            }
-        });
+        int currentYear = Year.now().getValue();
+        Instant start = Year.of(currentYear).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant end = Year.of(currentYear).atMonth(12).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
 
-        RevenueEachMonth revenueEachMonth = new RevenueEachMonth();
-        Integer month = 1;
-        List <RevenueEachMonth> revenueEachMonths = new ArrayList<>();
+        List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(start, end);
+        Map<Integer, BigDecimal> revenueMap = new HashMap<>();
         for (Invoice invoice : invoices) {
-            revenueEachMonth.setMonth(month);
-            if (invoice.getCreatedAt().atZone(ZoneId.systemDefault()).getMonth().getValue()==month){
-            revenueEachMonth.setTotalRevenue((BigDecimal) revenueEachMonth.getTotalRevenue().add(invoice.getTotalCost()));
-            }
-            if(invoice.getCreatedAt().atZone(ZoneId.systemDefault()).getMonth().getValue()>month){
-                month++;
-                revenueEachMonths.add(revenueEachMonth);
-                continue;
-            }
+            int month = invoice.getCreatedAt().atZone(ZoneId.systemDefault()).getMonthValue();
+            revenueMap.put(month, revenueMap.getOrDefault(month, BigDecimal.ZERO).add(invoice.getTotalCost()));
         }
-    return revenueEachMonths;
-    }
 
+        List<RevenueEachMonth> revenueEachMonths = new ArrayList<>();
+        for (Map.Entry<Integer, BigDecimal> entry : revenueMap.entrySet()) {
+            revenueEachMonths.add(new RevenueEachMonth(entry.getKey(), entry.getValue()));
+        }
+
+        revenueEachMonths.sort(Comparator.comparingInt(RevenueEachMonth::getMonth));
+        return revenueEachMonths;
+    }
 }
