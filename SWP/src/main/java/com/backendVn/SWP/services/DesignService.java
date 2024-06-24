@@ -81,7 +81,12 @@ public class DesignService {
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
 
-        return designMapper.toDesignResponse(designRepository.findById(requestOrder.getDesignID().getId())
-                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND)));
+        Design design = designRepository.findById(requestOrder.getDesignID().getId())
+                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        DesignResponse designResponse = designMapper.toDesignResponse(design);
+        designResponse.setListURLImage(brokeCSV(design.getURLImage()));
+
+        return designResponse;
     }
 }
