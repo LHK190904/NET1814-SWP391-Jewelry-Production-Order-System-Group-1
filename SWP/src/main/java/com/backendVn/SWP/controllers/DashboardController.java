@@ -21,8 +21,8 @@ import java.util.List;
 public class DashboardController {
     private final DashboardService dashboardService;
 
-    @GetMapping("/revenue/month/")
-    public ApiResponse<List<RevenueEachMonth>> getRevenuePerMonth(@PathVariable int year) {
+    @GetMapping("/revenue/month")
+    public ApiResponse<List<RevenueEachMonth>> getRevenuePerMonth() {
         List<RevenueEachMonth> revenue = dashboardService.sumRevenuePerMonth();
         return ApiResponse.<List<RevenueEachMonth>>builder()
                 .result(revenue)
