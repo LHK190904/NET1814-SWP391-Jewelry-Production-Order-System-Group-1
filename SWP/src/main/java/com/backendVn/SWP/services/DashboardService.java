@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.Year;
 import java.time.ZoneId;
@@ -23,11 +24,8 @@ import java.util.*;
 public class DashboardService {
     InvoiceRepository invoiceRepository;
     public List<RevenueEachMonth> sumRevenuePerMonth (){
-        int currentYear = Year.now().getValue();
-        Instant start = Year.of(currentYear).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        Instant end = Year.of(currentYear).atMonth(12).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+        List<Invoice> invoices = getInvoicesForCurrentYear();
 
-        List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(start, end);
         Map<Integer, BigDecimal> revenueMap = new HashMap<>();
         for (Invoice invoice : invoices) {
             int month = invoice.getCreatedAt().atZone(ZoneId.systemDefault()).getMonthValue();
@@ -41,5 +39,31 @@ public class DashboardService {
 
         revenueEachMonths.sort(Comparator.comparingInt(RevenueEachMonth::getMonth));
         return revenueEachMonths;
+    }
+
+    public BigDecimal averageOrderValue() {
+        List<Invoice> invoices = getInvoicesForCurrentYear();
+        if (invoices.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal totalValue = BigDecimal.ZERO;
+        for (Invoice invoice : invoices) {
+            totalValue = totalValue.add(invoice.getTotalCost());
+        }
+
+        return totalValue.divide(BigDecimal.valueOf(invoices.size()), RoundingMode.HALF_UP);
+    }
+
+    public long countOrders() {
+        return getInvoicesForCurrentYear().size();
+    }
+
+    private List<Invoice> getInvoicesForCurrentYear() {
+        int currentYear = Year.now().getValue();
+        Instant start = Year.of(currentYear).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant end = Year.of(currentYear).atMonth(12).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+        return invoiceRepository.findByCreatedAtBetween(start, end);
     }
 }
