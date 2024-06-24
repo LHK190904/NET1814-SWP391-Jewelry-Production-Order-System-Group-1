@@ -1,0 +1,184 @@
+Index: SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.backendVn.SWP.repositories;\r\n\r\nimport com.backendVn.SWP.entities.Payment;\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\n\r\npublic interface PaymentRepository extends JpaRepository<Payment, Integer> {\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java b/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java
+--- a/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java	
++++ b/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java	
+@@ -4,4 +4,4 @@
+ import org.springframework.data.jpa.repository.JpaRepository;
+ 
+ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
+-}
+\ No newline at end of file
++}
+Index: SWP/src/main/java/com/backendVn/SWP/mappers/PaymentMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/SWP/src/main/java/com/backendVn/SWP/mappers/PaymentMapper.java b/SWP/src/main/java/com/backendVn/SWP/mappers/PaymentMapper.java
+new file mode 100644
+--- /dev/null	
++++ b/SWP/src/main/java/com/backendVn/SWP/mappers/PaymentMapper.java	
+@@ -0,0 +1,11 @@
++package com.backendVn.SWP.mappers;
++
++import com.backendVn.SWP.dtos.response.PaymentResponse;
++import com.backendVn.SWP.entities.Payment;
++import org.mapstruct.Mapper;
++import org.mapstruct.MappingTarget;
++
++@Mapper(componentModel = "spring")
++public interface PaymentMapper {
++    PaymentResponse toPaymentResponse(Payment payment);
++}
+Index: SWP/src/main/java/com/backendVn/SWP/services/PaymentService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/SWP/src/main/java/com/backendVn/SWP/services/PaymentService.java b/SWP/src/main/java/com/backendVn/SWP/services/PaymentService.java
+new file mode 100644
+--- /dev/null	
++++ b/SWP/src/main/java/com/backendVn/SWP/services/PaymentService.java	
+@@ -0,0 +1,57 @@
++package com.backendVn.SWP.services;
++
++import com.backendVn.SWP.dtos.response.PaymentResponse;
++import com.backendVn.SWP.entities.Invoice;
++import com.backendVn.SWP.entities.Payment;
++import com.backendVn.SWP.entities.Request;
++import com.backendVn.SWP.exception.AppException;
++import com.backendVn.SWP.exception.ErrorCode;
++import com.backendVn.SWP.mappers.PaymentMapper;
++import com.backendVn.SWP.repositories.InvoiceRepository;
++import com.backendVn.SWP.repositories.PaymentRepository;
++import com.backendVn.SWP.repositories.RequestRepository;
++import lombok.AccessLevel;
++import lombok.RequiredArgsConstructor;
++import lombok.experimental.FieldDefaults;
++import org.springframework.stereotype.Service;
++
++import java.time.Instant;
++import java.util.List;
++
++@Service
++@RequiredArgsConstructor
++@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
++public class PaymentService {
++    PaymentRepository paymentRepository;
++    PaymentMapper paymentMapper;
++    RequestRepository requestRepository;
++    InvoiceRepository invoiceRepository;
++
++    public PaymentResponse createPayment(Integer requestID) {
++        Request request = requestRepository.findById(requestID).orElseThrow(()-> new AppException(ErrorCode.REQUEST_NOT_FOUND));
++
++        Payment payment = new Payment();
++        payment.setPaymentDate(Instant.now());
++        payment.setPaymentType("");
++        payment.setStatus("unpaid");
++        payment.setRequestID(request);
++        Invoice invoice = invoiceRepository.findByRequestID(requestID);
++        payment.setAmount(invoice.getTotalCost());
++        Payment savedPayment = paymentRepository.save(payment);
++        return paymentMapper.toPaymentResponse(savedPayment);
++    }
++
++    public PaymentResponse updatePayment( Integer id) {
++        Payment payment = paymentRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.PAYMENT_NOT_FOUND));
++        payment.setStatus("paid");
++        return paymentMapper.toPaymentResponse(paymentRepository.save(payment));
++    }
++
++    public List<PaymentResponse> getPayment() {
++        return paymentRepository.findAll().stream().map(paymentMapper::toPaymentResponse).toList();
++    }
++
++    public void deletePayment(Integer id) {
++        paymentRepository.deleteById(id);
++    }
++}
+Index: SWP/src/main/java/com/backendVn/SWP/controllers/PaymentController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/SWP/src/main/java/com/backendVn/SWP/controllers/PaymentController.java b/SWP/src/main/java/com/backendVn/SWP/controllers/PaymentController.java
+new file mode 100644
+--- /dev/null	
++++ b/SWP/src/main/java/com/backendVn/SWP/controllers/PaymentController.java	
+@@ -0,0 +1,44 @@
++package com.backendVn.SWP.controllers;
++
++import com.backendVn.SWP.dtos.response.ApiResponse;
++import com.backendVn.SWP.dtos.response.PaymentResponse;
++import com.backendVn.SWP.services.PaymentService;
++import lombok.AccessLevel;
++import lombok.RequiredArgsConstructor;
++import lombok.experimental.FieldDefaults;
++import org.springframework.web.bind.annotation.*;
++
++import java.util.List;
++
++@RestController
++@RequestMapping("/payment")
++@RequiredArgsConstructor
++@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
++public class PaymentController {
++    PaymentService paymentService;
++    @PostMapping ("/{requestID}")
++    public ApiResponse<PaymentResponse> createPayment(@PathVariable Integer requestID) {
++        return ApiResponse.<PaymentResponse>builder()
++                .result(paymentService.createPayment(requestID))
++                .build();
++    }
++
++    @PutMapping("/{paymentID}")
++    public ApiResponse<PaymentResponse> updatePayment(@PathVariable Integer paymentID) {
++        return  ApiResponse.<PaymentResponse>builder()
++                .result(paymentService.updatePayment(paymentID))
++                .build();
++    }
++
++    @GetMapping
++    public ApiResponse<List<PaymentResponse>> getPayment(){
++        return ApiResponse.<List<PaymentResponse>>builder()
++                .result(paymentService.getPayment())
++                .build();
++    }
++
++    @DeleteMapping("/{paymentID}")
++    public void deletePayment(@PathVariable Integer paymentID){
++        paymentService.deletePayment(paymentID);
++    }
++}
+Index: SWP/src/main/java/com/backendVn/SWP/dtos/response/PaymentResponse.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/SWP/src/main/java/com/backendVn/SWP/dtos/response/PaymentResponse.java b/SWP/src/main/java/com/backendVn/SWP/dtos/response/PaymentResponse.java
+new file mode 100644
+--- /dev/null	
++++ b/SWP/src/main/java/com/backendVn/SWP/dtos/response/PaymentResponse.java	
+@@ -0,0 +1,15 @@
++package com.backendVn.SWP.dtos.response;
++
++import com.backendVn.SWP.entities.Request;
++
++import java.math.BigDecimal;
++import java.time.Instant;
++
++public class PaymentResponse {
++    Integer id;
++    Request requestID;
++    BigDecimal amount;
++    Instant paymentDate;
++    String paymentType;
++    String status;
++}

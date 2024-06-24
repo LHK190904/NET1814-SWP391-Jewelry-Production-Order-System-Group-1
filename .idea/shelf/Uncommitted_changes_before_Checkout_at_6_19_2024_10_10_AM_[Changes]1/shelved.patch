@@ -1,0 +1,17 @@
+Index: SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.backendVn.SWP.repositories;\r\n\r\nimport com.backendVn.SWP.entities.Payment;\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\n\r\npublic interface PaymentRepository extends JpaRepository<Payment, Integer> {\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java b/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java
+--- a/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java	
++++ b/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java	
+@@ -4,4 +4,4 @@
+ import org.springframework.data.jpa.repository.JpaRepository;
+ 
+ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
+-}
+\ No newline at end of file
++}
