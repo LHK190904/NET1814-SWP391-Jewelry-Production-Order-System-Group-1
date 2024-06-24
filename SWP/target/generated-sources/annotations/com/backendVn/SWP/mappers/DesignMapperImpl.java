@@ -4,6 +4,8 @@ import com.backendVn.SWP.dtos.request.DesignCreationRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
 import com.backendVn.SWP.dtos.response.DesignResponse;
 import com.backendVn.SWP.entities.Design;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
@@ -40,16 +42,22 @@ public class DesignMapperImpl implements DesignMapper {
     }
 
     @Override
-    public DesignResponse toDesignResponse(Design request) {
-        if ( request == null ) {
+    public DesignResponse toDesignResponse(Design request, List<String> listURLImage) {
+        if ( request == null && listURLImage == null ) {
             return null;
         }
 
         DesignResponse.DesignResponseBuilder designResponse = DesignResponse.builder();
 
-        designResponse.id( request.getId() );
-        designResponse.designName( request.getDesignName() );
-        designResponse.description( request.getDescription() );
+        if ( request != null ) {
+            designResponse.id( request.getId() );
+            designResponse.designName( request.getDesignName() );
+            designResponse.description( request.getDescription() );
+        }
+        List<String> list = listURLImage;
+        if ( list != null ) {
+            designResponse.listURLImage( new ArrayList<String>( list ) );
+        }
 
         return designResponse.build();
     }

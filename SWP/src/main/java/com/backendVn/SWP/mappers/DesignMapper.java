@@ -7,10 +7,12 @@ import com.backendVn.SWP.entities.Design;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface DesignMapper {
 
     Design toDesign(DesignCreationRequest designCreationRequest);
     void updateDesign(@MappingTarget Design design, DesignUpdateRequest designUpdateRequest);
-    DesignResponse toDesignResponse(Design request);
+    DesignResponse toDesignResponse(Design request, List<String> listURLImage);
 }

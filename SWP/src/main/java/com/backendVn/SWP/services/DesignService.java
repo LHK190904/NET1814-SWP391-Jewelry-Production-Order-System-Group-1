@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class DesignService {
     RequestOrderRepository requestOrderRepository;
 
     public String createCSV(List<String> listUrRLImage){
+        if (listUrRLImage.isEmpty())return "";
+
         String uRLImage = "";
 
         for(String imageURL : listUrRLImage) {
@@ -40,6 +43,9 @@ public class DesignService {
     }
 
     public List<String> brokeCSV(String uRLImage){
+        if (uRLImage == null || uRLImage.isEmpty()){
+            return new ArrayList<>();
+        }
         return Arrays.stream(uRLImage.split(",")).toList();
     }
 
@@ -52,8 +58,7 @@ public class DesignService {
 
         Design savedDesign = designRepository.save(design);
 
-        DesignResponse designResponse = designMapper.toDesignResponse(savedDesign);
-        designResponse.setListURLImage(brokeCSV(design.getURLImage()));
+        DesignResponse designResponse = designMapper.toDesignResponse(savedDesign, brokeCSV(design.getURLImage()));
 
         requestOrder.setDesignID(design);
         requestOrderRepository.save(requestOrder);
@@ -62,8 +67,15 @@ public class DesignService {
     }
 
     public List<DesignResponse> getAllDesign() {
-        return designRepository.findAll().stream()
-                .map(designMapper::toDesignResponse).toList();
+        List<Design> designs = designRepository.findAll();
+
+        List<DesignResponse> designResponses = new ArrayList<>();
+
+        for (Design design : designs) {
+            designResponses.add(designMapper.toDesignResponse(design, brokeCSV(design.getURLImage())));
+        }
+
+        return designResponses;
     }
 
     public void deleteDesign(Integer id) {
@@ -74,7 +86,7 @@ public class DesignService {
         Design design = designRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
         designMapper.updateDesign(design, designUpdateRequest);
-        return designMapper.toDesignResponse(designRepository.save(design));
+        return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
     }
 
     public DesignResponse getDesignById(Integer requestOrderId) {
@@ -84,8 +96,7 @@ public class DesignService {
         Design design = designRepository.findById(requestOrder.getDesignID().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
 
-        DesignResponse designResponse = designMapper.toDesignResponse(design);
-        designResponse.setListURLImage(brokeCSV(design.getURLImage()));
+        DesignResponse designResponse = designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
 
         return designResponse;
     }
