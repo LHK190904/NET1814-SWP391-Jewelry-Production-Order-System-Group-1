@@ -2,7 +2,6 @@ package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.InvoiceDetailUpdateRequest;
 import com.backendVn.SWP.dtos.response.InvoiceDetailResponse;
-import com.backendVn.SWP.entities.InvoiceDetail;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

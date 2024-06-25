@@ -4,7 +4,7 @@ import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.dtos.response.UserResponse;
-import com.backendVn.SWP.entities.User;
+
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 

@@ -1,22 +1,22 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Invoice {
     @Id
-    @Column(name = "InvoiceID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "InvoiceID", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,7 +27,10 @@ public class Invoice {
     @Column(name = "created_at")
     private Instant createdAt;
 
-    @Column(name = "TotalCost", precision = 18, scale = 2)
+    @Column(name = "total_cost", precision = 18, scale = 2)
     private BigDecimal totalCost;
+
+    @OneToMany(mappedBy = "invoiceID")
+    private Set<InvoiceDetail> invoiceDetails = new LinkedHashSet<>();
 
 }

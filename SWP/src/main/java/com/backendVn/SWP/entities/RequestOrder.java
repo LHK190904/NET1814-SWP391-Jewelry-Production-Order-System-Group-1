@@ -2,18 +2,18 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Nationalized;
 
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "request_order")
 public class RequestOrder {
     @Id
@@ -53,5 +53,11 @@ public class RequestOrder {
     @Lob
     @Column(name = "Description")
     private String description;
+
+    @OneToMany(mappedBy = "requestOrderid")
+    private Set<RequestOrderDetail> requestOrderDetails = new LinkedHashSet<>();
+
+    @OneToOne(mappedBy = "requestOrderid")
+    private WarrantyCard warrantyCard;
 
 }

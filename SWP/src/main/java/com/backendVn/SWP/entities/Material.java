@@ -2,21 +2,21 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Material {
     @Id
-    @Column(name = "MaterialID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MaterialID", nullable = false)
     private Integer id;
 
     @Size(max = 50)
@@ -31,5 +31,11 @@ public class Material {
     @Nationalized
     @Column(name = "material_name", length = 100)
     private String materialName;
+
+    @OneToMany(mappedBy = "materialID")
+    private Set<InvoiceDetail> invoiceDetails = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "materialID")
+    private Set<RequestOrderDetail> requestOrderDetails = new LinkedHashSet<>();
 
 }

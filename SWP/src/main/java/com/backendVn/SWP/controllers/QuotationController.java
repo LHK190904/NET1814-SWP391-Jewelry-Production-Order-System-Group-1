@@ -3,7 +3,6 @@ package com.backendVn.SWP.controllers;
 import com.backendVn.SWP.dtos.request.QuotationCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.QuotationResponse;
-import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.services.QuotationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

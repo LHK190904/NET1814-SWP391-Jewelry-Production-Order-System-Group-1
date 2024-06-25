@@ -1,7 +1,8 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
@@ -9,14 +10,11 @@ import java.time.Instant;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Quotation {
     @Id
-    @Column(name = "QuotationID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "QuotationID", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

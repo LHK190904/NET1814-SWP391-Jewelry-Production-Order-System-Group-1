@@ -6,13 +6,76 @@
   <component name="ChangeListManager">
     <list default="true" id="87c2d966-66a6-4d97-96cb-698d94213d3f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/fc7a446f-2ae5-4b5a-a1a1-5f0336c6a0f9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/fc7a446f-2ae5-4b5a-a1a1-5f0336c6a0f9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_17_06_2024_3_30_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_17_06_2024_3_30_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/SWP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/SWP.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/configs/ApplicationInitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/configs/ApplicationInitConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/OrderDetailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/OrderDetailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/QuotationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/QuotationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/RequestOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/RequestOrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/RequestOrderDetailResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/RequestOrderDetailResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/Design.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/Invoice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/InvoiceDetail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/Material.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/Payment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/Process.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/Quotation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/Request.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/RequestOrder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/RequestOrderDetail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/RequestOrderDetailId.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/WarrantyCard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/DesignMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/DesignMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/InvoiceDetailMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/InvoiceDetailMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/InvoiceMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/InvoiceMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/MaterialMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/MaterialMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/QuotationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/QuotationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestOrderDetailMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestOrderDetailMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestOrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestOrderMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/WarrantyCardMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/WarrantyCardMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/DesignRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/DesignRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/InvoiceDetailRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/InvoiceDetailRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/InvoiceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/InvoiceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/MaterialRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/MaterialRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/PaymentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/ProcessRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/ProcessRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/QuotationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/QuotationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestOrderDetailRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestOrderDetailRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestOrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestOrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/WarrantyCardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/WarrantyCardRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/CustomerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DashboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DashboardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/DashboardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/DashboardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/DashboardService.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/DashboardService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DesignService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DesignService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/InvoiceDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/InvoiceDetailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/InvoiceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/InvoiceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/MaterialService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/MaterialService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/QuotationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/QuotationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestOrderDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestOrderDetailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestOrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/WarrantyCardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/WarrantyCardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/DesignMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/DesignMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/InvoiceDetailMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/InvoiceDetailMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/InvoiceMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/InvoiceMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/MaterialMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/MaterialMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/QuotationMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/QuotationMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/RequestMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/RequestMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/RequestOrderDetailMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/RequestOrderDetailMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/RequestOrderMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/RequestOrderMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/UserMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/UserMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/WarrantyCardMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/WarrantyCardMapperImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +86,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="com.intellij.jpb.JpaEntity" />
         <option value="com.intellij.jpb.JpaRepository" />
         <option value="Class" />
+        <option value="com.intellij.jpb.JpaEntity" />
       </list>
     </option>
   </component>
@@ -45,8 +108,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/LHK190904/NET1814-SWP391-Jewelry-Production-Order-System-Group-1.git&quot;,
-    &quot;accountId&quot;: &quot;1c66c5dc-5241-4ebf-848d-d452b82be976&quot;
+    &quot;url&quot;: &quot;https://github.com/LHK190904/NET1814-SWP391-Jewelry-Production-Order-System-Group-1&quot;,
+    &quot;accountId&quot;: &quot;4f0c7e2e-9a18-4b03-8ed4-e27188db2fc2&quot;
   }
 }</component>
   <component name="JpbToolWindowState">
@@ -75,32 +138,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.SWP [clean].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.SwpApplication.executor": "Run",
-    "git-widget-placeholder": "DashBoard__API",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/studying/FPT-lessons/SWP-391",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "database.query.execution",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.SWP [clean].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.SwpApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;DashBoard__API&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/GodOfHack/code/IcaroAkira&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;database.query.execution&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlserver"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlserver&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="SwpApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="SWP" />
@@ -113,8 +176,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17011.79" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17011.79" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
       </set>
     </attachedChunks>
   </component>
@@ -149,18 +212,31 @@
       <workItem from="1718766005661" duration="2541000" />
       <workItem from="1718786949637" duration="440000" />
       <workItem from="1718787423155" duration="18000" />
+      <workItem from="1719294891836" duration="3988000" />
+      <workItem from="1719302006381" duration="14000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java</url>
-          <line>62</line>
+          <line>60</line>
           <properties class="com.backendVn.SWP.services.RequestService" method="updateRequestBySales">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

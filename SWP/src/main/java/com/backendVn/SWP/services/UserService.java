@@ -3,7 +3,6 @@ package com.backendVn.SWP.services;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.dtos.response.UserResponse;
-import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.UserMapper;

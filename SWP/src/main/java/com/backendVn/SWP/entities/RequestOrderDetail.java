@@ -1,16 +1,15 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Table(name = "request_order_detail")
 public class RequestOrderDetail {
     @EmbeddedId
     private RequestOrderDetailId id;

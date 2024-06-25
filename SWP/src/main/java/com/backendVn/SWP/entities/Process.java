@@ -2,7 +2,8 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Nationalized;
 
@@ -10,14 +11,11 @@ import java.time.Instant;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Process {
     @Id
-    @Column(name = "ProcessID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ProcessID", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

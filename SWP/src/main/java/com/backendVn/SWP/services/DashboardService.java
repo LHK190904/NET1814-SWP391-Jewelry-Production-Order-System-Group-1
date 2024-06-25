@@ -2,8 +2,6 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.response.ProductionStaffKPI;
 import com.backendVn.SWP.dtos.response.RevenueEachMonth;
-import com.backendVn.SWP.entities.Invoice;
-import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.repositories.InvoiceRepository;
 import com.backendVn.SWP.repositories.RequestOrderRepository;
 import com.backendVn.SWP.repositories.UserRepository;

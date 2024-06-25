@@ -2,9 +2,6 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.QuotationCreationRequest;
 import com.backendVn.SWP.dtos.response.QuotationResponse;
-import com.backendVn.SWP.entities.Quotation;
-import com.backendVn.SWP.entities.Request;
-import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.QuotationMapper;
@@ -17,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;

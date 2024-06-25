@@ -2,7 +2,6 @@ package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.WarrantyCardCreationRequest;
 import com.backendVn.SWP.dtos.response.WarrantyCardResponse;
-import com.backendVn.SWP.entities.WarrantyCard;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

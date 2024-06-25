@@ -3,8 +3,6 @@ package com.backendVn.SWP.services;
 import com.backendVn.SWP.dtos.request.DesignCreationRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
 import com.backendVn.SWP.dtos.response.DesignResponse;
-import com.backendVn.SWP.entities.Design;
-import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.DesignMapper;

@@ -2,9 +2,7 @@ package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.RequestOrderDetailRequest;
 import com.backendVn.SWP.dtos.response.RequestOrderDetailResponse;
-import com.backendVn.SWP.entities.Material;
-import com.backendVn.SWP.entities.RequestOrder;
-import com.backendVn.SWP.entities.RequestOrderDetail;
+
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 

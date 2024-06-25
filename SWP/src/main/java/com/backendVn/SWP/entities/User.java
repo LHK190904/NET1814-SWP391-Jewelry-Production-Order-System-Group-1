@@ -3,20 +3,21 @@ package com.backendVn.SWP.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "Users")
 public class User {
     @Id
-    @Column(name = "UserID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "UserID", nullable = false)
     private Integer id;
 
     @Size(max = 50)
@@ -45,5 +46,23 @@ public class User {
     @Nationalized
     @Column(name = "Title", length = 50)
     private String title;
+
+    @OneToMany(mappedBy = "updatedBy")
+    private Set<Process> processes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "approveBy")
+    private Set<Quotation> quotations = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "customerID")
+    private Set<Request> requestsCustomer = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "saleStaffid")
+    private Set<Request> requestsSale = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "designStaff")
+    private Set<RequestOrder> requestOrdersDesign = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "productionStaff")
+    private Set<RequestOrder> requestOrdersProduction = new LinkedHashSet<>();
 
 }

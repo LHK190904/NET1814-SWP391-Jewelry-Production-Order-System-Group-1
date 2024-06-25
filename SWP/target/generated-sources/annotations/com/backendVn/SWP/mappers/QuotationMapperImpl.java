@@ -2,9 +2,7 @@ package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.QuotationCreationRequest;
 import com.backendVn.SWP.dtos.response.QuotationResponse;
-import com.backendVn.SWP.entities.Quotation;
-import com.backendVn.SWP.entities.Request;
-import com.backendVn.SWP.entities.User;
+
 import java.util.Date;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;

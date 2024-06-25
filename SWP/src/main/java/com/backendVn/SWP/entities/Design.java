@@ -2,15 +2,16 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class Design {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +32,8 @@ public class Design {
     @Lob
     @Column(name = "URLImage")
     private String uRLImage;
+
+    @OneToMany(mappedBy = "designID")
+    private Set<RequestOrder> requestOrders = new LinkedHashSet<>();
 
 }

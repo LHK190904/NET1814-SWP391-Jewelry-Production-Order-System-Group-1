@@ -1,20 +1,18 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class InvoiceDetail {
     @Id
-    @Column(name = "InvoiceDetailID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "InvoiceDetailID", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -2,7 +2,8 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Nationalized;
 
@@ -11,14 +12,11 @@ import java.time.Instant;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Payment {
     @Id
-    @Column(name = "PaymentID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PaymentID", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)

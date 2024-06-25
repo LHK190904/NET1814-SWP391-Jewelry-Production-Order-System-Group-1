@@ -2,10 +2,6 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.RequestOrderDetailRequest;
 import com.backendVn.SWP.dtos.response.RequestOrderDetailResponse;
-import com.backendVn.SWP.entities.Material;
-import com.backendVn.SWP.entities.RequestOrder;
-import com.backendVn.SWP.entities.RequestOrderDetail;
-import com.backendVn.SWP.entities.RequestOrderDetailId;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestOrderDetailMapper;

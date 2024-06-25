@@ -2,8 +2,7 @@ package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.InvoiceUpdateRequest;
 import com.backendVn.SWP.dtos.response.InvoiceResponse;
-import com.backendVn.SWP.entities.Invoice;
-import com.backendVn.SWP.entities.Request;
+
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 

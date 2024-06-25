@@ -1,16 +1,14 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "warranty_card")
 public class WarrantyCard {
     @Id
