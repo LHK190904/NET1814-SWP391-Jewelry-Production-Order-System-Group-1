@@ -17,7 +17,9 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,12 +55,12 @@ public class ProcessService {
     }
 
     public ProcessResponse updateProcess(Integer requestOrderId, ProcessUpdateRequest processUpdateRequest) {
-        RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
-                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+        Optional<RequestOrder> requestOrders = requestOrderRepository.findById(requestOrderId);
 
-        Process process = processRepository.findByRequestOrderID(requestOrder)
-                .orElseThrow(() -> new AppException(ErrorCode.PROCESS_NOT_FOUND));
+        List<Process> processList = processRepository.findByRequestOrderID(requestOrders
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND)));
 
+        Process process = processList.getLast();
         processMapper.updateProcess(process, processUpdateRequest);
 
         Process savedProcess = processRepository.save(process);

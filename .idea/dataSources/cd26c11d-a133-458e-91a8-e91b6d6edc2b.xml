@@ -17347,7 +17347,7 @@
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <SequenceIdentity>1</SequenceIdentity>
+      <SequenceIdentity>1(4)</SequenceIdentity>
     </column>
     <column id="5659" parent="5612" name="request_orderid">
       <DasType>int|0s</DasType>
