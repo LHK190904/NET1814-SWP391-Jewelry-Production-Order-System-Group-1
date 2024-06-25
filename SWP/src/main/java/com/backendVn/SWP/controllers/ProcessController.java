@@ -46,4 +46,11 @@ public class ProcessController {
                 .result(processService.getProcessesByUserId(userId))
                 .build();
     }
+
+    @GetMapping("/getMyProcesses")
+    public ApiResponse<List<ProcessResponse>> getMyProcesses() {
+        return ApiResponse.<List<ProcessResponse>>builder()
+                .result(processService.getMyProcesses())
+                .build();
+    }
 }

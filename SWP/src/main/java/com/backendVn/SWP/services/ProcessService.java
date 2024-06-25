@@ -14,6 +14,7 @@ import com.backendVn.SWP.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -73,6 +74,15 @@ public class ProcessService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return processRepository.findByUpdatedBy(user).stream()
+                .map(processMapper::toProcessResponse)
+                .toList();
+    }
+
+    public List<ProcessResponse> getMyProcesses() {
+        var context = SecurityContextHolder.getContext();
+        List<Process> process = processRepository.findByUpdatedBy(userRepository.findByUserName(context.getAuthentication().getName())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+        return process.stream()
                 .map(processMapper::toProcessResponse)
                 .toList();
     }
