@@ -67,4 +67,13 @@ public class ProcessService {
 
         return processMapper.toProcessResponse(savedProcess);
     }
+
+    public List<ProcessResponse> getProcessesByUserId(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        return processRepository.findByUpdatedBy(user).stream()
+                .map(processMapper::toProcessResponse)
+                .toList();
+    }
 }

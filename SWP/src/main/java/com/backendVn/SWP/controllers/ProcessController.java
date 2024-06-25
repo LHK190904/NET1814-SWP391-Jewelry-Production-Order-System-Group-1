@@ -39,4 +39,11 @@ public class ProcessController {
                 .result(processService.updateProcess(requestOrderId, processUpdateRequest))
                 .build();
     }
+
+    @GetMapping("/user/{userId}")
+    public ApiResponse<List<ProcessResponse>> getProcessesByUserId(@PathVariable Integer userId) {
+        return ApiResponse.<List<ProcessResponse>>builder()
+                .result(processService.getProcessesByUserId(userId))
+                .build();
+    }
 }
