@@ -1,8 +1,10 @@
 package com.backendVn.SWP.controllers;
 
+import com.backendVn.SWP.dtos.request.ProcessUpdateRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.ProcessResponse;
 import com.backendVn.SWP.services.ProcessService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -24,10 +26,17 @@ public class ProcessController {
                 .build();
     }
 
-    @PostMapping("/{requestId}/{productionStaffId}")
-    public ApiResponse<ProcessResponse> createProcess(@PathVariable Integer requestId, @PathVariable Integer productionStaffId){
+    @PostMapping("/{requestOrderId}/{productionStaffId}")
+    public ApiResponse<ProcessResponse> createProcess(@PathVariable Integer requestOrderId, @PathVariable Integer productionStaffId){
         return ApiResponse.<ProcessResponse>builder()
-                .result(processService.createProcess(requestId, productionStaffId))
+                .result(processService.createProcess(requestOrderId, productionStaffId))
+                .build();
+    }
+
+    @PutMapping("/{requestOrderId}")
+    public ApiResponse<ProcessResponse> updateProcess(@PathVariable Integer requestOrderId, @RequestBody @Valid ProcessUpdateRequest processUpdateRequest){
+        return ApiResponse.<ProcessResponse>builder()
+                .result(processService.updateProcess(requestOrderId, processUpdateRequest))
                 .build();
     }
 }

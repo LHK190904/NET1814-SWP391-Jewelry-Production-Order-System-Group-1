@@ -22,7 +22,7 @@ public class Process {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_orderid")
-    private RequestOrder requestID;
+    private RequestOrder requestOrderID;
 
     @ColumnDefault("getdate()")
     @Column(name = "updated_at")
