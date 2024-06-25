@@ -1,9 +1,12 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, message, Upload, Modal, Image } from "antd";
+import { Button, message, Upload, Modal, Image, Form, Input } from "antd";
 import uploadFile from "../../utils/upload";
-import LogoutButton from "../../components/LogoutButton";
+import LogoutButton from "../../components/logoutButton";
+import authService from "../../services/authService";
+import axiosInstance from "../../services/axiosInstance";
+import TextArea from "antd/es/input/TextArea";
+
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -21,13 +24,15 @@ function Designer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
-  const [folderURL, setFolderURL] = useState("");
-  const API_URL = "https://663ddef6e1913c476795b585.mockapi.io/account";
+  const [form] = Form.useForm();
 
   const fetchInfo = async () => {
     try {
-      const response = await axios.get(API_URL);
-      setListItems(response.data);
+      const designer = authService.getCurrentUser();
+      const response = await axiosInstance.get(
+        `/request-orders/getOrderForDesigner/${designer.id}`
+      );
+      setListItems(response.data.result || []);
     } catch (error) {
       console.error(error);
     }
@@ -36,18 +41,6 @@ function Designer() {
   useEffect(() => {
     fetchInfo();
   }, []);
-
-  const handleItemClick = async (item) => {
-    if (selectedItem?.orderID === item.orderID) return;
-    try {
-      const response = await axios.get(
-        `https://663ddef6e1913c476795b585.mockapi.io/account/${item.orderID}`
-      );
-      setSelectedItem({ ...item, folderURL: response.data.folderURL });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -59,26 +52,47 @@ function Designer() {
 
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
+  const uploadDesignImages = async () => {
+    const uploadPromises = fileList.map(async (file) => {
+      if (!file.url) {
+        const url = await uploadFile(
+          file.originFileObj,
+          `orders/${selectedItem.id}`
+        );
+        return url;
+      }
+      return file.url;
+    });
+    return await Promise.all(uploadPromises);
+  };
+
+  const saveDesignData = async (uploadedUrls) => {
+    const values = await form.validateFields();
+    const { designName, description } = values;
+
+    if (selectedItem && selectedItem.id) {
+      // Nếu đã có selectedItem.id, thực hiện PUT để cập nhật bản thiết kế
+      await axiosInstance.put(`/design/${selectedItem.id}`, {
+        designName,
+        description,
+        listURLImage: uploadedUrls,
+      });
+    } else {
+      // Nếu chưa có selectedItem.id, thực hiện POST để thêm bản thiết kế mới
+      await axiosInstance.post(`/design`, {
+        designName,
+        description,
+        listURLImage: uploadedUrls,
+      });
+    }
+  };
+
   const handleUpload = async () => {
     setUploading(true);
     try {
-      const uploadPromises = fileList.map(async (file) => {
-        const url = await uploadFile(
-          file.originFileObj,
-          `orders/${selectedItem.orderID}`
-        );
-        return { url, id: selectedItem.orderID };
-      });
+      const uploadedUrls = await uploadDesignImages();
+      await saveDesignData(uploadedUrls);
 
-      const uploadedFiles = await Promise.all(uploadPromises);
-      const folderURL = `https://your-storage-url.com/orders/${selectedItem.orderID}`;
-
-      await axios.post("https://663ddef6e1913c476795b585.mockapi.io/account", {
-        orderID: selectedItem.orderID,
-        folderURL: folderURL,
-      });
-
-      setFolderURL(folderURL);
       setFileList([]);
       message.success("Tải lên thành công.");
       setIsModalOpen(false);
@@ -90,38 +104,69 @@ function Designer() {
     }
   };
 
+  const fetchDesignData = async (id) => {
+    try {
+      const response = await axiosInstance.get(`/design/${id}`);
+      return response.data.result;
+    } catch (error) {
+      console.error("Failed to fetch design data:", error);
+      throw error;
+    }
+  };
+
+  const initializeFormAndFileList = (designData) => {
+    if (designData && designData.designName && designData.description) {
+      // Đặt giá trị ban đầu cho form nếu có dữ liệu
+      form.setFieldsValue({
+        designName: designData.designName,
+        description: designData.description,
+      });
+
+      // Cập nhật danh sách tệp tin với URL ảnh từ API, đảm bảo listURLImage luôn là một mảng
+      const initialFileList = (designData.listURLImage || []).map(
+        (url, index) => ({
+          uid: index,
+          name: `image-${index}`,
+          status: "done",
+          url,
+        })
+      );
+      setFileList(initialFileList);
+    } else {
+      form.resetFields();
+      setFileList([]);
+    }
+  };
+
+  const openModal = async () => {
+    try {
+      if (selectedItem && selectedItem.id) {
+        // Nếu đã có selectedItem.id, gọi API để lấy dữ liệu thiết kế hiện tại
+        const designData = await fetchDesignData(selectedItem.id);
+        initializeFormAndFileList(designData);
+      } else {
+        // Nếu chưa có selectedItem.id, reset form về trạng thái ban đầu
+        form.resetFields();
+        setFileList([]);
+      }
+      setIsModalOpen(true);
+    } catch (error) {
+      message.error("Failed to open modal.");
+    }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setFileList([]);
+    form.resetFields(); // Reset form fields khi đóng modal
+  };
+
   const uploadButton = (
     <div>
       <PlusOutlined />
       <div style={{ marginTop: 8 }}>Tải lên</div>
     </div>
   );
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setFileList([]);
-  };
-
-  const fetchImages = async () => {
-    try {
-      console.log(selectedItem.folderURL);
-      const response = await axios.get(selectedItem.folderURL);
-      const images = response.data.urls;
-      setSelectedItem((prevItem) => ({ ...prevItem, images: images }));
-    } catch (error) {
-      console.error("Error fetching images:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (selectedItem && selectedItem.folderURL) {
-      fetchImages();
-    }
-  }, [selectedItem?.folderURL]);
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
@@ -132,25 +177,20 @@ function Designer() {
       <div className="grid grid-cols-12 gap-4">
         <div className="col-start-1 col-span-9 bg-white m-4 rounded-lg p-4">
           <h1 className="text-center font-extrabold text-3xl">
-            CHI TIẾT ĐƠN HÀNG {selectedItem?.orderID}
+            CHI TIẾT ĐƠN HÀNG {selectedItem?.id}
           </h1>
           <div className="grid grid-cols-2 text-center mt-4">
-            <div className="col-span-1 font-bold">MÔ TẢ</div>
+            <div className="col-span-1 font-bold">MÔ TẢ TỪ KHÁCH HÀNG</div>
             <div className="col-span-1 font-bold">BẢN THIẾT KẾ</div>
             {selectedItem ? (
-              <React.Fragment key={selectedItem.orderID}>
+              <React.Fragment key={selectedItem.id}>
                 <div className="col-span-1 mt-2">
-                  {selectedItem.description || "Descrption"}
+                  {selectedItem.description}
                 </div>
                 <div className="col-span-1 flex justify-center mt-2">
                   <Button icon={<UploadOutlined />} onClick={openModal}>
-                    Chọn file
+                    Thêm bản thiết kế
                   </Button>
-                </div>
-                <div className="col-span-2 mt-4">
-                  {selectedItem.images?.map((url, index) => (
-                    <Image key={index} src={url} />
-                  ))}
                 </div>
               </React.Fragment>
             ) : (
@@ -167,18 +207,18 @@ function Designer() {
             <div className="col-span-1 font-bold">ID ORDER</div>
             <div className="col-span-1 font-bold">TRẠNG THÁI</div>
             {listItems.map((item) => (
-              <React.Fragment key={item.orderID}>
+              <React.Fragment key={item.id}>
                 <div
                   className={`col-span-1 cursor-pointer ${
-                    selectedItem?.orderID === item.orderID ? "underline" : ""
+                    selectedItem?.id === item.id ? "underline" : ""
                   }`}
-                  onClick={() => handleItemClick(item)}
+                  onClick={() => setSelectedItem(item)}
                 >
-                  {item.orderID}
+                  {item.id}
                 </div>
                 <div
                   className="col-span-1 cursor-pointer"
-                  onClick={() => handleItemClick(item)}
+                  onClick={() => setSelectedItem(item)}
                 >
                   {item.status}
                 </div>
@@ -207,27 +247,47 @@ function Designer() {
           </Button>,
         ]}
       >
-        <Upload
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={handlePreview}
-          onChange={handleChange}
-          beforeUpload={() => false}
-        >
-          {fileList.length >= 8 ? null : uploadButton}
-        </Upload>
-        {previewImage && (
-          <Image
-            wrapperStyle={{ display: "none" }}
-            preview={{
-              visible: previewOpen,
-              onVisibleChange: (visible) => setPreviewOpen(visible),
-              afterOpenChange: (visible) => !visible && setPreviewImage(""),
-            }}
-            src={previewImage}
-          />
-        )}
+        <Form form={form} labelCol={{ span: 24 }}>
+          <Form.Item
+            label="Tên bản thiết kế"
+            name="designName"
+            rules={[
+              { required: true, message: "Vui lòng nhập tên bản thiết kế" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Mô tả bản thiết kế"
+            name="description"
+            rules={[
+              { required: true, message: "Vui lòng nhập mô tả bản thiết kế" },
+            ]}
+          >
+            <TextArea rows={4} />
+          </Form.Item>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            beforeUpload={() => false}
+          >
+            {fileList.length >= 8 ? null : uploadButton}
+          </Upload>
+        </Form>
       </Modal>
+      {previewImage && (
+        <Image
+          wrapperStyle={{ display: "none" }}
+          preview={{
+            visible: previewOpen,
+            onVisibleChange: (visible) => setPreviewOpen(visible),
+            afterOpenChange: (visible) => !visible && setPreviewImage(""),
+          }}
+          src={previewImage}
+        />
+      )}
     </div>
   );
 }

@@ -32,7 +32,6 @@ function ProcessRequests() {
       const saler = authService.getCurrentUser();
       if (saler && saler.id) {
         setSaleName(saler.username);
-        console.log(saleName);
         try {
           const response = await axiosInstance.get(
             `/requests/sales/${saler.id}`
