@@ -3,7 +3,8 @@ package com.backendVn.SWP.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import java.io.Serializable;
@@ -11,9 +12,6 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Embeddable
 public class RequestOrderDetailId implements Serializable {
     private static final long serialVersionUID = 8056738067555543619L;
