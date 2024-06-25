@@ -15,8 +15,8 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProcessResponse {
     Integer id;
-    RequestOrder requestID;
+    Integer requestOrderID;
     Instant updatedAt;
-    User updatedBy;
+    Integer updatedBy;
     String status;
 }
