@@ -85,6 +85,7 @@ public class DesignService {
     public DesignResponse updateDesign(Integer designId, DesignUpdateRequest designUpdateRequest) {
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+        design.setURLImage(createCSV(designUpdateRequest.getListURLImage()));
         designMapper.updateDesign(design, designUpdateRequest);
         return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
     }
