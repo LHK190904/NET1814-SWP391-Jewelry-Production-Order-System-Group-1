@@ -2,6 +2,7 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
 
@@ -9,8 +10,9 @@ import java.time.Instant;
 @Setter
 @Entity
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "warranty_card")
 public class WarrantyCard {
     @Id

@@ -2,9 +2,9 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.ProcessUpdateRequest;
 import com.backendVn.SWP.dtos.response.ProcessResponse;
-import com.backendVn.SWP.entities.Process;
 import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.entities.User;
+import com.backendVn.SWP.entities.Process;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.ProcessMapper;
@@ -18,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +40,7 @@ public class ProcessService {
 
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
-        process.setRequestOrderID(requestOrder);
+        process.setRequestOrderid(requestOrder);
         process.setUpdatedAt(Instant.now());
 
         User productionStaff = userRepository.findById(userId)
@@ -58,7 +57,7 @@ public class ProcessService {
     public ProcessResponse updateProcess(Integer requestOrderId, ProcessUpdateRequest processUpdateRequest) {
         Optional<RequestOrder> requestOrders = requestOrderRepository.findById(requestOrderId);
 
-        List<Process> processList = processRepository.findByRequestOrderID(requestOrders
+        List<Process> processList = processRepository.findByRequestOrderid(requestOrders
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND)));
 
         Process process = processList.getLast();

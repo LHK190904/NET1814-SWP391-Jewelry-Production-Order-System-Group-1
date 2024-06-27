@@ -70,7 +70,7 @@ public class RequestService {
         User saleStaff = userRepository.findByUserName(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        request.setSaleStaffID(saleStaff);
+        request.setSaleStaffid(saleStaff);
         request.setRecievedAt(Instant.now());
         request.setStatus("Processing");
 
@@ -106,7 +106,7 @@ public class RequestService {
     }
 
     public List<RequestResponse> getUnrecievedRequests() {
-        return requestRepository.findAllBySaleStaffIDNull().stream()
+        return requestRepository.findAllBySaleStaffidNull().stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
     }
@@ -114,7 +114,7 @@ public class RequestService {
     public List<RequestResponse> getRequestBySaleStaffId(Integer saleStaffId){
         User user = userRepository.findById(saleStaffId).get();
 
-        return requestRepository.findAllBySaleStaffID(user).stream()
+        return requestRepository.findAllBySaleStaffid(user).stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
     }

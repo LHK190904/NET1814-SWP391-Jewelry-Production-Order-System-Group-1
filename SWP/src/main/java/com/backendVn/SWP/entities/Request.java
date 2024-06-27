@@ -4,21 +4,23 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Nationalized;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Request {
     @Id
     @Column(name = "RequestID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,7 +29,7 @@ public class Request {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sale_staffid")
-    private User saleStaffID;
+    private User saleStaffid;
 
     @ColumnDefault("getdate()")
     @Column(name = "created_at")
@@ -49,5 +51,28 @@ public class Request {
     @Lob
     @Column(name = "Description", nullable = false)
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaterialID")
+    private Material materialID;
+
+    @Column(name = "material_weight", precision = 18, scale = 2)
+    private BigDecimal materialWeight;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "main_stone")
+    private Material mainStone;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_stone")
+    private Material subStone;
+
+    @Size(max = 50)
+    @Nationalized
+    @Column(name = "Category", length = 50)
+    private String category;
+
+    @Column(name = "produce_cost", precision = 18, scale = 2)
+    private BigDecimal produceCost;
 
 }

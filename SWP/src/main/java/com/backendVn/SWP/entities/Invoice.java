@@ -2,6 +2,7 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
@@ -9,14 +10,15 @@ import java.time.Instant;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Invoice {
     @Id
-    @Column(name = "InvoiceID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "InvoiceID", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,7 +29,7 @@ public class Invoice {
     @Column(name = "created_at")
     private Instant createdAt;
 
-    @Column(name = "TotalCost", precision = 18, scale = 2)
+    @Column(name = "total_cost", precision = 18, scale = 2)
     private BigDecimal totalCost;
 
 }

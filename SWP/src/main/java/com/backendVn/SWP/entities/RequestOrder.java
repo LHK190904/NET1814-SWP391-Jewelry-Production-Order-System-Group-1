@@ -3,6 +3,7 @@ package com.backendVn.SWP.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Nationalized;
 
@@ -12,12 +13,12 @@ import java.time.Instant;
 @Setter
 @Entity
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "request_order")
 public class RequestOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "request_orderid", nullable = false)
     private Integer id;
 

@@ -1,22 +1,26 @@
 package com.backendVn.SWP.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Nationalized;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Material {
     @Id
     @Column(name = "MaterialID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 50)
@@ -31,5 +35,8 @@ public class Material {
     @Nationalized
     @Column(name = "material_name", length = 100)
     private String materialName;
+
+    @Column(name = "update_time")
+    private Instant updateTime;
 
 }

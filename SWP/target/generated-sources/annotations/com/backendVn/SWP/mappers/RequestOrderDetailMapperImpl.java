@@ -37,11 +37,11 @@ public class RequestOrderDetailMapperImpl implements RequestOrderDetailMapper {
             return null;
         }
 
-        RequestOrderDetail requestOrderDetail = new RequestOrderDetail();
+        RequestOrderDetail.RequestOrderDetailBuilder requestOrderDetail = RequestOrderDetail.builder();
 
-        requestOrderDetail.setWeight( requestOrderDetailRequest.getWeight() );
+        requestOrderDetail.weight( requestOrderDetailRequest.getWeight() );
 
-        return requestOrderDetail;
+        return requestOrderDetail.build();
     }
 
     @Override

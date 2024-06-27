@@ -23,7 +23,7 @@ public class ProcessMapperImpl implements ProcessMapper {
 
         ProcessResponse.ProcessResponseBuilder processResponse = ProcessResponse.builder();
 
-        processResponse.requestOrderID( processRequestOrderIDId( process ) );
+        processResponse.requestOrderId( processRequestOrderidId( process ) );
         processResponse.updatedBy( processUpdatedById( process ) );
         processResponse.id( process.getId() );
         processResponse.updatedAt( process.getUpdatedAt() );
@@ -41,15 +41,15 @@ public class ProcessMapperImpl implements ProcessMapper {
         process.setStatus( processUpdateRequest.getStatus() );
     }
 
-    private Integer processRequestOrderIDId(Process process) {
+    private Integer processRequestOrderidId(Process process) {
         if ( process == null ) {
             return null;
         }
-        RequestOrder requestOrderID = process.getRequestOrderID();
-        if ( requestOrderID == null ) {
+        RequestOrder requestOrderid = process.getRequestOrderid();
+        if ( requestOrderid == null ) {
             return null;
         }
-        Integer id = requestOrderID.getId();
+        Integer id = requestOrderid.getId();
         if ( id == null ) {
             return null;
         }

@@ -45,7 +45,7 @@ public class RequestMapperImpl implements RequestMapper {
         RequestResponse.RequestResponseBuilder requestResponse = RequestResponse.builder();
 
         requestResponse.customerID( requestCustomerIDId( request ) );
-        requestResponse.saleStaffID( requestSaleStaffIDId( request ) );
+        requestResponse.saleStaffID( requestSaleStaffidId( request ) );
         requestResponse.id( request.getId() );
         requestResponse.description( request.getDescription() );
         requestResponse.status( request.getStatus() );
@@ -71,15 +71,15 @@ public class RequestMapperImpl implements RequestMapper {
         return id;
     }
 
-    private Integer requestSaleStaffIDId(Request request) {
+    private Integer requestSaleStaffidId(Request request) {
         if ( request == null ) {
             return null;
         }
-        User saleStaffID = request.getSaleStaffID();
-        if ( saleStaffID == null ) {
+        User saleStaffid = request.getSaleStaffid();
+        if ( saleStaffid == null ) {
             return null;
         }
-        Integer id = saleStaffID.getId();
+        Integer id = saleStaffid.getId();
         if ( id == null ) {
             return null;
         }

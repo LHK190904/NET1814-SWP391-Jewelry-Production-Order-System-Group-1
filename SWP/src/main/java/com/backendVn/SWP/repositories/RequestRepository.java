@@ -8,11 +8,11 @@ import java.util.Collection;
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Integer> {
+    List<Request> findByStatus(String pendingQuotation);
+
+    List<Request> findAllBySaleStaffid(User user);
+
+    List<Request> findAllBySaleStaffidNull();
+
     List<Request> findAllByCustomerID(User customer);
-
-    List<Request> findAllBySaleStaffIDNull();
-
-    List<Request> findAllBySaleStaffID(User user);
-
-    List<Request> findByStatus(String status);
 }

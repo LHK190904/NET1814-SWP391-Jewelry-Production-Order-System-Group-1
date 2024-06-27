@@ -9,8 +9,9 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ProcessMapper {
-    @Mapping(target = "requestOrderID", source = "requestOrderID.id")
+    @Mapping(target = "requestOrderId", source = "requestOrderid.id")
     @Mapping(target = "updatedBy", source = "updatedBy.id")
     ProcessResponse toProcessResponse(Process process);
+
     void updateProcess(@MappingTarget Process process, ProcessUpdateRequest processUpdateRequest);
 }

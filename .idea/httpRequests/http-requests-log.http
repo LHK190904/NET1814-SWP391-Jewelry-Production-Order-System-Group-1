@@ -1,3 +1,20 @@
+POST http://localhost:8080/auth/login_token
+Content-Type: application/json
+Content-Length: 48
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "userName": "admin",
+  "password": "admin"
+}
+
+<> 2024-06-27T153404.200.json
+
+###
+
 PUT http://localhost:8080/process/1
 Content-Type: application/json
 Content-Length: 23
@@ -635,17 +652,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
 <> 2024-06-19T005220.404.json
-
-###
-
-GET http://localhost:8080/requests/customer/3002
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-19T005201.200.json
 
 ###
 
