@@ -7,7 +7,6 @@ import authService from "../../services/authService";
 import axiosInstance from "../../services/axiosInstance";
 import TextArea from "antd/es/input/TextArea";
 
-
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -18,13 +17,14 @@ const getBase64 = (file) =>
 
 function Designer() {
   const [listItems, setListItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedOrderItem, setSelectedOrderItem] = useState(null);
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [form] = Form.useForm();
+  const [designID, setDesignID] = useState(null);
 
   const fetchInfo = async () => {
     try {
@@ -57,7 +57,7 @@ function Designer() {
       if (!file.url) {
         const url = await uploadFile(
           file.originFileObj,
-          `orders/${selectedItem.id}`
+          `orders/${selectedOrderItem.id}`
         );
         return url;
       }
@@ -69,21 +69,18 @@ function Designer() {
   const saveDesignData = async (uploadedUrls) => {
     const values = await form.validateFields();
     const { designName, description } = values;
+    const payload = {
+      designName,
+      description,
+      listURLImage: uploadedUrls,
+    };
 
-    if (selectedItem && selectedItem.id) {
-      // Nếu đã có selectedItem.id, thực hiện PUT để cập nhật bản thiết kế
-      await axiosInstance.put(`/design/${selectedItem.id}`, {
-        designName,
-        description,
-        listURLImage: uploadedUrls,
-      });
+    if (designID) {
+      
+      const response = await axiosInstance.put(`/design/${designID}`, payload);
+      console.log(response);
     } else {
-      // Nếu chưa có selectedItem.id, thực hiện POST để thêm bản thiết kế mới
-      await axiosInstance.post(`/design`, {
-        designName,
-        description,
-        listURLImage: uploadedUrls,
-      });
+      await axiosInstance.post(`/design/${selectedOrderItem.id}`, payload);
     }
   };
 
@@ -104,9 +101,9 @@ function Designer() {
     }
   };
 
-  const fetchDesignData = async (id) => {
+  const fetchDesignData = async (orderId) => {
     try {
-      const response = await axiosInstance.get(`/design/${id}`);
+      const response = await axiosInstance.get(`/design/${orderId}`);
       return response.data.result;
     } catch (error) {
       console.error("Failed to fetch design data:", error);
@@ -140,12 +137,17 @@ function Designer() {
 
   const openModal = async () => {
     try {
-      if (selectedItem && selectedItem.id) {
-        // Nếu đã có selectedItem.id, gọi API để lấy dữ liệu thiết kế hiện tại
-        const designData = await fetchDesignData(selectedItem.id);
+      let designData;
+      try {
+        designData = await fetchDesignData(selectedOrderItem.id);
+      } catch (error) {
+        console.error("Failed to fetch design data:", error);
+        designData = null;
+      }
+      setDesignID(designData?.id || null); // Đặt designID thành null nếu không có dữ liệu thiết kế
+      if (designData && designData.id) {
         initializeFormAndFileList(designData);
       } else {
-        // Nếu chưa có selectedItem.id, reset form về trạng thái ban đầu
         form.resetFields();
         setFileList([]);
       }
@@ -158,7 +160,7 @@ function Designer() {
   const closeModal = () => {
     setIsModalOpen(false);
     setFileList([]);
-    form.resetFields(); // Reset form fields khi đóng modal
+    form.resetFields();
   };
 
   const uploadButton = (
@@ -177,15 +179,15 @@ function Designer() {
       <div className="grid grid-cols-12 gap-4">
         <div className="col-start-1 col-span-9 bg-white m-4 rounded-lg p-4">
           <h1 className="text-center font-extrabold text-3xl">
-            CHI TIẾT ĐƠN HÀNG {selectedItem?.id}
+            CHI TIẾT ĐƠN HÀNG {selectedOrderItem?.id}
           </h1>
           <div className="grid grid-cols-2 text-center mt-4">
             <div className="col-span-1 font-bold">MÔ TẢ TỪ KHÁCH HÀNG</div>
             <div className="col-span-1 font-bold">BẢN THIẾT KẾ</div>
-            {selectedItem ? (
-              <React.Fragment key={selectedItem.id}>
+            {selectedOrderItem ? (
+              <React.Fragment key={selectedOrderItem.id}>
                 <div className="col-span-1 mt-2">
-                  {selectedItem.description}
+                  {selectedOrderItem.description}
                 </div>
                 <div className="col-span-1 flex justify-center mt-2">
                   <Button icon={<UploadOutlined />} onClick={openModal}>
@@ -210,15 +212,15 @@ function Designer() {
               <React.Fragment key={item.id}>
                 <div
                   className={`col-span-1 cursor-pointer ${
-                    selectedItem?.id === item.id ? "underline" : ""
+                    selectedOrderItem?.id === item.id ? "underline" : ""
                   }`}
-                  onClick={() => setSelectedItem(item)}
+                  onClick={() => setSelectedOrderItem(item)}
                 >
                   {item.id}
                 </div>
                 <div
                   className="col-span-1 cursor-pointer"
-                  onClick={() => setSelectedItem(item)}
+                  onClick={() => setSelectedOrderItem(item)}
                 >
                   {item.status}
                 </div>

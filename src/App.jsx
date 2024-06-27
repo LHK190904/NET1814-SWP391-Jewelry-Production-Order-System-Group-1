@@ -7,7 +7,7 @@ import Designs from "./pages/designs";
 import Collections from "./pages/collections";
 import Blog from "./pages/blog";
 import Register from "./pages/register";
-import Layout from "./components/Layout";
+import Layout from "./components/layout";
 import Error from "./pages/error";
 import Admin from "./pages/admin";
 import ProductDetails from "./pages/product-details";
