@@ -1,6 +1,7 @@
 package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
+import com.backendVn.SWP.entities.RequestOrder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

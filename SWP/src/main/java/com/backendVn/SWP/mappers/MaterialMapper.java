@@ -2,6 +2,7 @@ package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.MaterialRequest;
 import com.backendVn.SWP.dtos.response.MaterialResponse;
+import com.backendVn.SWP.entities.Material;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

@@ -4,6 +4,7 @@ import com.backendVn.SWP.dtos.request.AuthenticationRequest;
 import com.backendVn.SWP.dtos.request.IntrospectRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.dtos.response.IntrospectResponse;
+import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.repositories.UserRepository;
