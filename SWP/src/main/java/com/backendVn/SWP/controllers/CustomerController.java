@@ -9,6 +9,7 @@ import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.services.AuthenticationService;
 import com.backendVn.SWP.services.CustomerService;
 import com.backendVn.SWP.services.UserService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -24,7 +25,7 @@ public class CustomerController {
     UserService userService;
 
     @PostMapping("/register_token")
-    ApiResponse<AuthenticationResponse> register(@RequestBody CustomerRegisterRequest request){
+    ApiResponse<AuthenticationResponse> register(@RequestBody @Valid CustomerRegisterRequest request){
         var result = customerService.register(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)

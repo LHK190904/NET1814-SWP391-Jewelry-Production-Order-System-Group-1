@@ -18,6 +18,7 @@ import org.hibernate.annotations.Nationalized;
 public class User {
     @Id
     @Column(name = "UserID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 50)
@@ -26,7 +27,6 @@ public class User {
     @Column(name = "user_name", nullable = false, length = 50)
     private String userName;
 
-    @Size(max = 225)
     @NotNull
     @Nationalized
     @Column(name = "Password", nullable = false, length = 225)
