@@ -13,7 +13,6 @@ import Admin from "./pages/admin";
 import ProductDetails from "./pages/product-details";
 import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
-import { CartProvider } from "./context/CartContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import authService from "./services/authService";
 import Designer from "./pages/designer";
@@ -22,6 +21,7 @@ import ProcessRequests from "./pages/saler/process_requests";
 import ReceiveRequests from "./pages/saler/receive_requests";
 import CartRequest from "./pages/cart/request";
 import CartOrder from "./pages/cart/order";
+import Dashboard from "./pages/dashboard";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -150,13 +150,15 @@ function App() {
         />
       ),
     },
+    {
+      path: "/dashboard",
+      element: (
+        <ProtectedRoute element={<Dashboard />} isAllowed={isAuthenticated()} />
+      ),
+    },
   ]);
 
-  return (
-    <CartProvider>
-      <RouterProvider router={router} />
-    </CartProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

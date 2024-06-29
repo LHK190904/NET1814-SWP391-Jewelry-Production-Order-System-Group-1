@@ -11,6 +11,10 @@ function Register() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
   async function handleSubmit(event) {
     event.preventDefault();
     try {
@@ -131,9 +135,9 @@ function Register() {
                 <button
                   type="button"
                   className="w-1/2 bg-white border border-gray-300 py-2 px-4 rounded-md"
-                  onClick={handleCancel}
+                  onClick={() => handleNavigate("/login")}
                 >
-                  HỦY
+                  QUAY VỀ
                 </button>
               </div>
             </div>

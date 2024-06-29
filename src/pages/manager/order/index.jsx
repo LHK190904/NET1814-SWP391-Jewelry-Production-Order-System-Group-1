@@ -122,29 +122,31 @@ function ManagerOrder() {
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-      {/* Title of the page */}
-      <h1 className="text-center text-[#F7EF8A] font-extrabold p-10">
-        ORDER MANAGEMENT
+      <h1 className="text-center text-[#F7EF8A] text-2xl ">
+        REQUEST MANAGEMENT
       </h1>
-      <div className="grid grid-cols-8 p-1">
-        <div className="col-start-2 col-span-2">
-          <Button onClick={() => handleNavigateClick("/manager/request")}>
-            Request
-          </Button>
-          <Button onClick={() => handleNavigateClick("/manager/order")}>
-            Order
-          </Button>
-        </div>
-        <div className="col-start-6 col-span-2 flex justify-end">
-          <input
-            type="search"
-            placeholder="Search . . ."
-            className="px-2 p-1 rounded-lg"
-          />
-          <Button>Filter</Button>
-        </div>
+      <div className="grid grid-cols-8 gap-1 mb-1 text-white">
+        <button
+          onClick={() => handleNavigateClick("/manager/request")}
+          className="col-start-2 col-span-1 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
+        >
+          Request
+        </button>
+        <button
+          onClick={() => handleNavigateClick("/manager/order")}
+          className="col-span-1 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
+        >
+          Order
+        </button>
+        <input
+          type="search"
+          placeholder="Search . . ."
+          className="col-start-5 col-span-2 px-2 p-1 rounded-lg"
+        />
+        <button className="p-1 rounded-lg bg-blue-400 hover:bg-blue-500">
+          Filter
+        </button>
       </div>
-      {/* Table structure for displaying order data */}
       <div className="grid grid-cols-5 w-3/4 mx-auto bg-white p-4 rounded-lg">
         <div className="col-span-1 bg-gray-400 p-2 font-bold">ORDER ID</div>
         <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
@@ -179,7 +181,6 @@ function ManagerOrder() {
           </React.Fragment>
         ))}
       </div>
-      {/* Modal for assigning staff */}
       <Modal
         title="Assign Job"
         visible={isOpenModal}
@@ -205,7 +206,6 @@ function ManagerOrder() {
               ))}
           </Select>
         </div>
-        {/* Production staff selection */}
         <div className="flex justify-between">
           <label>PRODUCTION STAFF</label>
           <Select
@@ -232,4 +232,4 @@ function ManagerOrder() {
   );
 }
 
-export default ManagerOrder; // Export the ManagerAssign component as default
+export default ManagerOrder;

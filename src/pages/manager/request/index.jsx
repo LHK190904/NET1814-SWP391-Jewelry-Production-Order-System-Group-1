@@ -8,6 +8,8 @@ function ManagerRequest() {
   const [statuses, setStatuses] = useState({});
   const [isModalOpen, setModalOpen] = useState(false);
   const [requests, setRequests] = useState([]);
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchRequests = async () => {
     try {
@@ -75,28 +77,44 @@ function ManagerRequest() {
     }
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Calculate the data to display based on pagination
+  const paginatedData = requests.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const totalPages = Math.ceil(requests.length / itemsPerPage);
+
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-      <h1 className="text-center text-[#F7EF8A] font-extrabold p-10">
+      <h1 className="text-center text-[#F7EF8A] text-2xl ">
         REQUEST MANAGEMENT
       </h1>
-      <div className="grid grid-cols-8 p-1">
-        <div className="col-start-2 col-span-2">
-          <Button onClick={() => handleNavigateClick("/manager/request")}>
-            Request
-          </Button>
-          <Button onClick={() => handleNavigateClick("/manager/order")}>
-            Order
-          </Button>
-        </div>
-        <div className="col-start-6 col-span-2 flex justify-end">
-          <input
-            type="search"
-            placeholder="Search . . ."
-            className="px-2 p-1 rounded-lg"
-          />
-          <Button>Filter</Button>
-        </div>
+      <div className="grid grid-cols-8 gap-1 mb-1 text-white">
+        <button
+          onClick={() => handleNavigateClick("/manager/request")}
+          className="col-start-2 col-span-1 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
+        >
+          Request
+        </button>
+        <button
+          onClick={() => handleNavigateClick("/manager/order")}
+          className="col-span-1 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
+        >
+          Order
+        </button>
+        <input
+          type="search"
+          placeholder="Search . . ."
+          className="col-start-5 col-span-2 px-2 p-1 rounded-lg"
+        />
+        <button className="p-1 rounded-lg bg-blue-400 hover:bg-blue-500">
+          Filter
+        </button>
       </div>
       <div className="grid grid-cols-5 w-3/4 mx-auto bg-gray-400 p-4 rounded-lg">
         <div className="col-span-1 p-2 font-bold">REQUEST ID</div>
@@ -104,7 +122,7 @@ function ManagerRequest() {
         <div className="col-span-1 p-2 font-bold text-center">DETAILS</div>
         <div className="col-span-1 p-2 font-bold text-center">COST</div>
         <div className="col-span-1 p-2 font-bold text-center">STATUS</div>
-        {requests.map((item) => (
+        {paginatedData.map((item) => (
           <React.Fragment key={item.id}>
             <div className="col-span-1 border p-2 bg-white">{item.id}</div>
             <div className="col-span-1 border p-2 bg-white">
@@ -126,7 +144,7 @@ function ManagerRequest() {
                 <div>
                   <button
                     onClick={() => handleApprove(item.quotation.id, item.id)}
-                    className="bg-green-400 text-black p-2 rounded-lg mr-2 "
+                    className="bg-green-400 text-black p-2 rounded-lg mr-2"
                   >
                     Approve
                   </button>
@@ -140,7 +158,7 @@ function ManagerRequest() {
               ) : (
                 <button
                   onClick={() => handleStatusClick(item.id)}
-                  className="bg-blue-400 p-2 rounded-lg "
+                  className="bg-blue-400 p-2 rounded-lg"
                 >
                   {statuses[item.id] || item.status}
                 </button>
@@ -150,6 +168,22 @@ function ManagerRequest() {
         ))}
       </div>
 
+      {/* Pagination Buttons */}
+      <div className="flex justify-center mt-4">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            onClick={() => handlePageChange(index + 1)}
+            className={`mx-1 px-2 py-1 border ${
+              currentPage === index + 1 ? "bg-gray-400" : "bg-white"
+            }`}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
+
+      {/* Details Modal */}
       <Modal
         title="Details"
         visible={isModalOpen}
@@ -161,5 +195,4 @@ function ManagerRequest() {
     </div>
   );
 }
-
 export default ManagerRequest;

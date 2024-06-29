@@ -102,16 +102,20 @@ function CartRequest() {
     <div className="bg-[#434343] min-h-screen w-screen">
       <div className="grid grid-cols-12 gap-4 pt-4">
         <div className="col-start-2 col-span-10 bg-gray-300 text-center p-1 rounded-lg">
-          <h1 className="bg-gray-400 p-4">YÊU CẦU</h1>
+          <h1 className="bg-gray-400 p-4 text-2xl">YÊU CẦU</h1>
           <div className="grid grid-cols-8 border">
-            <div className="col-span-1 p-2 border">MÃ YÊU CẦU</div>
-            <div className="col-span-1 p-2 border">NHÂN VIÊN BÁN HÀNG</div>
-            <div className="col-span-1 p-2 border">TRẠNG THÁI</div>
-            <div className="col-span-1 p-2 border">THỜI ĐIỂM TẠO</div>
-            <div className="col-span-1 p-2 border">THỜI ĐIỂM TIẾP NHẬN</div>
-            <div className="col-span-1 p-2 border">GIÁ</div>
-            <div className="col-span-1 p-2 border">MÔ TẢ</div>
-            <div className="col-span-1 p-2 border">ĐƠN HÀNG</div>
+            <div className="col-span-1 p-2 text-xl border">MÃ YÊU CẦU</div>
+            <div className="col-span-1 p-2 text-xl border">
+              NHÂN VIÊN BÁN HÀNG
+            </div>
+            <div className="col-span-1 p-2 text-xl border">TRẠNG THÁI</div>
+            <div className="col-span-1 p-2 text-xl border">THỜI ĐIỂM TẠO</div>
+            <div className="col-span-1 p-2 text-xl border">
+              THỜI ĐIỂM TIẾP NHẬN
+            </div>
+            <div className="col-span-1 p-2 text-xl border">GIÁ</div>
+            <div className="col-span-1 p-2 text-xl border">MÔ TẢ</div>
+            <div className="col-span-1 p-2 text-xl border">ĐƠN HÀNG</div>
           </div>
           {requests.map((item, index) => (
             <div key={index} className="grid grid-cols-8 border ">
@@ -125,13 +129,13 @@ function CartRequest() {
                 <div className="col-span-1 p-2 bg-white">
                   <button
                     onClick={() => handleApprove(item.id)}
-                    className="bg-green-400 p-1 rounded-lg mr-2"
+                    className="bg-green-400 p-1 rounded-lg mr-2 hover:bg-green-500"
                   >
                     Approve
                   </button>
                   <button
                     onClick={() => handleDeny(item.id)}
-                    className="bg-red-400 p-1 rounded-lg"
+                    className="bg-red-400 p-1 rounded-lg hover:bg-red-500"
                   >
                     Deny
                   </button>
@@ -140,7 +144,7 @@ function CartRequest() {
                 <div className="col-span-1 p-2 bg-white">
                   <button
                     onClick={() => handleStatusClick(item.id)}
-                    className="bg-blue-400 p-2 rounded-lg"
+                    className="bg-blue-400 p-2 rounded-lg hover:bg-blue-500"
                   >
                     {statuses[item.id] || item.status}
                   </button>
@@ -163,7 +167,7 @@ function CartRequest() {
                 <div className="col-span-1 p-2 bg-white border">
                   <button
                     onClick={() => handleOrderClick(item.id)}
-                    className="bg-blue-400 p-2 rounded-lg"
+                    className="bg-blue-400 p-2 rounded-lg hover:bg-blue-500"
                   >
                     CHI TIẾT
                   </button>
@@ -174,7 +178,7 @@ function CartRequest() {
                 <div className="col-span-1 p-2 bg-white border">
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="bg-red-400 p-2 rounded-lg"
+                    className="bg-red-400 p-2 rounded-lg hover:bg-red-500"
                   >
                     DELETE
                   </button>

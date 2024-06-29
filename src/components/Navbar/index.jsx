@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
@@ -7,19 +6,29 @@ export default function Navbar() {
       <nav>
         <ul className="flex justify-around gap-4">
           <li>
-            <Link to={"/"}>TRANG CHỦ</Link>
+            <Link to={"/"} className="hover:text-[#ddd012]">
+              TRANG CHỦ
+            </Link>
           </li>
           <li>
-            <Link to={"/about"}>THÔNG TIN</Link>
+            <Link to={"/about"} className="hover:text-[#ddd012]">
+              THÔNG TIN
+            </Link>
           </li>
           <li>
-            <Link to={"/collections"}>BỘ SƯU TẬP</Link>
+            <Link to={"/collections"} className="hover:text-[#ddd012]">
+              BỘ SƯU TẬP
+            </Link>
           </li>
           <li>
-            <Link to={"/designs"}>THIẾT KẾ</Link>
+            <Link to={"/designs"} className="hover:text-[#ddd012]">
+              THIẾT KẾ
+            </Link>
           </li>
           <li>
-            <Link to={"/blog"}>BLOG</Link>
+            <Link to={"/blog"} className="hover:text-[#ddd012]">
+              BLOG
+            </Link>
           </li>
         </ul>
       </nav>

@@ -1,13 +1,11 @@
 import { useState } from "react";
 import Carousel from "../../components/Carousel";
-import { Input, Modal, Form } from "antd";
-import { useForm } from "antd/es/form/Form";
 import authService from "../../services/authService";
 import axios from "axios";
+import { Modal } from "antd";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = useForm();
 
   const handleShowModal = () => {
     setIsModalOpen(true);
@@ -59,27 +57,21 @@ export default function Home() {
         onOk={handleOk}
         onCancel={handleHideModal}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          name="form_in_modal"
-          initialValues={{
-            modifier: "public",
-          }}
-        >
-          <Form.Item
-            name="description"
-            label="Mô tả"
-            rules={[
-              {
-                required: true,
-                message: "Hãy nhập mô tả",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Form>
+        <form>
+          <label>Loại trang sức: </label>
+          <input type="text" />
+          <label>Vật liệu</label>
+          <input type="text" />
+          <label>Trọng lượng vật liệu</label>
+          <input type="text" />
+          <label>Đá chính</label>
+          <input type="text" />
+          <label>Đá phụ</label>
+          <input type="text" />
+          <label>Mô tả</label>
+          <input type="text" />
+          <label>Bản thiết kế (Nếu có)</label>
+        </form>
       </Modal>
     </div>
   );

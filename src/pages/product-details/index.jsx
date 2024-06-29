@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { Modal, Button, Input, Form } from "antd";
-import { useCart } from "../../context/CartContext"; // Corrected import path
 
 function ProductDetails() {
   const { productId } = useParams();

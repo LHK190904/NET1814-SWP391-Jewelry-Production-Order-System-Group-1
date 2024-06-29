@@ -53,7 +53,7 @@ function Header() {
           />
 
           <Link to={"/cart/request"} className=" flex items-center">
-            <span className="font-light">GIỎ HÀNG</span>
+            <span className="hover:text-[#ddd012]">GIỎ HÀNG</span>
             <img
               className="w-6 h-6 "
               alt=""
@@ -65,17 +65,23 @@ function Header() {
           {user ? (
             <div className="flex items-center gap-2">
               <img
-                className="inline-block h-8 w-8 rounded-full ring-2 ring-[#F7EF8A]"
+                className="inline-block h-8 w-8 rounded-full ring-2 ring-[#F7EF8A] "
                 src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt=""
               />
               <span>{user.username}</span>
-              <button onClick={handleLogout} className="text-[#F7EF8A]">
+              <button
+                onClick={handleLogout}
+                className="text-[#F7EF8A] hover:text-[#ddd012]"
+              >
                 ĐĂNG XUẤT
               </button>
             </div>
           ) : (
-            <Link to={"/login"} className="text-[#F7EF8A] mr-4">
+            <Link
+              to={"/login"}
+              className="text-[#F7EF8A] hover:text-[#ddd012] mr-4"
+            >
               ĐĂNG NHẬP
             </Link>
           )}
