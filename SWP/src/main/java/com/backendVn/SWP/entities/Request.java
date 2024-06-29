@@ -47,7 +47,6 @@ public class Request {
     @Column(name = "Status", length = 50)
     private String status;
 
-    @NotNull
     @Nationalized
     @Lob
     @Column(name = "Description", nullable = false)

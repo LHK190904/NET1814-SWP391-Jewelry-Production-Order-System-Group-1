@@ -1,6 +1,6 @@
 package com.backendVn.SWP.mappers;
 
-import com.backendVn.SWP.dtos.request.RequestCreationRequest;
+import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
@@ -15,25 +15,30 @@ import org.springframework.stereotype.Component;
 public class RequestMapperImpl implements RequestMapper {
 
     @Override
-    public Request toRequest(RequestCreationRequest requestCreationRequest) {
-        if ( requestCreationRequest == null ) {
+    public Request toRequest(RequestCreationRequestForCustomerDesign requestCreationRequestForCustomerDesign) {
+        if ( requestCreationRequestForCustomerDesign == null ) {
             return null;
         }
 
         Request.RequestBuilder request = Request.builder();
 
-        request.description( requestCreationRequest.getDescription() );
+        request.description( requestCreationRequestForCustomerDesign.getDescription() );
+        request.materialWeight( requestCreationRequestForCustomerDesign.getMaterialWeight() );
+        request.category( requestCreationRequestForCustomerDesign.getCategory() );
 
         return request.build();
     }
 
     @Override
-    public void updateRequestFromDto(Request request, RequestCreationRequest requestCreationRequest) {
-        if ( requestCreationRequest == null ) {
+    public void updateRequestFromDto(Request request, RequestCreationRequestForCustomerDesign requestCreationRequestForCustomerDesign) {
+        if ( requestCreationRequestForCustomerDesign == null ) {
             return;
         }
 
-        request.setDescription( requestCreationRequest.getDescription() );
+        request.setDescription( requestCreationRequestForCustomerDesign.getDescription() );
+        request.setMaterialWeight( requestCreationRequestForCustomerDesign.getMaterialWeight() );
+        request.setCategory( requestCreationRequestForCustomerDesign.getCategory() );
+        request.setURLImage( requestCreationRequestForCustomerDesign.getURLImage() );
     }
 
     @Override

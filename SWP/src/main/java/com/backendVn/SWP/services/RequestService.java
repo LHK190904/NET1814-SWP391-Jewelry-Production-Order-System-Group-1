@@ -1,14 +1,16 @@
 package com.backendVn.SWP.services;
 
-import com.backendVn.SWP.dtos.request.RequestCreationRequest;
+import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
+import com.backendVn.SWP.entities.Material;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestMapper;
 import com.backendVn.SWP.mappers.UserMapper;
+import com.backendVn.SWP.repositories.MaterialRepository;
 import com.backendVn.SWP.repositories.QuotationRepository;
 import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
@@ -19,7 +21,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -31,23 +37,67 @@ public class RequestService {
     UserRepository userRepository;
     RequestMapper requestMapper;
     UserMapper userMapper;
-    private final QuotationRepository quotationRepository;
+    MaterialRepository materialRepository;
+    QuotationRepository quotationRepository;
 
-    public RequestResponse createRequest(RequestCreationRequest requestCreationRequest, Integer userId) {
-        User customer = userRepository.findById(userId)
+    public Instant stringToInstant(String input){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a dd/MM/yyyy");
+        LocalDateTime localDateTime = LocalDateTime.parse(input, formatter);
+        return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+    }
+
+    public BigDecimal makeProduceCost(String input){
+        if (input.equals("RING")){
+            return BigDecimal.valueOf(1500);
+        } else if (input.equals("NECKLACE")){
+            return BigDecimal.valueOf(2200);
+        } else if (input.equals("BRACELET")){
+            return BigDecimal.valueOf(2000);
+        } else {
+            return BigDecimal.valueOf(1800);
+        }
+    }
+
+    public RequestResponse createRequest(RequestCreationRequestForCustomerDesign request, Integer userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        Request request = requestMapper.toRequest(requestCreationRequest);
-        request.setCustomerID(customer);
-        request.setStatus("Unapproved");
-        request.setCreatedAt(Instant.now());
+        Request theRequest = requestMapper.toRequest(request);
+        theRequest.setCreatedAt(Instant.now());
+        theRequest.setCustomerID(user);
+        theRequest.setStatus("Unapproved");
 
-        Request savedRequest = requestRepository.save(request);
+        if (materialRepository.findByMaterialNameAndUpdateTime(request.getGoldType(), stringToInstant(request.getUpdated())) != null){
+            Material newGoldType = new Material();
+            newGoldType.setMaterialName(request.getGoldType());
+            newGoldType.setType("Gold");
+            newGoldType.setUpdateTime(stringToInstant(request.getUpdated()));
+            newGoldType.setPricePerUnit(BigDecimal.valueOf(request.getSellCost()));
+            theRequest.setMaterialID(materialRepository.save(newGoldType));
+        } else {
+            theRequest.setMaterialID(materialRepository.findByMaterialName(request.getGoldType()));
+        }
+
+        if(request.getMainStoneId() != 0){
+            Material mainStone = materialRepository.findById(request.getMainStoneId())
+                    .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+            theRequest.setMainStone(mainStone);
+        }
+
+        if(request.getSubStoneId() != 0){
+            Material subStone = materialRepository.findById(request.getSubStoneId())
+                    .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+            theRequest.setSubStone(subStone);
+        }
+
+        theRequest.setProduceCost(makeProduceCost(request.getCategory()));
+
+        Request savedRequest = requestRepository.save(theRequest);
 
         return requestMapper.toRequestResponse(savedRequest);
     }
 
-    public RequestResponse updateRequestByCustomer(Integer id, RequestCreationRequest requestCreationRequest) {
+    public RequestResponse updateRequestByCustomer(Integer id, RequestCreationRequestForCustomerDesign requestCreationRequestForCustomerDesign) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
@@ -55,7 +105,7 @@ public class RequestService {
             throw new AppException(ErrorCode.REQUEST_STATUS_NOT_ALLOWED);
         }
 
-        requestMapper.updateRequestFromDto(request, requestCreationRequest);
+        requestMapper.updateRequestFromDto(request, requestCreationRequestForCustomerDesign);
 
         return requestMapper.toRequestResponse(requestRepository.save(request));
     }

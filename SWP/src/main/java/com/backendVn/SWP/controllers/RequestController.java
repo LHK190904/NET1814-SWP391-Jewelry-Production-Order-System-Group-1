@@ -1,7 +1,7 @@
 package com.backendVn.SWP.controllers;
 
 
-import com.backendVn.SWP.dtos.request.RequestCreationRequest;
+import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
@@ -22,16 +22,16 @@ public class RequestController {
     RequestService requestService;
 
     @PostMapping("/{userId}")
-    public ApiResponse<RequestResponse> createRequest(@PathVariable Integer userId, @RequestBody @Valid RequestCreationRequest requestCreationRequest) {
-        RequestResponse requestResponse = requestService.createRequest(requestCreationRequest, userId);
+    public ApiResponse<RequestResponse> createRequest(@PathVariable Integer userId, @RequestBody @Valid RequestCreationRequestForCustomerDesign requestCreationRequestForCustomerDesign) {
+        RequestResponse requestResponse = requestService.createRequest(requestCreationRequestForCustomerDesign, userId);
         return ApiResponse.<RequestResponse>builder()
                 .result(requestResponse)
                 .build();
     }
 
     @PutMapping("/{requestId}")
-    public ApiResponse<RequestResponse> updateRequestByCustomer(@PathVariable Integer requestId, @RequestBody @Valid RequestCreationRequest requestCreationRequest) {
-        RequestResponse requestResponse = requestService.updateRequestByCustomer(requestId, requestCreationRequest);
+    public ApiResponse<RequestResponse> updateRequestByCustomer(@PathVariable Integer requestId, @RequestBody @Valid RequestCreationRequestForCustomerDesign requestCreationRequestForCustomerDesign) {
+        RequestResponse requestResponse = requestService.updateRequestByCustomer(requestId, requestCreationRequestForCustomerDesign);
         return ApiResponse.<RequestResponse>builder()
                 .result(requestResponse)
                 .build();
