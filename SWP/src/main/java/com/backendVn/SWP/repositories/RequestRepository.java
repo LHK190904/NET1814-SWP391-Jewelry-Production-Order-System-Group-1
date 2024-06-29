@@ -4,7 +4,6 @@ import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Integer> {
