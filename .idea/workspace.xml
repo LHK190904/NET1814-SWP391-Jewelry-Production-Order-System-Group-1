@@ -5,25 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87c2d966-66a6-4d97-96cb-698d94213d3f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fc7a446f-2ae5-4b5a-a1a1-5f0336c6a0f9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/fc7a446f-2ae5-4b5a-a1a1-5f0336c6a0f9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-06-19T005451.200.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/RequestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/RequestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/request/RequestCreationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/request/RequestCreationRequestForCustomerDesign.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/entities/Request.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/MaterialRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/MaterialRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/RequestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/RequestController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/dtos/request/RequestCreationRequest$RequestCreationRequestBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/dtos/request/RequestCreationRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/entities/Request.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/entities/Request.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/mappers/RequestMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/mappers/RequestMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/mappers/RequestMapperImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/mappers/RequestMapperImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/repositories/MaterialRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/repositories/MaterialRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/RequestService.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/RequestService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/RequestMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/RequestMapperImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +147,7 @@
       <workItem from="1719625355475" duration="751000" />
       <workItem from="1719627251474" duration="1309000" />
       <workItem from="1719644628505" duration="2297000" />
-      <workItem from="1719646963003" duration="9848000" />
+      <workItem from="1719646963003" duration="13216000" />
     </task>
     <servers />
   </component>
