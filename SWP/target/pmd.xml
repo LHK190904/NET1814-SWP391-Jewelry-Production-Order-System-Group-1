@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd xmlns="http://pmd.sourceforge.net/report/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd" version="7.0.0" timestamp="2024-06-28T21:38:00.039">
+<file name="D:\studying\FPT-lessons\SWP-391\Back_end\SWP\src\main\java\com\backendVn\SWP\configs\SecurityConfig.java">
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="44" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.configs" class="SecurityConfig" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.springframework.http.HttpMethod'
+</violation>
+</file>
+<file name="D:\studying\FPT-lessons\SWP-391\Back_end\SWP\src\main\java\com\backendVn\SWP\controllers\CustomerController.java">
+<violation beginline="4" endline="4" begincolumn="1" endcolumn="59" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.controllers" class="CustomerController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.backendVn.SWP.dtos.request.UserCreationRequest'
+</violation>
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="61" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.controllers" class="CustomerController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.backendVn.SWP.dtos.request.AuthenticationRequest'
+</violation>
+<violation beginline="9" endline="9" begincolumn="1" endcolumn="57" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.controllers" class="CustomerController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'com.backendVn.SWP.services.AuthenticationService'
+</violation>
+</file>
+<file name="D:\studying\FPT-lessons\SWP-391\Back_end\SWP\src\main\java\com\backendVn\SWP\controllers\InvoiceController.java">
+<violation beginline="11" endline="11" begincolumn="1" endcolumn="63" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.controllers" class="InvoiceController" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.springframework.beans.factory.annotation.Autowired'
+</violation>
+</file>
+<file name="D:\studying\FPT-lessons\SWP-391\Back_end\SWP\src\main\java\com\backendVn\SWP\dtos\response\DesignResponse.java">
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="26" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.dtos.response" class="DesignResponse" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.time.Instant'
+</violation>
+</file>
+<file name="D:\studying\FPT-lessons\SWP-391\Back_end\SWP\src\main\java\com\backendVn\SWP\dtos\response\InvoiceDetailResponse.java">
+<violation beginline="7" endline="7" begincolumn="1" endcolumn="26" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.dtos.response" class="InvoiceDetailResponse" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.time.Instant'
+</violation>
+</file>
+<file name="D:\studying\FPT-lessons\SWP-391\Back_end\SWP\src\main\java\com\backendVn\SWP\dtos\response\MaterialResponse.java">
+<violation beginline="5" endline="5" begincolumn="1" endcolumn="63" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.dtos.response" class="MaterialResponse" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.springframework.web.bind.annotation.RequestMapping'
+</violation>
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="63" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.dtos.response" class="MaterialResponse" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.springframework.web.bind.annotation.RestController'
+</violation>
+</file>
+<file name="D:\studying\FPT-lessons\SWP-391\Back_end\SWP\src\main\java\com\backendVn\SWP\exception\GlobalExceptionHandler.java">
+<violation beginline="41" endline="42" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="com.backendVn.SWP.exception" class="GlobalExceptionHandler" method="handlingValidation" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="D:\studying\FPT-lessons\SWP-391\Back_end\SWP\src\main\java\com\backendVn\SWP\repositories\ProcessRepository.java">
+<violation beginline="8" endline="8" begincolumn="1" endcolumn="29" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.repositories" class="ProcessRepository" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.Collection'
+</violation>
+<violation beginline="10" endline="10" begincolumn="1" endcolumn="27" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.repositories" class="ProcessRepository" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.Optional'
+</violation>
+</file>
+<file name="D:\studying\FPT-lessons\SWP-391\Back_end\SWP\src\main\java\com\backendVn\SWP\repositories\RequestRepository.java">
+<violation beginline="7" endline="7" begincolumn="1" endcolumn="29" rule="UnnecessaryImport" ruleset="Code Style" package="com.backendVn.SWP.repositories" class="RequestRepository" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.Collection'
+</violation>
+</file>
+</pmd>

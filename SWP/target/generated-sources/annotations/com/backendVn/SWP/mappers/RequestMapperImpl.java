@@ -20,11 +20,11 @@ public class RequestMapperImpl implements RequestMapper {
             return null;
         }
 
-        Request.RequestBuilder request = Request.builder();
+        Request request = new Request();
 
-        request.description( requestCreationRequest.getDescription() );
+        request.setDescription( requestCreationRequest.getDescription() );
 
-        return request.build();
+        return request;
     }
 
     @Override
