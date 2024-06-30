@@ -1,55 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-import axios from "axios";
 
-function Carousel(numberOfSlides = 1, autoplay = false) {
-  const [banners, setBanners] = useState([]);
-
-  const fetchBanner = async () => {
-    const response = await axios.get("");
-    setBanners(response.data);
-  };
-
-  useEffect(() => {
-    fetchBanner();
-  }, []);
-
+function Carousel({ numberOfSlides = 1, images = [], autoplay = false }) {
   return (
-    <div>
+    <div className="w-full">
       <Swiper
-        autoplay={{ delay: 2500, disableOnInteraction: false }}
-        pagination={true}
+        autoplay={
+          autoplay ? { delay: 2500, disableOnInteraction: false } : false
+        }
+        pagination={{ clickable: true }}
         modules={[Pagination, Autoplay]}
-        className="w-screen"
-        // slidesPerView={numberOfSlides}
+        className="w-full"
+        slidesPerView={numberOfSlides}
       >
-        {/* {banners.map((banner) => {
-          <SwiperSlide>
-            <img src={banner.image} alt="" />
-          </SwiperSlide>;
-        })} */}
-
-        <SwiperSlide>
-          <img
-            src="https://image.tmdb.org/t/p/original/ciizJ9Okzt9tBBGK7Q3T14LFT2j.jpg"
-            alt=""
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="https://image.tmdb.org/t/p/original/j5aOOtsJinQtyRaqiB12TTRHdeX.jpg"
-            alt=""
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="https://image.tmdb.org/t/p/original/foGkPxpw9h8zln81j63mix5B7m8.jpg"
-            alt=""
-          />
-        </SwiperSlide>
+        {images.map((image, index) => (
+          <SwiperSlide key={index} className="w-full">
+            <img
+              src={image}
+              alt={`slide-${index}`}
+              className="w-full h-[700px] object-cover"
+            />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

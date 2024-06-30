@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, message, Upload, Modal, Image, Form, Input } from "antd";
 import uploadFile from "../../utils/upload";
-import LogoutButton from "../../components/logoutButton";
+import LogoutButton from "../../components/LogoutButton";
 import authService from "../../services/authService";
 import axiosInstance from "../../services/axiosInstance";
 import TextArea from "antd/es/input/TextArea";
@@ -76,7 +76,6 @@ function Designer() {
     };
 
     if (designID) {
-      
       const response = await axiosInstance.put(`/design/${designID}`, payload);
       console.log(response);
     } else {
