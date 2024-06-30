@@ -19,6 +19,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/SWP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/SWP.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/configs/WebClientConfig.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/QuotationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/QuotationRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestOrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestOrderRepository.java" afterDir="false" />
@@ -27,6 +28,7 @@
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/QuotationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/QuotationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestOrderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/XmlToJsonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/XmlToJsonService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +131,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1719734878882</updated>
-      <workItem from="1719734880134" duration="7994000" />
+      <workItem from="1719734880134" duration="8293000" />
     </task>
     <servers />
   </component>
