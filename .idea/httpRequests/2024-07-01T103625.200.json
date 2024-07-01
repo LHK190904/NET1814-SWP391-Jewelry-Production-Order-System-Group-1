@@ -1,0 +1,9 @@
+{
+  "code": 1000,
+  "result": {
+    "materialPrice": 100.00,
+    "materialWeight": 2.00,
+    "producePrice": null,
+    "stonePrice": null
+  }
+}

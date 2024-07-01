@@ -17,7 +17,7 @@ public interface QuotationMapper {
     @Mapping(target = "approvedBy", source = "approveBy.id")
     QuotationResponse toQuotationResponse(Quotation quotation);
 
-    @Mapping(target = "material", source = "materialID")
+    @Mapping(target = "materialPrice", source = "materialID.pricePerUnit")
     @Mapping(target = "materialWeight", source = "materialWeight")
     @Mapping(target = "producePrice", source = "produceCost")
     AutoPricingResponse toAutoPricingResponse(Request request);

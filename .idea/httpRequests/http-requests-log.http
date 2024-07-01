@@ -5,6 +5,17 @@ Accept: */*
 Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
+<> 2024-07-01T103625.200.json
+
+###
+
+GET http://localhost:8080/quotation/autoPricing/3012
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
 <> 2024-07-01T102544.400.json
 
 ###
@@ -639,17 +650,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
 <> 2024-06-19T010239.200.json
-
-###
-
-DELETE http://localhost:8080/requests/2
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-19T010051.400.json
 
 ###
 

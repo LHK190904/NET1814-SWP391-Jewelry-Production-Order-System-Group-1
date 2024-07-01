@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AutoPricingResponse {
-    Material material;
+    BigDecimal materialPrice;
 
     BigDecimal materialWeight;
 
