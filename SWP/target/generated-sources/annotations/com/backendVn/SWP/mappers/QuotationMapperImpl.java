@@ -3,9 +3,11 @@ package com.backendVn.SWP.mappers;
 import com.backendVn.SWP.dtos.request.QuotationCreationRequest;
 import com.backendVn.SWP.dtos.response.AutoPricingResponse;
 import com.backendVn.SWP.dtos.response.QuotationResponse;
+import com.backendVn.SWP.entities.Material;
 import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
@@ -66,7 +68,7 @@ public class QuotationMapperImpl implements QuotationMapper {
 
         AutoPricingResponse.AutoPricingResponseBuilder autoPricingResponse = AutoPricingResponse.builder();
 
-        autoPricingResponse.material( request.getMaterialID() );
+        autoPricingResponse.materialPrice( requestMaterialIDPricePerUnit( request ) );
         autoPricingResponse.materialWeight( request.getMaterialWeight() );
         autoPricingResponse.producePrice( request.getProduceCost() );
 
@@ -101,5 +103,20 @@ public class QuotationMapperImpl implements QuotationMapper {
             return null;
         }
         return id;
+    }
+
+    private BigDecimal requestMaterialIDPricePerUnit(Request request) {
+        if ( request == null ) {
+            return null;
+        }
+        Material materialID = request.getMaterialID();
+        if ( materialID == null ) {
+            return null;
+        }
+        BigDecimal pricePerUnit = materialID.getPricePerUnit();
+        if ( pricePerUnit == null ) {
+            return null;
+        }
+        return pricePerUnit;
     }
 }
