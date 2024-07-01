@@ -11,7 +11,6 @@ import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestMapper;
 import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.MaterialRepository;
-import com.backendVn.SWP.repositories.QuotationRepository;
 import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +37,6 @@ public class RequestService {
     RequestMapper requestMapper;
     UserMapper userMapper;
     MaterialRepository materialRepository;
-    QuotationRepository quotationRepository;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a dd/MM/yyyy");
@@ -46,17 +44,15 @@ public class RequestService {
         return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
     }
 
-    public BigDecimal makeProduceCost(String input){
-        if (input.equals("RING")){
-            return BigDecimal.valueOf(1500);
-        } else if (input.equals("NECKLACE")){
-            return BigDecimal.valueOf(2200);
-        } else if (input.equals("BRACELET")){
-            return BigDecimal.valueOf(2000);
-        } else {
-            return BigDecimal.valueOf(1800);
-        }
+    public BigDecimal makeProduceCost(String input) {
+        return switch (input) {
+            case "RING" -> BigDecimal.valueOf(1500);
+            case "NECKLACE" -> BigDecimal.valueOf(2200);
+            case "BRACELET" -> BigDecimal.valueOf(2000);
+            default -> BigDecimal.valueOf(1800);
+        };
     }
+
 
     public RequestResponse createRequest(RequestCreationRequestForCustomerDesign request, Integer userId) {
         User user = userRepository.findById(userId)
@@ -157,7 +153,8 @@ public class RequestService {
     }
 
     public List<RequestResponse> getRequestBySaleStaffId(Integer saleStaffId){
-        User user = userRepository.findById(saleStaffId).get();
+        User user = userRepository.findById(saleStaffId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return requestRepository.findAllBySaleStaffid(user).stream()
                 .map(requestMapper::toRequestResponse)

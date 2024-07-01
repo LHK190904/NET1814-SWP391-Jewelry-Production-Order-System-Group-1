@@ -1,12 +1,9 @@
 package com.backendVn.SWP.controllers;
 
 import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
-import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
-import com.backendVn.SWP.dtos.request.AuthenticationRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
-import com.backendVn.SWP.services.AuthenticationService;
 import com.backendVn.SWP.services.CustomerService;
 import com.backendVn.SWP.services.UserService;
 import jakarta.validation.Valid;
