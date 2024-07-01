@@ -10,7 +10,10 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface RequestMapper {
 
+    @Mapping(target = "createdAt", expression = "java(java.time.Instant.now())")
+    @Mapping(target = "status", constant = "Unapproved")
     Request toRequest(RequestCreationRequestForCustomerDesign requestCreationRequestForCustomerDesign);
+
     void updateRequestFromDto(@MappingTarget Request request, RequestCreationRequestForCustomerDesign requestCreationRequestForCustomerDesign);
 
     @Mapping(target = "customerID", source = "customerID.id")

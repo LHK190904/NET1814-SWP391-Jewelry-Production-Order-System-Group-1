@@ -26,6 +26,9 @@ public class RequestMapperImpl implements RequestMapper {
         request.materialWeight( requestCreationRequestForCustomerDesign.getMaterialWeight() );
         request.category( requestCreationRequestForCustomerDesign.getCategory() );
 
+        request.createdAt( java.time.Instant.now() );
+        request.status( "Unapproved" );
+
         return request.build();
     }
 

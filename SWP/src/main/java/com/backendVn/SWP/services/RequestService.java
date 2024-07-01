@@ -63,38 +63,33 @@ public class RequestService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         Request theRequest = requestMapper.toRequest(request);
-        theRequest.setCreatedAt(Instant.now());
         theRequest.setCustomerID(user);
-        theRequest.setStatus("Unapproved");
 
-        if (materialRepository.findByMaterialNameAndUpdateTime(request.getGoldType(), stringToInstant(request.getUpdated())) != null){
-            Material newGoldType = new Material();
-            newGoldType.setMaterialName(request.getGoldType());
-            newGoldType.setType("Gold");
-            newGoldType.setUpdateTime(stringToInstant(request.getUpdated()));
-            newGoldType.setPricePerUnit(BigDecimal.valueOf(request.getSellCost()));
-            theRequest.setMaterialID(materialRepository.save(newGoldType));
-        } else {
-            theRequest.setMaterialID(materialRepository.findByMaterialName(request.getGoldType()));
-        }
+        Material goldMaterial = findOrCreateGoldMaterial(request);
 
-        if(request.getMainStoneId() != 0){
-            Material mainStone = materialRepository.findById(request.getMainStoneId())
-                    .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
-            theRequest.setMainStone(mainStone);
-        }
-
-        if(request.getSubStoneId() != 0){
-            Material subStone = materialRepository.findById(request.getSubStoneId())
-                    .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
-            theRequest.setSubStone(subStone);
-        }
-
+        theRequest.setMainStone(getMaterialById(request.getMainStoneId()));
+        theRequest.setSubStone(getMaterialById(request.getSubStoneId()));
         theRequest.setProduceCost(makeProduceCost(request.getCategory()));
 
-        Request savedRequest = requestRepository.save(theRequest);
+        return requestMapper.toRequestResponse(requestRepository.save(theRequest));
+    }
 
-        return requestMapper.toRequestResponse(savedRequest);
+    private Material getMaterialById(Integer materialId) {
+        return materialId == 0 ? null : materialRepository.findById(materialId)
+                .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+    }
+
+    private Material findOrCreateGoldMaterial(RequestCreationRequestForCustomerDesign request) {
+        return materialRepository.findByMaterialNameAndUpdateTime(
+                        request.getGoldType(), stringToInstant(request.getUpdated()))
+                .orElseGet(() -> {
+                    Material newGoldType = new Material();
+                    newGoldType.setMaterialName(request.getGoldType());
+                    newGoldType.setType("Gold");
+                    newGoldType.setUpdateTime(stringToInstant(request.getUpdated()));
+                    newGoldType.setPricePerUnit(BigDecimal.valueOf(request.getSellCost()));
+                    return materialRepository.save(newGoldType);
+                });
     }
 
     public RequestResponse updateRequestByCustomer(Integer id, RequestCreationRequestForCustomerDesign requestCreationRequestForCustomerDesign) {

@@ -114,17 +114,13 @@ public class QuotationService {
     public AutoPricingResponse getAutoPricing(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-
         AutoPricingResponse autoPricingResponse = quotationMapper.toAutoPricingResponse(request);
-
         if(request.getMainStone() != null){
             autoPricingResponse.setStonePrice(request.getMainStone().getPricePerUnit());
         }
-
         if(request.getSubStone() != null){
             autoPricingResponse.setStonePrice(autoPricingResponse.getStonePrice().add(request.getSubStone().getPricePerUnit()));
         }
-
         return autoPricingResponse;
     }
 
