@@ -1,8 +1,15 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
+  const handleDesignsClick = () => {
+    navigate("/collections", { state: { scrollToDesigns: true } });
+  };
+
   return (
-    <div className="p-4 bg-[#2A2A2A]  w-screen text-[#F7EF8A] font-bold z-10  sticky top-0">
+    <div className="p-4 bg-[#2A2A2A] w-screen text-[#F7EF8A] font-bold z-10 sticky top-0">
       <nav>
         <ul className="flex justify-around gap-4">
           <li>
@@ -21,9 +28,12 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to={"/designs"} className="hover:text-[#ddd012]">
+            <button
+              onClick={handleDesignsClick}
+              className="hover:text-[#ddd012]"
+            >
               THIẾT KẾ
-            </Link>
+            </button>
           </li>
           <li>
             <Link to={"/blog"} className="hover:text-[#ddd012]">

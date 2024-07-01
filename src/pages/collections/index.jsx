@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Carousel from "../../components/Carousel";
 import ItemCarousel from "../../components/ItemCarousel";
+import { useLocation } from "react-router-dom";
+import Designs from "../designs";
 
 const banners = [
   "./src/assets/images/banner/banner1.jpg",
@@ -229,6 +231,15 @@ const collection5 = [
 ];
 
 export default function Collections() {
+  const designsRef = useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollToDesigns) {
+      designsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location]);
+
   return (
     <div className="min-h-screen w-screen bg-[#434343] text-[#F7EF8A]">
       <Carousel numberOfSlides={1} images={banners} autoplay={true} />
@@ -258,6 +269,9 @@ export default function Collections() {
         <div className="col-span-10 mb-10">
           <ItemCarousel items={collection5} slidesPerView={3} />
         </div>
+      </div>
+      <div ref={designsRef}>
+        <Designs />
       </div>
     </div>
   );

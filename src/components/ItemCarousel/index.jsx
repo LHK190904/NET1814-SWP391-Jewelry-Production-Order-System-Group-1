@@ -21,9 +21,9 @@ function ItemCarousel({ items, slidesPerView = 4 }) {
               className="w-full h-[300px] object-cover"
             />
             <div className="bg-black p-6">
-              <h2 className="text-2xl font-bold mb-2">{item.name}</h2>
+              <h2 className="text-2xl mb-2">{item.name}</h2>
               <p className="text-white mb-4">{item.description}</p>
-              <p className="text-xl text-[#F7EF8A] font-bold">{item.price}</p>
+              <p className="text-xl text-[#F7EF8A] ">{item.price}</p>
               <button className="mt-4 px-4 py-2 bg-[#F7EF8A] text-black rounded">
                 Add to Cart
               </button>
