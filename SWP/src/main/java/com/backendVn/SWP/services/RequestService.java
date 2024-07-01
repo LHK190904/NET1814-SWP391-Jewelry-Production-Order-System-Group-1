@@ -39,7 +39,7 @@ public class RequestService {
     MaterialRepository materialRepository;
 
     public Instant stringToInstant(String input){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         LocalDateTime localDateTime = LocalDateTime.parse(input, formatter);
         return localDateTime.atZone(ZoneId.systemDefault()).toInstant();
     }

@@ -1,12 +1,12 @@
 {
   "code": 1000,
   "result": {
-    "id": 1002,
-    "description": "asdasdasdas",
-    "customerID": 1003,
+    "id": 4002,
+    "description": "asdasdasdfasd",
+    "customerID": 7008,
     "saleStaffID": null,
     "status": "Unapproved",
-    "createdAt": "2024-06-18T18:04:00.368485400Z",
+    "createdAt": "2024-07-01T06:31:14.172013400Z",
     "recievedAt": null,
     "endAt": null
   }

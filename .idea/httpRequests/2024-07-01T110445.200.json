@@ -1,0 +1,12 @@
+{
+  "code": 1000,
+  "result": {
+    "id": 3003,
+    "requestID": 3013,
+    "createdAt": "2024-07-01T04:04:45.807+00:00",
+    "approvedAt": null,
+    "approvedBy": 0,
+    "capitalCost": 300,
+    "cost": null
+  }
+}

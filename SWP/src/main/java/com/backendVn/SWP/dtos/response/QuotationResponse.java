@@ -19,5 +19,6 @@ public class QuotationResponse {
     Date createdAt;
     Instant approvedAt;
     int approvedBy;
+    BigDecimal capitalCost;
     BigDecimal cost;
 }
