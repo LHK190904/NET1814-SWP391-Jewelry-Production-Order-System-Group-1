@@ -90,6 +90,20 @@ public class QuotationService {
         return quotationMapper.toQuotationResponse(savedQuotation);
     }
 
+    public QuotationResponse denyFromManager(Integer quotationId){
+        Quotation quotation = quotationRepository.findById(quotationId)
+                .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
+
+        Request request = requestRepository.findById(quotation.getRequestID().getId())
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        request.setStatus("Denied quotation");
+
+        requestRepository.save(request);
+
+        return quotationMapper.toQuotationResponse(quotation);
+    }
+
     public QuotationResponse getQuotationById(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));

@@ -54,4 +54,11 @@ public class QuotationController {
                 .result(quotationService.getAutoPricing(requestId))
                 .build();
     }
+
+    @PutMapping("denyFromManager/{quotationId}")
+    public ApiResponse<QuotationResponse> denyFromManager(@PathVariable Integer quotationId){
+        return ApiResponse.<QuotationResponse>builder()
+                .result(quotationService.denyFromManager(quotationId))
+                .build();
+    }
 }
