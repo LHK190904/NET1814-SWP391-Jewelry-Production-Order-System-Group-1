@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -23,6 +24,8 @@ public class MaterialService {
     public MaterialResponse createMaterial(MaterialRequest material) {
         Material material1 = materialMapper.toMaterial(material);
 
+        material1.setUpdateTime(Instant.now());
+
         Material savedMaterial = materialRepository.save(material1);
         return materialMapper.toMaterialResponse(savedMaterial);
     }
@@ -33,8 +36,9 @@ public class MaterialService {
         return materialMapper.toMaterialResponse(materialRepository.save(material));
     }
 
-    public List<MaterialResponse> getMaterial() {
-        return materialRepository.findAll().stream().map(materialMapper::toMaterialResponse).toList();
+    public List<MaterialResponse> getMaterialNotGold() {
+        return materialRepository.findAllByTypeIsNotGold("Gold").orElseThrow(() -> new AppException(ErrorCode.NO_MATERIAL_IN_THE_LIST))
+                .stream().map(materialMapper::toMaterialResponse).toList();
     }
 
     public void deleteMaterial(Integer id) {

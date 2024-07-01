@@ -1,3 +1,96 @@
+GET http://localhost:8080/material
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-01T154322.200.json
+
+###
+
+GET http://localhost:8080/material
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-01T154125.200.json
+
+###
+
+POST http://localhost:8080/material
+Content-Type: application/json
+Content-Length: 73
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "type": "silver",
+  "pricePerUnit": 100,
+  "materialName": "asdasd"
+}
+
+<> 2024-07-01T154118.200.json
+
+###
+
+GET http://localhost:8080/material
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-01T154055.200.json
+
+###
+
+GET http://localhost:8080/material
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-01T153649.200.json
+
+###
+
+GET http://localhost:8080/material
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-01T153523.200.json
+
+###
+
+GET http://localhost:8080/material
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-01T153512.200.json
+
+###
+
+GET http://localhost:8080/api/gold/prices
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+###
+
 GET http://localhost:8080/quotation/autoPricing/3013
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -652,139 +745,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
 <> 2024-06-19T104239.200.json
-
-###
-
-PUT http://localhost:8080/user/8007
-Content-Type: application/json
-Content-Length: 128
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "userName": "asdsds1",
-  "password": "123456789",
-  "email": "giang@c.com",
-  "address": "asdas das d",
-  "title": "ADMIN"
-}
-
-<> 2024-06-19T102919.200.json
-
-###
-
-PUT http://localhost:8080/user/8007
-Content-Type: application/json
-Content-Length: 125
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "userName": "asd231asd",
-  "password": "123456789",
-  "email": "giang@c.com",
-  "address": "asdasd",
-  "title": "ADMIN"
-}
-
-<> 2024-06-19T102642.200.json
-
-###
-
-PUT http://localhost:8080/user/8007
-Content-Type: application/json
-Content-Length: 128
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "userName": "giang12354123",
-  "password": "123456789",
-  "email": "giang@c.com",
-  "address": "asdas",
-  "title": "ADMIN"
-}
-
-<> 2024-06-19T102222.200.json
-
-###
-
-GET http://localhost:8080/design
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-19T100245.200.json
-
-###
-
-PUT http://localhost:8080/request-orders/1/5010/7010
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-19T012257.200.json
-
-###
-
-GET http://localhost:8080/user
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-19T012148.200.json
-
-###
-
-POST http://localhost:8080/user
-Content-Type: application/json
-Content-Length: 141
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "userName": "asdas123",
-  "password": "asd123qwasd",
-  "email": "giang@gmail.com",
-  "address": "asdasd",
-  "title": "PRODUCTION_STAFF"
-}
-
-<> 2024-06-19T012139.200.json
-
-###
-
-POST http://localhost:8080/user
-Content-Type: application/json
-Content-Length: 141
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "userName": "giang123asd",
-  "password": "123456789",
-  "email": "giang@gmail.com",
-  "address": "asdasd",
-  "title": "PRODUCTIONSTAFF"
-}
-
-<> 2024-06-19T011856.400.json
 
 ###
 

@@ -20,4 +20,5 @@ public class RequestResponse {
     Instant createdAt;
     Instant recievedAt;
     Instant endAt;
+    BigDecimal cost;
 }

@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -15,5 +16,5 @@ public class MaterialResponse {
     String type;
     BigDecimal pricePerUnit;
     String materialName;
-
+    Instant updateTime;
 }

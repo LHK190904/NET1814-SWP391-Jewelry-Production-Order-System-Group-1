@@ -29,10 +29,10 @@ public class MaterialController {
                 .result(materialService.updateMaterial(materialRequest, materialID))
                 .build();
     }
-    @GetMapping
-    public ApiResponse<List<MaterialResponse>> getMaterial(){
+    @GetMapping("/notGold")
+    public ApiResponse<List<MaterialResponse>> getMaterialNotGold(){
         return ApiResponse.<List<MaterialResponse>>builder()
-                .result(materialService.getMaterial())
+                .result(materialService.getMaterialNotGold())
                 .build();
     }
     @DeleteMapping("/{materialID}")
