@@ -67,6 +67,7 @@ public class RequestService {
 
         Material goldMaterial = findOrCreateGoldMaterial(request);
 
+        theRequest.setMaterialID(goldMaterial);
         theRequest.setMainStone(getMaterialById(request.getMainStoneId()));
         theRequest.setSubStone(getMaterialById(request.getSubStoneId()));
         theRequest.setProduceCost(makeProduceCost(request.getCategory()));
