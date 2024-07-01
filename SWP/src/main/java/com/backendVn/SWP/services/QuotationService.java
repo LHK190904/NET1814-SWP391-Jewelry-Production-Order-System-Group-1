@@ -18,6 +18,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,6 +42,18 @@ public class QuotationService {
         quotation.setCreatedAt(Instant.now());
 
         request.setStatus("Pending quotation");
+
+        BigDecimal capitalCost = (quotationCreationRequest.getMaterialPrice().multiply(quotationCreationRequest.getMaterialWeight())).add(quotationCreationRequest.getProducePrice());
+
+        if (request.getSubStone() != null || request.getMainStone() != null){
+            capitalCost = capitalCost.add(quotationCreationRequest.getStonePrice());
+        }
+
+        if (capitalCost.compareTo(quotation.getCost()) >= 0){
+             throw new AppException(ErrorCode.INVALID_SALE_COST);
+        }
+        quotation.setCapitalCost(capitalCost);
+
         requestRepository.save(request);
 
         Quotation savedQuotation = quotationRepository.save(quotation);

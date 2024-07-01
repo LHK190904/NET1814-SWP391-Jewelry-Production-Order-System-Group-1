@@ -55,6 +55,7 @@ public class QuotationMapperImpl implements QuotationMapper {
             quotationResponse.createdAt( Date.from( quotation.getCreatedAt() ) );
         }
         quotationResponse.approvedAt( quotation.getApprovedAt() );
+        quotationResponse.capitalCost( quotation.getCapitalCost() );
         quotationResponse.cost( quotation.getCost() );
 
         return quotationResponse.build();

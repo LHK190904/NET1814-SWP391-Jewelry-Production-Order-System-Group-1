@@ -11,6 +11,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface QuotationMapper {
 
+    @Mapping(target = "cost", source = "cost")
     Quotation toQuotation(QuotationCreationRequest quotationCreationRequest);
 
     @Mapping(target = "requestID", source = "requestID.id")
