@@ -4,10 +4,26 @@
     {
       "id": 1003,
       "userName": "khoa12345123",
-      "password": "$2a$10$i3IhLRP8I3RNvYcxR0wMSeNralPg.b5F2uhn/5hNM6PFACalQiekK",
-      "email": "giang@đá.com",
+      "password": "$2a$10$wfoKcFN5.//Sbz2uwala4enPsdC3wL//mpu6oUZGyx4Y.mAhgHdDq",
+      "email": "giang@đáas.com",
       "address": "asdasdasdasdasd",
-      "title": "CUSTOMER"
+      "title": "ADMIN"
+    },
+    {
+      "id": 2002,
+      "userName": "admin",
+      "password": "$2a$10$9aIjzPaedqm5lJa6wT4ao.maT1JdfM.OEW.Zk5NyK657769uft3Xu",
+      "email": null,
+      "address": null,
+      "title": "ADMIN"
+    },
+    {
+      "id": 3002,
+      "userName": "giang12345",
+      "password": "$2a$10$/C4qSMckdlgVyYeR6kuNMu0yY3F2RVOdy3Xn2HZlefF7wfPhuyeMO",
+      "email": "aasdasdasd",
+      "address": "asdasdasd",
+      "title": "SALE_STAFF"
     },
     {
       "id": 4002,
@@ -82,6 +98,14 @@
       "title": "CUSTOMER"
     },
     {
+      "id": 5010,
+      "userName": "baohoang",
+      "password": "$2a$10$uJs1YCq3ZTwq7qwzzEQ/dufJNw1ohD5Pc/Le/SgSMX4796Orafooe",
+      "email": "bao@123.com",
+      "address": null,
+      "title": "SALE_STAFF"
+    },
+    {
       "id": 7004,
       "userName": "giang1234580",
       "password": "$2a$10$exvT4bAe9kjzWo.nSgeofuew80rTTuwqLYwmcsptncpBHTjzsOvRy",
@@ -96,6 +120,38 @@
       "email": "giang@gmail.com",
       "address": "giansdasd",
       "title": "CUSTOMER"
+    },
+    {
+      "id": 7010,
+      "userName": "asdas123",
+      "password": "$2a$10$0mvGAz8C/wUfIQ6z0Mn7Uu6eneVLMcnAxbaaHfWyErEUJg.eBD5K.",
+      "email": "giang@gmail.com",
+      "address": "asdasd",
+      "title": "PRODUCTION_STAFF"
+    },
+    {
+      "id": 8007,
+      "userName": "asdsds1",
+      "password": "$2a$10$BiKHCZ1C13eJMdggPupLNusao33ro/UK35pD1asbmbA969C6LSIzK",
+      "email": "giang@c.com",
+      "address": "asdas das d",
+      "title": "SALE_STAFF"
+    },
+    {
+      "id": 8008,
+      "userName": "asdasd1234123",
+      "password": "$2a$10$dunxtE0fowCsz4tQOfeUNOUIc9MDAfKt3eHEDqIyKA3RHngsjL7a2",
+      "email": "giang@c.com",
+      "address": null,
+      "title": "PRODUCTION_STAFF"
+    },
+    {
+      "id": 8009,
+      "userName": "aewzsrxdctfuvygbhj",
+      "password": "$2a$10$ACcNVkKvU.1coAE4Ci7xM.2sVue7x.5mmA4Nuw1zCIFxczK7WXZBW",
+      "email": "hoangkhanh19092004@gmail.com",
+      "address": null,
+      "title": "PRODUCTION_STAFF"
     }
   ]
 }
