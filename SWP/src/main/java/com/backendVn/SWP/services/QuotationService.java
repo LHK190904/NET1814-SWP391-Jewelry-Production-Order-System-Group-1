@@ -9,7 +9,6 @@ import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.QuotationMapper;
-import com.backendVn.SWP.repositories.MaterialRepository;
 import com.backendVn.SWP.repositories.QuotationRepository;
 import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -32,7 +30,6 @@ public class QuotationService {
     QuotationMapper quotationMapper;
     RequestRepository requestRepository;
     UserRepository userRepository;
-    private final MaterialRepository materialRepository;
 
     public QuotationResponse createQuotation(QuotationCreationRequest quotationCreationRequest, Integer requestId){
         Request request = requestRepository.findById(requestId)
@@ -80,7 +77,8 @@ public class QuotationService {
         var context = SecurityContextHolder.getContext();
         String username = context.getAuthentication().getName();
 
-        User user = userRepository.findByUserName(username).get();
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         quotation.setApproveBy(user);
         quotation.setApprovedAt(Instant.now());
@@ -101,12 +99,7 @@ public class QuotationService {
 
         if(quotation.isEmpty())return new QuotationResponse();
 
-        Collections.sort(quotation, new Comparator<Quotation>() {
-            @Override
-            public int compare(Quotation o1, Quotation o2) {
-                return o1.getCreatedAt().compareTo(o2.getCreatedAt());
-            }
-        });
+        quotation.sort(Comparator.comparing(Quotation::getCreatedAt));
 
         return quotationMapper.toQuotationResponse(quotation.getLast());
     }

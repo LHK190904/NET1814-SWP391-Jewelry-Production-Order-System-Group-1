@@ -97,8 +97,6 @@ public class DesignService {
         Design design = designRepository.findById(requestOrder.getDesignID().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
 
-        DesignResponse designResponse = designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
-
-        return designResponse;
+        return designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
     }
 }
