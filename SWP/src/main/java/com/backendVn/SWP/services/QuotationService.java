@@ -1,6 +1,7 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.QuotationCreationRequest;
+import com.backendVn.SWP.dtos.response.AutoPricingResponse;
 import com.backendVn.SWP.dtos.response.QuotationResponse;
 import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.entities.Request;
@@ -8,6 +9,7 @@ import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.QuotationMapper;
+import com.backendVn.SWP.repositories.MaterialRepository;
 import com.backendVn.SWP.repositories.QuotationRepository;
 import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
@@ -29,6 +31,7 @@ public class QuotationService {
     QuotationMapper quotationMapper;
     RequestRepository requestRepository;
     UserRepository userRepository;
+    private final MaterialRepository materialRepository;
 
     public QuotationResponse createQuotation(QuotationCreationRequest quotationCreationRequest, Integer requestId){
         Request request = requestRepository.findById(requestId)
@@ -93,6 +96,23 @@ public class QuotationService {
         });
 
         return quotationMapper.toQuotationResponse(quotation.getLast());
+    }
+
+    public AutoPricingResponse getAutoPricing(Integer requestId){
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        AutoPricingResponse autoPricingResponse = quotationMapper.toAutoPricingResponse(request);
+
+        if(request.getMainStone() != null){
+            autoPricingResponse.setStonePrice(request.getMainStone().getPricePerUnit());
+        }
+
+        if(request.getSubStone() != null){
+            autoPricingResponse.setStonePrice(autoPricingResponse.getStonePrice().add(request.getSubStone().getPricePerUnit()));
+        }
+
+        return autoPricingResponse;
     }
 
 }

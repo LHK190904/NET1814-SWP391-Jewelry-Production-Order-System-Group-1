@@ -1,3 +1,14 @@
+GET http://localhost:8080/quotation/autoPricing/3012
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-01T102544.400.json
+
+###
+
 GET http://localhost:8080/api/gold/prices
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.3
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -639,17 +650,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
 <> 2024-06-19T010051.400.json
-
-###
-
-GET http://localhost:8080/requests/unrecievedRequest
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-19T010041.200.json
 
 ###
 

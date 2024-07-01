@@ -1,6 +1,7 @@
 package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.QuotationCreationRequest;
+import com.backendVn.SWP.dtos.response.AutoPricingResponse;
 import com.backendVn.SWP.dtos.response.QuotationResponse;
 import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.entities.Request;
@@ -55,6 +56,21 @@ public class QuotationMapperImpl implements QuotationMapper {
         quotationResponse.cost( quotation.getCost() );
 
         return quotationResponse.build();
+    }
+
+    @Override
+    public AutoPricingResponse toAutoPricingResponse(Request request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        AutoPricingResponse.AutoPricingResponseBuilder autoPricingResponse = AutoPricingResponse.builder();
+
+        autoPricingResponse.material( request.getMaterialID() );
+        autoPricingResponse.materialWeight( request.getMaterialWeight() );
+        autoPricingResponse.producePrice( request.getProduceCost() );
+
+        return autoPricingResponse.build();
     }
 
     private Integer quotationRequestIDId(Quotation quotation) {

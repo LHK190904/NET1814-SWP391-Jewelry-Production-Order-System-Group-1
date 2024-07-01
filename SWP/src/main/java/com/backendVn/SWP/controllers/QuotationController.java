@@ -2,6 +2,7 @@ package com.backendVn.SWP.controllers;
 
 import com.backendVn.SWP.dtos.request.QuotationCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
+import com.backendVn.SWP.dtos.response.AutoPricingResponse;
 import com.backendVn.SWP.dtos.response.QuotationResponse;
 import com.backendVn.SWP.services.QuotationService;
 import lombok.AccessLevel;
@@ -44,6 +45,13 @@ public class QuotationController {
     public ApiResponse<QuotationResponse> getQuotationByRequestId(@PathVariable Integer requestId){
         return ApiResponse.<QuotationResponse>builder()
                 .result(quotationService.getQuotationById(requestId))
+                .build();
+    }
+
+    @GetMapping("/autoPricing/{requestId}")
+    public ApiResponse<AutoPricingResponse> autoPricing(@PathVariable Integer requestId){
+        return ApiResponse.<AutoPricingResponse>builder()
+                .result(quotationService.getAutoPricing(requestId))
                 .build();
     }
 }
