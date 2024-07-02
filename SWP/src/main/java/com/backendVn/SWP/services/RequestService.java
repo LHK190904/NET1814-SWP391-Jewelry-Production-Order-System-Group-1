@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -77,7 +78,7 @@ public class RequestService {
     }
 
     private Material findOrCreateGoldMaterial(RequestCreationRequestForCustomerDesign request) {
-        if (request.getUpdated().isEmpty() || !request.getUpdated().matches("dd/MM/yyyy HH:mm")){
+        if (request.getUpdated().isEmpty()){
             throw new AppException(ErrorCode.INVALID_DATE_FORMAT);
         }
         return materialRepository.findByMaterialNameAndUpdateTime(
