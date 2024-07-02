@@ -1,5 +1,7 @@
 package com.backendVn.SWP.services;
 
+import com.backendVn.SWP.dtos.request.DesignFeedBackRequest;
+import com.backendVn.SWP.dtos.response.DesignResponse;
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.Design;
@@ -8,6 +10,7 @@ import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
+import com.backendVn.SWP.mappers.DesignMapper;
 import com.backendVn.SWP.mappers.RequestOrderMapper;
 import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.DesignRepository;
@@ -32,6 +35,7 @@ public class RequestOrderService {
     DesignRepository designRepository;
     UserRepository userRepository;
     UserMapper userMapper;
+    private final DesignMapper designMapper;
 
     public RequestOrderResponse createRequestOrder(Integer id) {
         Request request = requestRepository.findById(id)
@@ -74,6 +78,8 @@ public class RequestOrderService {
 
         requestOrder.setDesignID(design);
         RequestOrder savedRequestOrder =requestOrderRepository.save(requestOrder);
+        requestOrder.setStatus("Customer Review");
+
         return requestOrderMapper.toRequestOrderResponse(savedRequestOrder);
     }
 
@@ -86,6 +92,7 @@ public class RequestOrderService {
 
         requestOrder.setDesignStaff(designStaff);
         requestOrder.setProductionStaff(productionStaff);
+        requestOrder.setStatus("Assigned");
 
         RequestOrder savedRequestOrder =requestOrderRepository.save(requestOrder);
 
@@ -115,5 +122,17 @@ public class RequestOrderService {
 
         if(requestOrders.isEmpty())return null;
         return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
+    }
+
+    public RequestOrderResponse acceptDesign(Integer designId){
+        Design design = designRepository.findById(designId)
+                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        RequestOrder requestOrder = requestOrderRepository.findByDesignID(design)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+
+        requestOrder.setStatus("Producing");
+
+        return requestOrderMapper.toRequestOrderResponse(requestOrderRepository.save(requestOrder));
     }
 }

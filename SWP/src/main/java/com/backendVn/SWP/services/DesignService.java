@@ -1,8 +1,10 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.DesignCreationRequest;
+import com.backendVn.SWP.dtos.request.DesignFeedBackRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
 import com.backendVn.SWP.dtos.response.DesignResponse;
+import com.backendVn.SWP.dtos.response.RequestOrderResponse;
 import com.backendVn.SWP.entities.Design;
 import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.exception.AppException;
@@ -96,6 +98,23 @@ public class DesignService {
 
         Design design = designRepository.findById(requestOrder.getDesignID().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        return designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
+    }
+
+    public DesignResponse denyDesign(Integer designId, DesignFeedBackRequest request){
+        Design design = designRepository.findById(designId)
+                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        RequestOrder requestOrder = requestOrderRepository.findByDesignID(design)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+
+        requestOrder.setStatus("Design Denied");
+
+        design.setDescription(request.getDescription());
+
+        requestOrderRepository.save(requestOrder);
+        designRepository.save(design);
 
         return designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
     }

@@ -1,6 +1,8 @@
 package com.backendVn.SWP.controllers;
 
+import com.backendVn.SWP.dtos.request.DesignFeedBackRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
+import com.backendVn.SWP.dtos.response.DesignResponse;
 import com.backendVn.SWP.dtos.response.RequestOrderResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.services.RequestOrderService;
@@ -83,4 +85,12 @@ public class RequestOrderController {
                 .result(requestOrderService.getOrderByRequestIdForCustomer(requestId))
                 .build();
     }
+
+    @PutMapping("/acceptDesign/{designId}")
+    public ApiResponse<RequestOrderResponse> acceptDesign(@PathVariable Integer designId) {
+        return ApiResponse.<RequestOrderResponse>builder()
+                .result(requestOrderService.acceptDesign(designId))
+                .build();
+    }
+
 }

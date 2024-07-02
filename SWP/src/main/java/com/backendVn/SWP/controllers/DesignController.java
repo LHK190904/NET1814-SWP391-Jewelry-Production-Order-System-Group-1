@@ -2,6 +2,7 @@ package com.backendVn.SWP.controllers;
 
 
 import com.backendVn.SWP.dtos.request.DesignCreationRequest;
+import com.backendVn.SWP.dtos.request.DesignFeedBackRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.DesignResponse;
@@ -54,4 +55,10 @@ public class DesignController {
                 .build();
     }
 
+    @PutMapping("/denyDesign/{designId}")
+    public ApiResponse<DesignResponse> denyDesign(@PathVariable Integer designId, @RequestBody @Valid DesignFeedBackRequest request) {
+        return ApiResponse.<DesignResponse>builder()
+                .result(designService.denyDesign(designId, request))
+                .build();
+    }
 }
