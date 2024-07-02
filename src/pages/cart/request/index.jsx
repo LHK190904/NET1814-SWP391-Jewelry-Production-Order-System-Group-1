@@ -125,33 +125,31 @@ function CartRequest() {
               <div className="col-span-1 p-2 bg-white border">
                 {item.saleStaffID}
               </div>
-              <div className="col-span-1 p-2 bg-white">
-                {item.status === "Unapproved" ? (
-                  item.status
-                ) : statuses[item.id] === "action" ? (
-                  <div>
-                    <button
-                      onClick={() => handleApprove(item.id)}
-                      className="bg-green-400 p-1 rounded-lg mr-2 hover:bg-green-500"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      onClick={() => handleDeny(item.id)}
-                      className="bg-red-400 p-1 rounded-lg hover:bg-red-500"
-                    >
-                      Deny
-                    </button>
-                  </div>
-                ) : (
+              {statuses[item.id] === "action" ? (
+                <div className="col-span-1 p-2 bg-white">
+                  <button
+                    onClick={() => handleApprove(item.id)}
+                    className="bg-green-400 p-1 rounded-lg mr-2 hover:bg-green-500"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleDeny(item.id)}
+                    className="bg-red-400 p-1 rounded-lg hover:bg-red-500"
+                  >
+                    Deny
+                  </button>
+                </div>
+              ) : (
+                <div className="col-span-1 p-2 bg-white">
                   <button
                     onClick={() => handleStatusClick(item.id)}
                     className="bg-blue-400 p-2 rounded-lg hover:bg-blue-500"
                   >
                     {statuses[item.id] || item.status}
                   </button>
-                )}
-              </div>
+                </div>
+              )}
               <div className="col-span-1 p-2 bg-white border">
                 {item.createdAt}
               </div>

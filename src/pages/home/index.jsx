@@ -17,7 +17,6 @@ export default function Home() {
     buyCost: 0,
     updated: "",
   });
-
   const [formData, setFormData] = useState({
     category: "",
     goldType: "",
@@ -72,17 +71,25 @@ export default function Home() {
       const user = authService.getCurrentUser();
 
       if (user && user.id) {
-        const uploadedUrls = await uploadImages();
+        const base64Images = await Promise.all(
+          fileList.map((file) => {
+            if (!file.url && !file.preview) {
+              return getBase64(file.originFileObj);
+            }
+            return file.preview || file.url;
+          })
+        );
         const API_URL = `http://localhost:8080/requests/${user.id}`;
 
         const requestData = {
           ...formData,
-          uRLImage: uploadedUrls,
+          uRLImage: base64Images,
           updated: goldTypeData.updated,
           sellCost: goldTypeData.sellCost,
           buyCost: goldTypeData.buyCost,
         };
 
+        console.log(requestData);
         const response = await axios.post(API_URL, requestData, {
           headers: {
             "Content-Type": "application/json",
@@ -94,7 +101,7 @@ export default function Home() {
         setIsModalOpen(false);
         message.success("Yêu cầu đã được gửi thành công");
       } else {
-        message.error("Người dùng không hợp lệ");
+        message.error("Vui lòng đăng nhập để gửi yêu");
       }
     } catch (error) {
       console.error(
@@ -103,17 +110,6 @@ export default function Home() {
       );
       message.error("Đã xảy ra lỗi khi gửi yêu cầu");
     }
-  };
-
-  const uploadImages = async () => {
-    const uploadPromises = fileList.map(async (file) => {
-      if (!file.url) {
-        const url = await uploadFile(file.originFileObj);
-        return url;
-      }
-      return file.url;
-    });
-    return await Promise.all(uploadPromises);
   };
 
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
@@ -166,7 +162,7 @@ export default function Home() {
   return (
     <div className="w-screen min-h-screen bg-[#434343] text-[#F7EF8A]">
       <div className="grid grid-cols-12">
-        <h1 className="col-span-12 text-center">
+        <h1 className="col-span-12 text-center text-4xl">
           QUY TRÌNH ĐẶT GIA CÔNG TẠI LUXE
         </h1>
 
@@ -274,6 +270,7 @@ export default function Home() {
               }}
               onChange={handleChange}
               beforeUpload={beforeUpload}
+              multiple={true}
             >
               {fileList.length >= 8 ? null : uploadButton}
             </Upload>

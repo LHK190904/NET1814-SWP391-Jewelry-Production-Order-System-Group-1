@@ -6,23 +6,23 @@ function Tutorial() {
       <span>
         <ol>
           <li>
-            1. Các bạn tạo yêu cầu với sản phẩm đã chọn từ cửa hàng hoặc do
-            chính bạn yêu cầu
+            1. Tạo yêu cầu với sản phẩm có sẵn trên cửa hàng hoặc do khách hàng
+            cung cấp
           </li>
           <li>
-            2. Nhân viên Sales của cửa hàng sẽ tiếp nhận yêu cầu, xem xét và đưa
-            ra giá cho yêu cầu và yêu cầu sẽ được gửi cho Manager để duyệt.
+            2. Nhân viên Sales của cửa hàng sẽ tiếp nhận, xem xét và đưa ra giá
+            cho yêu cầu. Yêu cầu sau đó sẽ được gửi cho Manager để duyệt.
           </li>
           <li>
             3. Manager sau khi nhận được yêu cầu cần được phê duyệt sẽ xem xét
             về giá đã được đưa ra và từ đó đưa ra quyết định phê duyệt.
           </li>
           <li>
-            4. Yêu cầu sau khi được Manager phê duyệt sẽ được gửi về cho khách
-            hàng trong giỏ hàng và khách hàng sẽ xem được giá đã được phê duyệt
+            4. Yêu cầu sau khi được phê duyệt sẽ được gửi về cho khách hàng
+            trong giỏ hàng và khách hàng sẽ xem được giá đã được phê duyệt
           </li>
           <li>
-            5. Khách hàng xem xét giá đã được gửi về rồi đưa ra quyết định(chấp
+            5. Khách hàng xem xét giá đã được gửi về để đưa ra quyết định(chấp
             nhận/từ chối) đối với giá đó để bắt đầu tạo đơn hàng-nếu không thì
             toàn bộ coi như đơn hàng sẽ bị hủy
           </li>
