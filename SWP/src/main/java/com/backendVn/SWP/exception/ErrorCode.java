@@ -1,10 +1,13 @@
 package com.backendVn.SWP.exception;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
 @Getter
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_KEY(1001, "Invalid key", HttpStatus.BAD_REQUEST),
@@ -39,6 +42,7 @@ public enum ErrorCode {
     NO_MATERIAL_IN_THE_LIST(1030, "No material in list", HttpStatus.NOT_FOUND),
     NO_QUOTATION_IN_THE_LIST(1031, "No quotation in list", HttpStatus.NOT_FOUND),
     INVALID_DATE_FORMAT(1032, "Invalid date format", HttpStatus.BAD_REQUEST),
+    REQUEST_ORDER_EXISTED(1033, "Request order already existed", HttpStatus.BAD_REQUEST),
     ;
     private int code;
     private String message;

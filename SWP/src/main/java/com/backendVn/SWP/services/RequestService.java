@@ -40,7 +40,7 @@ public class RequestService {
     RequestMapper requestMapper;
     UserMapper userMapper;
     MaterialRepository materialRepository;
-    private final QuotationRepository quotationRepository;
+    QuotationRepository quotationRepository;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -81,7 +81,7 @@ public class RequestService {
     }
 
     private Material findOrCreateGoldMaterial(RequestCreationRequestForCustomerDesign request) {
-        if (!request.getUpdated().matches("dd/MM/yyyy HH:mm")){
+        if (request.getUpdated().isEmpty() || !request.getUpdated().matches("dd/MM/yyyy HH:mm")){
             throw new AppException(ErrorCode.INVALID_DATE_FORMAT);
         }
         return materialRepository.findByMaterialNameAndUpdateTime(
@@ -176,6 +176,10 @@ public class RequestService {
     public RequestResponse  approveQuotationFromCustomer(Integer requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        if(request.getStatus().equals("Ordering")){
+            throw new AppException(ErrorCode.REQUEST_ORDER_EXISTED);
+        }
 
         request.setStatus("Ordering");
 

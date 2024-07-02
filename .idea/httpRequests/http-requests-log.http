@@ -1,3 +1,28 @@
+POST http://localhost:8080/requests/1
+Content-Type: application/json
+Content-Length: 232
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "description": "asdasdasd",
+  "buyCost": 100,
+  "sellCost": 100,
+  "updated": "02/07/2024 10:27",
+  "goldType": "Black Gold",
+  "materialWeight": 2,
+  "mainStoneId": 0,
+  "subStoneId": 0,
+  "category": "RING",
+  "uRLImage": ""
+}
+
+<> 2024-07-02T152847.404.json
+
+###
+
 GET http://localhost:8080/requests/sales/3002
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -731,15 +756,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
 <> 2024-06-28T153249.200.json
-
-###
-
-DELETE http://localhost:8080/user/9007
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
 
 ###
 

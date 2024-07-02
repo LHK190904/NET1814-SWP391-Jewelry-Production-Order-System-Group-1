@@ -40,6 +40,7 @@ public class MaterialMapperImpl implements MaterialMapper {
         materialResponse.type( material.getType() );
         materialResponse.pricePerUnit( material.getPricePerUnit() );
         materialResponse.materialName( material.getMaterialName() );
+        materialResponse.updateTime( material.getUpdateTime() );
 
         return materialResponse.build();
     }
