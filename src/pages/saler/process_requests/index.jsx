@@ -21,9 +21,11 @@ function ProcessRequests() {
   const [requests, setRequests] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCustomerModalOpen, setIsCustomerModalOpen] = useState(false);
+  const [isQuotationModalOpen, setIsQuotationModalOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState("");
   const [customerInfo, setCustomerInfo] = useState(null);
   const [formData] = useForm();
+  const [formDataQuotation] = useForm();
   const location = useLocation();
   const [saleName, setSaleName] = useState("");
 
@@ -48,14 +50,54 @@ function ProcessRequests() {
     fetchSalerData();
   }, []);
 
-  const handleShowModal = (record) => {
+  const handleShowModal = async (record) => {
     setSelectedRecord(record);
     setIsModalOpen(true);
+
+    try {
+      const response = await axiosInstance.get(
+        `/quotation/autoPricing/${record.id}`
+      );
+      const data = response.data.result;
+      formData.setFieldsValue({
+        materialPrice: data.materialPrice,
+        materialWeight: data.materialWeight,
+        producePrice: data.producePrice,
+        stonePrice: data.stonePrice,
+      });
+    } catch (error) {
+      console.error("Không thể lấy giá tự động:", error);
+      message.error("Không thể lấy giá tự động.");
+    }
   };
 
   const handleHideModal = () => {
     setIsModalOpen(false);
     setSelectedRecord("");
+    formData.resetFields();
+  };
+
+  const handleShowQuotationModal = async (record) => {
+    setSelectedRecord(record);
+    setIsQuotationModalOpen(true);
+
+    try {
+      const response = await axiosInstance.get(`/quotation/${record.id}`);
+      const data = response.data.result;
+      console.log(data);
+      formDataQuotation.setFieldsValue({
+        createdAt: data.createdAt,
+        capitalCost: data.capitalCost,
+        cost: data.cost,
+      });
+    } catch (error) {
+      console.error("Không thể lấy thông tin báo giá:", error);
+      message.error("Không thể lấy thông tin báo giá.");
+    }
+  };
+
+  const handleHideQuotationModal = () => {
+    setIsQuotationModalOpen(false);
   };
 
   const handleOk = () => {
@@ -74,8 +116,9 @@ function ProcessRequests() {
       const updatedRecord = {
         ...selectedRecord,
         ...values,
-        status: "Processing",
+        status: "Pending quotation",
       };
+      console.log(updatedRecord);
       await axiosInstance.post(
         `/quotation/${selectedRecord.id}`,
         updatedRecord
@@ -87,7 +130,6 @@ function ProcessRequests() {
       );
       message.success("Đã gửi cho quản lý!");
       handleHideModal();
-      formData.resetFields();
     } catch (error) {
       console.error("Không thể cập nhật yêu cầu:", error);
     }
@@ -119,16 +161,16 @@ function ProcessRequests() {
     { title: "Mã yêu cầu", dataIndex: "id", key: "id" },
     { title: "Chi tiết", dataIndex: "description", key: "description" },
     { title: "Thời gian nhận đơn", dataIndex: "recievedAt", key: "recievedAt" },
-    { title: "Giá", dataIndex: "cost", key: "cost" },
     {
       title: "Trạng thái",
       key: "status",
       dataIndex: "status",
       render: (status) => {
         let color = "volcano";
-        if (status === "Approve") color = "green";
-        if (status === "Processing") color = "blue";
-        if (status === "Pending Quotation") color = "gray";
+        if (status === "Ordering") color = "green";
+        if (status === "Processing") color = "gray";
+        if (status === "Pending quotation") color = "blue";
+        if (status === "Pending quotation for customer") color = "purple";
         return (
           <Tag color={color} key={status}>
             {status}
@@ -141,9 +183,20 @@ function ProcessRequests() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => handleShowModal(record)}>
-            Lấy giá
-          </Button>
+          {record.status !== "Ordering" &&
+          record.status !== "Pending quotation" &&
+          record.status !== "Pending quotation for customer" ? (
+            <Button type="primary" onClick={() => handleShowModal(record)}>
+              Lấy giá
+            </Button>
+          ) : (
+            <Button
+              type="primary"
+              onClick={() => handleShowQuotationModal(record)}
+            >
+              Thông tin báo giá
+            </Button>
+          )}
           <Button onClick={() => handleAnnounce(record.id)}>
             Thông báo cho khách hàng
           </Button>
@@ -201,7 +254,7 @@ function ProcessRequests() {
             Hủy
           </Button>,
           <Button key="submit" type="primary" onClick={handleOk}>
-            Lấy giá tự động
+            Gửi cho quản lí
           </Button>,
         ]}
       >
@@ -211,28 +264,22 @@ function ProcessRequests() {
         <Form form={formData}>
           <div className="flex flex-row gap-4">
             <div className="flex flex-col flex-wrap w-1/2">
-              <FormItem label="Giá vật liệu" name="material">
+              <FormItem label="Giá vàng" name="materialPrice">
                 <Input />
               </FormItem>
-              <FormItem label="Trọng lượng" name="weight">
+              <FormItem label="Trọng lượng" name="materialWeight">
                 <Input />
               </FormItem>
-              <FormItem label="Tiền công" name="laborCost">
+              <FormItem label="Tiền công" name="producePrice">
                 <Input />
               </FormItem>
             </div>
             <div className="flex flex-col flex-wrap w-1/2">
-              <FormItem label="Tiền đá" name="stoneCost">
-                <Input />
-              </FormItem>
-              <FormItem label="Đá chính" name="mainStone">
-                <Input />
-              </FormItem>
-              <FormItem label="Vật liệu" name="materialCost">
+              <FormItem label="Tiền đá" name="stonePrice">
                 <Input />
               </FormItem>
               <FormItem
-                label="Giá"
+                label="Tổng giá bán"
                 name="cost"
                 rules={[
                   {
@@ -248,31 +295,62 @@ function ProcessRequests() {
       </Modal>
 
       <Modal
+        open={isQuotationModalOpen}
+        title={<div className="text-center text-2xl">Thông tin báo giá</div>}
+        onCancel={handleHideQuotationModal}
+        width="60%"
+        footer={[
+          <Button key="back" onClick={handleHideQuotationModal}>
+            Đóng
+          </Button>,
+        ]}
+      >
+        <p className="text-lg font-semibold mb-10">
+          Request ID: {selectedRecord.id}
+        </p>
+        <Form form={formDataQuotation}>
+          <div className="flex flex-row gap-4">
+            {/* <div className="flex flex-col flex-wrap w-1/2"> */}
+            <FormItem label="Created At" name="createdAt">
+              <Input disabled />
+            </FormItem>
+            <FormItem label="Capital cost" name="capitalCost">
+              <Input disabled />
+            </FormItem>
+            {/* </div> */}
+            {/* <div className="flex flex-col flex-wrap w-1/2"> */}
+            <FormItem label="Total cost" name="cost">
+              <Input disabled />
+            </FormItem>
+            {/* </div> */}
+          </div>
+        </Form>
+      </Modal>
+
+      <Modal
         open={isCustomerModalOpen}
-        title={<div className="text-center text-2xl">Thông tin khách hàng</div>}
+        title={<div className="text-center text-2xl">Customer information</div>}
         onCancel={handleHideCustomerModal}
         width="60%"
         footer={[
           <Button key="back" onClick={handleHideCustomerModal}>
-            Đóng
+            Close
           </Button>,
         ]}
       >
         {customerInfo && (
           <div>
             <p className="text-lg font-semibold mb-2">
-              Tên khách hàng:{" "}
-              <span className="font-thin">{customerInfo.cusName}</span>
+              Name: <span className="font-thin">{customerInfo.cusName}</span>
             </p>
             <p className="text-lg font-semibold mb-2">
               Email: <span className="font-thin">{customerInfo.email}</span>
             </p>
             <p className="text-lg font-semibold mb-2">
-              Địa chỉ:{" "}
-              <span className="font-thin"> {customerInfo.address}</span>
+              Address: <span className="font-thin">{customerInfo.address}</span>
             </p>
             <p className="text-lg font-semibold mb-2">
-              Số điện thoại:{" "}
+              Phone number:{" "}
               <span className="font-thin">{customerInfo.phoneNum}</span>
             </p>
           </div>
