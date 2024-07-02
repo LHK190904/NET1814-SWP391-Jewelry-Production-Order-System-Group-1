@@ -81,6 +81,9 @@ public class RequestService {
     }
 
     private Material findOrCreateGoldMaterial(RequestCreationRequestForCustomerDesign request) {
+        if (!request.getUpdated().matches("dd/MM/yyyy HH:mm")){
+            throw new AppException(ErrorCode.INVALID_DATE_FORMAT);
+        }
         return materialRepository.findByMaterialNameAndUpdateTime(
                         request.getGoldType(), stringToInstant(request.getUpdated()))
                 .orElseGet(() -> {

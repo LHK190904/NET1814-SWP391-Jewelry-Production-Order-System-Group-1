@@ -38,6 +38,7 @@ public enum ErrorCode {
     INVALID_SALE_COST(1029, "Sale cost must be greater than capital cost", HttpStatus.BAD_REQUEST),
     NO_MATERIAL_IN_THE_LIST(1030, "No material in list", HttpStatus.NOT_FOUND),
     NO_QUOTATION_IN_THE_LIST(1031, "No quotation in list", HttpStatus.NOT_FOUND),
+    INVALID_DATE_FORMAT(1032, "Invalid date format", HttpStatus.BAD_REQUEST),
     ;
     private int code;
     private String message;
