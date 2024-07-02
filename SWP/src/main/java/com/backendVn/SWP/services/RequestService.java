@@ -27,6 +27,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -160,9 +161,18 @@ public class RequestService {
         User user = userRepository.findById(saleStaffId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        return requestRepository.findAllBySaleStaffid(user).stream()
-                .map(requestMapper::toRequestResponse)
-                .toList();
+        List<Quotation> quotations = quotationRepository.findByStaffId(user.getId())
+                .orElseThrow(() -> new AppException(ErrorCode.NO_QUOTATION_IN_THE_LIST));
+
+        List<RequestResponse> requestResponses = new ArrayList<>();
+
+        for (Quotation quotation : quotations) {
+            RequestResponse requestResponse = requestMapper.toRequestResponse(quotation.getRequestID());
+            requestResponse.setCost(quotation.getCost());
+            requestResponses.add(requestResponse);
+        }
+
+        return requestResponses;
     }
 
     public UserResponse getUserById(Integer id) {

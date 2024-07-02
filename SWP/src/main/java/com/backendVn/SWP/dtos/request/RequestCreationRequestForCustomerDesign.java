@@ -32,7 +32,7 @@ public class RequestCreationRequestForCustomerDesign {
 
     Integer subStoneId;
 
-    @Pattern(regexp = "RING|NECKLACE|BRACELET|EARRING", message = "INVALID_CATEGORY")
+    @Pattern(regexp = "RING|NECKLACE|BRACELET|EARRINGS", message = "INVALID_CATEGORY")
     String category;
 
     String uRLImage;

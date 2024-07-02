@@ -1,9 +1,0 @@
-{
-  "code": 1000,
-  "result": {
-    "token": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJKZXdlbHJ5X1Byb2R1Y3Rpb25fT3JkZXIuY29tIiwic3ViIjoiYWRtaW4iLCJleHAiOjE3MTk0ODA4NDQsImlhdCI6MTcxOTQ3NzI0NCwic2NvcGUiOiJBRE1JTiJ9.jIf6CTX2UMnxb3vTXdGbrL4aW2ToKe9n9pDoZYMrAbyxA9Lzwews5rYawRYpo6Bo9vPdOjFwIdBFg5eSD0uOew",
-    "authenticated": true,
-    "title": "ADMIN",
-    "id": 2002
-  }
-}
