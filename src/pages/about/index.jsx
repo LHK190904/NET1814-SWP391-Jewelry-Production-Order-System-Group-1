@@ -1,4 +1,5 @@
 import React from "react";
+import Policies from "../../components/Policies";
 
 export default function About() {
   return (
@@ -75,6 +76,13 @@ export default function About() {
             bridges the gap between traditional craftsmanship and modern
             technology.
           </p>
+        </div>
+
+        <div className=" col-start-2 col-span-10">
+          <h1 className="text-center text-[#F7EF8A] text-4xl my-4">
+            CHÍNH SÁCH ĐỔI TRẢ
+          </h1>
+          <Policies />
         </div>
       </div>
     </div>

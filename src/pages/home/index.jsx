@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Carousel from "../../components/Carousel";
 import authService from "../../services/authService";
 import axios from "axios";
 import { Modal, Form, Input, Select, Upload, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../utils/upload";
+import Tutorial from "../../components/Tutorial";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,16 +12,22 @@ export default function Home() {
   const [form] = Form.useForm();
   const [dataAPI, setDataAPI] = useState([]);
   const [material, setMaterial] = useState([]);
-  const [goldTypeData, setGoldTypeData] = useState({});
+  const [goldTypeData, setGoldTypeData] = useState({
+    sellCost: 0,
+    buyCost: 0,
+    updated: "",
+  });
 
   const [formData, setFormData] = useState({
     category: "",
     goldType: "",
     materialWeight: "",
-    mainStoneId: "",
-    subStoneId: "",
+    mainStoneId: 0,
+    subStoneId: 0,
     description: "",
     updated: "",
+    sellCost: 0,
+    buyCost: 0,
     uRLImage: [],
   });
 
@@ -32,17 +38,16 @@ export default function Home() {
       );
       const goldData = goldResponse.data.DataList.Data.map((item, index) => ({
         goldType: item[`@n_${index + 1}`],
-        price: item[`@pb_${index + 1}`],
+        sellCost: item[`@pb_${index + 1}`],
+        buyCost: item[`@pb_${index + 1}`],
         updated: item[`@d_${index + 1}`],
       }));
       setDataAPI(goldData);
-      console.log(goldData);
 
       const materialResponse = await axios.get(
         `http://localhost:8080/material/notGold`
       );
       setMaterial(materialResponse.data.result);
-      console.log(materialResponse.data.result);
     } catch (error) {
       console.error(error);
     }
@@ -74,11 +79,9 @@ export default function Home() {
           ...formData,
           uRLImage: uploadedUrls,
           updated: goldTypeData.updated,
+          sellCost: goldTypeData.sellCost,
+          buyCost: goldTypeData.buyCost,
         };
-
-        // Log the request data before submission
-        console.log("Request Data before submit:", requestData);
-        console.log(requestData.updated);
 
         const response = await axios.post(API_URL, requestData, {
           headers: {
@@ -148,6 +151,8 @@ export default function Home() {
         ...prevFormData,
         goldType: value,
         updated: selectedGoldTypeData.updated,
+        sellCost: selectedGoldTypeData.sellCost,
+        buyCost: selectedGoldTypeData.buyCost,
       }));
     } catch (error) {
       console.error(error);
@@ -159,17 +164,22 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <div className="w-full h-fit">{/* <Carousel /> */}</div>
-      <div className="flex items-center justify-center min-h-screen bg-[#434343]">
-        <div>
-          <button
-            onClick={handleShowModal}
-            className="bg-[#F7EF8A] p-4 rounded-lg"
-          >
-            ĐẶT YÊU CẦU
-          </button>
+    <div className="w-screen min-h-screen bg-[#434343] text-[#F7EF8A]">
+      <div className="grid grid-cols-12">
+        <h1 className="col-span-12 text-center">
+          QUY TRÌNH ĐẶT GIA CÔNG TẠI LUXE
+        </h1>
+
+        <div className="col-start-3 col-span-8">
+          <Tutorial />
         </div>
+
+        <button
+          onClick={handleShowModal}
+          className="col-start-6 col-span-2 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg"
+        >
+          ĐẶT YÊU CẦU
+        </button>
       </div>
       <Modal
         title="YÊU CẦU TƯ VẤN GIA CÔNG"
@@ -223,7 +233,7 @@ export default function Home() {
             <Input />
           </Form.Item>
           <Form.Item name="mainStoneId" label="Đá chính (Nếu có):">
-            <Select>
+            <Select allowClear>
               {material.map((item, index) => (
                 <Select.Option key={index} value={item.id}>
                   {item.type}
@@ -232,7 +242,7 @@ export default function Home() {
             </Select>
           </Form.Item>
           <Form.Item name="subStoneId" label="Đá phụ (Nếu có):">
-            <Select>
+            <Select allowClear>
               {material.map((item, index) => (
                 <Select.Option key={index} value={item.id}>
                   {item.type}
