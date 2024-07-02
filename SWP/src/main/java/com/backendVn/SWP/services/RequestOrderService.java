@@ -90,9 +90,13 @@ public class RequestOrderService {
         User designStaff = userRepository.findById(designStaffId).orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
         User productionStaff = userRepository.findById(productionStaffId).orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
 
-        requestOrder.setDesignStaff(designStaff);
         requestOrder.setProductionStaff(productionStaff);
-        requestOrder.setStatus("Assigned");
+        requestOrder.setStatus("Producing");
+
+        if(requestOrder.getRequestID().getURLImage().isEmpty()){
+            requestOrder.setDesignStaff(designStaff);
+            requestOrder.setStatus("Assigned");
+        }
 
         RequestOrder savedRequestOrder =requestOrderRepository.save(requestOrder);
 

@@ -3,18 +3,12 @@ package com.backendVn.SWP.services;
 import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
-import com.backendVn.SWP.entities.Material;
-import com.backendVn.SWP.entities.Quotation;
-import com.backendVn.SWP.entities.Request;
-import com.backendVn.SWP.entities.User;
+import com.backendVn.SWP.entities.*;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestMapper;
 import com.backendVn.SWP.mappers.UserMapper;
-import com.backendVn.SWP.repositories.MaterialRepository;
-import com.backendVn.SWP.repositories.QuotationRepository;
-import com.backendVn.SWP.repositories.RequestRepository;
-import com.backendVn.SWP.repositories.UserRepository;
+import com.backendVn.SWP.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
@@ -40,7 +34,8 @@ public class RequestService {
     RequestMapper requestMapper;
     UserMapper userMapper;
     MaterialRepository materialRepository;
-    QuotationRepository quotationRepository;
+    DesignRepository designRepository;
+    private final DesignService designService;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -71,6 +66,7 @@ public class RequestService {
         theRequest.setMainStone(getMaterialById(request.getMainStoneId()));
         theRequest.setSubStone(getMaterialById(request.getSubStoneId()));
         theRequest.setProduceCost(makeProduceCost(request.getCategory()));
+        theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
 
         return requestMapper.toRequestResponse(requestRepository.save(theRequest));
     }

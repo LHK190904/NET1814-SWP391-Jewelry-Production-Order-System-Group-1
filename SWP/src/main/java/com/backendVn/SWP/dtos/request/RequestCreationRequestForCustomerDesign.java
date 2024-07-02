@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
@@ -35,7 +36,7 @@ public class RequestCreationRequestForCustomerDesign {
     @Pattern(regexp = "RING|NECKLACE|BRACELET|EARRINGS", message = "INVALID_CATEGORY")
     String category;
 
-    String uRLImage;
+    List<String> listURLImage;
 
 
 }
