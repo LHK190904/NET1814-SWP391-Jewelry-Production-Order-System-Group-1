@@ -15,7 +15,6 @@ function ReceiveRequests() {
   const fetchRequests = async () => {
     try {
       const response = await axiosInstance.get("requests/unrecievedRequest");
-      console.log(response.data.result);
       setRequests(response.data.result);
     } catch (error) {
       console.error("Không thể lấy yêu cầu:", error);
