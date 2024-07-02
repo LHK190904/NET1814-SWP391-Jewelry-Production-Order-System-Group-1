@@ -11,7 +11,4 @@ import java.util.Optional;
 
 public interface QuotationRepository extends JpaRepository<Quotation, Integer> {
     Optional<List<Quotation>> findByRequestID(Request request);
-
-    @Query("SELECT q FROM Quotation q INNER JOIN Request r ON q.requestID.id = r.id WHERE r.saleStaffid.id = :staffId")
-    Optional<List<Quotation>> findByStaffId(@Param("staffId") Integer staffId);
 }

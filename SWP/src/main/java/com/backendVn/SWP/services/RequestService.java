@@ -161,18 +161,8 @@ public class RequestService {
         User user = userRepository.findById(saleStaffId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        List<Quotation> quotations = quotationRepository.findByStaffId(user.getId())
-                .orElseThrow(() -> new AppException(ErrorCode.NO_QUOTATION_IN_THE_LIST));
-
-        List<RequestResponse> requestResponses = new ArrayList<>();
-
-        for (Quotation quotation : quotations) {
-            RequestResponse requestResponse = requestMapper.toRequestResponse(quotation.getRequestID());
-            requestResponse.setCost(quotation.getCost());
-            requestResponses.add(requestResponse);
-        }
-
-        return requestResponses;
+        return requestRepository.findAllBySaleStaffid(user)
+                .stream().map(requestMapper::toRequestResponse).toList();
     }
 
     public UserResponse getUserById(Integer id) {
