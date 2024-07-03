@@ -1,6 +1,7 @@
 package com.backendVn.SWP.controllers;
 
 
+import com.backendVn.SWP.dtos.request.CompanyDesignModifyRequest;
 import com.backendVn.SWP.dtos.request.DesignCreationRequest;
 import com.backendVn.SWP.dtos.request.DesignFeedBackRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
@@ -59,6 +60,27 @@ public class DesignController {
     public ApiResponse<DesignResponse> denyDesign(@PathVariable Integer designId, @RequestBody @Valid DesignFeedBackRequest request) {
         return ApiResponse.<DesignResponse>builder()
                 .result(designService.denyDesign(designId, request))
+                .build();
+    }
+
+    @PostMapping("/createCompanyDesign")
+    public ApiResponse<DesignResponse> createCompanyDesign(@RequestBody @Valid CompanyDesignModifyRequest request){
+        return ApiResponse.<DesignResponse>builder()
+                .result(designService.modifyDesign(request))
+                .build();
+    }
+
+    @PutMapping("/updateCompanyDesign/{designId}")
+    public ApiResponse<DesignResponse> updateCompanyDesign(@PathVariable Integer designId, @RequestBody @Valid CompanyDesignModifyRequest request){
+        return ApiResponse.<DesignResponse>builder()
+                .result(designService.updateCompanyDesign(designId,request))
+                .build();
+    }
+
+    @GetMapping("/getAllCompanyDesign")
+    public ApiResponse<List<DesignResponse>> getAllCompanyDesign() {
+        return ApiResponse.<List<DesignResponse>>builder()
+                .result(designService.getAllCompanyDesign())
                 .build();
     }
 }

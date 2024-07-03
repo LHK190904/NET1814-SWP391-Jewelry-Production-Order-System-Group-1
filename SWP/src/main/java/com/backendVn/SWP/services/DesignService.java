@@ -1,5 +1,6 @@
 package com.backendVn.SWP.services;
 
+import com.backendVn.SWP.dtos.request.CompanyDesignModifyRequest;
 import com.backendVn.SWP.dtos.request.DesignCreationRequest;
 import com.backendVn.SWP.dtos.request.DesignFeedBackRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
@@ -136,5 +137,45 @@ public class DesignService {
         requestOrderRepository.save(requestOrder);
 
         return designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
+    }
+
+    public DesignResponse modifyDesign(CompanyDesignModifyRequest request){
+        if(request.getListURLImage() == null || request.getListURLImage().isEmpty()){
+            throw new AppException(ErrorCode.NO_URLIMAGE_IN_DESIGN_REQUEST);
+        }
+
+        Design design = designMapper.modifyCompanyDesign(request);
+
+        design.setURLImage(createCSV(request.getListURLImage()));
+
+        return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
+    }
+
+    public DesignResponse updateCompanyDesign(Integer designId ,CompanyDesignModifyRequest request){
+        if (request.getListURLImage() == null || request.getListURLImage().isEmpty()){
+            throw new AppException(ErrorCode.NO_URLIMAGE_IN_DESIGN_REQUEST);
+        }
+
+        Design design = designRepository.findById(designId)
+                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        design = designMapper.modifyCompanyDesign(request);
+
+        design.setURLImage(createCSV(request.getListURLImage()));
+
+        return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
+    }
+
+    public List<DesignResponse> getAllCompanyDesign() {
+        List<Design> designs = designRepository.findByDesignNameIsNotLike("")
+                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        List<DesignResponse> designResponses = new ArrayList<>();
+
+        for (Design design : designs) {
+            designResponses.add(designMapper.toDesignResponse(design, brokeCSV(design.getURLImage())));
+        }
+
+        return designResponses;
     }
 }
