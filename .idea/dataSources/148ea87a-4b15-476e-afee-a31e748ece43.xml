@@ -16901,7 +16901,7 @@
     <table id="5575" parent="5563" name="request_order">
       <CreatedTimestamp>2024-06-08.15:45:57.110</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
-      <ModifiedTimestamp>2024-07-02.13:29:03.963</ModifiedTimestamp>
+      <ModifiedTimestamp>2024-07-03.10:09:09.670</ModifiedTimestamp>
       <ObjectId>1141579105</ObjectId>
       <LedgerViewId>0</LedgerViewId>
       <LobDataSpaceId>1</LobDataSpaceId>
@@ -17552,14 +17552,18 @@
       <DasType>datetime|0s</DasType>
       <Position>8</Position>
     </column>
-    <default id="5685" parent="5575" name="DF__request_o__creat__5070F446">
+    <column id="5685" parent="5575" name="Description">
+      <DasType>nvarchar(max)|0s</DasType>
+      <Position>10</Position>
+    </column>
+    <default id="5686" parent="5575" name="DF__request_o__creat__5070F446">
       <ColNames>created_at</ColNames>
       <DefaultExpression>getdate()</DefaultExpression>
       <ModifiedTimestamp>2024-06-08.15:45:57.180</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>1349579846</ObjectId>
     </default>
-    <foreign-key id="5686" parent="5575" name="FK__request_o__Reque__72910220">
+    <foreign-key id="5687" parent="5575" name="FK__request_o__Reque__72910220">
       <ColNames>RequestID</ColNames>
       <CreatedTimestamp>2024-06-08.15:45:57.280</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.280</ModifiedTimestamp>
@@ -17568,7 +17572,7 @@
       <RefTableId>1109578991</RefTableId>
       <RefTableName>Request</RefTableName>
     </foreign-key>
-    <foreign-key id="5687" parent="5575" name="FK__request_o__Desig__5AEE82B9">
+    <foreign-key id="5688" parent="5575" name="FK__request_o__Desig__5AEE82B9">
       <ColNames>DesignID</ColNames>
       <CreatedTimestamp>2024-06-08.15:45:57.267</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.267</ModifiedTimestamp>
@@ -17578,7 +17582,7 @@
       <RefTableId>885578193</RefTableId>
       <RefTableName>Design</RefTableName>
     </foreign-key>
-    <foreign-key id="5688" parent="5575" name="FK__request_o__desig__5BE2A6F2">
+    <foreign-key id="5689" parent="5575" name="FK__request_o__desig__5BE2A6F2">
       <ColNames>design_staff</ColNames>
       <CreatedTimestamp>2024-06-08.15:45:57.270</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.270</ModifiedTimestamp>
@@ -17588,7 +17592,7 @@
       <RefTableId>1205579333</RefTableId>
       <RefTableName>Users</RefTableName>
     </foreign-key>
-    <foreign-key id="5689" parent="5575" name="FK__request_o__produ__5CD6CB2B">
+    <foreign-key id="5690" parent="5575" name="FK__request_o__produ__5CD6CB2B">
       <ColNames>production_staff</ColNames>
       <CreatedTimestamp>2024-06-08.15:45:57.273</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.273</ModifiedTimestamp>
@@ -17598,7 +17602,7 @@
       <RefTableId>1205579333</RefTableId>
       <RefTableName>Users</RefTableName>
     </foreign-key>
-    <index id="5690" parent="5575" name="PK__request___4F181BF03D484168">
+    <index id="5691" parent="5575" name="PK__request___4F181BF03D484168">
       <Clustering>1</Clustering>
       <ColNames>request_orderid</ColNames>
       <NameSurrogate>1</NameSurrogate>
@@ -17606,7 +17610,7 @@
       <Unique>1</Unique>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <key id="5691" parent="5575" name="PK__request___4F181BF03D484168">
+    <key id="5692" parent="5575" name="PK__request___4F181BF03D484168">
       <CreatedTimestamp>2024-06-08.15:45:57.113</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.113</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
@@ -17614,21 +17618,21 @@
       <Primary>1</Primary>
       <UnderlyingIndexName>PK__request___4F181BF03D484168</UnderlyingIndexName>
     </key>
-    <column id="5692" parent="5576" name="MaterialID">
+    <column id="5693" parent="5576" name="MaterialID">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="5693" parent="5576" name="request_orderid">
+    <column id="5694" parent="5576" name="request_orderid">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="5694" parent="5576" name="Weight">
+    <column id="5695" parent="5576" name="Weight">
       <DasType>decimal(18,2)|0s</DasType>
       <Position>3</Position>
     </column>
-    <foreign-key id="5695" parent="5576" name="FK__RequestOr__Mater__5EBF139D">
+    <foreign-key id="5696" parent="5576" name="FK__RequestOr__Mater__5EBF139D">
       <ColNames>MaterialID</ColNames>
       <CreatedTimestamp>2024-06-08.15:45:57.287</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.287</ModifiedTimestamp>
@@ -17638,7 +17642,7 @@
       <RefTableId>981578535</RefTableId>
       <RefTableName>Material</RefTableName>
     </foreign-key>
-    <foreign-key id="5696" parent="5576" name="FK__RequestOr__reque__5FB337D6">
+    <foreign-key id="5697" parent="5576" name="FK__RequestOr__reque__5FB337D6">
       <ColNames>request_orderid</ColNames>
       <CreatedTimestamp>2024-06-08.15:45:57.290</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.290</ModifiedTimestamp>
@@ -17648,7 +17652,7 @@
       <RefTableId>1141579105</RefTableId>
       <RefTableName>request_order</RefTableName>
     </foreign-key>
-    <index id="5697" parent="5576" name="PK__RequestO__D1F792A845245582">
+    <index id="5698" parent="5576" name="PK__RequestO__D1F792A845245582">
       <Clustering>1</Clustering>
       <ColNames>MaterialID
 request_orderid</ColNames>
@@ -17657,7 +17661,7 @@ request_orderid</ColNames>
       <Unique>1</Unique>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <key id="5698" parent="5576" name="PK__RequestO__D1F792A845245582">
+    <key id="5699" parent="5576" name="PK__RequestO__D1F792A845245582">
       <CreatedTimestamp>2024-06-08.15:45:57.120</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.120</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
@@ -17665,20 +17669,20 @@ request_orderid</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>PK__RequestO__D1F792A845245582</UnderlyingIndexName>
     </key>
-    <column id="5699" parent="5577" name="request_orderid">
+    <column id="5700" parent="5577" name="request_orderid">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="5700" parent="5577" name="created_at">
+    <column id="5701" parent="5577" name="created_at">
       <DasType>datetime|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="5701" parent="5577" name="end_at">
+    <column id="5702" parent="5577" name="end_at">
       <DasType>datetime|0s</DasType>
       <Position>3</Position>
     </column>
-    <foreign-key id="5702" parent="5577" name="FK__warranty___reque__60A75C0F">
+    <foreign-key id="5703" parent="5577" name="FK__warranty___reque__60A75C0F">
       <ColNames>request_orderid</ColNames>
       <CreatedTimestamp>2024-06-08.15:45:57.297</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.297</ModifiedTimestamp>
@@ -17688,7 +17692,7 @@ request_orderid</ColNames>
       <RefTableId>1141579105</RefTableId>
       <RefTableName>request_order</RefTableName>
     </foreign-key>
-    <index id="5703" parent="5577" name="PK__warranty__4F181BF0765AAFAA">
+    <index id="5704" parent="5577" name="PK__warranty__4F181BF0765AAFAA">
       <Clustering>1</Clustering>
       <ColNames>request_orderid</ColNames>
       <NameSurrogate>1</NameSurrogate>
@@ -17696,7 +17700,7 @@ request_orderid</ColNames>
       <Unique>1</Unique>
       <PartitionDataSpaceId>1</PartitionDataSpaceId>
     </index>
-    <key id="5704" parent="5577" name="PK__warranty__4F181BF0765AAFAA">
+    <key id="5705" parent="5577" name="PK__warranty__4F181BF0765AAFAA">
       <CreatedTimestamp>2024-06-08.15:45:57.147</CreatedTimestamp>
       <ModifiedTimestamp>2024-06-08.15:45:57.147</ModifiedTimestamp>
       <NameSurrogate>1</NameSurrogate>
@@ -17704,51 +17708,51 @@ request_orderid</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>PK__warranty__4F181BF0765AAFAA</UnderlyingIndexName>
     </key>
-    <partition id="5705" parent="5584">
+    <partition id="5706" parent="5584">
       <ObjectId>72057594043170816</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5706" parent="5592">
+    <partition id="5707" parent="5592">
       <ObjectId>72057594043236352</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5707" parent="5601">
+    <partition id="5708" parent="5601">
       <ObjectId>72057594043301888</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5708" parent="5608">
+    <partition id="5709" parent="5608">
       <ObjectId>72057594043367424</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5709" parent="5618">
+    <partition id="5710" parent="5618">
       <ObjectId>72057594043432960</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5710" parent="5628">
+    <partition id="5711" parent="5628">
       <ObjectId>72057594043498496</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5711" parent="5640">
+    <partition id="5712" parent="5640">
       <ObjectId>72057594043564032</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5712" parent="5666">
+    <partition id="5713" parent="5666">
       <ObjectId>72057594043629568</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5713" parent="5675">
+    <partition id="5714" parent="5675">
       <ObjectId>72057594043826176</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5714" parent="5690">
+    <partition id="5715" parent="5691">
       <ObjectId>72057594043695104</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5715" parent="5697">
+    <partition id="5716" parent="5698">
       <ObjectId>72057594043760640</ObjectId>
       <Position>1</Position>
     </partition>
-    <partition id="5716" parent="5703">
+    <partition id="5717" parent="5704">
       <ObjectId>72057594043891712</ObjectId>
       <Position>1</Position>
     </partition>

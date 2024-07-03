@@ -45,6 +45,7 @@ public class RequestOrderService {
                 .requestID(request)
                 .status("New")
                 .createdAt(Instant.now())
+                .description(request.getDescription())
                 .build();
         RequestOrder savedRequestOrder = requestOrderRepository.save(requestOrder);
 

@@ -19,6 +19,7 @@ import java.time.Instant;
 @Table(name = "request_order")
 public class RequestOrder {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "request_orderid", nullable = false)
     private Integer id;
 
