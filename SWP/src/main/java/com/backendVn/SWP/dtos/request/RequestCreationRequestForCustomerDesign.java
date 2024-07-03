@@ -1,6 +1,7 @@
 package com.backendVn.SWP.dtos.request;
 
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -36,6 +37,8 @@ public class RequestCreationRequestForCustomerDesign {
     @Pattern(regexp = "RING|NECKLACE|BRACELET|EARRINGS", message = "INVALID_CATEGORY")
     String category;
 
+    @NotNull(message = "THE_LIST_IS_NULL")
+    @NotEmpty(message = "THE_LIST_IS_EMPTY")
     List<String> listURLImage;
 
 

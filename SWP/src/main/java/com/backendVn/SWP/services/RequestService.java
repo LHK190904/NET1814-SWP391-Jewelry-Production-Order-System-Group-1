@@ -63,9 +63,8 @@ public class RequestService {
         theRequest.setMainStone(getMaterialById(request.getMainStoneId()));
         theRequest.setSubStone(getMaterialById(request.getSubStoneId()));
         theRequest.setProduceCost(makeProduceCost(request.getCategory()));
-        if(request.getListURLImage() != null && !request.getListURLImage().isEmpty()) {
-            theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
-        }
+        theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
+
         return requestMapper.toRequestResponse(requestRepository.save(theRequest));
     }
 
