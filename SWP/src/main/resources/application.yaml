@@ -13,8 +13,8 @@ spring:
 
 outbound:
   identity:
-    client-id: "878798429133-i8k172q7439p32s13rqnl1np9g4g8l18.apps.googleusercontent.com"
-    client-secret: "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"
+    client-id: ""
+    client-secret: ""
     redirect-uri: "http://localhost:5173/login"
 
 jwt:
