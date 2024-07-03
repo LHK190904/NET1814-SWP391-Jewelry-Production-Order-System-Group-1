@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface RequestOrderRepository extends JpaRepository<RequestOrder, Integer> {
     List<RequestOrder> findByRequestID(Request request);
 
-    List<RequestOrder> findAllByDesignStaff(User user);
+    List<RequestOrder> findAllByDesignStaffAndStatusIsNotLike(User designStaff,String status);
 
     Optional<RequestOrder> findByDesignID(Design design);
 }

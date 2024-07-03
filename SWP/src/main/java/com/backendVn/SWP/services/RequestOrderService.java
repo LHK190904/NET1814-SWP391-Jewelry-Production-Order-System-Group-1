@@ -113,7 +113,7 @@ public class RequestOrderService {
         User user = userRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        List<RequestOrder> requestOrders = requestOrderRepository.findAllByDesignStaff(user);
+        List<RequestOrder> requestOrders = requestOrderRepository.findAllByDesignStaffAndStatusIsNotLike(user, "Producing");
 
         if(requestOrders.isEmpty())return null;
         return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
