@@ -17,26 +17,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class RequestService {
-    private static final Logger log = LoggerFactory.getLogger(RequestService.class);
     RequestRepository requestRepository;
     UserRepository userRepository;
     RequestMapper requestMapper;
     UserMapper userMapper;
     MaterialRepository materialRepository;
-    DesignRepository designRepository;
-    private final DesignService designService;
+    DesignService designService;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -67,7 +63,7 @@ public class RequestService {
         theRequest.setMainStone(getMaterialById(request.getMainStoneId()));
         theRequest.setSubStone(getMaterialById(request.getSubStoneId()));
         theRequest.setProduceCost(makeProduceCost(request.getCategory()));
-        if(request.getListURLImage().size()>0) {
+        if(request.getListURLImage() != null && !request.getListURLImage().isEmpty()) {
             theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
         }
         return requestMapper.toRequestResponse(requestRepository.save(theRequest));
