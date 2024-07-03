@@ -95,8 +95,16 @@ public class DesignService {
     public DesignResponse updateDesign(Integer designId, DesignUpdateRequest designUpdateRequest) {
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        RequestOrder requestOrder = requestOrderRepository.findByDesignID(design)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+
+        requestOrder.setStatus("Waiting for customer's decision");
+
         design.setURLImage(createCSV(designUpdateRequest.getListURLImage()));
         designMapper.updateDesign(design, designUpdateRequest);
+
+        requestOrderRepository.save(requestOrder);
         return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
     }
 
