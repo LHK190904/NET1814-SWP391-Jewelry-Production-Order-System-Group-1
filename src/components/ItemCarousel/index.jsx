@@ -14,7 +14,7 @@ function ItemCarousel({ items, slidesPerView = 4 }) {
     >
       {items.map((item, index) => (
         <SwiperSlide key={index} className="flex justify-center">
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-sm">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-sm mx-2">
             <img
               src={item.imageUrl}
               alt={item.name}

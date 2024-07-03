@@ -1,9 +1,8 @@
-
-import axios from 'axios';
-import { getToken } from './authService';
+import axios from "axios";
+import { getToken } from "./authService";
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: "http://localhost:8080",
 });
 
 axiosInstance.interceptors.request.use(

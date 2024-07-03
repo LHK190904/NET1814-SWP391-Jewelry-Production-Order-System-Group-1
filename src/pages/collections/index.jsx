@@ -269,9 +269,12 @@ export default function Collections() {
         <div className="col-span-10 mb-10">
           <ItemCarousel items={collection5} slidesPerView={3} />
         </div>
-      </div>
-      <div ref={designsRef}>
-        <Designs />
+        <h1 className="col-span-12 text-center text-4xl mb-10">
+          CÁC MẪU THIẾT KẾ KHÁC
+        </h1>
+        <div ref={designsRef} className="col-start-2 col-span-10">
+          <Designs />
+        </div>
       </div>
     </div>
   );

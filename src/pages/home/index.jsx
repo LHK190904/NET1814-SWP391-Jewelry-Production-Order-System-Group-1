@@ -6,6 +6,14 @@ import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../utils/upload";
 import Tutorial from "../../components/Tutorial";
 
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fileList, setFileList] = useState([]);
@@ -27,7 +35,7 @@ export default function Home() {
     updated: "",
     sellCost: 0,
     buyCost: 0,
-    uRLImage: [],
+    uRLImage: [""],
   });
 
   const fetchAPI = async () => {
@@ -71,25 +79,25 @@ export default function Home() {
       const user = authService.getCurrentUser();
 
       if (user && user.id) {
-        const base64Images = await Promise.all(
+        const uploadedUrls = await Promise.all(
           fileList.map((file) => {
-            if (!file.url && !file.preview) {
-              return getBase64(file.originFileObj);
+            if (!file.url && file.originFileObj) {
+              return uploadFile(file.originFileObj, `orders/${user.id}`);
             }
-            return file.preview || file.url;
+            return file.url;
           })
         );
+
         const API_URL = `http://localhost:8080/requests/${user.id}`;
 
         const requestData = {
           ...formData,
-          uRLImage: base64Images,
+          uRLImage: uploadedUrls,
           updated: goldTypeData.updated,
           sellCost: goldTypeData.sellCost,
           buyCost: goldTypeData.buyCost,
         };
 
-        console.log(requestData);
         const response = await axios.post(API_URL, requestData, {
           headers: {
             "Content-Type": "application/json",
@@ -101,7 +109,7 @@ export default function Home() {
         setIsModalOpen(false);
         message.success("Yêu cầu đã được gửi thành công");
       } else {
-        message.error("Vui lòng đăng nhập để gửi yêu");
+        message.error("Vui lòng đăng nhập để gửi yêu cầu");
       }
     } catch (error) {
       console.error(
@@ -128,14 +136,6 @@ export default function Home() {
       <div>Tải lên</div>
     </div>
   );
-
-  const getBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
 
   const handleGoldTypeChange = async (value) => {
     try {

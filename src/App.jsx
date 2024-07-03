@@ -22,6 +22,8 @@ import ReceiveRequests from "./pages/saler/receive_requests";
 import CartRequest from "./pages/cart/request";
 import CartOrder from "./pages/cart/order";
 import Dashboard from "./pages/dashboard";
+import PriceGold from "./pages/price/gold";
+import PriceMaterial from "./pages/price/material";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -88,6 +90,14 @@ function App() {
         {
           path: "/cart/order/:requestID",
           element: <CartOrder />,
+        },
+        {
+          path: "/price/gold",
+          element: <PriceGold />,
+        },
+        {
+          path: "/price/material",
+          element: <PriceMaterial />,
         },
       ],
     },

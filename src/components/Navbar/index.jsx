@@ -23,6 +23,11 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
+            <Link to={"/price/gold"} className="hover:text-[#ddd012]">
+              GIÁ NGUYÊN VẬT LIỆU
+            </Link>
+          </li>
+          <li>
             <Link to={"/collections"} className="hover:text-[#ddd012]">
               BỘ SƯU TẬP
             </Link>
