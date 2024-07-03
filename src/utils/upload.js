@@ -30,7 +30,7 @@ const uploadFile = async (file, folder = '') => {
     return downloadURL;
   } catch (error) {
     console.error("Error uploading file: ", error);
-    throw error; // Re-throw the error so the caller can handle it
+    throw error; 
   }
 };
 

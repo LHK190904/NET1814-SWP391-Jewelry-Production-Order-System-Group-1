@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, message, Upload, Modal, Image, Form, Input } from "antd";
-import uploadFile from "../../utils/upload";
-import LogoutButton from "../../components/LogoutButton";
-import authService from "../../services/authService";
-import axiosInstance from "../../services/axiosInstance";
+import uploadFile from "../../../utils/upload";
+import LogoutButton from "../../../components/logoutButton";
+import authService from "../../../services/authService";
+import axiosInstance from "../../../services/axiosInstance";
 import TextArea from "antd/es/input/TextArea";
+import { Link, useLocation } from "react-router-dom";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -15,7 +16,7 @@ const getBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-function Designer() {
+function ProcessOrder() {
   const [listItems, setListItems] = useState([]);
   const [selectedOrderItem, setSelectedOrderItem] = useState(null);
   const [fileList, setFileList] = useState([]);
@@ -25,6 +26,7 @@ function Designer() {
   const [previewImage, setPreviewImage] = useState("");
   const [form] = Form.useForm();
   const [designID, setDesignID] = useState(null);
+  const location = useLocation();
 
   const fetchInfo = async () => {
     try {
@@ -68,9 +70,8 @@ function Designer() {
 
   const saveDesignData = async (uploadedUrls) => {
     const values = await form.validateFields();
-    const { designName, description } = values;
+    const { description } = values;
     const payload = {
-      designName,
       description,
       listURLImage: uploadedUrls,
     };
@@ -111,10 +112,8 @@ function Designer() {
   };
 
   const initializeFormAndFileList = (designData) => {
-    if (designData && designData.designName && designData.description) {
-      // Đặt giá trị ban đầu cho form nếu có dữ liệu
+    if (designData && designData.description) {
       form.setFieldsValue({
-        designName: designData.designName,
         description: designData.description,
       });
 
@@ -174,6 +173,30 @@ function Designer() {
       <div className="text-white text-7xl text-center">Design staff</div>
       <div className="text-end mr-4">
         <LogoutButton />
+      </div>
+      
+      <div className="mb-4 text-white">
+      <Link
+          className={`mr-4 ml-4 ${
+            location.pathname === "/designer/process_orders"
+              ? "underline font-bold"
+              : ""
+          }`}
+          to="/designer/process_orders"
+        >
+          Order processing
+        </Link>
+        <Link
+          className={` ${
+            location.pathname === "/designer/manage_designs"
+              ? "underline font-bold"
+              : ""
+          }`}
+          to="/designer/manage_designs"
+        >
+          Manage design
+        </Link>
+
       </div>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-start-1 col-span-9 bg-white m-4 rounded-lg p-4">
@@ -250,15 +273,6 @@ function Designer() {
       >
         <Form form={form} labelCol={{ span: 24 }}>
           <Form.Item
-            label="Tên bản thiết kế"
-            name="designName"
-            rules={[
-              { required: true, message: "Vui lòng nhập tên bản thiết kế" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
             label="Mô tả bản thiết kế"
             name="description"
             rules={[
@@ -293,4 +307,4 @@ function Designer() {
   );
 }
 
-export default Designer;
+export default ProcessOrder;

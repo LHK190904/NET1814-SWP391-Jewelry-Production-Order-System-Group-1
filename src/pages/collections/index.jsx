@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import Carousel from "../../components/Carousel";
+import  { useRef, useEffect } from "react";
+import Carousel from "../../components/carousel";
 import ItemCarousel from "../../components/ItemCarousel";
 import { useLocation } from "react-router-dom";
 import Designs from "../designs";

@@ -23,7 +23,7 @@ function Login() {
         } else if (user.title === "MANAGER") {
           navigate("/manager/order");
         } else if (user.title === "DESIGN_STAFF") {
-          navigate("/designer");
+          navigate("/designer/process_orders");
         } else if (user.title === "PRODUCTION_STAFF") {
           navigate("/production-staff");
         } else {

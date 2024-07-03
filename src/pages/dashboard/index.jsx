@@ -1,4 +1,3 @@
-import React from "react";
 import SaleOverview from "./overview";
 import LatestTransaction from "./transactions";
 import SaleByCategory from "./category";
