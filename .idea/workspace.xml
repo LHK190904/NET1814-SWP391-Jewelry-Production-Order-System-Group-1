@@ -5,33 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3233376d-9177-47fd-a1df-bf34721dd4a2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-06-19T104239.200.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-06-19T104253.200.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/SwpApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/SwpApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/UserResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/exception/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/exception/ErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/SwpApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/SwpApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/AuthenticationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/AuthenticationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/CustomerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/CustomerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/dtos/response/UserResponse$UserResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/dtos/response/UserResponse$UserResponseBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/dtos/response/UserResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/dtos/response/UserResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/exception/ErrorCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/exception/ErrorCode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/mappers/MaterialMapperImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/mappers/MaterialMapperImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/AuthenticationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/AuthenticationService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/RequestService.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/RequestService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/MaterialMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/MaterialMapperImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +44,7 @@
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
   <component name="KubernetesApiProvider"><![CDATA[{
   "isMigrated": true
 }]]></component>
@@ -146,7 +121,7 @@
       <workItem from="1719801252569" duration="6491000" />
       <workItem from="1719902693848" duration="4612000" />
       <workItem from="1719923809672" duration="8339000" />
-      <workItem from="1719987774233" duration="5003000" />
+      <workItem from="1719987774233" duration="5487000" />
     </task>
     <servers />
   </component>

@@ -15,7 +15,7 @@ outbound:
   identity:
     client-id: ""
     client-secret: ""
-    redirect-uri: "http://localhost:5173/login"
+    redirect-uri: ""
 
 jwt:
   signerKey: "ha+MtmyenlAuB5AZutl1uNHRhrkmDGfFI7xpExHY50pZP+50iuif23teGaUwNa1I"
