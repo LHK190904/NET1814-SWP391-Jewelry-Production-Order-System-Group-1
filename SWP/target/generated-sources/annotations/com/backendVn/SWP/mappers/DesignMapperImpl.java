@@ -1,5 +1,6 @@
 package com.backendVn.SWP.mappers;
 
+import com.backendVn.SWP.dtos.request.CompanyDesignModifyRequest;
 import com.backendVn.SWP.dtos.request.DesignCreationRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
 import com.backendVn.SWP.dtos.response.DesignResponse;
@@ -22,11 +23,11 @@ public class DesignMapperImpl implements DesignMapper {
             return null;
         }
 
-        Design.DesignBuilder design = Design.builder();
+        Design design = new Design();
 
-        design.description( designCreationRequest.getDescription() );
+        design.setDescription( designCreationRequest.getDescription() );
 
-        return design.build();
+        return design;
     }
 
     @Override
@@ -57,5 +58,20 @@ public class DesignMapperImpl implements DesignMapper {
         }
 
         return designResponse.build();
+    }
+
+    @Override
+    public Design modifyCompanyDesign(CompanyDesignModifyRequest request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        Design design = new Design();
+
+        design.setDesignName( request.getDesignName() );
+        design.setDescription( request.getDescription() );
+        design.setCategory( request.getCategory() );
+
+        return design;
     }
 }

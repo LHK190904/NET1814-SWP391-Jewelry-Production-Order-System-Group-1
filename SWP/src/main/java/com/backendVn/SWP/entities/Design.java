@@ -2,17 +2,13 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
 @Getter
 @Setter
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Design {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,5 +34,17 @@ public class Design {
     @Nationalized
     @Column(name = "Category", length = 50)
     private String category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaterialID")
+    private Material materialID;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "main_stone")
+    private Material mainStone;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_stone")
+    private Material subStone;
 
 }

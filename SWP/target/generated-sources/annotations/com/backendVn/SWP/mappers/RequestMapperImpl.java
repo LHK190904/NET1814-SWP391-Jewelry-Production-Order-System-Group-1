@@ -41,7 +41,6 @@ public class RequestMapperImpl implements RequestMapper {
         request.setDescription( requestCreationRequestForCustomerDesign.getDescription() );
         request.setMaterialWeight( requestCreationRequestForCustomerDesign.getMaterialWeight() );
         request.setCategory( requestCreationRequestForCustomerDesign.getCategory() );
-        request.setURLImage( requestCreationRequestForCustomerDesign.getURLImage() );
     }
 
     @Override

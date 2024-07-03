@@ -11,8 +11,6 @@ import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +19,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -33,6 +32,7 @@ public class RequestService {
     UserMapper userMapper;
     MaterialRepository materialRepository;
     DesignService designService;
+    private final DesignRepository designRepository;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -196,4 +196,23 @@ public class RequestService {
         List<Request> requests = requestRepository.findByStatus("Pending quotation");
         return requests.stream().map(requestMapper::toRequestResponse).toList();
     }
+
+    public RequestResponse orderCompanyDesign(Integer designId, Integer userId) {
+        Design design = designRepository.findById(designId)
+                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        Request request = Request.builder()
+                .companyDesign(design)
+                .createdAt(Instant.now())
+                .customerID(user)
+                .category(design.getCategory())
+                .produceCost(makeProduceCost(design.getCategory()))
+                .build();
+
+        return null;
+    }
 }
+
