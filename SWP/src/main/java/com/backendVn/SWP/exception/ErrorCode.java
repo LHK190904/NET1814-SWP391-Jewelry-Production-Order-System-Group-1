@@ -37,6 +37,7 @@ public enum ErrorCode {
     PROCESS_NOT_FOUND(1028, "Process not found", HttpStatus.NOT_FOUND),
     INVALID_SALE_COST(1029, "Sale cost must be greater than capital cost", HttpStatus.BAD_REQUEST),
     NO_MATERIAL_IN_THE_LIST(1030, "No material in list", HttpStatus.NOT_FOUND),
+    PASSWORD_EXISTED(1031, "Password already existed", HttpStatus.BAD_REQUEST)
     ;
     private int code;
     private String message;

@@ -4,7 +4,6 @@ import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.Material;
-import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
@@ -39,7 +38,6 @@ public class RequestService {
     RequestMapper requestMapper;
     UserMapper userMapper;
     MaterialRepository materialRepository;
-    private final QuotationRepository quotationRepository;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");

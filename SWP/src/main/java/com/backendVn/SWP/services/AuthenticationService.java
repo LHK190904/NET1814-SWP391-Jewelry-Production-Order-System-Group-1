@@ -1,13 +1,16 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.AuthenticationRequest;
+import com.backendVn.SWP.dtos.request.ExchangeTokenRequest;
 import com.backendVn.SWP.dtos.request.IntrospectRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.dtos.response.IntrospectResponse;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
+import com.backendVn.SWP.repositories.httpclient.OutboundIdentityClient;
 import com.backendVn.SWP.repositories.UserRepository;
+import com.backendVn.SWP.repositories.httpclient.OutboundUserClient;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -34,12 +37,55 @@ import java.util.Date;
 public class AuthenticationService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    OutboundIdentityClient outboundIdentityClient;
+    OutboundUserClient outboundUserClient;
 
     @NonFinal
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
 
+    @NonFinal
+    @Value("${outbound.identity.client-id}")
+    protected String CLIENT_ID;
 
+    @NonFinal
+    @Value("${outbound.identity.client-secret}")
+    protected String CLIENT_SECRET;
+
+    @NonFinal
+    @Value("${outbound.identity.redirect-uri}")
+    protected String REDIRECT_URI;
+
+    @NonFinal
+    protected final String GRANT_TYPE = "authorization_code";
+
+    public AuthenticationResponse outboundAuthenticate(String code){
+        var response = outboundIdentityClient.exchangeToken(ExchangeTokenRequest.builder()
+                .code(code)
+                .clientId(CLIENT_ID)
+                .clientSecret(CLIENT_SECRET)
+                .redirectUri(REDIRECT_URI)
+                .grantType(GRANT_TYPE)
+                .build());
+
+        log.info("TOKEN RESPONSE {}", response);
+
+        var userInfo = outboundUserClient.getUserInfo("json", response.getAccessToken());
+
+        log.info("User Info {}", userInfo);
+
+        var user = userRepository.findByUserName(userInfo.getEmail()).orElseGet(
+                () -> userRepository.save(User.builder()
+                        .userName(userInfo.getEmail())
+                        .title("CUSTOMER")
+                        .build()));
+
+        var token = generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(token)
+                .build();
+    }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         User user = userRepository.findByUserName(request.getUserName())
@@ -78,7 +124,7 @@ public class AuthenticationService {
             jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
             return jwsObject.serialize();
         } catch (JOSEException e) {
-            log.error("Error signing token: " + e.getMessage());
+            log.error("Error signing token: " + e);
             throw new AppException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
