@@ -94,7 +94,7 @@ public class RequestOrderService {
         requestOrder.setProductionStaff(productionStaff);
         requestOrder.setStatus("Producing");
 
-        if(requestOrder.getRequestID().getURLImage().isEmpty()){
+        if(requestOrder.getRequestID().getURLImage() == null || requestOrder.getRequestID().getURLImage().isEmpty()){
             requestOrder.setDesignStaff(designStaff);
             requestOrder.setStatus("Assigned");
         }
