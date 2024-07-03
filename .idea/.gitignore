@@ -15,6 +15,13 @@
 # AWS User-specific
 .idea/**/aws.xml
 
+# Ignore application.yaml in target directory
+/target/classes/application.yaml
+
+# Ignore application.yaml in the root directory
+/application.yaml
+
+
 # Generated files
 .idea/**/contentModel.xml
 
