@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestCreationRequestForCustomerDesign {
+    @NotEmpty(message = "MESSAGE_IS_EMPTY")
     String description;
 
     Double buyCost;
@@ -37,7 +38,6 @@ public class RequestCreationRequestForCustomerDesign {
     @Pattern(regexp = "RING|NECKLACE|BRACELET|EARRINGS", message = "INVALID_CATEGORY")
     String category;
 
-    @NotNull(message = "THE_LIST_IS_NULL")
     @NotEmpty(message = "THE_LIST_IS_EMPTY")
     List<String> listURLImage;
 

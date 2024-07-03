@@ -1,10 +1,18 @@
 package com.backendVn.SWP.exception;
 
 import com.backendVn.SWP.dtos.response.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,19 +40,27 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<ApiResponse> handlingValidation(MethodArgumentNotValidException exception){
-        String enumKey = exception.getFieldError().getDefaultMessage();
-        ErrorCode errorCode = ErrorCode.INVALID_KEY;
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ResponseEntity<List<ApiResponse>> handlingValidation(MethodArgumentNotValidException exception){
+        Map<String, String> errors = new HashMap<>();
 
-        try {
-            errorCode = ErrorCode.valueOf(enumKey);
-        } catch (IllegalArgumentException e){
+        exception.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        List<ApiResponse> apiResponses = new ArrayList<>();
+
+        for (String error : errors.keySet()) {
+            ApiResponse apiResponse = ApiResponse.builder()
+                    .code(ErrorCode.INVALID_KEY.getCode())
+                    .message(errors.get(error))
+                    .build();
+
+            apiResponses.add(apiResponse);
         }
 
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setCode(errorCode.getCode());
-        apiResponse.setMessage(errorCode.getMessage());
-
-        return ResponseEntity.badRequest().body(apiResponse);
+        return ResponseEntity.badRequest().body(apiResponses);
     }
 }
