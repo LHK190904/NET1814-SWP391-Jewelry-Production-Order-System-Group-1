@@ -24,7 +24,6 @@ public class DesignMapperImpl implements DesignMapper {
 
         Design.DesignBuilder design = Design.builder();
 
-        design.designName( designCreationRequest.getDesignName() );
         design.description( designCreationRequest.getDescription() );
 
         return design.build();
@@ -36,7 +35,6 @@ public class DesignMapperImpl implements DesignMapper {
             return;
         }
 
-        design.setDesignName( designUpdateRequest.getDesignName() );
         design.setDescription( designUpdateRequest.getDescription() );
     }
 

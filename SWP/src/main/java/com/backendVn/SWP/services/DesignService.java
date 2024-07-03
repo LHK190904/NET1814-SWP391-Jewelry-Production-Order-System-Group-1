@@ -59,6 +59,8 @@ public class DesignService {
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
 
+        requestOrder.setStatus("Waiting for customer's decision");
+
         Design design = designMapper.toDesign(designCreationRequest);
         design.setURLImage(createCSV(designCreationRequest.getListURLImage()));
         design.setDesignName("Customer's design");
@@ -121,10 +123,9 @@ public class DesignService {
 
         requestOrder.setStatus("Design Denied");
 
-        design.setDescription(request.getDescription());
+        requestOrder.setDescription(request.getDescription());
 
         requestOrderRepository.save(requestOrder);
-        designRepository.save(design);
 
         return designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
     }
