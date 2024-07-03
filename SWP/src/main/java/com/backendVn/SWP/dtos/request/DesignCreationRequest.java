@@ -13,9 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DesignCreationRequest {
-    @NotEmpty(message = "DESIGN_NAME_EMPTY")
-    @Size(max = 100, message = "DESIGN_NAME_TOO_LONG")
-    String designName;
 
     @NotEmpty(message = "DESCRIPTION_EMPTY")
     String description;

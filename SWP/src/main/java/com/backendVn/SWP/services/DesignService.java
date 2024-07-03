@@ -57,6 +57,8 @@ public class DesignService {
 
         Design design = designMapper.toDesign(designCreationRequest);
         design.setURLImage(createCSV(designCreationRequest.getListURLImage()));
+        design.setDesignName("Customer's design");
+        design.setCategory(requestOrder.getRequestID().getCategory());
 
         Design savedDesign = designRepository.save(design);
 
