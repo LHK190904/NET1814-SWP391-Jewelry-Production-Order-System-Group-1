@@ -17,5 +17,6 @@ public class DesignCreationRequest {
     @NotEmpty(message = "DESCRIPTION_EMPTY")
     String description;
 
+    @NotEmpty(message = "DESIGN_URL_IS_REQUIRED")
     List<String> listURLImage;
 }

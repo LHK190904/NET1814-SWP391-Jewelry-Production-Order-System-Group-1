@@ -52,6 +52,10 @@ public class DesignService {
     }
 
     public DesignResponse createDesign(DesignCreationRequest designCreationRequest, Integer requestOrderId){
+        if (designCreationRequest.getListURLImage() == null || designCreationRequest.getListURLImage().isEmpty()){
+            throw new AppException(ErrorCode.NO_URLIMAGE_IN_DESIGN_REQUEST);
+        }
+
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
 

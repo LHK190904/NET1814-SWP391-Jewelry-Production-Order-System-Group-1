@@ -7,6 +7,7 @@
     <list default="true" id="3233376d-9177-47fd-a1df-bf34721dd4a2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/request/DesignCreationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/request/DesignCreationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/exception/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/exception/ErrorCode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DesignService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DesignService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -120,7 +121,7 @@
       <workItem from="1719889840483" duration="15937000" />
       <workItem from="1719931385050" duration="1186000" />
       <workItem from="1719932853821" duration="90000" />
-      <workItem from="1719974103441" duration="3195000" />
+      <workItem from="1719974103441" duration="3522000" />
     </task>
     <servers />
   </component>

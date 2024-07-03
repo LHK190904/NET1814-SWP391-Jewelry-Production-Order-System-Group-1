@@ -43,6 +43,7 @@ public enum ErrorCode {
     NO_QUOTATION_IN_THE_LIST(1031, "No quotation in list", HttpStatus.NOT_FOUND),
     INVALID_DATE_FORMAT(1032, "Invalid date format", HttpStatus.BAD_REQUEST),
     REQUEST_ORDER_EXISTED(1033, "Request order already existed", HttpStatus.BAD_REQUEST),
+    NO_URLIMAGE_IN_DESIGN_REQUEST(1034, "No URLimage in design request", HttpStatus.BAD_REQUEST),
     ;
     private int code;
     private String message;
