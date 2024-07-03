@@ -82,7 +82,7 @@ export default function Home() {
         const uploadedUrls = await Promise.all(
           fileList.map((file) => {
             if (!file.url && file.originFileObj) {
-              return uploadFile(file.originFileObj, `orders/${user.id}`);
+              return uploadFile(file.originFileObj, `request/${user.id}`);
             }
             return file.url;
           })
@@ -125,7 +125,7 @@ export default function Home() {
   const beforeUpload = (file) => {
     const isImage = file.type === "image/jpeg" || file.type === "image/png";
     if (!isImage) {
-      message.error("You can only upload JPG/PNG file!");
+      message.error("Chỉ có thể upload file dạng JPG hoặc PNG!");
     }
     return isImage;
   };
