@@ -1,11 +1,14 @@
 package com.backendVn.SWP.services;
 
+import com.backendVn.SWP.dtos.request.CompanyDesignModifyRequest;
 import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
+import com.backendVn.SWP.dtos.response.DesignResponse;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.*;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
+import com.backendVn.SWP.mappers.DesignMapper;
 import com.backendVn.SWP.mappers.RequestMapper;
 import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.*;
@@ -19,7 +22,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -32,7 +34,7 @@ public class RequestService {
     UserMapper userMapper;
     MaterialRepository materialRepository;
     DesignService designService;
-    private final DesignRepository designRepository;
+    DesignRepository designRepository;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -57,7 +59,7 @@ public class RequestService {
         Request theRequest = requestMapper.toRequest(request);
         theRequest.setCustomerID(user);
 
-        Material goldMaterial = findOrCreateGoldMaterial(request);
+        Material goldMaterial = findOrCreateGoldMaterial(request.getUpdated(), request.getGoldType(), request.getSellCost());
 
         theRequest.setMaterialID(goldMaterial);
         theRequest.setMainStone(getMaterialById(request.getMainStoneId()));
@@ -73,18 +75,18 @@ public class RequestService {
                 .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
     }
 
-    private Material findOrCreateGoldMaterial(RequestCreationRequestForCustomerDesign request) {
-        if (request.getUpdated().isEmpty()){
+    public Material findOrCreateGoldMaterial(String updated, String goldName, Double sellCost) {
+        if (updated.isEmpty()){
             throw new AppException(ErrorCode.INVALID_DATE_FORMAT);
         }
         return materialRepository.findByMaterialNameAndUpdateTime(
-                        request.getGoldType(), stringToInstant(request.getUpdated()))
+                        goldName, stringToInstant(updated))
                 .orElseGet(() -> {
                     Material newGoldType = new Material();
-                    newGoldType.setMaterialName(request.getGoldType());
+                    newGoldType.setMaterialName(goldName);
                     newGoldType.setType("Gold");
-                    newGoldType.setUpdateTime(stringToInstant(request.getUpdated()));
-                    newGoldType.setPricePerUnit(BigDecimal.valueOf(request.getSellCost()));
+                    newGoldType.setUpdateTime(stringToInstant(updated));
+                    newGoldType.setPricePerUnit(BigDecimal.valueOf(sellCost));
                     return materialRepository.save(newGoldType);
                 });
     }

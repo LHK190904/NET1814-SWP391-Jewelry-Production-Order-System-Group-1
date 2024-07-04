@@ -6,11 +6,13 @@ import com.backendVn.SWP.dtos.request.DesignFeedBackRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
 import com.backendVn.SWP.dtos.response.DesignResponse;
 import com.backendVn.SWP.entities.Design;
+import com.backendVn.SWP.entities.Material;
 import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.DesignMapper;
 import com.backendVn.SWP.repositories.DesignRepository;
+import com.backendVn.SWP.repositories.MaterialRepository;
 import com.backendVn.SWP.repositories.RequestOrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,6 +29,7 @@ public class DesignService {
     DesignRepository designRepository;
     DesignMapper designMapper;
     RequestOrderRepository requestOrderRepository;
+    MaterialRepository materialRepository;
 
     public String createCSV(List<String> listUrRLImage){
         if (listUrRLImage.isEmpty())return "";
@@ -147,20 +150,31 @@ public class DesignService {
 
         design.setURLImage(createCSV(request.getListURLImage()));
 
+        design.setMainStone(getMaterialById(request.getMainStoneId()));
+        design.setSubStone(getMaterialById(request.getSubStoneId()));
+
         return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
     }
 
+    private Material getMaterialById(Integer materialId) {
+        return materialId == 0 ? null : materialRepository.findById(materialId)
+                .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+    }
+
     public DesignResponse updateCompanyDesign(Integer designId ,CompanyDesignModifyRequest request){
+        Design design = designRepository.findById(designId)
+                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
         if (request.getListURLImage() == null || request.getListURLImage().isEmpty()){
             throw new AppException(ErrorCode.NO_URLIMAGE_IN_DESIGN_REQUEST);
         }
 
-        Design design = designRepository.findById(designId)
-                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
-
         design = designMapper.modifyCompanyDesign(request);
 
         design.setURLImage(createCSV(request.getListURLImage()));
+
+        design.setMainStone(getMaterialById(request.getMainStoneId()));
+        design.setSubStone(getMaterialById(request.getSubStoneId()));
 
         return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
     }

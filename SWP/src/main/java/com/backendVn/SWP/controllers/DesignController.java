@@ -63,6 +63,14 @@ public class DesignController {
                 .build();
     }
 
+    @GetMapping("/getAllCompanyDesign")
+    public ApiResponse<List<DesignResponse>> getAllCompanyDesign() {
+        return ApiResponse.<List<DesignResponse>>builder()
+                .result(designService.getAllCompanyDesign())
+                .build();
+    }
+
+
     @PostMapping("/createCompanyDesign")
     public ApiResponse<DesignResponse> createCompanyDesign(@RequestBody @Valid CompanyDesignModifyRequest request){
         return ApiResponse.<DesignResponse>builder()
@@ -74,13 +82,6 @@ public class DesignController {
     public ApiResponse<DesignResponse> updateCompanyDesign(@PathVariable Integer designId, @RequestBody @Valid CompanyDesignModifyRequest request){
         return ApiResponse.<DesignResponse>builder()
                 .result(designService.updateCompanyDesign(designId,request))
-                .build();
-    }
-
-    @GetMapping("/getAllCompanyDesign")
-    public ApiResponse<List<DesignResponse>> getAllCompanyDesign() {
-        return ApiResponse.<List<DesignResponse>>builder()
-                .result(designService.getAllCompanyDesign())
                 .build();
     }
 }

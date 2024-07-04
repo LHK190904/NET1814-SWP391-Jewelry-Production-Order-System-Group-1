@@ -1,11 +1,10 @@
 package com.backendVn.SWP.dtos.request;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -27,4 +26,20 @@ public class CompanyDesignModifyRequest {
 
     @Pattern(regexp = "RING|NECKLACE|BRACELET|EARRINGS", message = "INVALID_CATEGORY")
     String category;
+
+    @NotNull(message = "WEiGHT_REQUIRED")
+    @DecimalMin(value = "0.0", inclusive = false, message = "WEIGHT_INVALID")
+    BigDecimal materialWeight;
+
+    Integer mainStoneId;
+
+    Integer subStoneId;
+
+    Double buyCost;
+
+    Double sellCost;
+
+    String updated;
+
+    String goldType;
 }

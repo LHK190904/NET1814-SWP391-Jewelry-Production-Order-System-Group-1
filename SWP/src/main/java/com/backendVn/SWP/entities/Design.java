@@ -2,13 +2,19 @@ package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Nationalized;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Design {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +42,6 @@ public class Design {
     private String category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MaterialID")
-    private Material materialID;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "main_stone")
     private Material mainStone;
 
@@ -47,4 +49,11 @@ public class Design {
     @JoinColumn(name = "sub_stone")
     private Material subStone;
 
+    @Column(name = "material_weight", precision = 18, scale = 2)
+    private BigDecimal materialWeight;
+
+    @Size(max = 100)
+    @Nationalized
+    @Column(name = "material_name", length = 100)
+    private String materialName;
 }

@@ -23,11 +23,11 @@ public class DesignMapperImpl implements DesignMapper {
             return null;
         }
 
-        Design design = new Design();
+        Design.DesignBuilder design = Design.builder();
 
-        design.setDescription( designCreationRequest.getDescription() );
+        design.description( designCreationRequest.getDescription() );
 
-        return design;
+        return design.build();
     }
 
     @Override
@@ -66,12 +66,13 @@ public class DesignMapperImpl implements DesignMapper {
             return null;
         }
 
-        Design design = new Design();
+        Design.DesignBuilder design = Design.builder();
 
-        design.setDesignName( request.getDesignName() );
-        design.setDescription( request.getDescription() );
-        design.setCategory( request.getCategory() );
+        design.designName( request.getDesignName() );
+        design.description( request.getDescription() );
+        design.category( request.getCategory() );
+        design.materialWeight( request.getMaterialWeight() );
 
-        return design;
+        return design.build();
     }
 }

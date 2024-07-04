@@ -1,8 +1,10 @@
 package com.backendVn.SWP.controllers;
 
 
+import com.backendVn.SWP.dtos.request.CompanyDesignModifyRequest;
 import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.ApiResponse;
+import com.backendVn.SWP.dtos.response.DesignResponse;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.services.RequestService;
