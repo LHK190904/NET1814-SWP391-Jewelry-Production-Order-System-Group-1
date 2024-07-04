@@ -1,5 +1,0 @@
-# Created at 2024-07-04T15:06:26.495
-Boot Manifest-JAR contains absolute paths in classpath 'D:\studying\FPT-lessons\SWP-391\Back_end\SWP\target\test-classes'
-Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
-'other' has different root
-
