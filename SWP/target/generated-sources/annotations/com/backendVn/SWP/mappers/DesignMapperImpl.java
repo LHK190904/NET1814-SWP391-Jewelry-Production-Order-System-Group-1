@@ -72,6 +72,7 @@ public class DesignMapperImpl implements DesignMapper {
         design.description( request.getDescription() );
         design.category( request.getCategory() );
         design.materialWeight( request.getMaterialWeight() );
+        design.materialName( request.getMaterialName() );
 
         return design.build();
     }

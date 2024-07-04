@@ -35,11 +35,5 @@ public class CompanyDesignModifyRequest {
 
     Integer subStoneId;
 
-    Double buyCost;
-
-    Double sellCost;
-
-    String updated;
-
-    String goldType;
+    String materialName;
 }
