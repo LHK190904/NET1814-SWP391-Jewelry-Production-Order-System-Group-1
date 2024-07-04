@@ -1,5 +1,5 @@
 import React from "react";
-import Policies from "../../components/Policies";
+import Policies from "../../components/policies";
 
 export default function About() {
   return (

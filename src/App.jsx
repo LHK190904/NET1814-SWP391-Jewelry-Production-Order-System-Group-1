@@ -1,4 +1,3 @@
-import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -7,15 +6,14 @@ import Designs from "./pages/designs";
 import Collections from "./pages/collections";
 import Blog from "./pages/blog";
 import Register from "./pages/register";
-import Layout from "./components/Layout";
+import Layout from "./components/layout";
 import Error from "./pages/error";
 import Admin from "./pages/admin";
 import ProductDetails from "./pages/product-details";
 import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/protectedRoute";
 import authService from "./services/authService";
-import Designer from "./pages/designer";
 import ProductionStaff from "./pages/production-staff";
 import ProcessRequests from "./pages/saler/process_requests";
 import ReceiveRequests from "./pages/saler/receive_requests";
@@ -24,6 +22,8 @@ import CartOrder from "./pages/cart/order";
 import Dashboard from "./pages/dashboard";
 import PriceGold from "./pages/price/gold";
 import PriceMaterial from "./pages/price/material";
+import ProcessOrder from "./pages/designer/process_orders";
+import ManageDesign from "./pages/designer/manage_designs";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -146,9 +146,21 @@ function App() {
       ),
     },
     {
-      path: "/designer",
+      path: "/designer/process_orders",
       element: (
-        <ProtectedRoute element={<Designer />} isAllowed={isAuthenticated()} />
+        <ProtectedRoute
+          element={<ProcessOrder />}
+          isAllowed={isAuthenticated()}
+        />
+      ),
+    },
+    {
+      path: "/designer/manage_designs",
+      element: (
+        <ProtectedRoute
+          element={<ManageDesign />}
+          isAllowed={isAuthenticated()}
+        />
       ),
     },
     {

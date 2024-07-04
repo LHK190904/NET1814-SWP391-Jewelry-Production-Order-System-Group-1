@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
-import Carousel from "../../components/Carousel";
-import ItemCarousel from "../../components/ItemCarousel";
+import { useRef, useEffect } from "react";
+import Carousel from "../../components/carousel";
+import ItemCarousel from "../../components/itemCarousel";
 import { useLocation } from "react-router-dom";
 import Designs from "../designs";
 

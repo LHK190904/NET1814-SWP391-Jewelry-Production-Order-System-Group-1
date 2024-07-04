@@ -1,30 +1,17 @@
 import React, { useEffect, useState } from "react";
-import authService from "../../services/authService";
-import axios from "axios";
-import { Modal, Form, Input, Select, Upload, message } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
 import uploadFile from "../../utils/upload";
-import Tutorial from "../../components/Tutorial";
+import axiosInstance from "../../services/axiosInstance";
+import authService from "../../services/authService";
+import { Form, Input, Modal, Select, Upload, Button, message } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 
-const getBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-
-export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function Home() {
   const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [goldPrice, setGoldPrice] = useState([]);
+  const [materialPrice, setMaterialPrice] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const [dataAPI, setDataAPI] = useState([]);
-  const [material, setMaterial] = useState([]);
-  const [goldTypeData, setGoldTypeData] = useState({
-    sellCost: 0,
-    buyCost: 0,
-    updated: "",
-  });
   const [formData, setFormData] = useState({
     category: "",
     goldType: "",
@@ -35,114 +22,92 @@ export default function Home() {
     updated: "",
     sellCost: 0,
     buyCost: 0,
-    uRLImage: [""],
+    listURLImage: [],
   });
 
-  const fetchAPI = async () => {
+  const fetchData = async () => {
     try {
-      const goldResponse = await axios.get(
-        `http://localhost:8080/api/gold/prices`
-      );
+      const goldResponse = await axiosInstance.get(`api/gold/prices`);
       const goldData = goldResponse.data.DataList.Data.map((item, index) => ({
         goldType: item[`@n_${index + 1}`],
         sellCost: item[`@pb_${index + 1}`],
         buyCost: item[`@pb_${index + 1}`],
         updated: item[`@d_${index + 1}`],
       }));
-      setDataAPI(goldData);
-
-      const materialResponse = await axios.get(
-        `http://localhost:8080/material/notGold`
-      );
-      setMaterial(materialResponse.data.result);
+      setGoldPrice(goldData);
+      console.log(goldData);
+      const materialResponse = await axiosInstance.get(`material/notGold`);
+      setMaterialPrice(materialResponse.data.result);
+      console.log(materialResponse.data.result);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchAPI();
+    fetchData();
   }, []);
+
+  const handleFileChange = ({ fileList }) => {
+    setFileList(fileList);
+  };
+
+  const handleUpload = async () => {
+    if (fileList.length === 0) {
+      console.log("Vui lòng chọn file hình ảnh");
+      return;
+    }
+    setUploading(true);
+    try {
+      const uploadedURLs = await Promise.all(
+        fileList.map((file) => uploadFile(file.originFileObj, "requests"))
+      );
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        listURLImage: [...prevFormData.listURLImage, ...uploadedURLs],
+      }));
+      console.log("After set in formData:", uploadedURLs);
+      console.log(formData);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleHideModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleShowModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleHideModal = () => {
-    setIsModalOpen(false);
-    setFileList([]);
-    form.resetFields();
-  };
-
   const handleOk = async () => {
     try {
       const user = authService.getCurrentUser();
-
-      if (user && user.id) {
-        const uploadedUrls = await Promise.all(
-          fileList.map((file) => {
-            if (!file.url && file.originFileObj) {
-              return uploadFile(file.originFileObj, `request/${user.id}`);
-            }
-            return file.url;
-          })
-        );
-
-        const API_URL = `http://localhost:8080/requests/${user.id}`;
-
-        const requestData = {
-          ...formData,
-          uRLImage: uploadedUrls,
-          updated: goldTypeData.updated,
-          sellCost: goldTypeData.sellCost,
-          buyCost: goldTypeData.buyCost,
-        };
-
-        const response = await axios.post(API_URL, requestData, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
-
-        console.log("Success", response.data);
-        setIsModalOpen(false);
-        message.success("Yêu cầu đã được gửi thành công");
-      } else {
-        message.error("Vui lòng đăng nhập để gửi yêu cầu");
+      if (!user) {
+        throw new Error("Vui lòng đăng nhập để đặt yêu cầu");
       }
+      console.log("Submitting Form Data:", formData);
+      const response = await axiosInstance.post(
+        `/requests/${user.id}`,
+        formData
+      );
+      console.log("Dữ liệu đã được gửi:", response.data);
     } catch (error) {
-      console.error(
-        "Error",
-        error.response ? error.response.data : error.message
-      );
-      message.error("Đã xảy ra lỗi khi gửi yêu cầu");
+      console.error("Có lỗi khi gửi dữ liệu:", error);
     }
   };
 
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-
-  const beforeUpload = (file) => {
-    const isImage = file.type === "image/jpeg" || file.type === "image/png";
-    if (!isImage) {
-      message.error("Chỉ có thể upload file dạng JPG hoặc PNG!");
-    }
-    return isImage;
-  };
-
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div>Tải lên</div>
-    </div>
-  );
-
-  const handleGoldTypeChange = async (value) => {
-    try {
-      const selectedGoldTypeData = dataAPI.find(
-        (item) => item.goldType === value
-      );
-      setGoldTypeData(selectedGoldTypeData);
+  const handleGoldTypeChange = (value) => {
+    const selectedGoldTypeData = goldPrice.find(
+      (item) => item.goldType === value
+    );
+    if (selectedGoldTypeData) {
+      form.setFieldsValue({
+        goldType: value,
+      });
       setFormData((prevFormData) => ({
         ...prevFormData,
         goldType: value,
@@ -150,13 +115,14 @@ export default function Home() {
         sellCost: selectedGoldTypeData.sellCost,
         buyCost: selectedGoldTypeData.buyCost,
       }));
-    } catch (error) {
-      console.error(error);
     }
   };
 
   const handleFormChange = (changedValues, allValues) => {
-    setFormData(allValues);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      ...allValues,
+    }));
   };
 
   return (
@@ -165,11 +131,6 @@ export default function Home() {
         <h1 className="col-span-12 text-center text-4xl">
           QUY TRÌNH ĐẶT GIA CÔNG TẠI LUXE
         </h1>
-
-        <div className="col-start-3 col-span-8">
-          <Tutorial />
-        </div>
-
         <button
           onClick={handleShowModal}
           className="col-start-6 col-span-2 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg"
@@ -209,7 +170,7 @@ export default function Home() {
             rules={[{ required: true, message: "Vui lòng nhập vật liệu" }]}
           >
             <Select onChange={handleGoldTypeChange}>
-              {dataAPI.map((item, index) => (
+              {goldPrice.map((item, index) => (
                 <Select.Option key={index} value={item.goldType}>
                   {item.goldType}
                 </Select.Option>
@@ -230,7 +191,7 @@ export default function Home() {
           </Form.Item>
           <Form.Item name="mainStoneId" label="Đá chính (Nếu có):">
             <Select allowClear>
-              {material.map((item, index) => (
+              {materialPrice.map((item, index) => (
                 <Select.Option key={index} value={item.id}>
                   {item.type}
                 </Select.Option>
@@ -239,7 +200,7 @@ export default function Home() {
           </Form.Item>
           <Form.Item name="subStoneId" label="Đá phụ (Nếu có):">
             <Select allowClear>
-              {material.map((item, index) => (
+              {materialPrice.map((item, index) => (
                 <Select.Option key={index} value={item.id}>
                   {item.type}
                 </Select.Option>
@@ -251,7 +212,6 @@ export default function Home() {
             label="Mô tả:"
             rules={[
               {
-                required: fileList.length === 0,
                 message: "Vui lòng nhập mô tả nếu không có hình ảnh",
               },
             ]}
@@ -260,23 +220,28 @@ export default function Home() {
           </Form.Item>
           <Form.Item label="Bản thiết kế (Nếu có):">
             <Upload
-              listType="picture-card"
+              multiple
+              onChange={handleFileChange}
               fileList={fileList}
-              onPreview={async (file) => {
-                if (!file.url && !file.preview) {
-                  file.preview = await getBase64(file.originFileObj);
-                }
-                window.open(file.url || file.preview);
+              showUploadList={true}
+              customRequest={({ onSuccess }) => {
+                setTimeout(() => {
+                  onSuccess("ok");
+                }, 0);
               }}
-              onChange={handleChange}
-              beforeUpload={beforeUpload}
-              multiple={true}
             >
-              {fileList.length >= 8 ? null : uploadButton}
+              <Button icon={<UploadOutlined />}>Chọn file</Button>
             </Upload>
+            {fileList.length > 0 && (
+              <Button onClick={handleUpload} loading={uploading}>
+                Tải lên
+              </Button>
+            )}
           </Form.Item>
         </Form>
       </Modal>
     </div>
   );
 }
+
+export default Home;

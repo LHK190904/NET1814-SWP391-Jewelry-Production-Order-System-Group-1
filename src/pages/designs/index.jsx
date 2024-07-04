@@ -1,5 +1,5 @@
 import React from "react";
-import ItemCarousel from "../../components/ItemCarousel";
+import ItemCarousel from "../../components/itemCarousel";
 
 function Designs() {
   const products = [

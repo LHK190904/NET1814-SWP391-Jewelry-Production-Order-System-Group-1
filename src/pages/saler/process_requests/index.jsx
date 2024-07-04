@@ -15,7 +15,7 @@ import {
 import { useForm } from "antd/es/form/Form";
 import { Link, useLocation } from "react-router-dom";
 import FormItem from "antd/es/form/FormItem";
-import LogoutButton from "../../../components/LogoutButton";
+import LogoutButton from "../../../components/logoutButton";
 
 function ProcessRequests() {
   const [requests, setRequests] = useState([]);
@@ -135,10 +135,6 @@ function ProcessRequests() {
     }
   };
 
-  const handleAnnounce = (id) => {
-    console.log("Thông báo cho khách hàng:", id);
-  };
-
   const handleShowCustomerInfo = async (record) => {
     try {
       const response = await axiosInstance.get(
@@ -158,13 +154,14 @@ function ProcessRequests() {
   };
 
   const columns = [
-    { title: "Mã yêu cầu", dataIndex: "id", key: "id" },
-    { title: "Chi tiết", dataIndex: "description", key: "description" },
-    { title: "Thời gian nhận đơn", dataIndex: "recievedAt", key: "recievedAt" },
+    { title: "Mã yêu cầu", dataIndex: "id", key: "id",width: "10%",},
+    { title: "Chi tiết", dataIndex: "description", key: "description",width: "40%", },
+    { title: "Thời gian nhận đơn", dataIndex: "recievedAt", key: "recievedAt",width: "15%", },
     {
       title: "Trạng thái",
       key: "status",
       dataIndex: "status",
+      width: "5%",
       render: (status) => {
         let color = "volcano";
         if (status === "Ordering") color = "green";
@@ -197,9 +194,6 @@ function ProcessRequests() {
               Thông tin báo giá
             </Button>
           )}
-          <Button onClick={() => handleAnnounce(record.id)}>
-            Thông báo cho khách hàng
-          </Button>
           <Button onClick={() => handleShowCustomerInfo(record)}>
             Thông tin khách hàng
           </Button>
@@ -310,19 +304,15 @@ function ProcessRequests() {
         </p>
         <Form form={formDataQuotation}>
           <div className="flex flex-row gap-4">
-            {/* <div className="flex flex-col flex-wrap w-1/2"> */}
             <FormItem label="Created At" name="createdAt">
               <Input disabled />
             </FormItem>
             <FormItem label="Capital cost" name="capitalCost">
               <Input disabled />
             </FormItem>
-            {/* </div> */}
-            {/* <div className="flex flex-col flex-wrap w-1/2"> */}
             <FormItem label="Total cost" name="cost">
               <Input disabled />
             </FormItem>
-            {/* </div> */}
           </div>
         </Form>
       </Modal>

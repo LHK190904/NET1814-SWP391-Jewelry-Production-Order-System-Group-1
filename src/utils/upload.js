@@ -1,16 +1,3 @@
-// import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-// import { storage } from "../config/firebase";
-
-// const uploadFile = async (file) => {
-//     console.log(file);
-//     const storageRef = ref(storage, file.name);
-//     const response = await uploadBytes(storageRef, file);
-//     const downloadURL = await getDownloadURL(response.ref);
-//     return downloadURL;
-//   };
-
-//   export default uploadFile;
-
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../config/firebase";
 
@@ -21,7 +8,7 @@ import { storage } from "../config/firebase";
  * @param {string} folder - The folder path where the file will be uploaded.
  * @returns {Promise<string>} - The download URL of the uploaded file.
  */
-const uploadFile = async (file, folder = '') => {
+const uploadFile = async (file, folder = "") => {
   try {
     const storagePath = folder ? `${folder}/${file.name}` : file.name;
     const storageRef = ref(storage, storagePath);
@@ -30,7 +17,7 @@ const uploadFile = async (file, folder = '') => {
     return downloadURL;
   } catch (error) {
     console.error("Error uploading file: ", error);
-    throw error; // Re-throw the error so the caller can handle it
+    throw error;
   }
 };
 
