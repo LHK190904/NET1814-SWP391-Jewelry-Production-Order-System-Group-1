@@ -5,6 +5,7 @@ import com.backendVn.SWP.dtos.request.DesignCreationRequest;
 import com.backendVn.SWP.dtos.request.DesignUpdateRequest;
 import com.backendVn.SWP.dtos.response.DesignResponse;
 import com.backendVn.SWP.entities.Design;
+import com.backendVn.SWP.entities.Material;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -40,17 +41,22 @@ public class DesignMapperImpl implements DesignMapper {
     }
 
     @Override
-    public DesignResponse toDesignResponse(Design request, List<String> listURLImage) {
-        if ( request == null && listURLImage == null ) {
+    public DesignResponse toDesignResponse(Design design, List<String> listURLImage) {
+        if ( design == null && listURLImage == null ) {
             return null;
         }
 
         DesignResponse.DesignResponseBuilder designResponse = DesignResponse.builder();
 
-        if ( request != null ) {
-            designResponse.id( request.getId() );
-            designResponse.designName( request.getDesignName() );
-            designResponse.description( request.getDescription() );
+        if ( design != null ) {
+            designResponse.mainStoneId( designMainStoneId( design ) );
+            designResponse.subStoneId( designSubStoneId( design ) );
+            designResponse.id( design.getId() );
+            designResponse.designName( design.getDesignName() );
+            designResponse.description( design.getDescription() );
+            designResponse.category( design.getCategory() );
+            designResponse.materialWeight( design.getMaterialWeight() );
+            designResponse.materialName( design.getMaterialName() );
         }
         List<String> list = listURLImage;
         if ( list != null ) {
@@ -75,5 +81,35 @@ public class DesignMapperImpl implements DesignMapper {
         design.materialName( request.getMaterialName() );
 
         return design.build();
+    }
+
+    private Integer designMainStoneId(Design design) {
+        if ( design == null ) {
+            return null;
+        }
+        Material mainStone = design.getMainStone();
+        if ( mainStone == null ) {
+            return null;
+        }
+        Integer id = mainStone.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
+    }
+
+    private Integer designSubStoneId(Design design) {
+        if ( design == null ) {
+            return null;
+        }
+        Material subStone = design.getSubStone();
+        if ( subStone == null ) {
+            return null;
+        }
+        Integer id = subStone.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
     }
 }
