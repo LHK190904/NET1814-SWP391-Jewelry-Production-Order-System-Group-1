@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
 import { Button, Table } from "antd";
 import { Link, useLocation } from "react-router-dom";
-import LogoutButton from "../../../components/logoutButton";
+import LogoutButton from "../../../components/LogoutButton";
 
 function ReceiveRequests() {
   const [requests, setRequests] = useState([]);

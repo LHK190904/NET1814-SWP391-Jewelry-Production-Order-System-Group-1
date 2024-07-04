@@ -6,7 +6,7 @@ import Designs from "./pages/designs";
 import Collections from "./pages/collections";
 import Blog from "./pages/blog";
 import Register from "./pages/register";
-import Layout from "./components/layout";
+import Layout from "./components/Layout";
 import Error from "./pages/error";
 import Admin from "./pages/admin";
 import ProductDetails from "./pages/product-details";
@@ -24,6 +24,8 @@ import PriceGold from "./pages/price/gold";
 import PriceMaterial from "./pages/price/material";
 import ProcessOrder from "./pages/designer/process_orders";
 import ManageDesign from "./pages/designer/manage_designs";
+import Authenticate from "./pages/auth/Authenticate";
+
 
 
 const getCurrentUser = () => {
@@ -113,71 +115,75 @@ function App() {
     {
       path: "/saler/receive_requests",
       element: (
-        <ProtectedRoute
-          element={<ReceiveRequests />}
-          isAllowed={isAuthenticated()}
-        />
+          <ProtectedRoute
+              element={<ReceiveRequests />}
+              isAllowed={isAuthenticated()}
+          />
       ),
     },
     {
       path: "/saler/process_requests",
       element: (
-        <ProtectedRoute
-          element={<ProcessRequests />}
-          isAllowed={isAuthenticated()}
-        />
+          <ProtectedRoute
+              element={<ProcessRequests />}
+              isAllowed={isAuthenticated()}
+          />
       ),
     },
     {
       path: "/manager/request",
       element: (
-        <ProtectedRoute
-          element={<ManagerRequest />}
-          isAllowed={isAuthenticated()}
-        />
+          <ProtectedRoute
+              element={<ManagerRequest />}
+              isAllowed={isAuthenticated()}
+          />
       ),
     },
     {
       path: "/manager/order",
       element: (
-        <ProtectedRoute
-          element={<ManagerOrder />}
-          isAllowed={isAuthenticated()}
-        />
+          <ProtectedRoute
+              element={<ManagerOrder />}
+              isAllowed={isAuthenticated()}
+          />
       ),
     },
     {
       path: "/designer/process_orders",
       element: (
-        <ProtectedRoute
-          element={<ProcessOrder />}
-          isAllowed={isAuthenticated()}
-        />
+          <ProtectedRoute
+              element={<ProcessOrder />}
+              isAllowed={isAuthenticated()}
+          />
       ),
     },
     {
       path: "/designer/manage_designs",
       element: (
-        <ProtectedRoute
-          element={<ManageDesign />}
-          isAllowed={isAuthenticated()}
-        />
+          <ProtectedRoute
+              element={<ManageDesign />}
+              isAllowed={isAuthenticated()}
+          />
       ),
     },
     {
       path: "/production-staff",
       element: (
-        <ProtectedRoute
-          element={<ProductionStaff />}
-          isAllowed={isAuthenticated()}
-        />
+          <ProtectedRoute
+              element={<ProductionStaff />}
+              isAllowed={isAuthenticated()}
+          />
       ),
     },
     {
       path: "/dashboard",
       element: (
-        <ProtectedRoute element={<Dashboard />} isAllowed={isAuthenticated()} />
+          <ProtectedRoute element={<Dashboard />} isAllowed={isAuthenticated()} />
       ),
+    },
+    {
+      path: "/authenticate",
+      element: <Authenticate />,
     },
   ]);
 
