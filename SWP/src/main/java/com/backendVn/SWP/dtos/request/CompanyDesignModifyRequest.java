@@ -35,5 +35,7 @@ public class CompanyDesignModifyRequest {
 
     Integer subStoneId;
 
+    @NotEmpty(message = "MATERIAL_NAME_EMPTY")
+    @Size(max = 100, message = "MATERIAL_SIZE_INVALID")
     String materialName;
 }
