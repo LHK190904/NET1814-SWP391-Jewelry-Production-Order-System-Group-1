@@ -91,10 +91,6 @@ public class DesignService {
         return designResponses;
     }
 
-    public void deleteDesign(Integer id) {
-        designRepository.deleteById(id);
-    }
-
     public DesignResponse updateDesign(Integer designId, DesignUpdateRequest designUpdateRequest) {
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
@@ -190,5 +186,14 @@ public class DesignService {
         }
 
         return designResponses;
+    }
+
+    public DesignResponse deleteDesign(Integer designId){
+        Design design = designRepository.findById(designId)
+                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        design.setDesignName(null);
+
+        return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
     }
 }

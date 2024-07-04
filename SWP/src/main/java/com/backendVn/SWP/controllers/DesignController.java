@@ -84,4 +84,11 @@ public class DesignController {
                 .result(designService.updateCompanyDesign(designId,request))
                 .build();
     }
+
+    @DeleteMapping("/deleteDesign/{designId}")
+    public ApiResponse<DesignResponse> deleteDesign(@PathVariable Integer designId) {
+        return ApiResponse.<DesignResponse>builder()
+                .result(designService.deleteDesign(designId))
+                .build();
+    }
 }
