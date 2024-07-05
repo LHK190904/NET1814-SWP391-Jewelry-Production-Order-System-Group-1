@@ -8,7 +8,6 @@ import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
-import com.backendVn.SWP.mappers.DesignMapper;
 import com.backendVn.SWP.mappers.RequestOrderMapper;
 import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.DesignRepository;
@@ -33,7 +32,6 @@ public class RequestOrderService {
     DesignRepository designRepository;
     UserRepository userRepository;
     UserMapper userMapper;
-    private final DesignMapper designMapper;
 
     public RequestOrderResponse createRequestOrder(Integer id) {
         Request request = requestRepository.findById(id)
@@ -137,5 +135,12 @@ public class RequestOrderService {
         requestOrder.setStatus("Producing");
 
         return requestOrderMapper.toRequestOrderResponse(requestOrderRepository.save(requestOrder));
+    }
+
+    public List<RequestOrderResponse> getAllNewRequestOrder(){
+        List<RequestOrder> requestOrders = requestOrderRepository.findByStatus("New")
+                .orElseThrow(() -> new AppException(ErrorCode.MO_NEW_REQUEST_ORDERS));
+
+        return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
     }
 }

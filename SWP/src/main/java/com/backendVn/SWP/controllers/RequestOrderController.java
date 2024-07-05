@@ -93,4 +93,10 @@ public class RequestOrderController {
                 .build();
     }
 
+    @GetMapping("/getAllNewRequestOrder")
+    public ApiResponse<List<RequestOrderResponse>> getAllNewRequestOrder() {
+        return ApiResponse.<List<RequestOrderResponse>>builder()
+                .result(requestOrderService.getAllNewRequestOrder())
+                .build();
+    }
 }
