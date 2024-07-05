@@ -83,6 +83,19 @@ public class DesignMapperImpl implements DesignMapper {
         return design.build();
     }
 
+    @Override
+    public void updateCompanyDesign(Design design, CompanyDesignModifyRequest request) {
+        if ( request == null ) {
+            return;
+        }
+
+        design.setDesignName( request.getDesignName() );
+        design.setDescription( request.getDescription() );
+        design.setCategory( request.getCategory() );
+        design.setMaterialWeight( request.getMaterialWeight() );
+        design.setMaterialName( request.getMaterialName() );
+    }
+
     private Integer designMainStoneId(Design design) {
         if ( design == null ) {
             return null;

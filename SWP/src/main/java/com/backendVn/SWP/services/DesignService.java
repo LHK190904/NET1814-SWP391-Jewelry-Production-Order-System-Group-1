@@ -165,7 +165,7 @@ public class DesignService {
             throw new AppException(ErrorCode.NO_URLIMAGE_IN_DESIGN_REQUEST);
         }
 
-        design = designMapper.modifyCompanyDesign(request);
+        designMapper.updateCompanyDesign(design, request);
 
         design.setURLImage(createCSV(request.getListURLImage()));
 

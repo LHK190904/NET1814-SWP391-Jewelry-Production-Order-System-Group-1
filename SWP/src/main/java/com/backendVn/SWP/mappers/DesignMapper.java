@@ -22,4 +22,5 @@ public interface DesignMapper {
     DesignResponse toDesignResponse(Design design, List<String> listURLImage);
 
     Design modifyCompanyDesign(CompanyDesignModifyRequest request);
+    void updateCompanyDesign(@MappingTarget Design design, CompanyDesignModifyRequest request);
 }
