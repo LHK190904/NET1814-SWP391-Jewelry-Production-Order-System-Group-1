@@ -121,13 +121,6 @@ public class RequestService {
         return requestMapper.toRequestResponse(requestRepository.save(request));
     }
 
-
-    public void deleteRequest(Integer id) {
-        Request request = requestRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-        requestRepository.delete(request);
-    }
-
     public List<RequestResponse> getAllRequests() {
         return requestRepository.findAll().stream()
                 .map(requestMapper::toRequestResponse)
@@ -143,7 +136,7 @@ public class RequestService {
     public List<RequestResponse> getRequestsByCustomerId(Integer customerId) {
         User customer = userRepository.findById(customerId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        List<Request> requests = requestRepository.findAllByCustomerID(customer);
+        List<Request> requests = requestRepository.findAllByCustomerIDAndStatusIsNotLike(customer, "Disable");
         return requests.stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
@@ -215,6 +208,15 @@ public class RequestService {
                 .build();
 
         return null;
+    }
+
+    public RequestResponse deleteRequest(Integer requestId){
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        request.setStatus("Disable");
+
+        return requestMapper.toRequestResponse(requestRepository.save(request));
     }
 }
 
