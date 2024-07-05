@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RequestOrderRepository extends JpaRepository<RequestOrder, Integer> {
-    List<RequestOrder> findByRequestID(Request request);
+    Optional<RequestOrder> findByRequestID(Request request);
 
     List<RequestOrder> findAllByDesignStaffAndStatusIsNotLike(User designStaff,String status);
 

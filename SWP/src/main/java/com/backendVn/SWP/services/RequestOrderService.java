@@ -117,14 +117,14 @@ public class RequestOrderService {
         return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
     }
 
-    public List<RequestOrderResponse> getOrderByRequestIdForCustomer(Integer requestId){
+    public RequestOrderResponse getOrderByRequestIdForCustomer(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        List<RequestOrder> requestOrders = requestOrderRepository.findByRequestID(request);
+        RequestOrder requestOrders = requestOrderRepository.findByRequestID(request)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
 
-        if(requestOrders.isEmpty())return null;
-        return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
+        return requestOrderMapper.toRequestOrderResponse(requestOrders);
     }
 
     public RequestOrderResponse acceptDesign(Integer designId){

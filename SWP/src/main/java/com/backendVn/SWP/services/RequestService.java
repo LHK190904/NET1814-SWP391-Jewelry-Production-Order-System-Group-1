@@ -35,6 +35,7 @@ public class RequestService {
     MaterialRepository materialRepository;
     DesignService designService;
     DesignRepository designRepository;
+    private final RequestOrderRepository requestOrderRepository;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -165,7 +166,7 @@ public class RequestService {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        if(request.getStatus().equals("Ordering")){
+        if(requestOrderRepository.findByRequestID(request).isPresent()){
             throw new AppException(ErrorCode.REQUEST_ORDER_EXISTED);
         }
 

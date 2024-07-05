@@ -80,8 +80,8 @@ public class RequestOrderController {
     }
 
     @GetMapping("/getOrderByRequestIdForCustomer/{requestId}")
-    public ApiResponse<List<RequestOrderResponse>> getOrderByRequestIdForCustomer(@PathVariable Integer requestId){
-        return ApiResponse.<List<RequestOrderResponse>>builder()
+    public ApiResponse<RequestOrderResponse> getOrderByRequestIdForCustomer(@PathVariable Integer requestId){
+        return ApiResponse.<RequestOrderResponse>builder()
                 .result(requestOrderService.getOrderByRequestIdForCustomer(requestId))
                 .build();
     }
