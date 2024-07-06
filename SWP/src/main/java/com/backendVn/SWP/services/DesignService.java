@@ -112,7 +112,7 @@ public class DesignService {
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
 
         if(requestOrder.getDesignID() == null){
-            throw new AppException(ErrorCode.DESIGN_NOT_FOUND);
+            throw new AppException(ErrorCode.NO_DESIGN_WAS_ASSIGNED);
         }
 
         Design design = designRepository.findById(requestOrder.getDesignID().getId())
