@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, message, Upload, Modal, Image, Form, Input } from "antd";
+import { Button, message, Upload, Modal, Image, Form } from "antd";
 import uploadFile from "../../../utils/upload";
 import LogoutButton from "../../../components/logoutButton";
 import authService from "../../../services/authService";
