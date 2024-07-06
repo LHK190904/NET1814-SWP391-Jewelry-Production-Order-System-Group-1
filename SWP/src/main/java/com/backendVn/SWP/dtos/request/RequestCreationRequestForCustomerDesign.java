@@ -38,7 +38,6 @@ public class RequestCreationRequestForCustomerDesign {
     @Pattern(regexp = "RING|NECKLACE|BRACELET|EARRINGS", message = "INVALID_CATEGORY")
     String category;
 
-    @NotEmpty(message = "THE_LIST_IS_EMPTY")
     List<String> listURLImage;
 
 

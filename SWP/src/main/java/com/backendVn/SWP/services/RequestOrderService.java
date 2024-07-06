@@ -90,7 +90,7 @@ public class RequestOrderService {
         requestOrder.setProductionStaff(productionStaff);
         requestOrder.setStatus("Producing");
 
-        if(requestOrder.getRequestID().getURLImage() == null){
+        if(requestOrder.getRequestID().getURLImage() == null || requestOrder.getRequestID().getCompanyDesign() == null){
             requestOrder.setDesignStaff(designStaff);
             requestOrder.setStatus("Assigned");
         }
