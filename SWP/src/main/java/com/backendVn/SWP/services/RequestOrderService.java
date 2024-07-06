@@ -53,6 +53,7 @@ public class RequestOrderService {
                     .subStone(request.getSubStone())
                     .materialName(request.getMaterialID().getMaterialName())
                     .materialWeight(request.getMaterialWeight())
+                    .uRLImage(request.getURLImage())
                     .build();
             designRepository.save(design);
             requestOrder.setDesignID(design);
