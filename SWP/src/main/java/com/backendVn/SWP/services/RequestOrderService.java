@@ -65,7 +65,7 @@ public class RequestOrderService {
 
         return requestOrderMapper.toRequestOrderResponse(savedRequestOrder);
     }
-
+    
     public void deleteRequestOrder(Integer id) {
         RequestOrder requestOrder = requestOrderRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
@@ -102,13 +102,13 @@ public class RequestOrderService {
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(()-> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
 
-        User designStaff = userRepository.findById(designStaffId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         User productionStaff = userRepository.findById(productionStaffId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         requestOrder.setProductionStaff(productionStaff);
         requestOrder.setStatus("Producing");
 
         if(requestOrder.getRequestID().getURLImage() == null || requestOrder.getRequestID().getCompanyDesign() == null){
+            User designStaff = userRepository.findById(designStaffId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
             requestOrder.setDesignStaff(designStaff);
             requestOrder.setStatus("Assigned");
         }
