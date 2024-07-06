@@ -84,13 +84,13 @@ public class RequestOrderService {
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(()-> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
 
-        User designStaff = userRepository.findById(designStaffId).orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
-        User productionStaff = userRepository.findById(productionStaffId).orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+        User designStaff = userRepository.findById(designStaffId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        User productionStaff = userRepository.findById(productionStaffId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         requestOrder.setProductionStaff(productionStaff);
         requestOrder.setStatus("Producing");
 
-        if(requestOrder.getRequestID().getURLImage() == null || requestOrder.getRequestID().getURLImage().isEmpty()){
+        if(requestOrder.getRequestID().getURLImage() == null){
             requestOrder.setDesignStaff(designStaff);
             requestOrder.setStatus("Assigned");
         }
@@ -110,6 +110,16 @@ public class RequestOrderService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         List<RequestOrder> requestOrders = requestOrderRepository.findAllByDesignStaffAndStatusIsNotLike(user, "Producing");
+
+        if(requestOrders.isEmpty())return null;
+        return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
+    }
+
+    public List<RequestOrderResponse> getRequestOrdersByProductionStaffId(Integer productionStaffId){
+        User user = userRepository.findById(productionStaffId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        List<RequestOrder> requestOrders = requestOrderRepository.findAllByProductionStaffAndStatusIsLike(user, "Producing");
 
         if(requestOrders.isEmpty())return null;
         return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();

@@ -53,4 +53,11 @@ public class ProcessController {
                 .result(processService.getMyProcesses())
                 .build();
     }
+
+    @GetMapping("/getProcessByRequestOrderId/{orderId}")
+    public ApiResponse<ProcessResponse> getProcessByRequestOrderId(@PathVariable Integer orderId) {
+        return ApiResponse.<ProcessResponse>builder()
+                .result(processService.getProcessByRequestOrderId(orderId))
+                .build();
+    }
 }

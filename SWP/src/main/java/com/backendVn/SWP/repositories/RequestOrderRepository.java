@@ -17,4 +17,7 @@ public interface RequestOrderRepository extends JpaRepository<RequestOrder, Inte
     Optional<RequestOrder> findByDesignID(Design design);
 
     Optional<List<RequestOrder>> findByStatus(String status);
+
+    List<RequestOrder> findAllByProductionStaffAndStatusIsLike(User designStaff,String status);
+
 }

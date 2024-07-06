@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +49,19 @@ public class ProcessService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         process.setUpdatedBy(productionStaff);
 
-        process.setStatus("Prepare material");
+        List<Process> processList = processRepository.findByRequestOrderid(requestOrder);
+
+        processList.sort(Comparator.comparing(Process::getUpdatedAt));
+
+        if(processList.size() == 0) {
+            process.setStatus("25%");
+        } else if(processList.size() == 1) {
+            process.setStatus("50%");
+        } else if(processList.size() == 2) {
+            process.setStatus("75%");
+        } else {
+            process.setStatus("100%");
+        }
 
         Process savedProcess = processRepository.save(process);
 
@@ -84,5 +98,17 @@ public class ProcessService {
         return process.stream()
                 .map(processMapper::toProcessResponse)
                 .toList();
+    }
+
+    public ProcessResponse getProcessByRequestOrderId(Integer requestOrderId) {
+        RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+
+        List<Process> processList = processRepository.findByRequestOrderid(requestOrder);
+
+        processList.sort(Comparator.comparing(Process::getUpdatedAt));
+
+        if(processList.isEmpty()) { return null;}
+        return processMapper.toProcessResponse(processList.getLast());
     }
 }
