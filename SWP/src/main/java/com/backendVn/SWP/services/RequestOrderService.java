@@ -43,6 +43,23 @@ public class RequestOrderService {
                 .createdAt(Instant.now())
                 .description(request.getDescription())
                 .build();
+
+        if(request.getURLImage() != null){
+            Design design = Design.builder()
+                    .designName("Customer's design")
+                    .category(request.getCategory())
+                    .description(request.getDescription())
+                    .mainStone(request.getMainStone())
+                    .subStone(request.getSubStone())
+                    .materialName(request.getMaterialID().getMaterialName())
+                    .materialWeight(request.getMaterialWeight())
+                    .build();
+            designRepository.save(design);
+            requestOrder.setDesignID(design);
+        } else if(request.getCompanyDesign() != null){
+            requestOrder.setDesignID(request.getCompanyDesign());
+        }
+
         RequestOrder savedRequestOrder = requestOrderRepository.save(requestOrder);
 
         return requestOrderMapper.toRequestOrderResponse(savedRequestOrder);
