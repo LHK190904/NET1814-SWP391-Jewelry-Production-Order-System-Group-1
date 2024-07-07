@@ -189,7 +189,7 @@ public class RequestService {
     }
 
     public List<RequestResponse> getListOfRequestQuotations() {
-        List<Request> requests = requestRepository.findByStatus("Pending quotation");
+        List<Request> requests = requestRepository.findByStatus("Pending quotation for manager");
         return requests.stream().map(requestMapper::toRequestResponse).toList();
     }
 
