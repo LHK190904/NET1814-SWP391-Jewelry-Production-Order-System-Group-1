@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, message, Upload, Modal, Image, Form } from "antd";
+import {
+  Button,
+  message,
+  Upload,
+  Modal,
+  Image,
+  Form,
+  Popconfirm,
+  Select,
+  Input,
+} from "antd";
 import uploadFile from "../../../utils/upload";
 import LogoutButton from "../../../components/logoutButton";
-import authService from "../../../services/authService";
 import axiosInstance from "../../../services/axiosInstance";
 import TextArea from "antd/es/input/TextArea";
 import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -18,23 +28,45 @@ const getBase64 = (file) =>
 
 function ManageDesign() {
   const [listItems, setListItems] = useState([]);
-  const [selectedOrderItem, setSelectedOrderItem] = useState(null);
+  const [selectedDesignItem, setSelectedDesignItem] = useState(null);
   const [fileList, setFileList] = useState([]);
-  const [uploading, setUploading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [form] = Form.useForm();
   const [designID, setDesignID] = useState(null);
   const location = useLocation();
+  const [material, setMaterial] = useState([]);
+  const [dataAPI, setDataAPI] = useState([]);
+  const [materialName, setMaterialName] = useState("");
+  const [modalTitle, setModalTitle] = useState("Add new design");
 
   const fetchInfo = async () => {
     try {
-      const designer = authService.getCurrentUser();
-      const response = await axiosInstance.get(
-        `/request-orders/getOrderForDesigner/${designer.id}`
-      );
+      const response = await axiosInstance.get("/design/getAllCompanyDesign");
       setListItems(response.data.result || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchAPI = async () => {
+    try {
+      const goldResponse = await axios.get(
+        `http://localhost:8080/api/gold/prices`
+      );
+      const goldData = goldResponse.data.DataList.Data.map((item, index) => ({
+        goldType: item[`@n_${index + 1}`],
+        sellCost: item[`@pb_${index + 1}`],
+        buyCost: item[`@pb_${index + 1}`],
+        updated: item[`@d_${index + 1}`],
+      }));
+      setDataAPI(goldData);
+
+      const materialResponse = await axios.get(
+        `http://localhost:8080/material/notGold`
+      );
+      setMaterial(materialResponse.data.result);
     } catch (error) {
       console.error(error);
     }
@@ -42,6 +74,7 @@ function ManageDesign() {
 
   useEffect(() => {
     fetchInfo();
+    fetchAPI();
   }, []);
 
   const handlePreview = async (file) => {
@@ -59,7 +92,7 @@ function ManageDesign() {
       if (!file.url) {
         const url = await uploadFile(
           file.originFileObj,
-          `orders/${selectedOrderItem.id}`
+          `designs/${selectedDesignItem?.id}`
         );
         return url;
       }
@@ -68,97 +101,117 @@ function ManageDesign() {
     return await Promise.all(uploadPromises);
   };
 
-  const saveDesignData = async (uploadedUrls) => {
-    const values = await form.validateFields();
-    const { description } = values;
-    const payload = {
-      description,
-      listURLImage: uploadedUrls,
-    };
-
-    if (designID) {
-      const response = await axiosInstance.put(`/design/${designID}`, payload);
-      console.log(response);
-    } else {
-      await axiosInstance.post(`/design/${selectedOrderItem.id}`, payload);
-    }
-  };
-
   const handleUpload = async () => {
-    setUploading(true);
     try {
       const uploadedUrls = await uploadDesignImages();
-      await saveDesignData(uploadedUrls);
+      const values = await form.validateFields();
+      const {
+        description,
+        category,
+        designName,
+        mainStoneId = 0,
+        subStoneId = 0,
+        materialWeight,
+        materialName,
+      } = values;
+      const payload = {
+        description,
+        listURLImage: uploadedUrls,
+        category,
+        designName,
+        materialName,
+        mainStoneId,
+        subStoneId,
+        materialWeight,
+      };
 
+      if (designID) {
+        await axiosInstance.put(
+          `/design/updateCompanyDesign/${designID}`,
+          payload
+        );
+      } else {
+        await axiosInstance.post(`/design/createCompanyDesign`, payload);
+      }
       setFileList([]);
       message.success("Tải lên thành công.");
       setIsModalOpen(false);
+      fetchInfo();
     } catch (error) {
       console.error(error);
       message.error("Tải lên thất bại.");
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const fetchDesignData = async (orderId) => {
-    try {
-      const response = await axiosInstance.get(`/design/${orderId}`);
-      return response.data.result;
-    } catch (error) {
-      console.error("Failed to fetch design data:", error);
-      throw error;
     }
   };
 
   const initializeFormAndFileList = (designData) => {
-    if (designData && designData.description) {
-      form.setFieldsValue({
-        description: designData.description,
-      });
+    form.setFieldsValue({
+      description: designData.description,
+      category: designData.category,
+      designName: designData.designName,
+      materialName: designData.materialName,
+      mainStoneId: designData.mainStoneId ?? "0",
+      subStoneId: designData.subStoneId ?? "0",
+      materialWeight: designData.materialWeight,
+    });
 
-      // Cập nhật danh sách tệp tin với URL ảnh từ API, đảm bảo listURLImage luôn là một mảng
-      const initialFileList = (designData.listURLImage || []).map(
-        (url, index) => ({
-          uid: index,
-          name: `image-${index}`,
-          status: "done",
-          url,
-        })
-      );
-      setFileList(initialFileList);
-    } else {
-      form.resetFields();
-      setFileList([]);
-    }
+    const initialFileList = (designData.listURLImage || []).map(
+      (url, index) => ({
+        uid: index,
+        name: `image-${index}`,
+        status: "done",
+        url,
+      })
+    );
+    setFileList(initialFileList);
   };
 
-  const openModal = async () => {
+  const openEditModal = async (item) => {
     try {
-      let designData;
-      try {
-        designData = await fetchDesignData(selectedOrderItem.id);
-      } catch (error) {
-        console.error("Failed to fetch design data:", error);
-        designData = null;
-      }
-      setDesignID(designData?.id || null); // Đặt designID thành null nếu không có dữ liệu thiết kế
-      if (designData && designData.id) {
-        initializeFormAndFileList(designData);
-      } else {
-        form.resetFields();
-        setFileList([]);
-      }
+      setSelectedDesignItem(item);
+      setDesignID(item.id);
+      setModalTitle(`Edit design ${item.id} `);
+      initializeFormAndFileList(item);
       setIsModalOpen(true);
     } catch (error) {
       message.error("Failed to open modal.");
     }
   };
 
-  const closeModal = () => {
+  const handleHideModal = () => {
     setIsModalOpen(false);
     setFileList([]);
     form.resetFields();
+  };
+
+  const handleDelete = async (designId) => {
+    try {
+      await axiosInstance.delete(`/design/deleteDesign/${designId}`);
+      message.success("Xóa thành công.");
+      fetchInfo();
+    } catch (error) {
+      console.error("Failed to delete design:", error);
+      message.error("Xóa thất bại.");
+    }
+  };
+
+  const handleOpenAddModal = () => {
+    setSelectedDesignItem(null);
+    setDesignID(null);
+    setModalTitle("Add new design");
+    form.resetFields();
+    setFileList([]);
+    setIsModalOpen(true);
+  };
+
+  const handleGoldTypeChange = async (value) => {
+    try {
+      const selectedGoldTypeData = dataAPI.find(
+        (item) => item.goldType === value
+      );
+      setMaterialName(selectedGoldTypeData?.goldType || "");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const uploadButton = (
@@ -167,9 +220,7 @@ function ManageDesign() {
       <div style={{ marginTop: 8 }}>Tải lên</div>
     </div>
   );
-const handleOpenAddModal = () => {
-    
-} 
+
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
       <div className="text-white text-7xl text-center">Design staff</div>
@@ -203,22 +254,37 @@ const handleOpenAddModal = () => {
       <div className="grid grid-cols-12 gap-4">
         <div className="col-start-1 col-span-12 bg-white m-4 rounded-lg p-4">
           <h1 className="text-center font-extrabold text-3xl">
-            List of designs {selectedOrderItem?.id}
+            List of designs
           </h1>
-          <div className="grid grid-cols-2 text-center mt-4">
+          <div className="grid grid-cols-3 text-center mt-4">
             <div className="col-span-1 font-bold">Design ID</div>
-            <div className="col-span-1 font-bold">ok</div>
-            {selectedOrderItem ? (
-              <React.Fragment key={selectedOrderItem.id}>
-                <div className="col-span-1 mt-2">
-                  {selectedOrderItem.description}
-                </div>
-                <div className="col-span-1 flex justify-center mt-2">
-                  <Button icon={<UploadOutlined />} onClick={openModal}>
-                    Thêm bản thiết kế
-                  </Button>
-                </div>
-              </React.Fragment>
+            <div className="col-span-1 font-bold">Design name</div>
+            <div className="col-span-1 font-bold">Action</div>
+            {listItems.length > 0 ? (
+              listItems.map((item) => (
+                <React.Fragment key={item.id}>
+                  <div className="col-span-1 mt-2">{item.id}</div>
+                  <div className="col-span-1 mt-2">{item.designName}</div>
+                  <div className="col-span-1 flex justify-center mt-2">
+                    <Button
+                      icon={<UploadOutlined />}
+                      onClick={() => openEditModal(item)}
+                      className="mr-4"
+                    >
+                      Edit
+                    </Button>
+                    <Popconfirm
+                      title="Delete"
+                      description="Are you sure you want to delete this design?"
+                      onConfirm={() => handleDelete(item.id)}
+                      okText="OK"
+                      cancelText="Cancel"
+                    >
+                      <Button danger>Delete</Button>
+                    </Popconfirm>
+                  </div>
+                </React.Fragment>
+              ))
             ) : (
               <div className="col-span-5 text-center mt-16">Empty</div>
             )}
@@ -227,56 +293,113 @@ const handleOpenAddModal = () => {
       </div>
 
       <Modal
+        title={
+          <div className="text-center text-2xl font-bold">{modalTitle}</div>
+        }
         open={isModalOpen}
-        title="Tải lên bản thiết kế"
-        onCancel={closeModal}
-        footer={[
-          <Button key="back" onClick={closeModal}>
-            Hủy
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            onClick={handleUpload}
-            disabled={fileList.length === 0}
-            loading={uploading}
-          >
-            {uploading ? "Uploading" : "Tải lên"}
-          </Button>,
-        ]}
+        onOk={handleUpload}
+        onCancel={handleHideModal}
       >
-        <Form form={form} labelCol={{ span: 24 }}>
+        <Form
+          form={form}
+          labelCol={{ span: 24 }}
+          initialValues={{ mainStoneId: 0, subStoneId: 0 }}
+        >
           <Form.Item
-            label="Mô tả bản thiết kế"
-            name="description"
+            name="designName"
+            label="Tên thiết kế:"
+            rules={[{ required: true, message: "Vui lòng nhập tên thiết kế" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="category"
+            label="Loại trang sức:"
             rules={[
-              { required: true, message: "Vui lòng nhập mô tả bản thiết kế" },
+              { required: true, message: "Vui lòng chọn loại trang sức" },
             ]}
           >
-            <TextArea rows={4} />
+            <Select>
+              <Select.Option value="RING">RING</Select.Option>
+              <Select.Option value="NECKLACE">NECKLACE</Select.Option>
+              <Select.Option value="BRACELET">BRACELET</Select.Option>
+              <Select.Option value="EARRINGS">EARRINGS</Select.Option>
+            </Select>
           </Form.Item>
-          <Upload
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-            beforeUpload={() => false}
+          <Form.Item
+            name="materialName"
+            label="Vật liệu:"
+            rules={[{ required: true, message: "Vui lòng nhập vật liệu" }]}
           >
-            {fileList.length >= 8 ? null : uploadButton}
-          </Upload>
+            <Select onChange={handleGoldTypeChange}>
+              {dataAPI.map((item, index) => (
+                <Select.Option key={index} value={item.goldType}>
+                  {item.goldType}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="materialWeight"
+            label="Trọng lượng vật liệu: (Đơn vị: Chỉ)"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập trọng lượng vật liệu",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="mainStoneId" label="Đá chính (Nếu có):">
+            <Select allowClear>
+              {material.map((item, index) => (
+                <Select.Option key={index} value={item.id}>
+                  {item.type}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="subStoneId" label="Đá phụ (Nếu có):">
+            <Select allowClear>
+              {material.map((item, index) => (
+                <Select.Option key={index} value={item.id}>
+                  {item.type}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="description"
+            label="Mô tả:"
+            rules={[{ required: true, message: "Vui lòng nhập mô tả" }]}
+          >
+            <TextArea />
+          </Form.Item>
+
+          <Form.Item label="Upload hình ảnh:">
+            <Upload
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+              beforeUpload={() => false}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+          </Form.Item>
         </Form>
       </Modal>
-      {previewImage && (
-        <Image
-          wrapperStyle={{ display: "none" }}
-          preview={{
-            visible: previewOpen,
-            onVisibleChange: (visible) => setPreviewOpen(visible),
-            afterOpenChange: (visible) => !visible && setPreviewImage(""),
-          }}
-          src={previewImage}
-        />
-      )}
+
+      <Modal
+        open={previewOpen}
+        title="Preview Image"
+        footer={null}
+        onCancel={() => setPreviewOpen(false)}
+      >
+        <Image src={previewImage} />
+      </Modal>
     </div>
   );
 }
