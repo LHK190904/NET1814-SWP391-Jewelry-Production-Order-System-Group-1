@@ -25,7 +25,7 @@ function Login() {
         } else if (user.title === "DESIGN_STAFF") {
           navigate("/designer/process_orders");
         } else if (user.title === "PRODUCTION_STAFF") {
-          navigate("/production-staff");
+          navigate("/production-staff/process-orders");
         } else {
           navigate("/");
         }

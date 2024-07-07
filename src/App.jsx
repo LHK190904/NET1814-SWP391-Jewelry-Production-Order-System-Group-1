@@ -14,7 +14,7 @@ import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
 import ProtectedRoute from "./components/protectedRoute";
 import authService from "./services/authService";
-import ProductionStaff from "./pages/production-staff";
+import ProductionStaff from "./pages/production-staff/process-orders";
 import ProcessRequests from "./pages/saler/process_requests";
 import ReceiveRequests from "./pages/saler/receive_requests";
 import CartRequest from "./pages/cart/request";
@@ -24,6 +24,7 @@ import PriceGold from "./pages/price/gold";
 import PriceMaterial from "./pages/price/material";
 import ProcessOrder from "./pages/designer/process_orders";
 import ManageDesign from "./pages/designer/manage_designs";
+import ManageMaterial from "./pages/production-staff/manage-materials";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -164,10 +165,19 @@ function App() {
       ),
     },
     {
-      path: "/production-staff",
+      path: "/production-staff/process-orders",
       element: (
         <ProtectedRoute
           element={<ProductionStaff />}
+          isAllowed={isAuthenticated()}
+        />
+      ),
+    },
+    {
+      path: "/production-staff/manage-materials",
+      element: (
+        <ProtectedRoute
+          element={<ManageMaterial />}
           isAllowed={isAuthenticated()}
         />
       ),
