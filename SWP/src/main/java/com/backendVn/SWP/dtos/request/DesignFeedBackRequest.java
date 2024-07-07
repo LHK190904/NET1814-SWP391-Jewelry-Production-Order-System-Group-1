@@ -10,6 +10,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DesignFeedBackRequest {
-    @NotNull(message = "WEiGHT_REQUIRED")
+    @NotNull(message = "FEEDBACK_REQUIRED")
     String description;
 }

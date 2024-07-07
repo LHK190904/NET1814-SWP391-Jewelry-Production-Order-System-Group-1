@@ -68,6 +68,11 @@ public class DesignService {
         design.setURLImage(createCSV(designCreationRequest.getListURLImage()));
         design.setDesignName("Customer's design");
         design.setCategory(requestOrder.getRequestID().getCategory());
+        design.setCategory(requestOrder.getRequestID().getCategory());
+        design.setMaterialName(requestOrder.getRequestID().getMaterialID().getMaterialName());
+        design.setMaterialWeight(requestOrder.getRequestID().getMaterialWeight());
+        design.setMainStone(requestOrder.getRequestID().getMainStone());
+        design.setSubStone(requestOrder.getRequestID().getSubStone());
 
         Design savedDesign = designRepository.save(design);
 
