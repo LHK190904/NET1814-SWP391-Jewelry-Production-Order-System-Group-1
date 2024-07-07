@@ -22,6 +22,10 @@ public class MaterialService {
     MaterialMapper materialMapper;
     MaterialRepository materialRepository;
     public MaterialResponse createMaterial(MaterialRequest material) {
+        if(material.getType().equalsIgnoreCase("gold")){
+            throw new AppException(ErrorCode.MATERIAL_TYPE_INVALID);
+        }
+
         Material material1 = materialMapper.toMaterial(material);
 
         material1.setUpdateTime(Instant.now());
