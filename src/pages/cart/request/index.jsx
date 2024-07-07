@@ -46,16 +46,18 @@ function CartRequest() {
 
   const handleApprove = async (reqID) => {
     try {
-      const response = await axiosInstance.put(
+      const response1 = await axiosInstance.put(
         `requests/approveQuotationFromCustomer/${reqID}`
       );
+      const response2 = await axiosInstance.post(`request-orders/${reqID}`);
       setStatuses((prev) => ({ ...prev, [reqID]: "Approved" }));
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
           req.id === reqID ? { ...req, status: "Approved" } : req
         )
       );
-      console.log(`Approved`, response.data.result);
+      console.log(`Approved`, response1.data.result);
+      console.log(`Created order`, response2.data.result);
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +82,7 @@ function CartRequest() {
 
   const handleDelete = async (reqID) => {
     try {
-      await axiosInstance.delete(``);
+      await axiosInstance.delete(`requests/${reqID}`);
       setRequests((prevRequest) =>
         prevRequest.filter((req) => req.id !== reqID)
       );
@@ -139,6 +141,21 @@ function CartRequest() {
                   >
                     Deny
                   </button>
+                </div>
+              ) : statuses[item.id] === "Unapproved" ||
+                item.status === "Unapproved" ? (
+                <div className="col-span-1 p-2 bg-white">
+                  <span>{statuses[item.id] || item.status}</span>
+                </div>
+              ) : statuses[item.id] === "Approved" ||
+                item.status === "Ordering" ||
+                item.status === "Processing" ? (
+                <div className="col-span-1 p-2 bg-white">
+                  <span>{statuses[item.id] || item.status}</span>
+                </div>
+              ) : item.status === "Pending quotation for manager" ? (
+                <div className="col-span-1 p-2 bg-white">
+                  <span>{item.status}</span>
                 </div>
               ) : (
                 <div className="col-span-1 p-2 bg-white">

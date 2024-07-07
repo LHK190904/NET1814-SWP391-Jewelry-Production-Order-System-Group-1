@@ -178,6 +178,10 @@ function App() {
         <ProtectedRoute element={<Dashboard />} isAllowed={isAuthenticated()} />
       ),
     },
+    {
+      path: "*",
+      element: <Error />,
+    },
   ]);
 
   return <RouterProvider router={router} />;

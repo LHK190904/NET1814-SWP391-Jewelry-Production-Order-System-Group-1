@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function PriceGold() {
   const [goldPrice, setGoldPrice] = useState([]);
+  const navigate = useNavigate();
 
   const fetchGoldPrice = async () => {
     try {
@@ -24,6 +26,10 @@ function PriceGold() {
   useEffect(() => {
     fetchGoldPrice();
   }, []);
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
   return (
     <div className="min-h-screen w-screen bg-[#434343] py-4">
@@ -53,6 +59,12 @@ function PriceGold() {
             </div>
           ))}
         </div>
+        <button
+          className="col-start-10 col-span-2 bg-[#F7EF8A] text-xl p-4 font-bold rounded-lg"
+          onClick={() => handleNavigate("/price/material")}
+        >
+          GIÁ ĐÁ
+        </button>
       </div>
     </div>
   );

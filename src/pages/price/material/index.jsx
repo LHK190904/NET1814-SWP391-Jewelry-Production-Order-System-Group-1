@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function PriceMaterial() {
   const [materialPrice, setMaterialPrice] = useState([]);
+  const navigate = useNavigate();
 
   const fetchMaterialPrice = async () => {
     try {
@@ -19,6 +21,10 @@ function PriceMaterial() {
   useEffect(() => {
     fetchMaterialPrice();
   }, []);
+
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
   return (
     <div className="min-h-screen w-screen bg-[#434343] ">
@@ -44,6 +50,12 @@ function PriceMaterial() {
             </div>
           ))}
         </div>
+        <button
+          className="col-start-10 col-span-2 bg-[#F7EF8A] text-xl p-4 font-bold rounded-lg"
+          onClick={() => handleNavigate("/price/gold")}
+        >
+          GIÁ VÀNG
+        </button>
       </div>
     </div>
   );

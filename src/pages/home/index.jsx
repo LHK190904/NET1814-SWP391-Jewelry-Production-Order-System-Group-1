@@ -4,6 +4,7 @@ import axiosInstance from "../../services/axiosInstance";
 import authService from "../../services/authService";
 import { Form, Input, Modal, Select, Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import Tutorial from "../../components/tutorial";
 
 function Home() {
   const [fileList, setFileList] = useState([]);
@@ -68,6 +69,7 @@ function Home() {
       }));
       console.log("After set in formData:", uploadedURLs);
       console.log(formData);
+      message.success("Tải ảnh thành công");
     } catch (error) {
       console.error("Error uploading files:", error);
     } finally {
@@ -94,6 +96,7 @@ function Home() {
         `/requests/${user.id}`,
         formData
       );
+      handleHideModal();
       console.log("Dữ liệu đã được gửi:", response.data);
     } catch (error) {
       console.error("Có lỗi khi gửi dữ liệu:", error);
@@ -128,12 +131,15 @@ function Home() {
   return (
     <div className="w-screen min-h-screen bg-[#434343] text-[#F7EF8A]">
       <div className="grid grid-cols-12">
-        <h1 className="col-span-12 text-center text-4xl">
+        <h1 className="col-span-12 text-center text-4xl my-4 font-bold">
           QUY TRÌNH ĐẶT GIA CÔNG TẠI LUXE
         </h1>
+        <div className="col-start-2 col-span-10">
+          <Tutorial />
+        </div>
         <button
           onClick={handleShowModal}
-          className="col-start-6 col-span-2 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg"
+          className="col-start-6 col-span-2 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg font-bold"
         >
           ĐẶT YÊU CẦU
         </button>
@@ -212,6 +218,7 @@ function Home() {
             label="Mô tả:"
             rules={[
               {
+                required: true,
                 message: "Vui lòng nhập mô tả nếu không có hình ảnh",
               },
             ]}
@@ -224,6 +231,7 @@ function Home() {
               onChange={handleFileChange}
               fileList={fileList}
               showUploadList={true}
+              accept=".png,.jpg"
               customRequest={({ onSuccess }) => {
                 setTimeout(() => {
                   onSuccess("ok");

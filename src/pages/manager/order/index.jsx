@@ -1,115 +1,68 @@
-import { Button, Modal, Select, message } from "antd"; // Import Button, Modal, Select, and message components from Ant Design
-import React, { useState } from "react"; // Import React and useState hook
+import { Button, Form, Modal, Select, message } from "antd";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const { Option } = Select; // Destructure Option component from Select
+import axiosInstance from "../../../services/axiosInstance";
 
 function ManagerOrder() {
-  // State for modal visibility
   const [isOpenModal, setOpenModal] = useState(false);
-  // State for tracking the selected order ID
+  const [orderList, setOrderList] = useState([]);
+  const [designStaffList, setDesignStaffList] = useState([]);
+  const [productionStaffList, setProductionStaffList] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  // State for storing selected design staff for each order
-  const [designStaff, setDesignStaff] = useState({});
-  // State for storing selected production staff for each order
-  const [productionStaff, setProductionStaff] = useState({});
-  // State for keeping track of assigned staff to prevent re-assignment
-  const [assignedStaff, setAssignedStaff] = useState({
-    design: [],
-    production: [],
-  });
 
-  // State for managing order data
-  const [data, setData] = useState([
-    {
-      orderID: 1,
-      assign: "assign",
-      problem: "Skill issues",
-      status: "Unassigned",
-    },
-    {
-      orderID: 2,
-      assign: "assign",
-      problem: "Skill issues",
-      status: "Unassigned",
-    },
-    {
-      orderID: 3,
-      assign: "assign",
-      problem: "Skill issues",
-      status: "Unassigned",
-    },
-  ]);
-
-  // List of available design staff members
-  const designStaffList = [
-    "Design Staff 1",
-    "Design Staff 2",
-    "Design Staff 3",
-    "Design Staff 4",
-    "Design Staff 5",
-  ];
-  // List of available production staff members
-  const productionStaffList = [
-    "Production Staff 1",
-    "Production Staff 2",
-    "Production Staff 3",
-    "Production Staff 4",
-    "Production Staff 5",
-  ];
-
-  // Function to handle the click event of the "Assign Job" button
-  const handleAssignClick = (orderID) => {
-    setSelectedOrder(orderID); // Set the selected order ID
-    handleShowModal(); // Show the modal
-  };
-
-  // Function to show the modal
   const handleShowModal = () => {
     setOpenModal(true);
   };
 
-  // Function to hide the modal
   const handleHideModal = () => {
     setOpenModal(false);
-    setSelectedOrder(null); // Clear the selected order ID
+    setSelectedOrder(null);
   };
 
-  // Function to handle the OK button click of the modal
-  const handleOkModal = () => {
-    handleHideModal();
-  };
+  const fetchData = async () => {
+    try {
+      const orderResponse = await axiosInstance.get(
+        `request-orders/getAllNewRequestOrder`
+      );
+      setOrderList(orderResponse.data.result);
+      console.log(orderResponse.data.result);
 
-  // Function to handle the submit button click of each row
-  const handleSubmit = (orderID) => {
-    const updatedDesignStaff = designStaff[orderID]; // Get the selected design staff for the order
-    const updatedProductionStaff = productionStaff[orderID]; // Get the selected production staff for the order
+      const designResponse = await axiosInstance.get(
+        `request-orders/getUserByRole/DESIGN_STAFF`
+      );
+      setDesignStaffList(designResponse.data.result);
+      console.log(designResponse.data.result);
 
-    // Check if both design and production staff have been selected
-    if (!updatedDesignStaff || !updatedProductionStaff) {
-      message.error("Please select both design and production staff.");
-      return; // Exit the function if either is not selected
+      const productionResponse = await axiosInstance.get(
+        `request-orders/getUserByRole/PRODUCTION_STAFF`
+      );
+      setProductionStaffList(productionResponse.data.result);
+      console.log(productionResponse.data.result);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    console.log(`Order ID: ${orderID}`);
-    console.log(`Design Staff: ${updatedDesignStaff}`);
-    console.log(`Production Staff: ${updatedProductionStaff}`);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    // Update the assigned staff state
-    setAssignedStaff((prev) => ({
-      design: [...prev.design, updatedDesignStaff],
-      production: [...prev.production, updatedProductionStaff],
-    }));
-
-    // Update the status of the specific order to "Assigned"
-    setData((prevData) =>
-      prevData.map((item) =>
-        item.orderID === orderID ? { ...item, status: "Assigned" } : item
-      )
-    );
-
-    // Close the modal
-    handleHideModal();
+  const handleSubmit = async (values) => {
+    try {
+      const designStaffId =
+        selectedOrder && selectedOrder.designID === null
+          ? values.designStaff
+          : "0";
+      const url = `request-orders/${selectedOrder.id}/${designStaffId}/${values.productionStaff}`;
+      console.log("Submitting to URL:", url);
+      await axiosInstance.put(url);
+      message.success("Staff assigned successfully");
+      handleHideModal();
+    } catch (error) {
+      console.error("Error assigning staff:", error);
+      console.error("Error details:", error.response?.data);
+      message.error("Failed to assign staff");
+    }
   };
 
   const navigate = useNavigate();
@@ -118,6 +71,11 @@ function ManagerOrder() {
     if (location.pathname !== path) {
       navigate(path);
     }
+  };
+
+  const handleAssignClick = (order) => {
+    setSelectedOrder(order);
+    handleShowModal();
   };
 
   return (
@@ -157,24 +115,21 @@ function ManagerOrder() {
           STATUS
         </div>
         <div className="col-span-1 bg-gray-400 p-2 font-bold"></div>
-        {/* Iterate over the data to display each row */}
-        {data.map((item) => (
-          <React.Fragment key={item.orderID}>
-            <div className="col-span-1 border p-2">{item.orderID}</div>
+
+        {orderList.map((item) => (
+          <React.Fragment key={item.id}>
+            <div className="col-span-1 border p-2">{item.id}</div>
             <div className="col-span-1 border p-2 text-center">
-              <Button
-                type="link"
-                onClick={() => handleAssignClick(item.orderID)}
-              >
+              <Button type="link" onClick={() => handleAssignClick(item)}>
                 Assign Job
               </Button>
             </div>
-            <div className="col-span-1 border p-2">{item.problem}</div>
+            <div className="col-span-1 border p-2">-</div>
             <div className="col-span-1 border p-2 text-center">
               {item.status}
             </div>
             <div className="col-span-1 border p-2">
-              <Button type="link" onClick={() => handleSubmit(item.orderID)}>
+              <Button type="link" onClick={() => handleSubmit(item.id)}>
                 Submit
               </Button>
             </div>
@@ -183,50 +138,61 @@ function ManagerOrder() {
       </div>
       <Modal
         title="Assign Job"
-        visible={isOpenModal}
-        onOk={handleOkModal}
+        open={isOpenModal}
         onCancel={handleHideModal}
+        footer={null}
       >
-        {/* Design staff selection */}
-        <div className="flex justify-between mb-4">
-          <label>DESIGN STAFF</label>
-          <Select
-            value={designStaff[selectedOrder]}
-            onChange={(value) =>
-              setDesignStaff((prev) => ({ ...prev, [selectedOrder]: value }))
-            }
-            style={{ width: "60%" }}
+        <Form
+          initialValues={{
+            designStaff: "",
+            productionStaff: "",
+          }}
+          onFinish={handleSubmit}
+        >
+          {selectedOrder && selectedOrder.designID === null ? (
+            <Form.Item
+              name="designStaff"
+              label="Design Staff"
+              rules={[
+                {
+                  required: true,
+                  message: "Please select a design staff member",
+                },
+              ]}
+            >
+              <Select>
+                {designStaffList.map((staff) => (
+                  <Select.Option key={staff.id} value={staff.id}>
+                    {staff.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          ) : null}
+          <Form.Item
+            name="productionStaff"
+            label="Production Staff"
+            rules={[
+              {
+                required: true,
+                message: "Please select a production staff member",
+              },
+            ]}
           >
-            {designStaffList
-              .filter((staff) => !assignedStaff.design.includes(staff))
-              .map((staff) => (
-                <Option key={staff} value={staff}>
-                  {staff}
-                </Option>
+            <Select>
+              {productionStaffList.map((staff) => (
+                <Select.Option key={staff.id} value={staff.id}>
+                  {staff.name}
+                </Select.Option>
               ))}
-          </Select>
-        </div>
-        <div className="flex justify-between">
-          <label>PRODUCTION STAFF</label>
-          <Select
-            value={productionStaff[selectedOrder]}
-            onChange={(value) =>
-              setProductionStaff((prev) => ({
-                ...prev,
-                [selectedOrder]: value,
-              }))
-            }
-            style={{ width: "60%" }}
-          >
-            {productionStaffList
-              .filter((staff) => !assignedStaff.production.includes(staff))
-              .map((staff) => (
-                <Option key={staff} value={staff}>
-                  {staff}
-                </Option>
-              ))}
-          </Select>
-        </div>
+            </Select>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Assign
+            </Button>
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );

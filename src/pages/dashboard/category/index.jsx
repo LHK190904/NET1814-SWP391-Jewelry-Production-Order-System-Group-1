@@ -14,7 +14,7 @@ function SaleByCategory() {
       <h2 className="text-xl">SALE BY CATEGORY</h2>
       <ul className="mt-4">
         {data.map((item) => (
-          <li key={item.id} className="flex justify-between mt-4">
+          <li key={item.id} className="flex justify-evenly mt-4">
             <span>{item.id}</span>
             <span>{item.name}</span>
             <span>{item.price}</span>
