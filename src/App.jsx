@@ -12,7 +12,7 @@ import Admin from "./pages/admin";
 import ProductDetails from "./pages/product-details";
 import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
-import ProtectedRoute from "./components/protectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 import authService from "./services/authService";
 import ProductionStaff from "./pages/production-staff";
 import ProcessRequests from "./pages/saler/process_requests";
@@ -24,6 +24,8 @@ import PriceGold from "./pages/price/gold";
 import PriceMaterial from "./pages/price/material";
 import ProcessOrder from "./pages/designer/process_orders";
 import ManageDesign from "./pages/designer/manage_designs";
+import Authenticate from "./pages/auth/Authenticate";
+
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -177,6 +179,10 @@ function App() {
       element: (
         <ProtectedRoute element={<Dashboard />} isAllowed={isAuthenticated()} />
       ),
+    },
+    {
+      path: "/authenticate",
+      element: <Authenticate />,
     },
     {
       path: "*",

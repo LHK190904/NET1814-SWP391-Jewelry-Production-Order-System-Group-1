@@ -17,7 +17,7 @@ const login = async (username, password) => {
     }
   } catch (error) {
     const errorMessage =
-      error.response?.data?.message || error.message || "Login failed";
+        error.response?.data?.message || error.message || "Login failed";
     throw new Error(errorMessage);
   }
 };
@@ -50,6 +50,14 @@ const isCustomer = () => {
 export const getToken = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   return user ? user.token : null;
+};
+
+export const setToken = (token) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    user.token = token;
+    localStorage.setItem("user", JSON.stringify(user));
+  }
 };
 
 export default authService;
