@@ -199,7 +199,7 @@ function Home() {
             <Select allowClear>
               {materialPrice.map((item, index) => (
                 <Select.Option key={index} value={item.id}>
-                  {item.type}
+                  {item.materialName}
                 </Select.Option>
               ))}
             </Select>
@@ -208,7 +208,7 @@ function Home() {
             <Select allowClear>
               {materialPrice.map((item, index) => (
                 <Select.Option key={index} value={item.id}>
-                  {item.type}
+                  {item.materialName}
                 </Select.Option>
               ))}
             </Select>

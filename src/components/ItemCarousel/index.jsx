@@ -4,7 +4,7 @@ import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
-function ItemCarousel({ items, slidesPerView = 4 }) {
+function ItemCarousel({ items, slidesPerView = 3 }) {
   return (
     <Swiper
       pagination={{ clickable: true }}
@@ -16,14 +16,14 @@ function ItemCarousel({ items, slidesPerView = 4 }) {
         <SwiperSlide key={index} className="flex justify-center">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-sm mx-2">
             <img
-              src={item.imageUrl}
-              alt={item.name}
+              src={item.listURLImage}
+              alt={item.designName}
               className="w-full h-[300px] object-cover"
             />
             <div className="bg-black p-6">
-              <h2 className="text-2xl mb-2">{item.name}</h2>
+              <h2 className="text-2xl mb-2 text-white">{item.designName}</h2>
               <p className="text-white mb-4">{item.description}</p>
-              <p className="text-xl text-[#F7EF8A] ">{item.price}</p>
+              <p className="text-xl text-[#F7EF8A]">{item.category}</p>
               <button className="mt-4 px-4 py-2 bg-[#F7EF8A] text-black rounded">
                 Add to Cart
               </button>
