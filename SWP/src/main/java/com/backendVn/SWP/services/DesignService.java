@@ -181,7 +181,7 @@ public class DesignService {
     }
 
     public List<DesignResponse> getAllCompanyDesign() {
-        List<Design> designs = designRepository.findByDesignNameIsNotLike("")
+        List<Design> designs = designRepository.findByDesignNameIsNotLike("Customer's design")
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
 
         List<DesignResponse> designResponses = new ArrayList<>();
