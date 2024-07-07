@@ -16,4 +16,5 @@ public class UserResponse {
     String email;
     String address;
     String title;
+    Boolean noPassword;
 }

@@ -1,19 +1,23 @@
 package com.backendVn.SWP.services;
 
-import com.backendVn.SWP.dtos.request.CompanyDesignModifyRequest;
 import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
-import com.backendVn.SWP.dtos.response.DesignResponse;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
-import com.backendVn.SWP.entities.*;
+import com.backendVn.SWP.entities.Material;
+import com.backendVn.SWP.entities.Request;
+import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
-import com.backendVn.SWP.mappers.DesignMapper;
 import com.backendVn.SWP.mappers.RequestMapper;
 import com.backendVn.SWP.mappers.UserMapper;
-import com.backendVn.SWP.repositories.*;
+import com.backendVn.SWP.repositories.MaterialRepository;
+import com.backendVn.SWP.repositories.QuotationRepository;
+import com.backendVn.SWP.repositories.RequestRepository;
+import com.backendVn.SWP.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -28,14 +32,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class RequestService {
+    private static final Logger log = LoggerFactory.getLogger(RequestService.class);
     RequestRepository requestRepository;
     UserRepository userRepository;
     RequestMapper requestMapper;
     UserMapper userMapper;
     MaterialRepository materialRepository;
-    DesignService designService;
-    DesignRepository designRepository;
-    private final RequestOrderRepository requestOrderRepository;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -60,13 +62,12 @@ public class RequestService {
         Request theRequest = requestMapper.toRequest(request);
         theRequest.setCustomerID(user);
 
-        Material goldMaterial = findOrCreateGoldMaterial(request.getUpdated(), request.getGoldType(), request.getSellCost());
+        Material goldMaterial = findOrCreateGoldMaterial(request);
 
         theRequest.setMaterialID(goldMaterial);
         theRequest.setMainStone(getMaterialById(request.getMainStoneId()));
         theRequest.setSubStone(getMaterialById(request.getSubStoneId()));
         theRequest.setProduceCost(makeProduceCost(request.getCategory()));
-        theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
 
         return requestMapper.toRequestResponse(requestRepository.save(theRequest));
     }
@@ -76,18 +77,15 @@ public class RequestService {
                 .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
     }
 
-    public Material findOrCreateGoldMaterial(String updated, String goldName, Double sellCost) {
-        if (updated.isEmpty()){
-            throw new AppException(ErrorCode.INVALID_DATE_FORMAT);
-        }
+    private Material findOrCreateGoldMaterial(RequestCreationRequestForCustomerDesign request) {
         return materialRepository.findByMaterialNameAndUpdateTime(
-                        goldName, stringToInstant(updated))
+                        request.getGoldType(), stringToInstant(request.getUpdated()))
                 .orElseGet(() -> {
                     Material newGoldType = new Material();
-                    newGoldType.setMaterialName(goldName);
+                    newGoldType.setMaterialName(request.getGoldType());
                     newGoldType.setType("Gold");
-                    newGoldType.setUpdateTime(stringToInstant(updated));
-                    newGoldType.setPricePerUnit(BigDecimal.valueOf(sellCost));
+                    newGoldType.setUpdateTime(stringToInstant(request.getUpdated()));
+                    newGoldType.setPricePerUnit(BigDecimal.valueOf(request.getSellCost()));
                     return materialRepository.save(newGoldType);
                 });
     }
@@ -122,6 +120,13 @@ public class RequestService {
         return requestMapper.toRequestResponse(requestRepository.save(request));
     }
 
+
+    public void deleteRequest(Integer id) {
+        Request request = requestRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+        requestRepository.delete(request);
+    }
+
     public List<RequestResponse> getAllRequests() {
         return requestRepository.findAll().stream()
                 .map(requestMapper::toRequestResponse)
@@ -137,7 +142,7 @@ public class RequestService {
     public List<RequestResponse> getRequestsByCustomerId(Integer customerId) {
         User customer = userRepository.findById(customerId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        List<Request> requests = requestRepository.findAllByCustomerIDAndStatusIsNotLike(customer, "Disable");
+        List<Request> requests = requestRepository.findAllByCustomerID(customer);
         return requests.stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
@@ -153,8 +158,9 @@ public class RequestService {
         User user = userRepository.findById(saleStaffId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        return requestRepository.findAllBySaleStaffid(user)
-                .stream().map(requestMapper::toRequestResponse).toList();
+        return requestRepository.findAllBySaleStaffid(user).stream()
+                .map(requestMapper::toRequestResponse)
+                .toList();
     }
 
     public UserResponse getUserById(Integer id) {
@@ -165,10 +171,6 @@ public class RequestService {
     public RequestResponse  approveQuotationFromCustomer(Integer requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-
-        if(requestOrderRepository.findByRequestID(request).isPresent()){
-            throw new AppException(ErrorCode.REQUEST_ORDER_EXISTED);
-        }
 
         request.setStatus("Ordering");
 
@@ -189,35 +191,7 @@ public class RequestService {
     }
 
     public List<RequestResponse> getListOfRequestQuotations() {
-        List<Request> requests = requestRepository.findByStatus("Pending quotation for manager");
+        List<Request> requests = requestRepository.findByStatus("Pending quotation");
         return requests.stream().map(requestMapper::toRequestResponse).toList();
     }
-
-    public RequestResponse orderCompanyDesign(Integer designId, Integer userId) {
-        Design design = designRepository.findById(designId)
-                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
-        Request request = Request.builder()
-                .companyDesign(design)
-                .createdAt(Instant.now())
-                .customerID(user)
-                .category(design.getCategory())
-                .produceCost(makeProduceCost(design.getCategory()))
-                .build();
-
-        return null;
-    }
-
-    public RequestResponse deleteRequest(Integer requestId){
-        Request request = requestRepository.findById(requestId)
-                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-
-        request.setStatus("Disable");
-
-        return requestMapper.toRequestResponse(requestRepository.save(request));
-    }
 }
-

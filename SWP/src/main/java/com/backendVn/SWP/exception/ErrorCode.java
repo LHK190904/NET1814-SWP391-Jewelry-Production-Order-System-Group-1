@@ -46,6 +46,7 @@ public enum ErrorCode {
     NO_URLIMAGE_IN_DESIGN_REQUEST(1034, "No URLimage in design request", HttpStatus.BAD_REQUEST),
     MO_NEW_REQUEST_ORDERS(1035,"No new request orders", HttpStatus.NOT_FOUND),
     NO_DESIGN_WAS_ASSIGNED(1036,"There are no design from designer", HttpStatus.NOT_FOUND),
+    PASSWORD_EXISTED(1037, "Password already existed", HttpStatus.BAD_REQUEST)
     ;
     private int code;
     private String message;
