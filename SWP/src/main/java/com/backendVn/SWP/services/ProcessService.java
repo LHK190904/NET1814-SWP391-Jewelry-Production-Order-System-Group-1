@@ -61,7 +61,10 @@ public class ProcessService {
             process.setStatus("75%");
         } else {
             process.setStatus("100%");
+            requestOrder.setStatus("Completed!!!");
         }
+
+        requestOrderRepository.save(requestOrder);
 
         Process savedProcess = processRepository.save(process);
 

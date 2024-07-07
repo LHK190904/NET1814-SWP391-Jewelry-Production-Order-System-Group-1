@@ -2,6 +2,8 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.WarrantyCardCreationRequest;
 import com.backendVn.SWP.dtos.response.WarrantyCardResponse;
+import com.backendVn.SWP.entities.RequestOrder;
+import com.backendVn.SWP.entities.WarrantyCard;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.WarrantyCardMapper;

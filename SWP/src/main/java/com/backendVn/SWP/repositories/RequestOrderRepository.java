@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.Instant;
 
 public interface RequestOrderRepository extends JpaRepository<RequestOrder, Integer> {
     Optional<RequestOrder> findByRequestID(Request request);
@@ -20,4 +21,5 @@ public interface RequestOrderRepository extends JpaRepository<RequestOrder, Inte
 
     List<RequestOrder> findAllByProductionStaffAndStatusIsLike(User designStaff,String status);
 
+    List<RequestOrder> findByCreatedAtBetween(Instant start, Instant end);
 }

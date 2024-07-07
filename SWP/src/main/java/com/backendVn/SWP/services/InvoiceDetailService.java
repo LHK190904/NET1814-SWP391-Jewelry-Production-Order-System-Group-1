@@ -2,6 +2,9 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.InvoiceDetailUpdateRequest;
 import com.backendVn.SWP.dtos.response.InvoiceDetailResponse;
+import com.backendVn.SWP.entities.Invoice;
+import com.backendVn.SWP.entities.InvoiceDetail;
+import com.backendVn.SWP.entities.Material;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.InvoiceDetailMapper;
