@@ -16845,7 +16845,7 @@
     <table id="5568" parent="5563" name="InvoiceDetail">
       <CreatedTimestamp>2024-06-08.15:45:57.070</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
-      <ModifiedTimestamp>2024-06-08.15:45:57.200</ModifiedTimestamp>
+      <ModifiedTimestamp>2024-07-07.23:26:08.343</ModifiedTimestamp>
       <ObjectId>949578421</ObjectId>
       <LedgerViewId>0</LedgerViewId>
       <LobDataSpaceId>0</LobDataSpaceId>
@@ -17059,13 +17059,13 @@
       <DasType>int|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="5602" parent="5568" name="TotalAmount">
-      <DasType>int|0s</DasType>
-      <Position>4</Position>
-    </column>
-    <column id="5603" parent="5568" name="TotalCost">
+    <column id="5602" parent="5568" name="TotalCost">
       <DasType>decimal(18,2)|0s</DasType>
       <Position>5</Position>
+    </column>
+    <column id="5603" parent="5568" name="TotalAmount">
+      <DasType>decimal(18,2)|0s</DasType>
+      <Position>6</Position>
     </column>
     <foreign-key id="5604" parent="5568" name="FK__InvoiceDe__Invoi__52593CB8">
       <ColNames>InvoiceID</ColNames>

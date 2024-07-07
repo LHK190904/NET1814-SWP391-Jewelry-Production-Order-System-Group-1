@@ -28,7 +28,7 @@ public class InvoiceDetail {
     private Material materialID;
 
     @Column(name = "TotalAmount")
-    private Integer totalAmount;
+    private BigDecimal totalAmount;
 
     @Column(name = "TotalCost", precision = 18, scale = 2)
     private BigDecimal totalCost;

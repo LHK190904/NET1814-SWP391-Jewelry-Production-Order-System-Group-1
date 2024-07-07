@@ -3,6 +3,7 @@ package com.backendVn.SWP.services;
 import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
+import com.backendVn.SWP.entities.Design;
 import com.backendVn.SWP.entities.Material;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
@@ -10,10 +11,7 @@ import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestMapper;
 import com.backendVn.SWP.mappers.UserMapper;
-import com.backendVn.SWP.repositories.MaterialRepository;
-import com.backendVn.SWP.repositories.QuotationRepository;
-import com.backendVn.SWP.repositories.RequestRepository;
-import com.backendVn.SWP.repositories.UserRepository;
+import com.backendVn.SWP.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
@@ -38,6 +36,7 @@ public class RequestService {
     RequestMapper requestMapper;
     UserMapper userMapper;
     MaterialRepository materialRepository;
+    private final DesignRepository designRepository;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -70,6 +69,32 @@ public class RequestService {
         theRequest.setProduceCost(makeProduceCost(request.getCategory()));
 
         return requestMapper.toRequestResponse(requestRepository.save(theRequest));
+    }
+
+    public RequestResponse createRequestWithCompanyDesign(Integer userId, Integer companyDesignId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        Design design = designRepository.findById(companyDesignId)
+                .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        Request request = Request.builder()
+                .companyDesign(design)
+                .createdAt(Instant.now())
+                .customerID(user)
+                .category(design.getCategory())
+                .produceCost(makeProduceCost(design.getCategory()))
+                .mainStone(design.getMainStone())
+                .subStone(design.getSubStone())
+                .materialWeight(design.getMaterialWeight())
+                .materialID(materialRepository.findByMaterialName(design.getMaterialName())
+                        .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND)))
+                .status("Unapproved")
+                .build();
+
+        requestRepository.save(request);
+
+        return requestMapper.toRequestResponse(request);
     }
 
     private Material getMaterialById(Integer materialId) {

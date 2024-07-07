@@ -19,10 +19,10 @@ import java.util.List;
 public class InvoiceDetailController {
     InvoiceDetailService invoiceDetailService;
 
-    @PostMapping("/{invoiceId}/{materialId}")
-    public ApiResponse<InvoiceDetailResponse> createInvoiceDetail(@PathVariable Integer invoiceId, @PathVariable Integer materialId) {
-        InvoiceDetailResponse invoiceDetailResponse = invoiceDetailService.createInvoiceDetail(invoiceId, materialId);
-        return ApiResponse.<InvoiceDetailResponse>builder()
+    @PostMapping("/{requestOrderId}")
+    public ApiResponse<List<InvoiceDetailResponse>> createInvoiceDetail(@PathVariable Integer requestOrderId) {
+        List<InvoiceDetailResponse> invoiceDetailResponse = invoiceDetailService.createInvoiceDetail(requestOrderId);
+        return ApiResponse.<List<InvoiceDetailResponse>>builder()
                 .result(invoiceDetailResponse)
                 .build();
     }

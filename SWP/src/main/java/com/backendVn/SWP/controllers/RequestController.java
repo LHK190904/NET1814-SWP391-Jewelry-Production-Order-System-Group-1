@@ -116,4 +116,11 @@ public class RequestController {
                 .result(requestService.getListOfRequestQuotations())
                 .build();
     }
+
+    @PostMapping("/requestCompanyDesign/{userId}/{designId}")
+    public ApiResponse<RequestResponse> createRequestCompanyDesign(@PathVariable Integer userId, @PathVariable Integer designId) {
+        return ApiResponse.<RequestResponse>builder()
+                .result(requestService.createRequestWithCompanyDesign(userId,designId))
+                .build();
+    }
 }

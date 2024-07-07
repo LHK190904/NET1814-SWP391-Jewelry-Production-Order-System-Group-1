@@ -5,17 +5,20 @@ import com.backendVn.SWP.dtos.response.InvoiceDetailResponse;
 import com.backendVn.SWP.entities.Invoice;
 import com.backendVn.SWP.entities.InvoiceDetail;
 import com.backendVn.SWP.entities.Material;
+import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.InvoiceDetailMapper;
 import com.backendVn.SWP.repositories.InvoiceDetailRepository;
 import com.backendVn.SWP.repositories.InvoiceRepository;
 import com.backendVn.SWP.repositories.MaterialRepository;
+import com.backendVn.SWP.repositories.RequestOrderRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,19 +29,52 @@ public class InvoiceDetailService {
     InvoiceRepository invoiceRepository;
     MaterialRepository materialRepository;
     InvoiceDetailMapper invoiceDetailMapper;
+    private final RequestOrderRepository requestOrderRepository;
 
-    public InvoiceDetailResponse createInvoiceDetail(Integer invoiceId, Integer materialId) {
-        Invoice invoice = invoiceRepository.findById(invoiceId)
+    public List<InvoiceDetailResponse> createInvoiceDetail(Integer requestOrderId) {
+        RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+
+        Invoice invoice = invoiceRepository.findByRequestID(requestOrder.getRequestID())
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
 
-        Material material = materialRepository.findById(materialId)
-                .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+        List<InvoiceDetail> invoiceDetails = new ArrayList<>();
 
+        if(requestOrder.getRequestID().getMaterialID() != null) {
+            invoiceDetails.add(createDetail(
+                    requestOrder.getRequestID().getMaterialID(), requestOrder, invoice));
+            invoice.setTotalCost(invoiceDetails.get(0).getTotalCost());
+        }
+
+        if (requestOrder.getRequestID().getMainStone() != null){
+            invoiceDetails.add(createDetail(requestOrder.getRequestID().getMainStone(), requestOrder, invoice));
+            invoice.setTotalCost(invoice.getTotalCost().add(invoiceDetails.get(1).getTotalCost()));
+        }
+
+        if (requestOrder.getRequestID().getSubStone() != null){
+            invoiceDetails.add(createDetail(requestOrder.getRequestID().getSubStone(), requestOrder, invoice));
+            invoice.setTotalCost(invoice.getTotalCost().add(invoiceDetails.get(2).getTotalCost()));
+        }
+
+        invoiceRepository.save(invoice);
+
+        return invoiceDetails.stream().map(invoiceDetailMapper::toInvoiceDetailResponse).toList();
+    }
+
+    public InvoiceDetail createDetail(Material material, RequestOrder requestOrder, Invoice invoice){
         InvoiceDetail invoiceDetail = InvoiceDetail.builder()
                 .invoiceID(invoice)
                 .materialID(material)
+                .totalCost(material.getPricePerUnit())
                 .build();
-        return invoiceDetailMapper.toInvoiceDetailResponse(invoiceDetailRepository.save(invoiceDetail));
+
+        if (material.getType().equalsIgnoreCase("gold")){
+            invoiceDetail.setTotalCost(material.getPricePerUnit()
+                    .multiply(requestOrder.getRequestID().getMaterialWeight()));
+            invoiceDetail.setTotalAmount(requestOrder.getRequestID().getMaterialWeight());
+        }
+
+        return invoiceDetailRepository.save(invoiceDetail);
     }
 
     public InvoiceDetailResponse updateInvoiceDetail(Integer id, InvoiceDetailUpdateRequest invoiceDetailUpdateRequest) {
