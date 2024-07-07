@@ -44,7 +44,7 @@ public class RequestOrderService {
                 .description(request.getDescription())
                 .build();
 
-        if(request.getURLImage().isEmpty()){
+        if(!request.getURLImage().isEmpty()){
             Design design = Design.builder()
                     .designName("Customer's design")
                     .category(request.getCategory())
