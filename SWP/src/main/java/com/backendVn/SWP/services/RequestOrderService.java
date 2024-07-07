@@ -44,7 +44,7 @@ public class RequestOrderService {
                 .description(request.getDescription())
                 .build();
 
-        if(request.getURLImage() != null){
+        if(request.getURLImage().isEmpty()){
             Design design = Design.builder()
                     .designName("Customer's design")
                     .category(request.getCategory())
@@ -57,7 +57,7 @@ public class RequestOrderService {
                     .build();
             designRepository.save(design);
             requestOrder.setDesignID(design);
-        } else if(request.getCompanyDesign() != null){
+        } else if(request.getCompanyDesign() == null){
             requestOrder.setDesignID(request.getCompanyDesign());
         }
 
@@ -107,7 +107,7 @@ public class RequestOrderService {
         requestOrder.setProductionStaff(productionStaff);
         requestOrder.setStatus("Producing");
 
-        if(requestOrder.getRequestID().getURLImage() == null || requestOrder.getRequestID().getCompanyDesign() == null){
+        if(requestOrder.getDesignID() == null){
             User designStaff = userRepository.findById(designStaffId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
             requestOrder.setDesignStaff(designStaff);
             requestOrder.setStatus("Assigned");
