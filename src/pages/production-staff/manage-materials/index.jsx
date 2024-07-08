@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import authService from "../../../services/authService";
 import axiosInstance from "../../../services/axiosInstance";
 import { Link, useLocation } from "react-router-dom";
 import LogoutButton from "../../../components/logoutButton";
