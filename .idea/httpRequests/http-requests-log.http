@@ -1,3 +1,36 @@
+GET http://localhost:8080/invoice-details
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T160527.200.json
+
+###
+
+GET http://localhost:8080/invoice-details
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T160159.400.json
+
+###
+
+GET http://localhost:8080/invoice-details
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T160138.400.json
+
+###
+
 POST http://localhost:8080/invoice-details/3002
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -682,48 +715,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 }
 
 <> 2024-07-01T110047.400.json
-
-###
-
-POST http://localhost:8080/quotation/3013
-Content-Type: application/json
-Content-Length: 112
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "saleCost": 100,
-  "materialPrice": 100,
-  "materialWeight": 2,
-  "stonePrice": 100,
-  "producePrice": 100
-}
-
-<> 2024-07-01T105621.500.json
-
-###
-
-GET http://localhost:8080/requests
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-07-01T105523.200.json
-
-###
-
-GET http://localhost:8080/quotation/autoPricing/3012
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-07-01T103625.200.json
 
 ###
 

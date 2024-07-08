@@ -16816,8 +16816,8 @@
     </schema>
     <schema id="5563" parent="5510" name="dbo">
       <Current>1</Current>
-      <IntrospectionTimestamp>2024-07-08.15:45:42.677</IntrospectionTimestamp>
-      <LastIntrospectionLocalTimestamp>2024-07-08.08:45:42</LastIntrospectionLocalTimestamp>
+      <IntrospectionTimestamp>2024-07-08.16:04:28.867</IntrospectionTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-07-08.09:04:28</LastIntrospectionLocalTimestamp>
       <ObjectId>1</ObjectId>
     </schema>
     <schema id="5564" parent="5510" name="guest">
@@ -16845,7 +16845,7 @@
     <table id="5568" parent="5563" name="Invoice_detail">
       <CreatedTimestamp>2024-06-08.15:45:57.070</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
-      <ModifiedTimestamp>2024-07-08.15:34:33.787</ModifiedTimestamp>
+      <ModifiedTimestamp>2024-07-08.16:04:19.237</ModifiedTimestamp>
       <ObjectId>949578421</ObjectId>
       <LedgerViewId>0</LedgerViewId>
       <LobDataSpaceId>0</LobDataSpaceId>
@@ -17045,7 +17045,7 @@
       <Primary>1</Primary>
       <UnderlyingIndexName>PK__Invoice__D796AAD507AC5E6C</UnderlyingIndexName>
     </key>
-    <column id="5599" parent="5568" name="InvoiceDetailID">
+    <column id="5599" parent="5568" name="invoice_detailid">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -17089,7 +17089,7 @@
     </foreign-key>
     <index id="5606" parent="5568" name="PK__InvoiceD__1F1578F1FF7F6A66">
       <Clustering>1</Clustering>
-      <ColNames>InvoiceDetailID</ColNames>
+      <ColNames>invoice_detailid</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Position>1</Position>
       <Unique>1</Unique>

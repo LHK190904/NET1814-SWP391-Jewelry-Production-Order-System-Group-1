@@ -106,12 +106,14 @@ public class InvoiceDetailService {
                 .toList();
     }
 
-    public InvoiceDetailResponse getInvoiceDetailByInvoiceId(Integer invoiceId) {
+    public List<InvoiceDetailResponse> getInvoiceDetailByInvoiceId(Integer invoiceId) {
         Invoice invoice = invoiceRepository.findById(invoiceId)
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
 
-        InvoiceDetail invoiceDetail = invoiceDetailRepository.findByInvoiceID(invoice)
+        List<InvoiceDetail> invoiceDetails = invoiceDetailRepository.findByInvoiceID(invoice)
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_DETAIL_NOT_FOUND));
-        return invoiceDetailMapper.toInvoiceDetailResponse(invoiceDetail);
+
+        return invoiceDetails.stream()
+                .map(invoiceDetailMapper::toInvoiceDetailResponse).toList();
     }
 }

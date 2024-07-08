@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 public class InvoiceDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "InvoiceDetailID", nullable = false)
+    @Column(name = "invoice_detailid", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
