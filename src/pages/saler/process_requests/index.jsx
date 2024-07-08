@@ -15,7 +15,7 @@ import {
 import { useForm } from "antd/es/form/Form";
 import { Link, useLocation } from "react-router-dom";
 import FormItem from "antd/es/form/FormItem";
-import LogoutButton from "../../../components/LogoutButton";
+import LogoutButton from "../../../components/logoutButton";
 
 function ProcessRequests() {
   const [requests, setRequests] = useState([]);
