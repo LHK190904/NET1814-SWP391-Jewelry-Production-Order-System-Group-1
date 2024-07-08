@@ -43,17 +43,18 @@ public class InvoiceDetailService {
         if(requestOrder.getRequestID().getMaterialID() != null) {
             invoiceDetails.add(createDetail(
                     requestOrder.getRequestID().getMaterialID(), requestOrder, invoice));
-            invoice.setTotalCost(invoiceDetails.get(0).getTotalCost());
         }
 
         if (requestOrder.getRequestID().getMainStone() != null){
             invoiceDetails.add(createDetail(requestOrder.getRequestID().getMainStone(), requestOrder, invoice));
-            invoice.setTotalCost(invoice.getTotalCost().add(invoiceDetails.get(1).getTotalCost()));
         }
 
         if (requestOrder.getRequestID().getSubStone() != null){
             invoiceDetails.add(createDetail(requestOrder.getRequestID().getSubStone(), requestOrder, invoice));
-            invoice.setTotalCost(invoice.getTotalCost().add(invoiceDetails.get(2).getTotalCost()));
+        }
+
+        for (InvoiceDetail invoiceDetail : invoiceDetails) {
+            invoice.setTotalCost(invoice.getTotalCost().add(invoiceDetail.getTotalCost()));
         }
 
         invoiceRepository.save(invoice);
