@@ -49,9 +49,9 @@ public class InvoiceDetailController {
                 .build();
     }
 
-    @GetMapping("/{id}")
-    public ApiResponse<InvoiceDetailResponse> getInvoiceDetailById(@PathVariable Integer id) {
-        InvoiceDetailResponse invoiceDetailResponse = invoiceDetailService.getInvoiceDetailById(id);
+    @GetMapping("/getInvoiceDetailByInvoiceId/{invoiceId}")
+    public ApiResponse<InvoiceDetailResponse> getInvoiceDetailById(@PathVariable Integer invoiceId) {
+        InvoiceDetailResponse invoiceDetailResponse = invoiceDetailService.getInvoiceDetailByInvoiceId(invoiceId);
         return ApiResponse.<InvoiceDetailResponse>builder()
                 .result(invoiceDetailResponse)
                 .build();

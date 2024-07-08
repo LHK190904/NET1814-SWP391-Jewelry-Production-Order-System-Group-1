@@ -27,7 +27,6 @@ import java.util.List;
 public class InvoiceDetailService {
     InvoiceDetailRepository invoiceDetailRepository;
     InvoiceRepository invoiceRepository;
-    MaterialRepository materialRepository;
     InvoiceDetailMapper invoiceDetailMapper;
     private final RequestOrderRepository requestOrderRepository;
 
@@ -100,8 +99,11 @@ public class InvoiceDetailService {
                 .toList();
     }
 
-    public InvoiceDetailResponse getInvoiceDetailById(Integer id) {
-        InvoiceDetail invoiceDetail = invoiceDetailRepository.findById(id)
+    public InvoiceDetailResponse getInvoiceDetailByInvoiceId(Integer invoiceId) {
+        Invoice invoice = invoiceRepository.findById(invoiceId)
+                .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
+
+        InvoiceDetail invoiceDetail = invoiceDetailRepository.findByInvoiceID(invoice)
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_DETAIL_NOT_FOUND));
         return invoiceDetailMapper.toInvoiceDetailResponse(invoiceDetail);
     }
