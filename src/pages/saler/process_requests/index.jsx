@@ -154,9 +154,19 @@ function ProcessRequests() {
   };
 
   const columns = [
-    { title: "Mã yêu cầu", dataIndex: "id", key: "id",width: "10%",},
-    { title: "Chi tiết", dataIndex: "description", key: "description",width: "40%", },
-    { title: "Thời gian nhận đơn", dataIndex: "recievedAt", key: "recievedAt",width: "15%", },
+    { title: "Mã yêu cầu", dataIndex: "id", key: "id", width: "10%" },
+    {
+      title: "Chi tiết",
+      dataIndex: "description",
+      key: "description",
+      width: "40%",
+    },
+    {
+      title: "Thời gian nhận đơn",
+      dataIndex: "recievedAt",
+      key: "recievedAt",
+      width: "15%",
+    },
     {
       title: "Trạng thái",
       key: "status",

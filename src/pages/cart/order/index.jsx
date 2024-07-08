@@ -98,18 +98,21 @@ function CartOrder() {
 
   // Determine the current step based on the process status
   const getCurrentStep = () => {
-    switch (process.status) {
-      case "25%":
-        return 1;
-      case "50%":
-        return 2;
-      case "75%":
-        return 3;
-      case "100%":
-        return 4;
-      default:
-        return 1;
+    if (process && process.status) {
+      switch (process.status) {
+        case "25%":
+          return 1;
+        case "50%":
+          return 2;
+        case "75%":
+          return 3;
+        case "100%":
+          return 4;
+        default:
+          return 1;
+      }
     }
+    return 1;
   };
 
   return (
@@ -216,9 +219,11 @@ function CartOrder() {
                       <div>ĐÁ CHÍNH: {design.mainStoneId}</div>
                       <div>ĐÁ PHỤ: {design.subStoneId}</div>
                       <div>MÔ TẢ: {design.description}</div>
-                      <div>TIẾN TRÌNH: {process.status}</div>
+                      <div>TIẾN TRÌNH: {process ? process.status : "N/A"}</div>
                       <Stepper currentStep={getCurrentStep()} />
-                      <div>CẬP NHẬT LÚC: {process.updatedAt}</div>
+                      <div>
+                        CẬP NHẬT LÚC: {process ? process.updatedAt : "N/A"}
+                      </div>
                     </div>
                   </div>
                 </div>
