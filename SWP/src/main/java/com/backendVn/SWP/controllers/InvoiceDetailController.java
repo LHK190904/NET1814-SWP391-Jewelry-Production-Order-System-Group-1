@@ -50,9 +50,9 @@ public class InvoiceDetailController {
     }
 
     @GetMapping("/getInvoiceDetailByInvoiceId/{invoiceId}")
-    public ApiResponse<InvoiceDetailResponse> getInvoiceDetailById(@PathVariable Integer invoiceId) {
-        InvoiceDetailResponse invoiceDetailResponse = invoiceDetailService.getInvoiceDetailByInvoiceId(invoiceId);
-        return ApiResponse.<InvoiceDetailResponse>builder()
+    public ApiResponse<List<InvoiceDetailResponse>> getInvoiceDetailById(@PathVariable Integer invoiceId) {
+        List<InvoiceDetailResponse> invoiceDetailResponse = invoiceDetailService.getInvoiceDetailByInvoiceId(invoiceId);
+        return ApiResponse.<List<InvoiceDetailResponse>>builder()
                 .result(invoiceDetailResponse)
                 .build();
     }

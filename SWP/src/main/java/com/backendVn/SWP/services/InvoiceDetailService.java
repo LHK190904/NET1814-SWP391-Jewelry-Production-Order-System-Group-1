@@ -36,6 +36,8 @@ public class InvoiceDetailService {
         Invoice invoice = invoiceRepository.findByRequestID(requestOrder.getRequestID())
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
 
+        if(invoiceDetailRepository.findByInvoiceID(invoice).isPresent()) return null;
+
         List<InvoiceDetail> invoiceDetails = new ArrayList<>();
 
         if(requestOrder.getRequestID().getMaterialID() != null) {
