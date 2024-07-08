@@ -36,10 +36,12 @@ public class InvoiceDetailService {
         Invoice invoice = invoiceRepository.findByRequestID(requestOrder.getRequestID())
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
 
-        if(invoiceDetailRepository.findByInvoiceID(invoice).isPresent())
-            return invoiceDetailRepository.findByInvoiceID(invoice)
-                    .orElseThrow(() -> new AppException(ErrorCode.INVOICE_DETAIL_NOT_FOUND))
-                    .stream().map(invoiceDetailMapper::toInvoiceDetailResponse).toList();
+        List<InvoiceDetailResponse> invoiceDetailResponses = invoiceDetailRepository.findByInvoiceID(invoice)
+                .orElseThrow(() -> new AppException(ErrorCode.INVOICE_DETAIL_NOT_FOUND))
+                .stream().map(invoiceDetailMapper::toInvoiceDetailResponse).toList();
+
+        if(!invoiceDetailResponses.isEmpty())
+            return invoiceDetailResponses;
 
         List<InvoiceDetail> invoiceDetails = new ArrayList<>();
 
