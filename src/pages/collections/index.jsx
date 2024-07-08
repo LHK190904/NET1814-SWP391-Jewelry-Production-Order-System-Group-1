@@ -52,10 +52,9 @@ export default function Collections() {
   return (
     <div className="min-h-screen w-screen bg-[#434343] text-[#F7EF8A]">
       <Carousel numberOfSlides={1} images={banners} autoplay={true} />
-      <div className="grid grid-cols-12 bg-[#434343]">
-        <div className="col-span-12 p-8 text-center text-4xl">
-          Our Collections
-        </div>
+
+      <div className="text-center text-4xl font-bold bg-[#434343] my-4">
+        CÁC BỘ SƯU TẬP
       </div>
 
       {Object.keys(collections).map((collectionName, index) => (
@@ -71,7 +70,7 @@ export default function Collections() {
           </div>
         </div>
       ))}
-      <h1 className="col-span-12 text-center text-4xl mb-10">
+      <h1 className="col-span-12 text-center text-4xl font-bold mb-10">
         CÁC MẪU THIẾT KẾ KHÁC
       </h1>
       <div ref={designsRef} className="col-start-2 col-span-10">

@@ -29,15 +29,21 @@ function LatestTransaction() {
   ];
   return (
     <div className="bg-white shadow rounded-lg p-4">
-      <h2 className="text-xl">LATEST TRANSACTIONS</h2>
+      <h2 className="text-4xl font-bold">LATEST TRANSACTIONS</h2>
+      <div className="grid grid-cols-5 text-xl">
+        <div className="col-span-1">ID</div>
+        <div className="col-span-1">TOTAL</div>
+        <div className="col-span-2">DESCRIPTION</div>
+        <div className="col-span-1">DATE</div>
+      </div>
       <ul className="mt-2">
         {data.map((item) => (
-          <li key={item.id} className="flex justify-between py-2">
-            <span>{item.id}</span>
-            <span>{item.total}</span>
-            <span>{item.description}</span>
-            <span>{item.date}</span>
-          </li>
+          <div key={item.id} className="grid grid-cols-5">
+            <div className="col-span-1">{item.id}</div>
+            <div className="col-span-1">{item.total}</div>
+            <div className="col-span-2">{item.description}</div>
+            <div className="col-span-1">{item.date}</div>
+          </div>
         ))}
       </ul>
     </div>

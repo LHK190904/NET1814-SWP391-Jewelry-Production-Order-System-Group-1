@@ -44,7 +44,7 @@ function PriceGold() {
           </div>
           {goldPrice.map((item, index) => (
             <div key={index} className="grid grid-cols-12 border">
-              <div className="col-span-4 p-2 bg-white border">
+              <div className="col-span-4 p-2 bg-white border text-xl">
                 {item.goldType}
               </div>
               <div className="col-span-2 p-2 bg-white border">

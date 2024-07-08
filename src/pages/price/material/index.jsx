@@ -40,7 +40,9 @@ function PriceMaterial() {
           </div>
           {materialPrice.map((item, index) => (
             <div key={index} className="grid grid-cols-12 border">
-              <div className="col-span-6 p-2 bg-white border">{item.type}</div>
+              <div className="col-span-6 p-2 bg-white border text-left text-xl">
+                {item.materialName}
+              </div>
               <div className="col-span-3 p-2 bg-white border">
                 {item.pricePerUnit}
               </div>

@@ -24,21 +24,36 @@ ChartJS.register(
 const SaleTrend = () => {
   const data = {
     labels: [
-      "01 Feb",
-      "02 Feb",
-      "03 Feb",
-      "04 Feb",
-      "05 Feb",
-      "06 Feb",
-      "07 Feb",
+      "Jan",
+      "Feb",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ],
     datasets: [
       {
-        label: "Sales",
-        data: [6200, 6100, 6300, 6500, 6600, 6400, 6300],
+        label: "Profits",
+        data: [
+          1000, 4000, 2000, 3000, 6000, 3000, 8000, 10000, 4000, 7000, 8000,
+          12000,
+        ],
         fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)",
+        backgroundColor: "#9CDFFF",
+        borderColor: "#00ABFF",
+      },
+      {
+        label: "Sales",
+        data: [100, 400, 200, 300, 500, 400, 800, 1000, 500, 700, 900, 1200],
+        fill: true,
+        backgroundColor: "#FFA8A8",
+        borderColor: "#FF0000",
       },
     ],
   };
@@ -53,7 +68,7 @@ const SaleTrend = () => {
 
   return (
     <div className="bg-white shadow rounded-lg p-4">
-      <h2 className="text-xl font-semibold">Sales Trends</h2>
+      <h2 className="text-4xl font-bold">SALES TRENDS</h2>
       <Line data={data} options={options} />
     </div>
   );

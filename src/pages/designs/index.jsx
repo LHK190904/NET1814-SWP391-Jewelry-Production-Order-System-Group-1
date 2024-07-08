@@ -28,7 +28,7 @@ function Designs() {
   return (
     <div>
       <div className="grid grid-cols-12 mb-4">
-        <div className="col-span-12 text-white">
+        <div className="col-start-2 col-span-10 text-white">
           <ItemCarousel items={idvProducts} slidesPerView={5} />
         </div>
       </div>
