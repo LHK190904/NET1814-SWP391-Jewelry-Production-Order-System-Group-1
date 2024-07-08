@@ -29,7 +29,7 @@ public class User {
 
 
     @Nationalized
-    @Column(name = "Password", nullable = false, length = 225)
+    @Column(name = "Password", length = 225)
     private String password;
 
     @Size(max = 100)

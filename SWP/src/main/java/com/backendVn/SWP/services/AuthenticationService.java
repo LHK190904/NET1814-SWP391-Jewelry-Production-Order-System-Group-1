@@ -78,6 +78,7 @@ public class AuthenticationService {
                 () -> userRepository.save(User.builder()
                         .userName(userInfo.getEmail())
                         .title("CUSTOMER")
+                        .email(userInfo.getEmail())
                         .build()));
 
         var token = generateToken(user);

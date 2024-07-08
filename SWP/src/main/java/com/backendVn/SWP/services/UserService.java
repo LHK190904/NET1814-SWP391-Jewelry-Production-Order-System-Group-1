@@ -65,6 +65,9 @@ public class UserService {
 
         if (StringUtils.hasText(user.getPassword()))
             throw new AppException(ErrorCode.PASSWORD_EXISTED);
+
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
     }
 
     public UserResponse getMyInfo(){
