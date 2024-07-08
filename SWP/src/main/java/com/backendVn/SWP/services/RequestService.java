@@ -24,6 +24,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -78,6 +79,11 @@ public class RequestService {
         Design design = designRepository.findById(companyDesignId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
 
+        List<Material> materials = materialRepository.findByMaterialName(design.getMaterialName())
+                .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+
+        materials.sort(Comparator.comparing(Material::getUpdateTime));
+
         Request request = Request.builder()
                 .companyDesign(design)
                 .createdAt(Instant.now())
@@ -87,8 +93,7 @@ public class RequestService {
                 .mainStone(design.getMainStone())
                 .subStone(design.getSubStone())
                 .materialWeight(design.getMaterialWeight())
-                .materialID(materialRepository.findByMaterialName(design.getMaterialName())
-                        .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND)))
+                .materialID(materials.getLast())
                 .status("Unapproved")
                 .build();
 
@@ -216,7 +221,7 @@ public class RequestService {
     }
 
     public List<RequestResponse> getListOfRequestQuotations() {
-        List<Request> requests = requestRepository.findByStatus("Pending quotation");
+        List<Request> requests = requestRepository.findByStatus("Pending quotation for manager");
         return requests.stream().map(requestMapper::toRequestResponse).toList();
     }
 }

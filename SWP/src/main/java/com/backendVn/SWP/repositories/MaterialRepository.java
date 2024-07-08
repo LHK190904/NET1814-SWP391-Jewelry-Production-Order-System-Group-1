@@ -17,5 +17,5 @@ public interface MaterialRepository extends JpaRepository<Material, Integer> {
     @Query("SELECT material FROM Material material WHERE material.type != :type ")
     Optional<List<Material>> findAllByTypeIsNotGold(@Param("type") String type);
 
-    Optional<Material> findByMaterialName(String materialName);
+    Optional<List<Material>> findByMaterialName(String materialName);
 }
