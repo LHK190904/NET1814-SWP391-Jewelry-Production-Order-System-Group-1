@@ -37,7 +37,8 @@ public class RequestService {
     RequestMapper requestMapper;
     UserMapper userMapper;
     MaterialRepository materialRepository;
-    private final DesignRepository designRepository;
+    DesignRepository designRepository;
+    private final DesignService designService;
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -68,6 +69,7 @@ public class RequestService {
         theRequest.setMainStone(getMaterialById(request.getMainStoneId()));
         theRequest.setSubStone(getMaterialById(request.getSubStoneId()));
         theRequest.setProduceCost(makeProduceCost(request.getCategory()));
+        theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
 
         return requestMapper.toRequestResponse(requestRepository.save(theRequest));
     }
