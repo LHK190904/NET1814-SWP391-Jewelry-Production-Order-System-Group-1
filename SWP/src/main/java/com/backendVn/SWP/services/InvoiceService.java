@@ -29,12 +29,17 @@ public class InvoiceService {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        Invoice invoice = Invoice.builder()
+        Invoice invoice = invoiceRepository.findByRequestID(request)
+                .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
+
+        if (invoice != null) return null;
+
+        Invoice theInvoice = Invoice.builder()
                 .requestID(request)
                 .createdAt(Instant.now())
                 .build();
 
-        Invoice savedInvoice = invoiceRepository.save(invoice);
+        Invoice savedInvoice = invoiceRepository.save(theInvoice);
         return invoiceMapper.toInvoiceResponse(savedInvoice);
     }
 
