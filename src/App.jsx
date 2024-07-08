@@ -12,7 +12,7 @@ import Admin from "./pages/admin";
 import ProductDetails from "./pages/product-details";
 import ManagerRequest from "./pages/manager/request";
 import ManagerOrder from "./pages/manager/order";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/protectedRoute";
 import authService from "./services/authService";
 import ProductionStaff from "./pages/production-staff/process-orders";
 import ProcessRequests from "./pages/saler/process_requests";

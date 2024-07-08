@@ -2,8 +2,35 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import axiosInstance from "../../services/axiosInstance";
+import authService from "../../services/authService";
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 function ItemCarousel({ items, slidesPerView = 3 }) {
+  const navigate = useNavigate();
+
+  const handleClick = async (designID) => {
+    try {
+      const user = authService.getCurrentUser();
+      if (!user) {
+        navigate(`/register`);
+      } else {
+        try {
+          const response = await axiosInstance.post(
+            `requests/requestCompanyDesign/${user.id}/${designID}`
+          );
+          console.log(response.data);
+          message.success("ĐÃ THÊM VÀO GIỎ HÀNG");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Swiper
       pagination={{ clickable: true }}
@@ -23,7 +50,10 @@ function ItemCarousel({ items, slidesPerView = 3 }) {
               <h2 className="text-2xl mb-2 text-white">{item.designName}</h2>
               <p className="text-white mb-4">{item.description}</p>
               <p className="text-xl text-[#F7EF8A]">{item.category}</p>
-              <button className="mt-4 px-4 py-2 bg-[#F7EF8A] text-black rounded">
+              <button
+                onClick={() => handleClick(item.id)}
+                className="mt-4 px-4 py-2 bg-[#F7EF8A] text-black rounded"
+              >
                 Add to Cart
               </button>
             </div>
