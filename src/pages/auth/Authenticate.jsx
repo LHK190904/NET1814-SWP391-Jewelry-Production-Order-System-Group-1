@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getToken, setToken } from "../../services/authService";
-import { Box, CircularProgress, Typography, TextField, Button, FormControlLabel, Checkbox } from "@mui/material";
+import { Box, CircularProgress, Typography, TextField, Button, FormControlLabel, Checkbox, InputAdornment, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function Authenticate() {
     const navigate = useNavigate();
     const [isLoggedin, setIsLoggedin] = useState(false);
     const [newPassword, setNewPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const [errorMessage, setErrorMessage] = useState("");
     const [currentUser, setCurrentUser] = useState(null);
     const [doNotShowAgain, setDoNotShowAgain] = useState(false);
@@ -127,6 +129,10 @@ export default function Authenticate() {
         }
     }, [isLoggedin, navigate, currentUser]);
 
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <Box
             sx={{
@@ -149,12 +155,25 @@ export default function Authenticate() {
                     <form onSubmit={addPassword}>
                         <TextField
                             label="New Password"
-                            type="password"
+                            type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
                             fullWidth
                             margin="normal"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             required
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            edge="end"
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
                         />
                         <FormControlLabel
                             control={<Checkbox checked={doNotShowAgain} onChange={(e) => setDoNotShowAgain(e.target.checked)} />}
