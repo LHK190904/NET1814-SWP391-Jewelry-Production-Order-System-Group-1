@@ -5,6 +5,7 @@ import com.backendVn.SWP.dtos.response.InvoiceDetailResponse;
 import com.backendVn.SWP.entities.Invoice;
 import com.backendVn.SWP.entities.InvoiceDetail;
 import com.backendVn.SWP.entities.Material;
+import java.math.BigDecimal;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,12 @@ public class InvoiceDetailMapperImpl implements InvoiceDetailMapper {
             return;
         }
 
-        invoiceDetail.setTotalAmount( invoiceDetailUpdateRequest.getTotalAmount() );
+        if ( invoiceDetailUpdateRequest.getTotalAmount() != null ) {
+            invoiceDetail.setTotalAmount( BigDecimal.valueOf( invoiceDetailUpdateRequest.getTotalAmount() ) );
+        }
+        else {
+            invoiceDetail.setTotalAmount( null );
+        }
         invoiceDetail.setTotalCost( invoiceDetailUpdateRequest.getTotalCost() );
     }
 
@@ -36,7 +42,9 @@ public class InvoiceDetailMapperImpl implements InvoiceDetailMapper {
         invoiceDetailResponse.invoiceID( invoiceDetailInvoiceIDId( invoiceDetail ) );
         invoiceDetailResponse.materialID( invoiceDetailMaterialIDId( invoiceDetail ) );
         invoiceDetailResponse.id( invoiceDetail.getId() );
-        invoiceDetailResponse.totalAmount( invoiceDetail.getTotalAmount() );
+        if ( invoiceDetail.getTotalAmount() != null ) {
+            invoiceDetailResponse.totalAmount( invoiceDetail.getTotalAmount().intValue() );
+        }
         invoiceDetailResponse.totalCost( invoiceDetail.getTotalCost() );
 
         return invoiceDetailResponse.build();
