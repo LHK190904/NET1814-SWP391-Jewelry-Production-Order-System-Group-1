@@ -30,16 +30,12 @@ public class InvoiceService {
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
         Invoice invoice = invoiceRepository.findByRequestID(request)
-                .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
+                .orElse(Invoice.builder()
+                        .requestID(request)
+                        .createdAt(Instant.now())
+                        .build());
 
-        if (invoice != null) return null;
-
-        Invoice theInvoice = Invoice.builder()
-                .requestID(request)
-                .createdAt(Instant.now())
-                .build();
-
-        Invoice savedInvoice = invoiceRepository.save(theInvoice);
+        Invoice savedInvoice = invoiceRepository.save(invoice);
         return invoiceMapper.toInvoiceResponse(savedInvoice);
     }
 
