@@ -56,6 +56,9 @@ public class InvoiceDetailService {
             invoice.setTotalCost(invoice.getTotalCost().add(invoiceDetail.getTotalCost()));
         }
 
+        invoice.setTotalCost(invoice.getTotalCost()
+                .add(requestOrder.getRequestID().getProduceCost()));
+
         invoiceRepository.save(invoice);
 
         return invoiceDetails.stream().map(invoiceDetailMapper::toInvoiceDetailResponse).toList();
