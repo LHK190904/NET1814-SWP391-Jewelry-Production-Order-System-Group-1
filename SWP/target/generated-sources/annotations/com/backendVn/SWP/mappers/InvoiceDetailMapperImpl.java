@@ -22,13 +22,13 @@ public class InvoiceDetailMapperImpl implements InvoiceDetailMapper {
             return;
         }
 
+        invoiceDetail.setTotalCost( invoiceDetailUpdateRequest.getTotalCost() );
         if ( invoiceDetailUpdateRequest.getTotalAmount() != null ) {
             invoiceDetail.setTotalAmount( BigDecimal.valueOf( invoiceDetailUpdateRequest.getTotalAmount() ) );
         }
         else {
             invoiceDetail.setTotalAmount( null );
         }
-        invoiceDetail.setTotalCost( invoiceDetailUpdateRequest.getTotalCost() );
     }
 
     @Override

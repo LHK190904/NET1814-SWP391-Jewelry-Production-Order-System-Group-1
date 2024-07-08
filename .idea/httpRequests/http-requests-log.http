@@ -1,3 +1,91 @@
+POST http://localhost:8080/invoice-details/3002
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T153632.200.json
+
+###
+
+POST http://localhost:8080/invoice-details/3002
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T153453.400.json
+
+###
+
+POST http://localhost:8080/invoice-details/3002
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T153412.400.json
+
+###
+
+POST http://localhost:8080/invoice-details/3002
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T153330.400.json
+
+###
+
+POST http://localhost:8080/invoice-details/3002
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T152623.400.json
+
+###
+
+GET http://localhost:8080/request-orders
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T152606.200.json
+
+###
+
+POST http://localhost:8080/invoices/6002
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T152541.200.json
+
+###
+
+GET http://localhost:8080/requests
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-08T152522.200.json
+
+###
+
 POST http://localhost:8080/request-orders/6002
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -636,92 +724,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
 <> 2024-07-01T103625.200.json
-
-###
-
-GET http://localhost:8080/quotation/autoPricing/3012
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-07-01T102544.400.json
-
-###
-
-GET http://localhost:8080/api/gold/prices
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-30T172839.200.txt
-
-###
-
-GET http://localhost:8080/api/gold/prices
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-30T172402.400.json
-
-###
-
-GET http://localhost:8080/api/gold/prices
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-30T172001.400.json
-
-###
-
-GET http://localhost:8080/api/gold/prices
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-30T171835.400.json
-
-###
-
-GET http://localhost:8080/requests
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-29T163524.200.json
-
-###
-
-GET http://localhost:8080/user
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-06-28T153249.200.json
-
-###
-
-DELETE http://localhost:8080/user/9007
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
 
 ###
 

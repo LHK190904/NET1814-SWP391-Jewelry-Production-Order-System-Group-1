@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "Invoice_detail")
 public class InvoiceDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +28,10 @@ public class InvoiceDetail {
     @JoinColumn(name = "MaterialID")
     private Material materialID;
 
-    @Column(name = "TotalAmount")
-    private BigDecimal totalAmount;
-
-    @Column(name = "TotalCost", precision = 18, scale = 2)
+    @Column(name = "total_cost", precision = 18, scale = 2)
     private BigDecimal totalCost;
+
+    @Column(name = "total_amount", precision = 18, scale = 2)
+    private BigDecimal totalAmount;
 
 }

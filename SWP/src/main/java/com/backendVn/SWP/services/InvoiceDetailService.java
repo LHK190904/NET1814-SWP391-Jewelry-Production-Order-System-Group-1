@@ -11,7 +11,6 @@ import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.InvoiceDetailMapper;
 import com.backendVn.SWP.repositories.InvoiceDetailRepository;
 import com.backendVn.SWP.repositories.InvoiceRepository;
-import com.backendVn.SWP.repositories.MaterialRepository;
 import com.backendVn.SWP.repositories.RequestOrderRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +52,12 @@ public class InvoiceDetailService {
         }
 
         for (InvoiceDetail invoiceDetail : invoiceDetails) {
-            invoice.setTotalCost(invoice.getTotalCost().add(invoiceDetail.getTotalCost()));
+
+            if (invoice.getTotalCost() == null) {
+                invoice.setTotalCost(invoiceDetail.getTotalCost());
+            } else {
+                invoice.setTotalCost(invoice.getTotalCost().add(invoiceDetail.getTotalCost()));
+            }
         }
 
         invoice.setTotalCost(invoice.getTotalCost()
