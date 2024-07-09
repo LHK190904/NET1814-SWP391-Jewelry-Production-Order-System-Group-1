@@ -26,6 +26,7 @@ import ProcessOrder from "./pages/designer/process_orders";
 import ManageDesign from "./pages/designer/manage_designs";
 import Authenticate from "./pages/auth/Authenticate";
 import ManageMaterial from "./pages/production-staff/manage-materials";
+import Post from "./pages/posts/[slug]";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -72,6 +73,10 @@ function App() {
         {
           path: "/blog",
           element: <Blog />,
+        },
+        {
+          path: "/posts/:slug",
+          element: <Post />,
         },
         {
           path: "/register",
