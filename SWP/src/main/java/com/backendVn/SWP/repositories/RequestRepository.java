@@ -4,6 +4,7 @@ import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Integer> {
@@ -14,4 +15,6 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findAllBySaleStaffidNull();
 
     List<Request> findAllByCustomerIDAndStatusIsNotLike(User customer, String status);
+
+    List<Request> findByCreatedAtBetween(Instant startDate, Instant endDate);
 }

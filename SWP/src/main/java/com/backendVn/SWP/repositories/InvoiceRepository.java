@@ -12,4 +12,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
     List<Invoice> findByCreatedAtBetween(Instant start, Instant end);
 
     Optional<Invoice> findByRequestID(Request request);
+
+    Long countByCreatedAtBetween(Instant startDate, Instant endDate);
 }

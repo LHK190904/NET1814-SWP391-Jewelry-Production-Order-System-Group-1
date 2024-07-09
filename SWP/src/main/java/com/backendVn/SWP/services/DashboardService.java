@@ -1,12 +1,10 @@
 package com.backendVn.SWP.services;
 
+import com.backendVn.SWP.dtos.response.KpiResponse;
 import com.backendVn.SWP.dtos.response.ProductionStaffKPI;
 import com.backendVn.SWP.dtos.response.RevenueEachMonth;
-import com.backendVn.SWP.entities.Invoice;
-import com.backendVn.SWP.entities.RequestOrder;
-import com.backendVn.SWP.repositories.InvoiceRepository;
-import com.backendVn.SWP.repositories.RequestOrderRepository;
-import com.backendVn.SWP.repositories.UserRepository;
+import com.backendVn.SWP.entities.*;
+import com.backendVn.SWP.repositories.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,8 +25,10 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DashboardService {
     InvoiceRepository invoiceRepository;
-    private final RequestOrderRepository requestOrderRepository;
-    private final UserRepository userRepository;
+    RequestOrderRepository requestOrderRepository;
+    UserRepository userRepository;
+    QuotationRepository quotationRepository;
+    RequestRepository requestRepository;
 
     public List<RevenueEachMonth> sumRevenuePerMonth (){
         List<Invoice> invoices = getInvoicesForCurrentYear();
@@ -62,8 +62,8 @@ public class DashboardService {
         return totalValue.divide(BigDecimal.valueOf(invoices.size()), RoundingMode.HALF_UP);
     }
 
-    public long countOrders() {
-        return getInvoicesForCurrentYear().size();
+    public Long countOrders(Instant startDate, Instant endDate) {
+        return invoiceRepository.countByCreatedAtBetween(startDate, endDate);
     }
 
 
@@ -98,5 +98,67 @@ public class DashboardService {
         Instant start = Year.of(currentYear).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
         Instant end = Year.of(currentYear).atMonth(12).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
         return new Instant[]{start, end};
+    }
+
+    public BigDecimal calculateTotalRevenue(Instant startDate, Instant endDate) {
+        List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(startDate, endDate);
+        return invoices.stream()
+                .map(Invoice::getTotalCost)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal calculateTotalProfit(Instant startDate, Instant endDate) {
+        BigDecimal totalRevenue = calculateTotalRevenue(startDate, endDate);
+        BigDecimal totalExpense = quotationRepository.findByCreatedAtBetween(startDate, endDate).stream()
+                .map(Quotation::getCapitalCost)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return totalRevenue.subtract(totalExpense);
+    }
+
+    public BigDecimal calculateAverageOrderValue(Instant startDate, Instant endDate) {
+        List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(startDate, endDate);
+        if (invoices.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        BigDecimal totalRevenue = invoices.stream()
+                .map(Invoice::getTotalCost)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return totalRevenue.divide(BigDecimal.valueOf(invoices.size()), RoundingMode.HALF_UP);
+    }
+
+    public List<KpiResponse> calculateKpi(Instant startDate, Instant endDate) {
+        List<RequestOrder> requestOrders = requestOrderRepository.findByCreatedAtBetween(startDate, endDate);
+        List<Request> requests = requestRepository.findByCreatedAtBetween(startDate, endDate);
+
+        // Tạo map để đếm số lượng đơn hàng mỗi nhân viên thầu
+        Map<Integer, Long> staffOrderCount = new HashMap<>();
+
+        for (RequestOrder requestOrder : requestOrders) {
+            countStaffOrders(staffOrderCount, requestOrder.getDesignStaff().getId());
+            countStaffOrders(staffOrderCount, requestOrder.getProductionStaff().getId());
+        }
+
+        for (Request request : requests) {
+            countStaffOrders(staffOrderCount, request.getSaleStaffid().getId());
+        }
+
+        // Tạo danh sách kết quả KPI
+        List<KpiResponse> kpiResponses = new ArrayList<>();
+        for (Map.Entry<Integer, Long> entry : staffOrderCount.entrySet()) {
+            Integer staffId = entry.getKey();
+            Long orderCount = entry.getValue();
+            User staff = userRepository.findById(staffId).orElse(null);
+            if (staff != null) {
+                KpiResponse kpiResponse = new KpiResponse(staff.getUserName(), staff.getTitle(), orderCount);
+                kpiResponses.add(kpiResponse);
+            }
+        }
+        return kpiResponses;
+    }
+
+    private void countStaffOrders(Map<Integer, Long> staffOrderCount, Integer staffId) {
+        if (staffId != null) {
+            staffOrderCount.put(staffId, staffOrderCount.getOrDefault(staffId, 0L) + 1);
+        }
     }
 }
