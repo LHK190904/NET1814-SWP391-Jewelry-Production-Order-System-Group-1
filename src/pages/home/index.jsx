@@ -1,10 +1,12 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import uploadFile from "../../utils/upload";
 import axiosInstance from "../../services/axiosInstance";
 import authService from "../../services/authService";
 import { Form, Input, Modal, Select, Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import Tutorial from "../../components/tutorial";
+import "./style.css";
+import FloatButton from "../../components/floatButton";
 
 function Home() {
   const [fileList, setFileList] = useState([]);
@@ -131,12 +133,21 @@ function Home() {
   return (
     <div className="w-screen min-h-screen bg-[#434343] text-[#F7EF8A]">
       <div className="grid grid-cols-12">
+        <div className="col-span-12 relative">
+          <video className="w-screen h-auto" autoPlay loop muted>
+            <source src="./src/assets/images/bgvideo.mp4" type="video/mp4" />
+          </video>
+          <h1 className="text-[#F7EF8A] text-center text-9xl my-4 font-bold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shiny-text">
+            WELCOME TO LUXE
+          </h1>
+        </div>
         <h1 className="col-span-12 text-center text-4xl my-4 font-bold">
           QUY TRÌNH ĐẶT GIA CÔNG TẠI LUXE
         </h1>
         <div className="col-start-2 col-span-10">
           <Tutorial />
         </div>
+
         <button
           onClick={handleShowModal}
           className="col-start-6 col-span-2 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg font-bold"

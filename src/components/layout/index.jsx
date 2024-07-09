@@ -2,6 +2,7 @@ import Header from "../header";
 import { Outlet } from "react-router-dom";
 import Footer from "../footer";
 import Navbar from "../navbar";
+import FloatButton from "../floatButton";
 
 function Layout() {
   return (
@@ -9,6 +10,7 @@ function Layout() {
       <Header />
       <Navbar />
       <Outlet />
+      <FloatButton />
       <Footer />
     </>
   );

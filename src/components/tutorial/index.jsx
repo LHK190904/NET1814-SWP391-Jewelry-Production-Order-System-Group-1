@@ -35,17 +35,17 @@ function Tutorial() {
             gia công, thiết kế(nếu cần).
           </li>
           <ol>
-            <li>
+            <li className="mx-4">
               7.1 Nếu đơn hàng là sản phẩm theo yêu cầu riêng của khách hàng thì
               nhân viên thiết kế đã được phân công đối với đơn hàng sẽ tiến hành
               phác thảo mô hình 3D của sản phẩm
             </li>
-            <li>
+            <li className="mx-4">
               7.2 Sau khi hoàn thành mô hình 3D thì nhân viên thiết kế sẽ gửi
               mẫu 3D về cho khách hàng để khách hàng kiểm tra và đưa ra điều
               chỉnh nếu cần thiết theo yêu cầu
             </li>
-            <li>
+            <li className="mx-4">
               7.3 Khi khách hàng chấp nhận mô hình 3D của sản phẩm thì chọn xác
               nhận mô hình sẽ đưa đơn hàng đến quy trình gia công
             </li>
