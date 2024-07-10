@@ -3,6 +3,7 @@ import axiosInstance from "../../../services/axiosInstance";
 import { Button, Table } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import LogoutButton from "../../../components/logoutButton";
+import Navbar from "../../../components/navbar";
 
 function ReceiveRequests() {
   const [requests, setRequests] = useState([]);
@@ -48,15 +49,24 @@ function ReceiveRequests() {
 
   return (
     <div>
-      <div className="flex justify-between items-center pb-9 bg-slate-400">
-        <h1 className="text-6xl font-extrabold text-center">
-          Nhân viên bán hàng
-        </h1>
-        <div className="mr-10">
+       <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
+        <Link to={"/"}>
+          <img
+            className="h-[160px] w-auto"
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+          />
+        </Link>
+        <div className="flex-grow text-center">
+          <h1 className="text-5xl">Nhân viên bán hàng</h1>
+
+        </div>
+        <div className="w-80 text-right">
           <LogoutButton />
         </div>
       </div>
-      <div className="mb-4">
+      <Navbar />
+      <div className="mb-4 mt-3 ml-3">
         <Link
           className={`mr-4 ${
             location.pathname === "/saler/receive_requests"

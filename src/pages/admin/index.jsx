@@ -14,6 +14,8 @@ import {
 } from "antd";
 import axiosInstance from "../../services/axiosInstance";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+import LogoutButton from "../../components/logoutButton";
 
 const { Option } = Select;
 
@@ -88,9 +90,9 @@ const EditableCell = ({
               ? [
                   {
                     validator: (_, value) => {
-                      if (!value || value.trim().length < 4) {
+                      if (!value || value.trim().length < 8) {
                         return Promise.reject(
-                          new Error("Mật khẩu phải có ít nhất 4 ký tự")
+                          new Error("Mật khẩu phải có ít nhất 8 ký tự")
                         );
                       }
                       if (value !== value.trim()) {
@@ -335,8 +337,20 @@ function Admin() {
 
   return (
     <>
-      <div className="bg-[#353640] text-white h-40 flex justify-center items-center text-2xl w-screen">
-        <h1>Welcome Admin</h1>
+      <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
+        <Link to={"/"}>
+          <img
+            className="h-[160px] w-auto"
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+          />
+        </Link>
+        <div className="flex-grow text-center">
+          <h1 className="text-5xl">Quản trị viên</h1>
+        </div>
+        <div className="w-80 text-right">
+          <LogoutButton />
+        </div>
       </div>
       <Navbar />
       <div className="bg-[#D9D9D9] h-60 flex pt-5 justify-center w-screen">
@@ -395,9 +409,9 @@ function Admin() {
                 { required: true, message: "Không được để trống" },
                 {
                   validator: (_, value) => {
-                    if (!value || value.trim().length < 4) {
+                    if (!value || value.trim().length < 8) {
                       return Promise.reject(
-                        new Error("Mật khẩu phải có ít nhất 4 ký tự")
+                        new Error("Mật khẩu phải có ít nhất 8 ký tự")
                       );
                     }
                     if (value !== value.trim()) {

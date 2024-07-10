@@ -24,7 +24,7 @@ export default function Blog() {
             slug={post.slug}
             datePublish={post.datePublish}
             content={post.content.text}
-            photo={post.photo.url}
+            photo={post.photo ? post.photo.url : ""}
             author={post.author.name}
           />
         ))}

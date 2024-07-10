@@ -1,18 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getToken, setToken } from "../../services/authService";
-import { Box, CircularProgress, Typography, TextField, Button, FormControlLabel, Checkbox, InputAdornment, IconButton } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  TextField,
+  Button,
+  FormControlLabel,
+  Checkbox,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export default function Authenticate() {
-    const navigate = useNavigate();
-    const [isLoggedin, setIsLoggedin] = useState(false);
-    const [newPassword, setNewPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-    const [errorMessage, setErrorMessage] = useState("");
-    const [currentUser, setCurrentUser] = useState(null);
-    const [doNotShowAgain, setDoNotShowAgain] = useState(false);
-
+  const navigate = useNavigate();
+  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [errorMessage, setErrorMessage] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
+  const [doNotShowAgain, setDoNotShowAgain] = useState(false);
 
   const getUserDetails = async (accessToken) => {
     try {
@@ -133,78 +142,77 @@ export default function Authenticate() {
     }
   }, [isLoggedin, navigate, currentUser]);
 
-    useEffect(() => {
-        const skipPasswordCreation = localStorage.getItem("skipPasswordCreation") === "true";
-        if (skipPasswordCreation) {
-            navigate("/");
-        } else if (isLoggedin) {
-            if (currentUser?.noPassword) {
-                setCurrentUser(currentUser);
-            } else {
-                navigate("/");
-            }
-        }
-    }, [isLoggedin, navigate, currentUser]);
+  useEffect(() => {
+    const skipPasswordCreation =
+      localStorage.getItem("skipPasswordCreation") === "true";
+    if (skipPasswordCreation) {
+      navigate("/");
+    } else if (isLoggedin) {
+      if (currentUser?.noPassword) {
+        setCurrentUser(currentUser);
+      } else {
+        navigate("/");
+      }
+    }
+  }, [isLoggedin, navigate, currentUser]);
 
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
-    return (
-        <Box
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "30px",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-            }}
-        >
-            {!currentUser?.noPassword ? (
-                <>
-                    <CircularProgress />
-                    <Typography>Authenticating...</Typography>
-                </>
-            ) : (
-                <Box sx={{ width: '300px' }}>
-                    <Typography variant="h5">Create Password</Typography>
-                    <form onSubmit={addPassword}>
-                        <TextField
-                            label="New Password"
-                            type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
-                            fullWidth
-                            margin="normal"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            required
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                        <FormControlLabel
-                            control={<Checkbox checked={doNotShowAgain} onChange={(e) => setDoNotShowAgain(e.target.checked)} />}
-                            label="Don't show this again"
-                        />
-                        {errorMessage && <Typography color="error">{errorMessage}</Typography>}
-                        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                            Create Password
-                        </Button>
-                        <Button onClick={handleSkip} variant="outlined" color="secondary" fullWidth sx={{ mt: 1 }}>
-                            Skip
-                        </Button>
-                    </form>
-                </Box>
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "30px",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      {!currentUser?.noPassword ? (
+        <>
+          <CircularProgress />
+          <Typography>Authenticating...</Typography>
+        </>
+      ) : (
+        <Box sx={{ width: "300px" }}>
+          <Typography variant="h5">Create Password</Typography>
+          <form onSubmit={addPassword}>
+            <TextField
+              label="New Password"
+              type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
+              fullWidth
+              margin="normal"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={doNotShowAgain}
+                  onChange={(e) => setDoNotShowAgain(e.target.checked)}
+                />
+              }
+              label="Don't show this again"
+            />
+            {errorMessage && (
+              <Typography color="error">{errorMessage}</Typography>
             )}
             <Button
               type="submit"
