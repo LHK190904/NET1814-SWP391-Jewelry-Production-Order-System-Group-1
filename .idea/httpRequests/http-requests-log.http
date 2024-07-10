@@ -1,3 +1,25 @@
+GET http://localhost:8080/invoices/getInvoiceInfor/3002
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-10T142213.200.json
+
+###
+
+GET http://localhost:8080/invoices/getInvoiceInfor/3002
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-10T142100.400.json
+
+###
+
 POST http://localhost:8080/invoice-details/3002
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -639,46 +661,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 }
 
 <> 2024-07-01T112622.200.json
-
-###
-
-POST http://localhost:8080/quotation/3013
-Content-Type: application/json
-Content-Length: 108
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "cost": 100,
-  "materialPrice": 100,
-  "materialWeight": 2,
-  "stonePrice": 100,
-  "producePrice": 100
-}
-
-<> 2024-07-01T111809.200.json
-
-###
-
-POST http://localhost:8080/quotation/3013
-Content-Type: application/json
-Content-Length: 108
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "cost": 100,
-  "materialPrice": 100,
-  "materialWeight": 2,
-  "stonePrice": 100,
-  "producePrice": 100
-}
-
-<> 2024-07-01T111549.200.json
 
 ###
 

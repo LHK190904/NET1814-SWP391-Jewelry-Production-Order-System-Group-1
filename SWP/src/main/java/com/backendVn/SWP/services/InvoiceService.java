@@ -1,13 +1,18 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.InvoiceUpdateRequest;
+import com.backendVn.SWP.dtos.response.InvoiceInfor;
 import com.backendVn.SWP.dtos.response.InvoiceResponse;
 import com.backendVn.SWP.entities.Invoice;
+import com.backendVn.SWP.entities.InvoiceDetail;
 import com.backendVn.SWP.entities.Request;
+import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.InvoiceMapper;
+import com.backendVn.SWP.repositories.InvoiceDetailRepository;
 import com.backendVn.SWP.repositories.InvoiceRepository;
+import com.backendVn.SWP.repositories.RequestOrderRepository;
 import com.backendVn.SWP.repositories.RequestRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +29,8 @@ public class InvoiceService {
     InvoiceRepository invoiceRepository;
     RequestRepository requestRepository;
     InvoiceMapper invoiceMapper;
+    private final RequestOrderRepository requestOrderRepository;
+    private final InvoiceDetailRepository invoiceDetailRepository;
 
     public InvoiceResponse createInvoice(Integer requestId) {
         Request request = requestRepository.findById(requestId)
@@ -65,5 +72,46 @@ public class InvoiceService {
         Invoice invoice = invoiceRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
         return invoiceMapper.toInvoiceResponse(invoice);
+    }
+
+    public InvoiceInfor getAddInvoiceInfor(Integer orderId){
+        RequestOrder requestOrder = requestOrderRepository.findById(orderId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+
+        Invoice invoice = invoiceRepository.findByRequestID(requestOrder.getRequestID())
+                .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
+
+        List<InvoiceDetail> invoiceDetails = invoiceDetailRepository.findByInvoiceID(invoice)
+                .orElseThrow(() -> new AppException(ErrorCode.INVOICE_DETAIL_NOT_FOUND));
+
+        InvoiceDetail invoiceDetail = null;
+
+        for (InvoiceDetail detail : invoiceDetails) {
+            if(detail.getTotalAmount() != null){
+                invoiceDetail = detail;
+                break;
+            }
+        }
+
+        InvoiceInfor invoiceInfor = InvoiceInfor.builder()
+                .orderId(requestOrder.getId())
+                .materialName(requestOrder.getRequestID().getMaterialID().getMaterialName())
+                .materialTotalCost(invoiceDetail.getTotalCost())
+                .produceCost(requestOrder.getRequestID().getProduceCost())
+                .invoiceCreatedAt(invoice.getCreatedAt())
+                .invoiceTotalCost(invoice.getTotalCost())
+                .build();
+
+        if (requestOrder.getRequestID().getMainStone() != null){
+            invoiceInfor.setMainStone(requestOrder.getRequestID().getMainStone().getMaterialName());
+            invoiceInfor.setMainStoneCost(requestOrder.getRequestID().getMainStone().getPricePerUnit());
+        }
+
+        if (requestOrder.getRequestID().getSubStone() != null){
+            invoiceInfor.setSubStone(requestOrder.getRequestID().getSubStone().getMaterialName());
+            invoiceInfor.setSubStoneCost(requestOrder.getRequestID().getSubStone().getPricePerUnit());
+        }
+
+        return invoiceInfor;
     }
 }

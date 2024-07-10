@@ -2,6 +2,7 @@ package com.backendVn.SWP.controllers;
 
 import com.backendVn.SWP.dtos.request.InvoiceUpdateRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
+import com.backendVn.SWP.dtos.response.InvoiceInfor;
 import com.backendVn.SWP.dtos.response.InvoiceResponse;
 import com.backendVn.SWP.services.InvoiceService;
 import jakarta.validation.Valid;
@@ -54,6 +55,13 @@ public class InvoiceController {
         InvoiceResponse invoiceResponse = invoiceService.getInvoiceById(id);
         return ApiResponse.<InvoiceResponse>builder()
                 .result(invoiceResponse)
+                .build();
+    }
+
+    @GetMapping("/getInvoiceInfor/{requestOrderId}")
+    public ApiResponse<InvoiceInfor> getInvoiceInfor(@PathVariable Integer requestOrderId){
+        return ApiResponse.<InvoiceInfor>builder()
+                .result(invoiceService.getAddInvoiceInfor(requestOrderId))
                 .build();
     }
 }
