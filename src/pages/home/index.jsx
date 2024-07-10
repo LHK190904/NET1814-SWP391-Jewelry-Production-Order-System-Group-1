@@ -6,7 +6,8 @@ import { Form, Input, Modal, Select, Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import Tutorial from "../../components/tutorial";
 import "./style.css";
-import FloatButton from "../../components/floatButton";
+import RevealAppear from "../../components/revealAppear";
+import RevealFloatIn from "../../components/revealFloatIn";
 
 function Home() {
   const [fileList, setFileList] = useState([]);
@@ -141,16 +142,22 @@ function Home() {
             WELCOME TO LUXE
           </h1>
         </div>
-        <h1 className="col-span-12 text-center text-4xl my-4 font-bold">
-          QUY TRÌNH ĐẶT GIA CÔNG TẠI LUXE
-        </h1>
+        <div className="col-span-12">
+          <RevealAppear>
+            <h1 className=" text-center text-4xl my-4 font-bold">
+              QUY TRÌNH ĐẶT GIA CÔNG TẠI LUXE
+            </h1>
+          </RevealAppear>
+        </div>
         <div className="col-start-2 col-span-10">
-          <Tutorial />
+          <RevealAppear>
+            <Tutorial />
+          </RevealAppear>
         </div>
 
         <button
           onClick={handleShowModal}
-          className="col-start-6 col-span-2 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg font-bold"
+          className="col-start-6 col-span-2 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg font-bold hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f]"
         >
           ĐẶT YÊU CẦU
         </button>

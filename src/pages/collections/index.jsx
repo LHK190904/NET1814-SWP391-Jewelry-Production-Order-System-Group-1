@@ -4,6 +4,8 @@ import ItemCarousel from "../../components/itemCarousel";
 import { useLocation } from "react-router-dom";
 import Designs from "../designs";
 import axiosInstance from "../../services/axiosInstance";
+import RevealAppear from "../../components/revealAppear";
+import RevealFloatIn from "../../components/revealFloatIn";
 
 const banners = [
   "./src/assets/images/banner/banner1.jpg",
@@ -59,23 +61,31 @@ export default function Collections() {
 
       {Object.keys(collections).map((collectionName, index) => (
         <div key={index} className="grid grid-cols-12 bg-[#434343]">
-          <div className="col-start-2 col-span-1 text-4xl">{`BỘ SƯU TẬP ${
-            index + 1
-          }`}</div>
+          <div className="col-start-2 col-span-1 text-4xl">
+            <RevealFloatIn floatDirection={"left"}>
+              {collectionName}
+            </RevealFloatIn>
+          </div>
           <div className="col-span-9 mb-10">
-            <ItemCarousel
-              items={collections[collectionName]}
-              slidesPerView={3}
-            />
+            <RevealFloatIn floatDirection={"right"}>
+              <ItemCarousel
+                items={collections[collectionName]}
+                slidesPerView={3}
+              />
+            </RevealFloatIn>
           </div>
         </div>
       ))}
-      <h1 className="col-span-12 text-center text-4xl font-bold mb-10">
-        CÁC MẪU THIẾT KẾ KHÁC
-      </h1>
-      <div ref={designsRef} className="col-start-2 col-span-10">
-        <Designs />
-      </div>
+      <RevealAppear>
+        <h1 className="col-span-12 text-center text-4xl font-bold mb-10">
+          CÁC MẪU THIẾT KẾ KHÁC
+        </h1>
+      </RevealAppear>
+      <RevealAppear>
+        <div ref={designsRef} className="col-start-2 col-span-10 pb-2">
+          <Designs />
+        </div>
+      </RevealAppear>
     </div>
   );
 }
