@@ -62,10 +62,6 @@ public class DashboardService {
         return totalValue.divide(BigDecimal.valueOf(invoices.size()), RoundingMode.HALF_UP);
     }
 
-    public Long countOrders(Instant startDate, Instant endDate) {
-        return invoiceRepository.countByCreatedAtBetween(startDate, endDate);
-    }
-
 
     public List<ProductionStaffKPI> getProductionStaffKPI() {
         List<RequestOrder> requestOrders = getRequestOrdersForCurrentYear();
@@ -160,5 +156,9 @@ public class DashboardService {
         if (staffId != null) {
             staffOrderCount.put(staffId, staffOrderCount.getOrDefault(staffId, 0L) + 1);
         }
+    }
+
+    public Long countOrders(Instant startDate, Instant endDate) {
+        return invoiceRepository.countByCreatedAtBetween(startDate, endDate);
     }
 }
