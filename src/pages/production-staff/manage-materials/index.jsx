@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import authService from "../../../services/authService";
 import axiosInstance from "../../../services/axiosInstance";
 import { Link, useLocation } from "react-router-dom";
 import LogoutButton from "../../../components/logoutButton";
 import { Modal, Input, Button, Form } from "antd";
+import Navbar from "../../../components/navbar";
 
 function ManageMaterial() {
   const location = useLocation();
@@ -61,32 +61,43 @@ function ManageMaterial() {
 
   return (
     <>
-      <div className="bg-[#7873d8]">
-        <div className="mr-10">
+      <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
+        <Link to={"/"}>
+          <img
+            className="h-[160px] w-auto"
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+          />
+        </Link>
+        <div className="flex-grow text-center">
+          <h1 className="text-5xl">Nhân viên gia công</h1>
+        </div>
+        <div className="w-80 text-right">
           <LogoutButton />
         </div>
-        <div className="mb-4">
-          <Link
-            className={`mr-4 ${
-              location.pathname === "/production-staff/process-orders"
-                ? "underline font-bold"
-                : ""
-            }`}
-            to="/production-staff/process-orders"
-          >
-            Process orders
-          </Link>
-          <Link
-            className={`${
-              location.pathname === "/production-staff/manage-materials"
-                ? "underline font-bold"
-                : ""
-            }`}
-            to="/production-staff/manage-materials"
-          >
-            Manage materials
-          </Link>
-        </div>
+      </div>
+      <Navbar />
+      <div className="bg-[#434343] text-gray-100 pl-5">
+        <Link
+          className={`mr-4 ${
+            location.pathname === "/production-staff/process-orders"
+              ? "underline font-bold"
+              : ""
+          }`}
+          to="/production-staff/process-orders"
+        >
+          Process orders
+        </Link>
+        <Link
+          className={`${
+            location.pathname === "/production-staff/manage-materials"
+              ? "underline font-bold"
+              : ""
+          }`}
+          to="/production-staff/manage-materials"
+        >
+          Manage materials
+        </Link>
       </div>
       <div className="bg-[#434343] min-h-screen w-screen flex justify-center items-center">
         <div className="w-3/4 bg-gray-300 p-6 rounded-lg">

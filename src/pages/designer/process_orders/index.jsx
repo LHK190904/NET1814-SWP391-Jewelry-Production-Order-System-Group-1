@@ -7,6 +7,7 @@ import authService from "../../../services/authService";
 import axiosInstance from "../../../services/axiosInstance";
 import TextArea from "antd/es/input/TextArea";
 import { Link, useLocation } from "react-router-dom";
+import Navbar from "../../../components/navbar";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -170,10 +171,22 @@ function ProcessOrder() {
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-      <div className="text-white text-7xl text-center">Design staff</div>
-      <div className="text-end mr-4">
-        <LogoutButton />
+     <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
+        <Link to={"/"}>
+          <img
+            className="h-[160px] w-auto"
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+          />
+        </Link>
+        <div className="flex-grow text-center">
+          <h1 className="text-5xl">Nhân viên thiết kế</h1>
+        </div>
+        <div className="w-80 text-right">
+          <LogoutButton />
+        </div>
       </div>
+      <Navbar />
 
       <div className="mb-4 text-white">
         <Link

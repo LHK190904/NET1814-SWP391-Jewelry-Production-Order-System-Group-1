@@ -4,6 +4,7 @@ import axiosInstance from "../../../services/axiosInstance";
 import { Link, useLocation } from "react-router-dom";
 import LogoutButton from "../../../components/logoutButton";
 import { Modal, Image } from "antd";
+import Navbar from "../../../components/navbar";
 
 function ProductionStaff() {
   const location = useLocation();
@@ -83,10 +84,23 @@ function ProductionStaff() {
 
   return (
     <>
-      <div className="mr-10">
-        <LogoutButton />
+      <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
+        <Link to={"/"}>
+          <img
+            className="h-[160px] w-auto"
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+          />
+        </Link>
+        <div className="flex-grow text-center">
+          <h1 className="text-5xl">Nhân viên gia công</h1>
+        </div>
+        <div className="w-80 text-right">
+          <LogoutButton />
+        </div>
       </div>
-      <div className="mb-4">
+      <Navbar />
+      <div className="bg-[#434343] text-gray-100 pl-5">
         <Link
           className={`mr-4 ${
             location.pathname === "/production-staff/process-orders"

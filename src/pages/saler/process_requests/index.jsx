@@ -16,6 +16,7 @@ import { useForm } from "antd/es/form/Form";
 import { Link, useLocation } from "react-router-dom";
 import FormItem from "antd/es/form/FormItem";
 import LogoutButton from "../../../components/logoutButton";
+import Navbar from "../../../components/navbar";
 
 function ProcessRequests() {
   const [requests, setRequests] = useState([]);
@@ -27,13 +28,11 @@ function ProcessRequests() {
   const [formData] = useForm();
   const [formDataQuotation] = useForm();
   const location = useLocation();
-  const [saleName, setSaleName] = useState("");
 
   useEffect(() => {
     const fetchSalerData = async () => {
       const saler = authService.getCurrentUser();
       if (saler && saler.id) {
-        setSaleName(saler.username);
         try {
           const response = await axiosInstance.get(
             `/requests/sales/${saler.id}`
@@ -132,6 +131,7 @@ function ProcessRequests() {
       handleHideModal();
     } catch (error) {
       console.error("Không thể cập nhật yêu cầu:", error);
+      message.error("Giá tổng phải lớn hơn giá vốn");
     }
   };
 
@@ -214,16 +214,24 @@ function ProcessRequests() {
 
   return (
     <div>
-      <div className="flex justify-between items-center pb-9 bg-slate-400">
-        <h1 className="text-6xl font-extrabold pb-9 bg-slate-400 text-center">
-          Nhân viên bán hàng <h2>Tên: {saleName}</h2>
-        </h1>
-        <div className="mr-10">
+      <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
+        <Link to={"/"}>
+          <img
+            className="h-[160px] w-auto"
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+          />
+        </Link>
+        <div className="flex-grow text-center">
+          <h1 className="text-5xl">Nhân viên bán hàng</h1>
+        </div>
+        <div className="w-80 text-right">
           <LogoutButton />
         </div>
       </div>
+      <Navbar />
 
-      <div className="mb-4">
+      <div className="mb-4 flex space-x-4 ml-3 mt-3">
         <Link
           className={`mr-4 ${
             location.pathname === "/saler/receive_requests"
@@ -245,6 +253,7 @@ function ProcessRequests() {
           Đơn đã nhận
         </Link>
       </div>
+
       <Table columns={columns} dataSource={requests} />
 
       <Modal
