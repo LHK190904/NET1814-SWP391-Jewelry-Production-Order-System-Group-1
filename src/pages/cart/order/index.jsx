@@ -147,29 +147,29 @@ function CartOrder() {
   };
 
   return (
-    <div className="bg-[#434343] min-h-screen w-screen">
-      <h1 className="text-center text-4xl font-bold py-4 text-[#F7EF8A]">
+    <div className="bg-[#434343] min-h-screen w-screen p-4 md:p-8">
+      <h1 className="text-center text-2xl md:text-4xl font-bold py-4 text-[#F7EF8A]">
         CHI TIẾT ĐƠN HÀNG
       </h1>
-      <div className="grid grid-cols-12 gap-2">
-        <div className="col-start-2 col-span-10 bg-gray-300 rounded-lg p-2">
-          <h1 className="col-span-7 text-2xl text-center my-4">CHI TIẾT</h1>
-          <div className="grid grid-cols-5 mt-4">
-            <div className="col-span-12 bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
+        <div className="col-span-1 md:col-start-2 md:col-span-10 bg-gray-300 rounded-lg p-4 md:p-2">
+          <h1 className="text-xl md:text-2xl text-center my-4">CHI TIẾT</h1>
+          <div className="grid grid-cols-1 md:grid-cols-5 mt-4">
+            <div className="col-span-1 md:col-span-5 bg-white">
               {order.status === "New" ? (
-                <div className="my-4 text-2xl text-center">
+                <div className="my-4 text-lg md:text-2xl text-center">
                   Đang chờ phân công công việc . . .
                 </div>
               ) : order.status === "Assigned" ||
                 order.status === "Design Denied" ||
                 order.status === "Waiting for customer's decision" ? (
-                <div className="grid grid-cols-12 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                   {design.listURLImage && design.listURLImage.length > 0 ? (
-                    <div className="col-span-6 flex flex-col items-center">
+                    <div className="col-span-1 md:col-span-6 flex flex-col items-center">
                       <img
                         src={selectedImage || design.listURLImage[0]}
                         alt="Chưa có hình ảnh"
-                        className="rounded-lg w-[300px] h-[300px]"
+                        className="rounded-lg w-full md:w-[300px] h-[300px] object-cover"
                       />
                       <div className="flex flex-wrap justify-center mt-4">
                         {design.listURLImage.map((url, index) => (
@@ -184,29 +184,29 @@ function CartOrder() {
                       </div>
                     </div>
                   ) : (
-                    <div className="col-span-12 text-center">
+                    <div className="col-span-1 md:col-span-12 text-center">
                       Chưa có hình ảnh
                     </div>
                   )}
-                  <div className="col-span-6 text-xl">
+                  <div className="col-span-1 md:col-span-6 text-lg md:text-xl">
                     <div className="flex flex-col justify-evenly h-full p-1">
                       <form>
-                        <label className="text-2xl">Feedback</label>
+                        <label className="text-lg md:text-2xl">Feedback</label>
                         <textarea
                           value={feedback}
                           onChange={handleChange}
                           required
                           className="w-full p-2 border border-gray-300 rounded"
                         />
-                        <div className="flex justify-around mt-4">
+                        <div className="flex flex-col md:flex-row justify-around mt-4">
                           <Button
-                            className="w-full bg-green-400 p-2 font-bold"
+                            className="w-full md:w-auto bg-green-400 p-2 font-bold"
                             onClick={handleApprove}
                           >
                             Approve
                           </Button>
                           <Button
-                            className="w-full bg-red-400 p-2 font-bold"
+                            className="w-full md:w-auto bg-red-400 p-2 font-bold"
                             onClick={handleDeny}
                           >
                             Deny
@@ -217,13 +217,13 @@ function CartOrder() {
                   </div>
                 </div>
               ) : (
-                <div className="grid grid-cols-12 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                   {design.listURLImage && design.listURLImage.length > 0 ? (
-                    <div className="col-span-6 flex flex-col items-center">
+                    <div className="col-span-1 md:col-span-6 flex flex-col items-center">
                       <img
                         src={selectedImage || design.listURLImage[0]}
                         alt=""
-                        className="rounded-lg w-[300px] h-[300px]"
+                        className="rounded-lg w-full md:w-[300px] h-[300px] object-cover"
                       />
                       <div className="flex flex-wrap justify-center mt-4">
                         {design.listURLImage.map((url, index) => (
@@ -238,12 +238,12 @@ function CartOrder() {
                       </div>
                     </div>
                   ) : (
-                    <div className="col-span-12 text-center">
+                    <div className="col-span-1 md:col-span-12 text-center">
                       Chưa có hình ảnh
                     </div>
                   )}
-                  <div className="col-span-6 text-xl">
-                    <div className="flex flex-col justify-evenly h-full">
+                  <div className="col-span-1 md:col-span-6 text-lg md:text-xl">
+                    <div className="h-full">
                       <div>LOẠI TRANG SỨC: {design.category}</div>
                       <div>LOẠI VÀNG: {design.materialName}</div>
                       <div>TRỌNG LƯỢNG: {design.materialWeight}</div>
@@ -255,12 +255,12 @@ function CartOrder() {
                       <div>
                         CẬP NHẬT LÚC: {process ? process.updatedAt : "N/A"}
                       </div>
-                      <Button
+                      <button
                         onClick={handleShowModal}
-                        className="bg-[#F7EF8A] text-2xl"
+                        className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
                       >
                         XEM HÓA ĐƠN
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 </div>

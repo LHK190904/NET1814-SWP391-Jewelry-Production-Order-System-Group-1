@@ -21,7 +21,7 @@ function Carousel({ numberOfSlides = 1, images = [], autoplay = false }) {
             <img
               src={image}
               alt={`slide-${index}`}
-              className="w-full h-[700px] object-cover"
+              className="w-full h-auto object-cover"
             />
           </SwiperSlide>
         ))}

@@ -1,52 +1,53 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
 
-  const handleDesignsClick = () => {
-    navigate("/collections", { state: { scrollToDesigns: true } });
-  };
+  const handleNavigate =
+    (path, state = {}) =>
+    () => {
+      navigate(path, { state });
+    };
 
   return (
-    <div className="p-4 bg-[#2A2A2A] w-screen text-[#F7EF8A] font-bold z-10 sticky top-0">
-      <nav>
-        <ul className="flex justify-around gap-4">
-          <li>
-            <Link to={"/"} className="hover:text-[#ddd012]">
-              TRANG CHỦ
-            </Link>
-          </li>
-          <li>
-            <Link to={"/about"} className="hover:text-[#ddd012]">
-              THÔNG TIN
-            </Link>
-          </li>
-          <li>
-            <Link to={"/price/gold"} className="hover:text-[#ddd012]">
-              GIÁ NGUYÊN VẬT LIỆU
-            </Link>
-          </li>
-          <li>
-            <Link to={"/collections"} className="hover:text-[#ddd012]">
-              BỘ SƯU TẬP
-            </Link>
-          </li>
-          <li>
-            <button
-              onClick={handleDesignsClick}
-              className="hover:text-[#ddd012]"
-            >
-              THIẾT KẾ
-            </button>
-          </li>
-          <li>
-            <Link to={"/blog"} className="hover:text-[#ddd012]">
-              BLOG
-            </Link>
-          </li>
-        </ul>
-      </nav>
+    <div className="grid grid-cols-6 bg-[#2A2A2A] text-[#F7EF8A] font-bold z-10 sticky top-0">
+      <button
+        onClick={handleNavigate("/")}
+        className="hover:text-[#ddd012] hover:bg-black p-4 rounded-lg"
+      >
+        TRANG CHỦ
+      </button>
+      <button
+        onClick={handleNavigate("/about")}
+        className="hover:text-[#ddd012] hover:bg-black p-4 rounded-lg"
+      >
+        THÔNG TIN
+      </button>
+      <button
+        onClick={handleNavigate("/price/gold")}
+        className="hover:text-[#ddd012] hover:bg-black p-4 rounded-lg"
+      >
+        GIÁ NGUYÊN VẬT LIỆU
+      </button>
+      <button
+        onClick={handleNavigate("/collections")}
+        className="hover:text-[#ddd012] hover:bg-black p-4 rounded-lg"
+      >
+        BỘ SƯU TẬP
+      </button>
+      <button
+        onClick={handleNavigate("/collections", { scrollToDesigns: true })}
+        className="hover:text-[#ddd012] hover:bg-black p-4 rounded-lg"
+      >
+        THIẾT KẾ
+      </button>
+      <button
+        onClick={handleNavigate("/blog")}
+        className="hover:text-[#ddd012] hover:bg-black p-4 rounded-lg"
+      >
+        BLOG
+      </button>
     </div>
   );
 }

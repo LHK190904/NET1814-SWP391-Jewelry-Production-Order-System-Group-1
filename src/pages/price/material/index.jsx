@@ -32,28 +32,28 @@ function PriceMaterial() {
         <div className="col-start-2 col-span-10 bg-gray-300 text-center p-1 rounded-lg">
           <h1 className="bg-gray-400 p-4 text-2xl">GIÁ VẬT LIỆU</h1>
           <div className="grid grid-cols-12 border">
-            <div className="col-span-6 p-2 text-xl border">LOẠI VẬT LIỆU</div>
+            <div className="col-span-4 p-2 text-xl border">LOẠI VẬT LIỆU</div>
             <div className="col-span-3 p-2 text-xl border">GIÁ</div>
-            <div className="col-span-3 p-2 text-xl border">
+            <div className="col-span-5 p-2 text-xl border">
               THỜI ĐIỂM CẬP NHẬT
             </div>
           </div>
           {materialPrice.map((item, index) => (
             <div key={index} className="grid grid-cols-12 border">
-              <div className="col-span-6 p-2 bg-white border text-left text-xl">
+              <div className="col-span-4 p-2 bg-white border text-left text-xl">
                 {item.materialName}
               </div>
               <div className="col-span-3 p-2 bg-white border">
                 {item.pricePerUnit}
               </div>
-              <div className="col-span-3 p-2 bg-white border">
+              <div className="col-span-5 p-2 bg-white border">
                 {item.updateTime}
               </div>
             </div>
           ))}
         </div>
         <button
-          className="col-start-10 col-span-2 bg-[#F7EF8A] text-xl p-4 font-bold rounded-lg"
+          className="col-start-8 col-span-4 bg-[#F7EF8A] text-xl p-4 font-bold rounded-lg"
           onClick={() => handleNavigate("/price/gold")}
         >
           GIÁ VÀNG

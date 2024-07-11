@@ -7,7 +7,7 @@ import authService from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
-function ItemCarousel({ items, slidesPerView = 3 }) {
+function ItemCarousel({ items }) {
   const navigate = useNavigate();
 
   const handleClick = async (designID) => {
@@ -36,7 +36,17 @@ function ItemCarousel({ items, slidesPerView = 3 }) {
       pagination={{ clickable: true }}
       modules={[Pagination]}
       className="w-full"
-      slidesPerView={slidesPerView}
+      breakpoints={{
+        640: {
+          slidesPerView: 1,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      }}
     >
       {items.map((item, index) => (
         <SwiperSlide key={index} className="flex justify-center">

@@ -102,10 +102,10 @@ function CartRequest() {
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-      <div className="grid grid-cols-12 gap-4 pt-4">
-        <div className="col-start-2 col-span-10 bg-gray-300 text-center p-1 rounded-lg">
+      <div className="grid grid-cols-12 gap-4 pt-4 px-2 lg:px-0">
+        <div className="col-span-12 lg:col-start-2 lg:col-span-10 bg-gray-300 text-center p-1 rounded-lg">
           <h1 className="bg-gray-400 p-4 text-2xl">YÊU CẦU</h1>
-          <div className="grid grid-cols-8 border">
+          <div className="hidden lg:grid lg:grid-cols-8 border">
             <div className="col-span-1 p-2 text-xl border">MÃ YÊU CẦU</div>
             <div className="col-span-1 p-2 text-xl border">
               NHÂN VIÊN BÁN HÀNG
@@ -120,7 +120,10 @@ function CartRequest() {
             <div className="col-span-1 p-2 text-xl border">ĐƠN HÀNG</div>
           </div>
           {requests.map((item, index) => (
-            <div key={index} className="grid grid-cols-8 border ">
+            <div
+              key={index}
+              className="grid grid-cols-1 lg:grid-cols-8 border my-2 lg:my-0"
+            >
               <div className="col-span-1 p-2 bg-white border">
                 <Link to={`/order/${item.id}`}>{item.id}</Link>
               </div>
@@ -128,10 +131,10 @@ function CartRequest() {
                 {item.saleStaffID}
               </div>
               {statuses[item.id] === "action" ? (
-                <div className="col-span-1 p-2 bg-white">
+                <div className="col-span-1 p-2 bg-white flex flex-col lg:flex-row">
                   <button
                     onClick={() => handleApprove(item.id)}
-                    className="bg-green-400 p-1 rounded-lg mr-2 hover:bg-green-500"
+                    className="bg-green-400 p-1 rounded-lg mb-2 lg:mr-2 lg:mb-0 hover:bg-green-500"
                   >
                     Approve
                   </button>

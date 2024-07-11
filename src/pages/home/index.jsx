@@ -138,13 +138,13 @@ function Home() {
           <video className="w-screen h-auto" autoPlay loop muted>
             <source src="./src/assets/images/bgvideo.mp4" type="video/mp4" />
           </video>
-          <h1 className="text-[#F7EF8A] text-center text-9xl my-4 font-bold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shiny-text">
+          <h1 className="text-[#F7EF8A] text-center text-7xl my-4 font-bold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shiny-text">
             WELCOME TO LUXE
           </h1>
         </div>
         <div className="col-span-12">
           <RevealAppear>
-            <h1 className=" text-center text-4xl my-4 font-bold">
+            <h1 className=" text-center text-4xl my-10 font-bold">
               QUY TRÌNH ĐẶT GIA CÔNG TẠI LUXE
             </h1>
           </RevealAppear>
@@ -157,7 +157,7 @@ function Home() {
 
         <button
           onClick={handleShowModal}
-          className="col-start-6 col-span-2 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg font-bold hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f]"
+          className="col-start-5 col-span-4 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg font-bold hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f]"
         >
           ĐẶT YÊU CẦU
         </button>

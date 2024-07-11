@@ -38,7 +38,6 @@ export default function Collections() {
       }, {});
 
       setCollections(groupedProducts);
-      console.log(groupedProducts);
     } catch (error) {
       console.log(error);
     }
@@ -61,17 +60,14 @@ export default function Collections() {
 
       {Object.keys(collections).map((collectionName, index) => (
         <div key={index} className="grid grid-cols-12 bg-[#434343]">
-          <div className="col-start-2 col-span-1 text-4xl">
+          <div className="col-start-2 col-span-1 text-4xl font-bold">
             <RevealFloatIn floatDirection={"left"}>
               {collectionName}
             </RevealFloatIn>
           </div>
           <div className="col-span-9 mb-10">
             <RevealFloatIn floatDirection={"right"}>
-              <ItemCarousel
-                items={collections[collectionName]}
-                slidesPerView={3}
-              />
+              <ItemCarousel items={collections[collectionName]} />
             </RevealFloatIn>
           </div>
         </div>
