@@ -7,6 +7,7 @@ import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.dtos.response.IntrospectResponse;
 import com.backendVn.SWP.services.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -30,7 +31,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login_token")
-    ApiResponse<AuthenticationResponse> authencicate(@RequestBody AuthenticationRequest request){
+    ApiResponse<AuthenticationResponse> authencicate(@RequestBody @Valid AuthenticationRequest request){
         var result = authenticationService.authenticate(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
