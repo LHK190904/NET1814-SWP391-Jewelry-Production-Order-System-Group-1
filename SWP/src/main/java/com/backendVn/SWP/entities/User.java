@@ -27,7 +27,6 @@ public class User {
     @Column(name = "user_name", nullable = false, length = 50)
     private String userName;
 
-    @NotNull
     @Nationalized
     @Column(name = "Password", nullable = false, length = 225)
     private String password;

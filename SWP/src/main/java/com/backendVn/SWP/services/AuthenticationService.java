@@ -77,6 +77,7 @@ public class AuthenticationService {
         var user = userRepository.findByUserName(userInfo.getEmail()).orElseGet(
                 () -> userRepository.save(User.builder()
                         .userName(userInfo.getEmail())
+                        .email(userInfo.getEmail())
                         .title("CUSTOMER")
                         .build()));
 
