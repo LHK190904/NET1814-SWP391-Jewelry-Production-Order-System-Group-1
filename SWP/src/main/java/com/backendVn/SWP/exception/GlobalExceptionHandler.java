@@ -39,25 +39,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(errorCode.getHttpStatusCode()).body(apiResponse);
     }
 
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ResponseEntity<List<ApiResponse>> handlingValidation(MethodArgumentNotValidException exception){
-        Map<String, String> errors = new HashMap<>();
-
-        exception.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<List<ApiResponse>> handleValidation(MethodArgumentNotValidException exception) {
         List<ApiResponse> apiResponses = new ArrayList<>();
 
-        for (String error : errors.keySet()) {
+        for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
+            ErrorCode errorCode = ErrorCode.valueOf(fieldError.getDefaultMessage());
             ApiResponse apiResponse = ApiResponse.builder()
-                    .code(ErrorCode.INVALID_KEY.getCode())
-                    .message(errors.get(error))
+                    .code(errorCode.getCode())
+                    .message(errorCode.getMessage())
                     .build();
-
             apiResponses.add(apiResponse);
         }
 

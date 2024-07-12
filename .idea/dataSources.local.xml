@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-241.18034.62">
-    <data-source name="@localhost" uuid="3dff26b9-4846-4c8c-8a40-d0ba9fcb87ef">
+  <component name="dataSourceStorageLocal" created-in="IU-241.17890.1">
+    <data-source name="@localhost" uuid="84c7cca5-77ca-4d34-a8fc-332f755c41d2">
       <database-info product="Microsoft SQL Server" version="16.00.4125" jdbc-version="4.2" driver-name="Microsoft JDBC Driver 12.2 for SQL Server" driver-version="12.2.0.0" dbms="MSSQL" exact-version="16.0.4125" exact-driver-version="12.2">
         <extra-name-characters>$#@</extra-name-characters>
         <identifier-quote-string>&quot;</identifier-quote-string>
@@ -12,26 +12,15 @@
       <schema-mapping>
         <introspection-scope>
           <node negative="1">
-            <node kind="database" qname="@" />
-            <node kind="database" qname="SWP1">
+            <node kind="database" qname="@">
               <node kind="schema" qname="@" />
             </node>
-          </node>
-        </introspection-scope>
-      </schema-mapping>
-    </data-source>
-    <data-source name="SWP1@localhost" uuid="148ea87a-4b15-476e-afee-a31e748ece43">
-      <database-info product="Microsoft SQL Server" version="16.00.4125" jdbc-version="4.2" driver-name="Microsoft JDBC Driver 12.2 for SQL Server" driver-version="12.2.0.0" dbms="MSSQL" exact-version="16.0.4125" exact-driver-version="12.2">
-        <extra-name-characters>$#@</extra-name-characters>
-        <identifier-quote-string>&quot;</identifier-quote-string>
-      </database-info>
-      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
-      <secret-storage>master_key</secret-storage>
-      <user-name>sa</user-name>
-      <schema-mapping>
-        <introspection-scope>
-          <node kind="database" qname="@">
-            <node kind="schema" qname="@" />
+            <node kind="database" qname="SWP1">
+              <node kind="schema">
+                <name qname="@" />
+                <name qname="dbo" />
+              </node>
+            </node>
           </node>
         </introspection-scope>
       </schema-mapping>
