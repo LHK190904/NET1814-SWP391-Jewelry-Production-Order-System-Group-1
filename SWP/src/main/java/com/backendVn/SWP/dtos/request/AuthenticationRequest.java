@@ -11,9 +11,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationRequest {
-    @Size(min = 3,message = "INVALID_USERNAME")
     String userName;
-
-    @Size(min = 8, message = "INVALID_PASSWORD")
     String password;
 }
