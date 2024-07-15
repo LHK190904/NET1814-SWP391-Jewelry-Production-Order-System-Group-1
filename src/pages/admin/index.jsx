@@ -200,12 +200,11 @@ function Admin() {
     }
   };
 
-  const handleUpdateAccount = async (id, updatedData) => {
+  const handleUpdateAccount = async (updatedData) => {
     try {
-      console.log(id, updatedData);
-      await axiosInstance.put(`/user/${id}`, updatedData);
-      const updatedDataSource = data.map((item) =>
-        item.id === id ? { ...item, ...updatedData } : item
+      await axiosInstance.put(`/user/${updatedData.id}`, updatedData);
+      const updatedDataSource = data.map((account) =>
+        account.id === updatedData.id ? { ...account, ...updatedData } : account
       );
       setData(updatedDataSource);
       message.success("Chỉnh sửa thành công!");
@@ -241,25 +240,28 @@ function Admin() {
         return;
       }
 
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
+      const index = data.findIndex((account) => key === account.key);
       if (index > -1) {
-        const item = newData[index];
-        const updatedData = { ...item, ...row };
+        const account = data[index];
+        const updatedData = { ...account, ...row };
         delete updatedData.key; // Loại bỏ thuộc tính key
-        console.log(updatedData);
-        newData.splice(index, 1, updatedData);
-        setData(newData);
         setEditingKey("");
-        await handleUpdateAccount(key, updatedData);
+        await handleUpdateAccount(updatedData);
       } else {
-        newData.push(row);
-        setData(newData);
         setEditingKey("");
       }
     } catch (errInfo) {
       console.log("Validate Failed:", errInfo);
     }
+  };
+
+  const titleMap = {
+    MANAGER: "Quản lí",
+    SALE_STAFF: "Nhân viên bán hàng",
+    DESIGN_STAFF: "Nhân viên thiết kế",
+    PRODUCTION_STAFF: "Nhân viên gia công",
+    ADMIN: "Quản trị viên",
+    CUSTOMER: "Khách hàng",
   };
 
   const columns = [
@@ -290,6 +292,8 @@ function Admin() {
       dataIndex: "title",
       width: "10%",
       editable: true,
+
+      render: (text) => titleMap[text] || text,
     },
     {
       dataIndex: "operation",
