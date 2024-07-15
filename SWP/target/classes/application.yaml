@@ -1,8 +1,11 @@
+#  Thomas1910@
+#  jdbc:sqlserver://mssql.recs.site;database=SWP391_NET1814_Jewelry_Production_Order_System;encrypt=false
+
 spring:
   datasource:
-    url: jdbc:sqlserver://mssql.recs.site;database=SWP391_NET1814_Jewelry_Production_Order_System;encrypt=false
+    url: jdbc:sqlserver://localhost:1433;database=SWP1;encrypt=false
     username: sa
-    password: Thomas1910@
+    password: Abc@1234
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     hibernate:
