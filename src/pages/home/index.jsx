@@ -16,6 +16,18 @@ function Home() {
   const [materialPrice, setMaterialPrice] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
+  const initialForm = {
+    category: "",
+    goldType: "",
+    materialWeight: "",
+    mainStoneId: 0,
+    subStoneId: 0,
+    description: "",
+    updated: "",
+    sellCost: 0,
+    buyCost: 0,
+    listURLImage: [],
+  };
   const [formData, setFormData] = useState({
     category: "",
     goldType: "",
@@ -77,6 +89,7 @@ function Home() {
       console.error("Error uploading files:", error);
     } finally {
       setUploading(false);
+      setFormData(initialForm);
     }
   };
 
@@ -101,8 +114,10 @@ function Home() {
       );
       handleHideModal();
       console.log("Dữ liệu đã được gửi:", response.data);
+      message.success("Gửi yêu cầu thành công");
     } catch (error) {
       console.error("Có lỗi khi gửi dữ liệu:", error);
+      message.error("Có lỗi khi gửi yêu cầu");
     }
   };
 

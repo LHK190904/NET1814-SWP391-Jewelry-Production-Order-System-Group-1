@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../../../services/axiosInstance";
 
 function SaleOverview() {
   const totalSales = [1000, 2000, 3000, 4000, 5000];
   const totalOrders = [1000, 2000, 3000, 4000, 5000];
   const completedOrders = [1000, 2000, 3000, 4000, 5000];
   const canceledOrders = [1000, 2000, 3000, 4000, 5000];
+
+  const startDate = "2024-01-01T00:00:00Z";
+  const endDate = "2024-12-31T23:59:59Z";
+  const [orderCount, setOrderCount] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const responseOrderCount = await axiosInstance.get(
+        `dashboard/order-count?startDate=${startDate}&endDate=${endDate}`
+      );
+      setOrderCount(responseOrderCount.data.result);
+      console.log("Order count: ", responseOrderCount.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleCalculateDiff = (arr) => {
     const last = arr[arr.length - 1];

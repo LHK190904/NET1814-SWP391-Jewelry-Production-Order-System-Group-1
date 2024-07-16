@@ -1,3 +1,4 @@
+import { message } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +10,6 @@ function Register() {
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -30,18 +30,11 @@ function Register() {
       if (authenticated) {
         const userData = { userName, password, token };
         localStorage.setItem("user", JSON.stringify(userData));
-        console.log("Registration successfully");
+        message.success("ĐĂNG KÝ THÀNH CÔNG");
         navigate("/");
-      } else {
-        console.log("Registration failed");
-        setError("Registration failed. Please try again.");
       }
     } catch (error) {
-      console.error(
-        "Registration error:",
-        error.response?.data || error.message
-      );
-      setError("An error occurred during registration. Please try again.");
+      message.error("ĐĂNG KÝ THẤT BẠI");
     } finally {
       handleCancel();
     }
@@ -52,12 +45,11 @@ function Register() {
     setPassword("");
     setAddress("");
     setEmail("");
-    setError("");
   }
 
   return (
     <div className="flex items-center justify-center lg:min-h-screen w-screen bg-[#434343]">
-      <div className="bg-[#E9E9E9] shadow-md rounded-lg w-full max-w-lg text-center m-4">
+      <div className="bg-white shadow-md rounded-lg w-full max-w-lg text-center m-4">
         <h4 className="text-2xl font-semibold p-4 border-b">ĐĂNG KÝ</h4>
         <div className="p-6">
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -124,7 +116,6 @@ function Register() {
                   />
                 </div>
               </div>
-              {error && <div className="text-red-500">{error}</div>}
               <div className="flex space-x-4">
                 <button
                   type="submit"

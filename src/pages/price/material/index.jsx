@@ -47,7 +47,7 @@ function PriceMaterial() {
                 {item.pricePerUnit}
               </div>
               <div className="col-span-5 p-2 bg-white border">
-                {item.updateTime}
+                {new Date(item.updateTime).toLocaleString()}
               </div>
             </div>
           ))}

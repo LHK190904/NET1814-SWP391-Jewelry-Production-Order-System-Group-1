@@ -1,30 +1,28 @@
 import React from "react";
-import "./style.css";
-import { TiTick } from "react-icons/ti";
+import { Steps } from "antd";
+import { CheckOutlined } from "@ant-design/icons";
+
+const { Step } = Steps;
 
 const Stepper = ({ currentStep }) => {
   const steps = ["25%", "50%", "75%", "100%"];
 
   return (
-    <div className="flex justify-between">
-      {steps.map((step, i) => (
-        <div
-          key={i}
-          className={`step-item ${currentStep === i + 1 ? "active" : ""} ${
-            i + 1 < currentStep ? "complete" : ""
-          }`}
-        >
-          <div className="step">
-            {i + 1 < currentStep || currentStep === steps.length ? (
-              <TiTick size={24} />
+    <Steps current={currentStep - 1} size="default">
+      {steps.map((step, index) => (
+        <Step
+          key={index}
+          title={step}
+          icon={
+            index + 1 < currentStep || currentStep === steps.length ? (
+              <CheckOutlined />
             ) : (
-              i + 1
-            )}
-          </div>
-          <p className="text-gray-500">{step}</p>
-        </div>
+              index + 1
+            )
+          }
+        />
       ))}
-    </div>
+    </Steps>
   );
 };
 

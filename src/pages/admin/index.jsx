@@ -156,6 +156,7 @@ function Admin() {
       createForm.resetFields();
       handleHideModal();
       message.success("Tạo tài khoản thành công");
+      window.location.reload();
     } catch (error) {
       console.error("Failed to create account:", error);
       message.error("Tạo tài khoản thất bại.");
@@ -184,6 +185,7 @@ function Admin() {
       const listAfterDelete = data.filter((account) => account.id !== id);
       setData(listAfterDelete);
       message.success("Xóa tài khoản thành công!");
+      window.location.reload();
     } catch (error) {
       console.error("Failed to delete account:", error);
       message.error("Xóa tài khoản thất bại.");
@@ -197,6 +199,7 @@ function Admin() {
         item.id === id ? { ...item, ...updatedData } : item
       );
       setData(updatedDataSource);
+      window.location.reload();
       message.success("Chỉnh sửa thành công!");
     } catch (error) {
       console.error("Failed to update account:", error);

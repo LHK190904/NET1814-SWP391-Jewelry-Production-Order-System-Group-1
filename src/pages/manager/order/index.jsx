@@ -163,7 +163,7 @@ function ManagerOrder() {
               <Select>
                 {designStaffList.map((staff) => (
                   <Select.Option key={staff.id} value={staff.id}>
-                    {staff.name}
+                    {staff.userName}
                   </Select.Option>
                 ))}
               </Select>

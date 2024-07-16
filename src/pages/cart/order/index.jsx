@@ -3,13 +3,20 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
 import { Button, message, Modal } from "antd";
 import Stepper from "../../../components/stepper";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 function CartOrder() {
   const { requestID } = useParams();
   const [order, setOrder] = useState({});
   const [design, setDesign] = useState({});
   const [invoice, setInvoice] = useState({});
-  const [invoiceDetails, setInvoiceDetails] = useState([]);
   const [process, setProcess] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [feedback, setFeedback] = useState("");
@@ -52,16 +59,11 @@ function CartOrder() {
 
   const fetchInvoice = async () => {
     try {
-      const responseInvoice = await axiosInstance.post(
-        `invoices/${order.requestID}`
+      const response = await axiosInstance(
+        `invoices/getInvoiceInfor/${order.id}`
       );
-      setInvoice(responseInvoice.data.result);
-      console.log("Create invoice", responseInvoice.data.result);
-      const responseInvoiceDetail = await axiosInstance.post(
-        `invoice-details/${order.id}`
-      );
-      setInvoiceDetails(responseInvoiceDetail.data.result);
-      console.log("Get invoice details", responseInvoiceDetail.data.result);
+      setInvoice(response.data.result);
+      console.log("Invoice:", response.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -253,7 +255,10 @@ function CartOrder() {
                       <div>TIẾN TRÌNH: {process ? process.status : "N/A"}</div>
                       <Stepper currentStep={getCurrentStep()} />
                       <div>
-                        CẬP NHẬT LÚC: {process ? process.updatedAt : "N/A"}
+                        CẬP NHẬT LÚC:{" "}
+                        {process
+                          ? new Date(process.updatedAt).toDateString()
+                          : "N/A"}
                       </div>
                       <button
                         onClick={handleShowModal}
@@ -272,10 +277,44 @@ function CartOrder() {
       <Modal
         title="CHI TIẾT HÓA ĐƠN"
         open={isOpenModal}
+        onOk={handleHideModal}
         onCancel={handleHideModal}
+        width={"75%"}
       >
-        <label>TỔNG TIỀN:</label>
-        {invoice.totalCost}
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>TÊN SẢN PHẨM</TableCell>
+                <TableCell>VẬT LIỆU</TableCell>
+                <TableCell>TIỀN VẬT LIỆU</TableCell>
+                <TableCell>ĐÁ CHÍNH</TableCell>
+                <TableCell>TIỀN ĐÁ CHÍNH</TableCell>
+                <TableCell>ĐÁ PHỤ</TableCell>
+                <TableCell>TIỀN ĐÁ PHỤ</TableCell>
+                <TableCell>TIỀN CÔNG</TableCell>
+                <TableCell>TỔNG TIỀN</TableCell>
+                <TableCell>NGÀY TẠO HÓA ĐƠN</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <TableRow>
+                <TableCell>{design.designName}</TableCell>
+                <TableCell>{invoice.materialName}</TableCell>
+                <TableCell>{invoice.materialTotalCost}</TableCell>
+                <TableCell>{invoice.mainStone}</TableCell>
+                <TableCell>{invoice.mainStoneCost}</TableCell>
+                <TableCell>{invoice.subStone}</TableCell>
+                <TableCell>{invoice.subStoneCost}</TableCell>
+                <TableCell>{invoice.produceCost}</TableCell>
+                <TableCell>{invoice.invoiceTotalCost}</TableCell>
+                <TableCell>
+                  {new Date(invoice.invoiceCreatedAt).toDateString()}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Modal>
     </div>
   );

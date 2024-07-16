@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 
-// Register the necessary components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,7 +20,30 @@ ChartJS.register(
   Legend
 );
 
-const SaleTrend = () => {
+import React, { useEffect, useState } from "react";
+import axiosInstance from "../../../services/axiosInstance";
+
+function SaleTrend() {
+  const [revenue, setRevenue] = useState([]);
+  const startDate = "2024-01-01T00:00:00Z";
+  const endDate = "2024-12-31T23:59:59Z";
+
+  const fetchRevenue = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `dashboard/revenue?startDate=${startDate}&endDate=${endDate}`
+      );
+      setRevenue(response.data.result);
+      console.log("Revenue: ", response.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRevenue();
+  }, []);
+
   const data = {
     labels: [
       "Jan",
@@ -72,6 +94,6 @@ const SaleTrend = () => {
       <Line data={data} options={options} />
     </div>
   );
-};
+}
 
 export default SaleTrend;

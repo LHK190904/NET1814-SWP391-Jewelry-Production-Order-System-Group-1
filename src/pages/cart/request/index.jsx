@@ -171,10 +171,10 @@ function CartRequest() {
                 </div>
               )}
               <div className="col-span-1 p-2 bg-white border">
-                {item.createdAt}
+                {new Date(item.createdAt).toDateString()}
               </div>
               <div className="col-span-1 p-2 bg-white border">
-                {item.receivedAt}
+                {new Date(item.recievedAt).toDateString()}
               </div>
               <div className="col-span-1 p-2 bg-white border">
                 {item.quotation ? item.quotation.cost : "N/A"}
