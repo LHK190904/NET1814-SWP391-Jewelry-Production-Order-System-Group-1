@@ -1,9 +1,6 @@
 package com.backendVn.SWP.services;
 
-import com.backendVn.SWP.dtos.response.KpiResponse;
-import com.backendVn.SWP.dtos.response.MonthlyIncomeResponse;
-import com.backendVn.SWP.dtos.response.ProductionStaffKPI;
-import com.backendVn.SWP.dtos.response.RevenueEachMonth;
+import com.backendVn.SWP.dtos.response.*;
 import com.backendVn.SWP.entities.*;
 import com.backendVn.SWP.repositories.*;
 import lombok.AccessLevel;
@@ -140,6 +137,21 @@ public class DashboardService {
         return totalRevenue.subtract(totalExpense);
     }
 
+    public List<MonthlyIncomeResponse> calculateMonthlyAverageOrderValue(int year, int startMonth, int endMonth) {
+        List<MonthlyIncomeResponse> monthlyAverageOrderValues = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            BigDecimal averageOrderValue = calculateAverageOrderValue(startDate, endDate);
+            monthlyAverageOrderValues.add(new MonthlyIncomeResponse(month, averageOrderValue));
+        }
+
+        return monthlyAverageOrderValues;
+    }
+
+
     public BigDecimal calculateAverageOrderValue(Instant startDate, Instant endDate) {
         List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(startDate, endDate);
         if (invoices.isEmpty()) {
@@ -185,6 +197,20 @@ public class DashboardService {
         if (staffId != null) {
             staffOrderCount.put(staffId, staffOrderCount.getOrDefault(staffId, 0L) + 1);
         }
+    }
+
+    public List<MonthlyOrderCountResponse> calculateMonthlyOrderCount(int year, int startMonth, int endMonth) {
+        List<MonthlyOrderCountResponse> monthlyOrderCounts = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            Long orderCount = countOrders(startDate, endDate);
+            monthlyOrderCounts.add(new MonthlyOrderCountResponse(month, orderCount));
+        }
+
+        return monthlyOrderCounts;
     }
 
     public Long countOrders(Instant startDate, Instant endDate) {

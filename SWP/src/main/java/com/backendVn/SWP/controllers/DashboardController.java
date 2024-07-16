@@ -58,11 +58,31 @@ public class DashboardController {
                 .build();
     }
 
+    @GetMapping("/monthly-average-order-value")
+    public ApiResponse<List<MonthlyIncomeResponse>> getMonthlyAverageOrderValue(
+            @RequestParam("year") int year,
+            @RequestParam("startMonth") int startMonth,
+            @RequestParam("endMonth") int endMonth) {
+        return ApiResponse.<List<MonthlyIncomeResponse>>builder()
+                .result(dashboardService.calculateMonthlyAverageOrderValue(year, startMonth, endMonth))
+                .build();
+    }
+
     @GetMapping("/average-order-value")
     public ApiResponse<BigDecimal> getAverageOrderValue(
             @RequestParam("startDate") Instant startDate, @RequestParam("endDate") Instant endDate) {
         return ApiResponse.<BigDecimal>builder()
                 .result(dashboardService.calculateAverageOrderValue(startDate, endDate))
+                .build();
+    }
+
+    @GetMapping("/monthly-order-count")
+    public ApiResponse<List<MonthlyOrderCountResponse>> getMonthlyOrderCount(
+            @RequestParam("year") int year,
+            @RequestParam("startMonth") int startMonth,
+            @RequestParam("endMonth") int endMonth) {
+        return ApiResponse.<List<MonthlyOrderCountResponse>>builder()
+                .result(dashboardService.calculateMonthlyOrderCount(year, startMonth, endMonth))
                 .build();
     }
 

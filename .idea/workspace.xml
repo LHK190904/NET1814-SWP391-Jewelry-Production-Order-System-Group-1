@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7a0e5d5-8668-4584-a5e3-54d0e074004a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2110876e-208a-4dea-aec9-a36f16b4d9bb.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/2110876e-208a-4dea-aec9-a36f16b4d9bb.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/SWP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/SWP.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DashboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DashboardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/DashboardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/DashboardController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/DashboardService.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/DashboardService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +122,7 @@
       <workItem from="1721014930029" duration="2000" />
       <workItem from="1721015907115" duration="27000" />
       <workItem from="1721026711059" duration="1616000" />
-      <workItem from="1721117263959" duration="1840000" />
+      <workItem from="1721117263959" duration="3164000" />
     </task>
     <servers />
   </component>
