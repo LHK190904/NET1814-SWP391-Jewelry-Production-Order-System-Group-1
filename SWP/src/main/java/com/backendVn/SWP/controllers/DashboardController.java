@@ -1,9 +1,6 @@
 package com.backendVn.SWP.controllers;
 
-import com.backendVn.SWP.dtos.response.KpiResponse;
-import com.backendVn.SWP.dtos.response.ProductionStaffKPI;
-import com.backendVn.SWP.dtos.response.ApiResponse;
-import com.backendVn.SWP.dtos.response.RevenueEachMonth;
+import com.backendVn.SWP.dtos.response.*;
 import com.backendVn.SWP.services.DashboardService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +21,31 @@ import java.util.List;
 public class DashboardController {
     private final DashboardService dashboardService;
 
+    @GetMapping("/monthly-revenue")
+    public ApiResponse<List<MonthlyIncomeResponse>> getMonthlyRevenue(
+            @RequestParam("year") int year,
+            @RequestParam("startMonth") int startMonth,
+            @RequestParam("endMonth") int endMonth) {
+        return ApiResponse.<List<MonthlyIncomeResponse>>builder()
+                .result(dashboardService.calculateMonthlyRevenue(year, startMonth, endMonth))
+                .build();
+    }
+
     @GetMapping("/revenue")
     public ApiResponse<BigDecimal> getTotalRevenue(
             @RequestParam("startDate") Instant startDate, @RequestParam("endDate") Instant endDate) {
         return ApiResponse.<BigDecimal>builder()
                 .result(dashboardService.calculateTotalRevenue(startDate, endDate))
+                .build();
+    }
+
+    @GetMapping("/monthly-profit")
+    public ApiResponse<List<MonthlyIncomeResponse>> getMonthlyProfit(
+            @RequestParam("year") int year,
+            @RequestParam("startMonth") int startMonth,
+            @RequestParam("endMonth") int endMonth) {
+        return ApiResponse.<List<MonthlyIncomeResponse>>builder()
+                .result(dashboardService.calculateMonthlyProfit(year, startMonth, endMonth))
                 .build();
     }
 
