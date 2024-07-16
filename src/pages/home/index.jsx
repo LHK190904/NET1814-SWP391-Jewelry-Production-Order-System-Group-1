@@ -94,15 +94,12 @@ function Home() {
       if (!user) {
         throw new Error("Vui lòng đăng nhập để đặt yêu cầu");
       }
-      console.log("Submitting Form Data:", formData);
-      const response = await axiosInstance.post(
-        `/requests/${user.id}`,
-        formData
-      );
+      await axiosInstance.post(`/requests/${user.id}`, formData);
       handleHideModal();
-      console.log("Dữ liệu đã được gửi:", response.data);
+      message.success("Đặt yêu cầu thành công");
     } catch (error) {
       console.error("Có lỗi khi gửi dữ liệu:", error);
+      message.error("Đặt yêu cầu thất bại");
     }
   };
 
@@ -209,10 +206,21 @@ function Home() {
                 required: true,
                 message: "Vui lòng nhập trọng lượng vật liệu",
               },
+              {
+                validator: (_, value) => {
+                  if (isNaN(value) || parseFloat(value) <= 0) {
+                    return Promise.reject(
+                      new Error("Trọng lượng vật liệu là số lớn hơn 0")
+                    );
+                  }
+                  return Promise.resolve();
+                },
+              },
             ]}
           >
             <Input />
           </Form.Item>
+
           <Form.Item name="mainStoneId" label="Đá chính (Nếu có):">
             <Select allowClear>
               {materialPrice.map((item, index) => (
@@ -237,7 +245,7 @@ function Home() {
             rules={[
               {
                 required: true,
-                message: "Vui lòng nhập mô tả nếu không có hình ảnh",
+                message: "Vui lòng nhập mô tả",
               },
             ]}
           >
