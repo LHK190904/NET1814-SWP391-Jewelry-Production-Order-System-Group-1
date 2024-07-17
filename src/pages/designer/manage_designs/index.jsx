@@ -40,7 +40,7 @@ function ManageDesign() {
   const [material, setMaterial] = useState([]);
   const [dataAPI, setDataAPI] = useState([]);
   const [materialName, setMaterialName] = useState("");
-  const [modalTitle, setModalTitle] = useState("Add new design");
+  const [modalTitle, setModalTitle] = useState("Thêm bản thiết kế");
 
   const fetchInfo = async () => {
     try {
@@ -170,7 +170,7 @@ function ManageDesign() {
     try {
       setSelectedDesignItem(item);
       setDesignID(item.id);
-      setModalTitle(`Edit design ${item.id} `);
+      setModalTitle(`Chỉnh sửa bản thiết kế ${item.id} `);
       initializeFormAndFileList(item);
       setIsModalOpen(true);
     } catch (error) {
@@ -198,7 +198,7 @@ function ManageDesign() {
   const handleOpenAddModal = () => {
     setSelectedDesignItem(null);
     setDesignID(null);
-    setModalTitle("Add new design");
+    setModalTitle("Thêm bản thiết kế");
     form.resetFields();
     setFileList([]);
     setIsModalOpen(true);
@@ -224,7 +224,7 @@ function ManageDesign() {
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-    <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
+      <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
         <Link to={"/"}>
           <img
             className="h-[160px] w-auto"
@@ -250,7 +250,7 @@ function ManageDesign() {
           }`}
           to="/designer/process_orders"
         >
-          Order processing
+          Xử lí đơn hàng
         </Link>
         <Link
           className={` ${
@@ -260,19 +260,21 @@ function ManageDesign() {
           }`}
           to="/designer/manage_designs"
         >
-          Manage design
+          Quản lí bản thiết kế
         </Link>
       </div>
-      <Button onClick={handleOpenAddModal} className="ml-5">Add design</Button>
+      <Button onClick={handleOpenAddModal} className="ml-5">
+        Thêm bản thiết kế
+      </Button>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-start-1 col-span-12 bg-white m-4 rounded-lg p-4">
           <h1 className="text-center font-extrabold text-3xl">
-            List of designs
+            Danh sách bản thiết kế
           </h1>
           <div className="grid grid-cols-3 text-center mt-4">
-            <div className="col-span-1 font-bold">Design ID</div>
-            <div className="col-span-1 font-bold">Design name</div>
-            <div className="col-span-1 font-bold">Action</div>
+            <div className="col-span-1 font-bold">ID</div>
+            <div className="col-span-1 font-bold">Tên bản thiết kế</div>
+            <div className="col-span-1 font-bold"></div>
             {listItems.length > 0 ? (
               listItems.map((item) => (
                 <React.Fragment key={item.id}>
@@ -284,16 +286,16 @@ function ManageDesign() {
                       onClick={() => openEditModal(item)}
                       className="mr-4"
                     >
-                      Edit
+                      Chỉnh sửa
                     </Button>
                     <Popconfirm
-                      title="Delete"
-                      description="Are you sure you want to delete this design?"
+                      title="Xóa bản thiết kế"
+                      description="Bạn có muốn xóa bản thiết kế này không?"
                       onConfirm={() => handleDelete(item.id)}
-                      okText="OK"
-                      cancelText="Cancel"
+                      okText="Có"
+                      cancelText="Hủy"
                     >
-                      <Button danger>Delete</Button>
+                      <Button danger>Xóa</Button>
                     </Popconfirm>
                   </div>
                 </React.Fragment>
@@ -333,10 +335,10 @@ function ManageDesign() {
             ]}
           >
             <Select>
-              <Select.Option value="RING">RING</Select.Option>
-              <Select.Option value="NECKLACE">NECKLACE</Select.Option>
-              <Select.Option value="BRACELET">BRACELET</Select.Option>
-              <Select.Option value="EARRINGS">EARRINGS</Select.Option>
+              <Select.Option value="RING">Nhẫn</Select.Option>
+              <Select.Option value="NECKLACE">Dây chuyền</Select.Option>
+              <Select.Option value="BRACELET">Vòng tay</Select.Option>
+              <Select.Option value="EARRINGS">Bông tai</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -391,10 +393,11 @@ function ManageDesign() {
             <TextArea />
           </Form.Item>
 
-          <Form.Item label="Upload hình ảnh:">
+          <Form.Item label="Tải lên hình ảnh:">
             <Upload
               listType="picture-card"
               fileList={fileList}
+              accept=".png,.jpg"
               onPreview={handlePreview}
               onChange={handleChange}
               beforeUpload={() => false}

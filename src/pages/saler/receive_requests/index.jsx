@@ -35,7 +35,12 @@ function ReceiveRequests() {
   const columns = [
     { title: "Mã yêu cầu", dataIndex: "id", key: "id" },
     { title: "Chi tiết", dataIndex: "description", key: "description" },
-    { title: "Thời gian tạo", dataIndex: "createdAt", key: "createdAt" },
+    {
+      title: "Thời gian tạo",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text) => new Date(text).toLocaleString(),
+    },
     {
       title: "Hành động",
       key: "action",
@@ -49,7 +54,7 @@ function ReceiveRequests() {
 
   return (
     <div>
-       <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
+      <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
         <Link to={"/"}>
           <img
             className="h-[160px] w-auto"
@@ -59,7 +64,6 @@ function ReceiveRequests() {
         </Link>
         <div className="flex-grow text-center">
           <h1 className="text-5xl">Nhân viên bán hàng</h1>
-
         </div>
         <div className="w-80 text-right">
           <LogoutButton />
