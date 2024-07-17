@@ -24,17 +24,27 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
 
 function SaleTrend() {
+  const year = "2024";
+  const startMonth = "1";
+  const endMonth = "12";
   const [revenue, setRevenue] = useState([]);
-  const startDate = "2024-01-01T00:00:00Z";
-  const endDate = "2024-12-31T23:59:59Z";
+  const [orderCount, setOrderCount] = useState([]);
 
   const fetchRevenue = async () => {
     try {
-      const response = await axiosInstance.get(
-        `dashboard/revenue?startDate=${startDate}&endDate=${endDate}`
+      const responseRevenue = await axiosInstance.get(
+        `dashboard/monthly-revenue?year=${year}&startMonth=${startMonth}&endMonth=${endMonth}`
       );
-      setRevenue(response.data.result);
-      console.log("Revenue: ", response.data.result);
+      setRevenue(responseRevenue.data.result.map((item) => item.totalProfit));
+      console.log("Revenue: ", responseRevenue.data.result);
+
+      const responseOrderCount = await axiosInstance.get(
+        `dashboard/monthly-order-count?year=${year}&startMonth=${startMonth}&endMonth=${endMonth}`
+      );
+      setOrderCount(
+        responseOrderCount.data.result.map((item) => item.orderCount)
+      );
+      console.log("Order count: ", responseOrderCount.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -62,17 +72,14 @@ function SaleTrend() {
     datasets: [
       {
         label: "Profits",
-        data: [
-          1000, 4000, 2000, 3000, 6000, 3000, 8000, 10000, 4000, 7000, 8000,
-          12000,
-        ],
+        data: revenue,
         fill: true,
         backgroundColor: "#9CDFFF",
         borderColor: "#00ABFF",
       },
       {
         label: "Sales",
-        data: [100, 400, 200, 300, 500, 400, 800, 1000, 500, 700, 900, 1200],
+        data: orderCount,
         fill: true,
         backgroundColor: "#FFA8A8",
         borderColor: "#FF0000",

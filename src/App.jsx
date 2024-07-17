@@ -27,6 +27,7 @@ import ManageDesign from "./pages/designer/manage_designs";
 import Authenticate from "./pages/auth/Authenticate";
 import ManageMaterial from "./pages/production-staff/manage-materials";
 import Post from "./pages/posts/[slug]";
+import SearchPage from "./pages/search";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -105,6 +106,10 @@ function App() {
         {
           path: "/price/material",
           element: <PriceMaterial />,
+        },
+        {
+          path: "/search/:query",
+          element: <SearchPage />,
         },
       ],
     },

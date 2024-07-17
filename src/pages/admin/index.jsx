@@ -81,6 +81,11 @@ const EditableCell = ({
                           )
                         );
                       }
+                      if (!value || value.trim().length < 3) {
+                        return Promise.reject(
+                          new Error("Tên đăng nhập phải có ít nhất 3 ký tự")
+                        );
+                      }
                       return Promise.resolve();
                     },
                   },
@@ -148,11 +153,12 @@ function Admin() {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      // console.log(values);
       const response = await axiosInstance.post("/user", values);
-
-      setData([...data, { ...response.data.result, key: response.data.id }]);
-      console.log(response.data.result);
+      const newAccount = {
+        ...response.data.result,
+        key: response.data.id,
+      };
+      setData([...data, newAccount]);
       createForm.resetFields();
       handleHideModal();
       message.success("Tạo tài khoản thành công");
@@ -168,7 +174,11 @@ function Admin() {
   const fetchAccount = async () => {
     try {
       const response = await axiosInstance.get("/user");
-      setData(response.data.result.map((item) => ({ ...item, key: item.id })));
+      const result = response.data.result.map((item) => ({
+        ...item,
+        key: item.id,
+      }));
+      setData(result);
     } catch (error) {
       console.log("Failed to fetch account:", error);
       message.error("Failed to fetch account");
@@ -192,11 +202,11 @@ function Admin() {
     }
   };
 
-  const handleUpdateAccount = async (id, updatedData) => {
+  const handleUpdateAccount = async (updatedData) => {
     try {
-      await axiosInstance.put(`/user/${id}`, updatedData);
-      const updatedDataSource = data.map((item) =>
-        item.id === id ? { ...item, ...updatedData } : item
+      await axiosInstance.put(`/user/${updatedData.id}`, updatedData);
+      const updatedDataSource = data.map((account) =>
+        account.id === updatedData.id ? { ...account, ...updatedData } : account
       );
       setData(updatedDataSource);
       window.location.reload();
@@ -233,24 +243,28 @@ function Admin() {
         return;
       }
 
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
+      const index = data.findIndex((account) => key === account.key);
       if (index > -1) {
-        const item = newData[index];
-        const updatedData = { ...item, ...row };
+        const account = data[index];
+        const updatedData = { ...account, ...row };
         delete updatedData.key; // Loại bỏ thuộc tính key
-        newData.splice(index, 1, updatedData);
-        setData(newData);
         setEditingKey("");
-        await handleUpdateAccount(key, updatedData);
+        await handleUpdateAccount(updatedData);
       } else {
-        newData.push(row);
-        setData(newData);
         setEditingKey("");
       }
     } catch (errInfo) {
       console.log("Validate Failed:", errInfo);
     }
+  };
+
+  const titleMap = {
+    MANAGER: "Quản lí",
+    SALE_STAFF: "Nhân viên bán hàng",
+    DESIGN_STAFF: "Nhân viên thiết kế",
+    PRODUCTION_STAFF: "Nhân viên gia công",
+    ADMIN: "Quản trị viên",
+    CUSTOMER: "Khách hàng",
   };
 
   const columns = [
@@ -281,6 +295,8 @@ function Admin() {
       dataIndex: "title",
       width: "10%",
       editable: true,
+
+      render: (text) => titleMap[text] || text,
     },
     {
       dataIndex: "operation",
@@ -380,6 +396,11 @@ function Admin() {
                     if (value !== value.trim()) {
                       return Promise.reject(
                         new Error("Không được có khoảng trắng ở đầu hoặc cuối")
+                      );
+                    }
+                    if (!value || value.trim().length < 3) {
+                      return Promise.reject(
+                        new Error("Tên đăng nhập phải có ít nhất 3 ký tự")
                       );
                     }
                     if (data.some((account) => account.userName === value)) {
