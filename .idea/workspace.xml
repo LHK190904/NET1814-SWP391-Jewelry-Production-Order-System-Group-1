@@ -5,16 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7a0e5d5-8668-4584-a5e3-54d0e074004a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/SWP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/SWP.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/configs/ApplicationInitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/configs/ApplicationInitConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/enums/Title.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -102,7 +111,10 @@
       <workItem from="1720937227085" duration="627000" />
       <workItem from="1721014930029" duration="2000" />
       <workItem from="1721015907115" duration="27000" />
-      <workItem from="1721026711059" duration="1616000" />
+      <workItem from="1721026711059" duration="10665000" />
+      <workItem from="1721113579605" duration="2992000" />
+      <workItem from="1721119365159" duration="1842000" />
+      <workItem from="1721178520343" duration="123000" />
     </task>
     <servers />
   </component>

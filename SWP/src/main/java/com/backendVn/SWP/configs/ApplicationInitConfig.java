@@ -1,7 +1,6 @@
 package com.backendVn.SWP.configs;
 
 import com.backendVn.SWP.entities.User;
-import com.backendVn.SWP.enums.Title;
 import com.backendVn.SWP.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class ApplicationInitConfig {
                 User user = User.builder()
                         .userName("admin")
                         .password(passwordEncoder.encode("admin"))
-                        .title(Title.ADMIN.name())
+                        .title("ADMIN")
                         .build();
 
                 userRepository.save(user);
