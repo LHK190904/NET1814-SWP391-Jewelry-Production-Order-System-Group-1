@@ -103,6 +103,13 @@ public class DashboardController {
                 .build();
     }
 
+    @GetMapping("/designs-sorted-by-order-count")
+    public ApiResponse<List<DesignResponse>> getDesignsSortedByOrderCount() {
+        return ApiResponse.<List<DesignResponse>>builder()
+                .result(dashboardService.getDesignsSortedByOrderCount())
+                .build();
+    }
+
     @GetMapping("/revenue/month/1")
     public ApiResponse<List<RevenueEachMonth>> getRevenuePerMonth() {
         List<RevenueEachMonth> revenue = dashboardService.sumRevenuePerMonth();

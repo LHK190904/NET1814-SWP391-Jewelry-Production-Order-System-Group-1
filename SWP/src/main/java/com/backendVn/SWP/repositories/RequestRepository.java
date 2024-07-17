@@ -17,4 +17,6 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findAllByCustomerIDAndStatusIsNotLike(User customer, String status);
 
     List<Request> findByCreatedAtBetween(Instant startDate, Instant endDate);
+
+    List<Request> findAllByCompanyDesignIsNotNull();
 }

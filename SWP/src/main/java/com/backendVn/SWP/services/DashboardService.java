@@ -2,6 +2,7 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.response.*;
 import com.backendVn.SWP.entities.*;
+import com.backendVn.SWP.mappers.DesignMapper;
 import com.backendVn.SWP.repositories.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,9 @@ public class DashboardService {
     UserRepository userRepository;
     QuotationRepository quotationRepository;
     RequestRepository requestRepository;
+    DesignRepository designRepository;
+    DesignMapper designMapper;
+
 
     public List<RevenueEachMonth> sumRevenuePerMonth (){
         List<Invoice> invoices = getInvoicesForCurrentYear();
@@ -216,4 +220,42 @@ public class DashboardService {
     public Long countOrders(Instant startDate, Instant endDate) {
         return invoiceRepository.countByCreatedAtBetween(startDate, endDate);
     }
+
+    public List<DesignResponse> getDesignsSortedByOrderCount() {
+        // Lấy tất cả các requests có companyDesign không null
+        List<Request> requests = requestRepository.findAllByCompanyDesignIsNotNull();
+
+        // Đếm số lượng order cho từng designId
+        Map<Integer, Long> designCountMap = new HashMap<>();
+        for (Request request : requests) {
+            Design design = request.getCompanyDesign();
+            if (design != null) {
+                Integer designId = design.getId();
+                designCountMap.put(designId, designCountMap.getOrDefault(designId, 0L) + 1);
+            }
+        }
+
+        // Chuyển đổi sang List<Map.Entry> để dễ sắp xếp
+        List<Map.Entry<Integer, Long>> designCountList = new ArrayList<>(designCountMap.entrySet());
+
+        // Sắp xếp theo số lượng order giảm dần
+        designCountList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+
+        // Tạo danh sách DesignResponse
+        List<DesignResponse> designResponses = new ArrayList<>();
+        for (Map.Entry<Integer, Long> entry : designCountList) {
+            Integer designId = entry.getKey();
+            Optional<Design> optionalDesign = designRepository.findById(designId);
+            if (optionalDesign.isPresent()) {
+                Design design = optionalDesign.get();
+                List<String> listURLImage = Arrays.asList(design.getURLImage().split(","));
+                DesignResponse designResponse = designMapper.toDesignResponse(design, listURLImage);
+                designResponses.add(designResponse);
+            }
+        }
+
+        return designResponses;
+    }
+
+
 }

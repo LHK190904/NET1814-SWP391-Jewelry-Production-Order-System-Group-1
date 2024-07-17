@@ -9,7 +9,7 @@
           <factory-entry name="entityManagerFactory" value="84c7cca5-77ca-4d34-a8fc-332f755c41d2" />
         </datasource-mapping>
         <naming-strategy-map>
-          <unit-entry name="entityManagerFactory" />
+          <unit-entry name="entityManagerFactory" value="org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy" />
         </naming-strategy-map>
       </configuration>
     </facet>
