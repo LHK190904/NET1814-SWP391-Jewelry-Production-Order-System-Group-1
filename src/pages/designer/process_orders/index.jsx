@@ -197,7 +197,7 @@ function ProcessOrder() {
           }`}
           to="/designer/process_orders"
         >
-          Order processing
+          Xử lí đơn hàng
         </Link>
         <Link
           className={` ${
@@ -207,7 +207,7 @@ function ProcessOrder() {
           }`}
           to="/designer/manage_designs"
         >
-          Manage design
+          Quản lí bản thiết kế
         </Link>
       </div>
       <div className="grid grid-cols-12 gap-4">
@@ -240,7 +240,7 @@ function ProcessOrder() {
         <div className="col-start-10 col-span-3 bg-white m-4 rounded-lg p-4">
           <h1 className="text-center text-3xl font-bold">ĐƠN HÀNG</h1>
           <div className="grid grid-cols-2 text-center mt-4 max-h-screen">
-            <div className="col-span-1 font-bold">ID ORDER</div>
+            <div className="col-span-1 font-bold">Mã ID</div>
             <div className="col-span-1 font-bold">TRẠNG THÁI</div>
             {listItems.map((item) => (
               <React.Fragment key={item.id}>
@@ -298,6 +298,7 @@ function ProcessOrder() {
             fileList={fileList}
             onPreview={handlePreview}
             onChange={handleChange}
+            accept=".png,.jpg"
             beforeUpload={() => false}
           >
             {fileList.length >= 8 ? null : uploadButton}

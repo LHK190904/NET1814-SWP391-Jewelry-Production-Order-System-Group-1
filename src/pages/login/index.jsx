@@ -18,6 +18,7 @@ function Login() {
       if (user) {
         if (user.title === "ADMIN") {
           navigate("/admin");
+          window.location.reload();
         } else if (user.title === "SALE_STAFF") {
           navigate("/saler/receive_requests");
         } else if (user.title === "MANAGER") {

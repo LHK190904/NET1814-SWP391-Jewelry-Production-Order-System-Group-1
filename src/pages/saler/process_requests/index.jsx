@@ -115,7 +115,7 @@ function ProcessRequests() {
       const updatedRecord = {
         ...selectedRecord,
         ...values,
-        status: "Pending quotation",
+        status: "Pending quotation for manager",
       };
       console.log(updatedRecord);
       await axiosInstance.post(
@@ -166,6 +166,7 @@ function ProcessRequests() {
       dataIndex: "recievedAt",
       key: "recievedAt",
       width: "15%",
+      render: (text) => new Date(text).toLocaleString(),
     },
     {
       title: "Trạng thái",
@@ -174,13 +175,23 @@ function ProcessRequests() {
       width: "5%",
       render: (status) => {
         let color = "volcano";
-        if (status === "Ordering") color = "green";
-        if (status === "Processing") color = "gray";
-        if (status === "Pending quotation") color = "blue";
-        if (status === "Pending quotation for customer") color = "purple";
+        let showStatus = "Từ chối báo giá";
+        if (status === "Ordering") {
+          color = "green";
+          showStatus = "Đã duyệt";
+        } else if (status === "Processing") {
+          color = "gray";
+          showStatus = "Chưa xử lí";
+        } else if (status === "Pending quotation for manager") {
+          color = "blue";
+          showStatus = "Chờ quản lí duyệt";
+        } else if (status === "Pending quotation for customer") {
+          color = "purple";
+          showStatus = "Chờ khách hàng duyệt";
+        }
         return (
           <Tag color={color} key={status}>
-            {status}
+            {showStatus}
           </Tag>
         );
       },
@@ -191,7 +202,7 @@ function ProcessRequests() {
       render: (_, record) => (
         <Space size="middle">
           {record.status !== "Ordering" &&
-          record.status !== "Pending quotation" &&
+          record.status !== "Pending quotation for manager" &&
           record.status !== "Pending quotation for customer" ? (
             <Button type="primary" onClick={() => handleShowModal(record)}>
               Lấy giá
