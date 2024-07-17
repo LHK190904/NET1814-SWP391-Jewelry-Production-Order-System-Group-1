@@ -1,8 +1,6 @@
 package com.backendVn.SWP.services;
 
-import com.backendVn.SWP.dtos.response.KpiResponse;
-import com.backendVn.SWP.dtos.response.ProductionStaffKPI;
-import com.backendVn.SWP.dtos.response.RevenueEachMonth;
+import com.backendVn.SWP.dtos.response.*;
 import com.backendVn.SWP.entities.*;
 import com.backendVn.SWP.repositories.*;
 import lombok.AccessLevel;
@@ -96,11 +94,39 @@ public class DashboardService {
         return new Instant[]{start, end};
     }
 
+    public List<MonthlyIncomeResponse> calculateMonthlyRevenue(int year, int startMonth, int endMonth) {
+        List<MonthlyIncomeResponse> monthlyRevenues = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            BigDecimal totalRevenue = calculateTotalRevenue(startDate, endDate);
+            monthlyRevenues.add(new MonthlyIncomeResponse(month, totalRevenue));
+        }
+
+        return monthlyRevenues;
+    }
+
     public BigDecimal calculateTotalRevenue(Instant startDate, Instant endDate) {
         List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(startDate, endDate);
         return invoices.stream()
                 .map(Invoice::getTotalCost)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public List<MonthlyIncomeResponse> calculateMonthlyProfit(int year, int startMonth, int endMonth) {
+        List<MonthlyIncomeResponse> monthlyProfits = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            BigDecimal totalProfit = calculateTotalProfit(startDate, endDate);
+            monthlyProfits.add(new MonthlyIncomeResponse(month, totalProfit));
+        }
+
+        return monthlyProfits;
     }
 
     public BigDecimal calculateTotalProfit(Instant startDate, Instant endDate) {
@@ -110,6 +136,21 @@ public class DashboardService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         return totalRevenue.subtract(totalExpense);
     }
+
+    public List<MonthlyIncomeResponse> calculateMonthlyAverageOrderValue(int year, int startMonth, int endMonth) {
+        List<MonthlyIncomeResponse> monthlyAverageOrderValues = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            BigDecimal averageOrderValue = calculateAverageOrderValue(startDate, endDate);
+            monthlyAverageOrderValues.add(new MonthlyIncomeResponse(month, averageOrderValue));
+        }
+
+        return monthlyAverageOrderValues;
+    }
+
 
     public BigDecimal calculateAverageOrderValue(Instant startDate, Instant endDate) {
         List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(startDate, endDate);
@@ -156,6 +197,20 @@ public class DashboardService {
         if (staffId != null) {
             staffOrderCount.put(staffId, staffOrderCount.getOrDefault(staffId, 0L) + 1);
         }
+    }
+
+    public List<MonthlyOrderCountResponse> calculateMonthlyOrderCount(int year, int startMonth, int endMonth) {
+        List<MonthlyOrderCountResponse> monthlyOrderCounts = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            Long orderCount = countOrders(startDate, endDate);
+            monthlyOrderCounts.add(new MonthlyOrderCountResponse(month, orderCount));
+        }
+
+        return monthlyOrderCounts;
     }
 
     public Long countOrders(Instant startDate, Instant endDate) {
