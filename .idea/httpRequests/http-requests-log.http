@@ -1,3 +1,28 @@
+POST http://localhost:8080/requests/1003
+Content-Type: application/json
+Content-Length: 232
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "description": "asdasd",
+  "buyCost": 100,
+  "sellCost": 100,
+  "updated": "18/07/2024 10:00",
+  "goldType": "gold",
+  "materialWeight": 100,
+  "mainStoneId": 0,
+  "subStoneId": 0,
+  "category": "RING",
+  "listURLImage": [2,3]
+}
+
+<> 2024-07-18T140200.200.json
+
+###
+
 POST http://localhost:8080/cust/register_token
 Content-Type: application/json
 Content-Length: 118
@@ -642,31 +667,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 }
 
 <> 2024-07-01T132409.400.json
-
-###
-
-POST http://localhost:8080/requests/7008
-Content-Type: application/json
-Content-Length: 223
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "description": "asdasd",
-  "buyCost": 100,
-  "sellCost": 100,
-  "updated": "01/07/2024 09:19",
-  "goldType": "gold",
-  "materialWeight": 2,
-  "mainStoneId": 0,
-  "subStoneId": 0,
-  "category": "RING",
-  "uRLImage": ""
-}
-
-<> 2024-07-01T132259.400.json
 
 ###
 

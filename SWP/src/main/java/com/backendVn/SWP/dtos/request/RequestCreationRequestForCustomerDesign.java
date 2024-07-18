@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RequestCreationRequestForCustomerDesign {
-    @NotEmpty(message = "MESSAGE_IS_EMPTY")
+    @NotEmpty(message = "DESCRIPTION_IS_EMPTY")
     String description;
 
     Double buyCost;
@@ -27,7 +27,7 @@ public class RequestCreationRequestForCustomerDesign {
 
     String goldType;
 
-    @NotNull(message = "WEiGHT_REQUIRED")
+    @NotNull(message = "WEIGHT_REQUIRED")
     @DecimalMin(value = "0.0", inclusive = false, message = "WEIGHT_INVALID")
     BigDecimal materialWeight;
 

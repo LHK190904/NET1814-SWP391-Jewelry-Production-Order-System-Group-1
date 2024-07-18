@@ -5,28 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c7a0e5d5-8668-4584-a5e3-54d0e074004a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2110876e-208a-4dea-aec9-a36f16b4d9bb.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2110876e-208a-4dea-aec9-a36f16b4d9bb/storage_v2/_src_/database/SWP391_NET1814_Jewelry_Production_Order_System.OcRD3Q.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2110876e-208a-4dea-aec9-a36f16b4d9bb/storage_v2/_src_/database/SWP391_NET1814_Jewelry_Production_Order_System.OcRD3Q/schema/dbo.sYMBAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/84c7cca5-77ca-4d34-a8fc-332f755c41d2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/84c7cca5-77ca-4d34-a8fc-332f755c41d2/storage_v2/_src_/database/SWP1.RQsnAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/84c7cca5-77ca-4d34-a8fc-332f755c41d2/storage_v2/_src_/database/SWP1.RQsnAA/schema/dbo.sYMBAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/84c7cca5-77ca-4d34-a8fc-332f755c41d2/storage_v2/_src_/database/master.YiqNvw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/84c7cca5-77ca-4d34-a8fc-332f755c41d2/storage_v2/_src_/database/master.YiqNvw/schema/dbo.sYMBAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_06_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_06_AM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_10_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_10_AM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_9_25_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_9_25_PM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/WarrantyCardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/WarrantyCardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/request/WarrantyCardCreationRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/WarrantyCardMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/WarrantyCardMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/WarrantyCardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/WarrantyCardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/WarrantyCardMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/WarrantyCardMapperImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,12 +120,8 @@
       <workItem from="1721015907115" duration="27000" />
       <workItem from="1721026711059" duration="1616000" />
       <workItem from="1721117263959" duration="3164000" />
-      <workItem from="1721288938007" duration="969000" />
-      <workItem from="1721290245101" duration="31000" />
-      <workItem from="1721290284213" duration="48000" />
-      <workItem from="1721290350043" duration="35000" />
-      <workItem from="1721290450347" duration="520000" />
-      <workItem from="1721291112098" duration="817000" />
+      <workItem from="1721211692461" duration="10000" />
+      <workItem from="1721284072142" duration="5559000" />
     </task>
     <servers />
   </component>
