@@ -15,6 +15,7 @@ function Home() {
   const [materialPrice, setMaterialPrice] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
+
   const initialForm = {
     category: "",
     goldType: "",
@@ -27,18 +28,8 @@ function Home() {
     buyCost: 0,
     listURLImage: [],
   };
-  const [formData, setFormData] = useState({
-    category: "",
-    goldType: "",
-    materialWeight: "",
-    mainStoneId: 0,
-    subStoneId: 0,
-    description: "",
-    updated: "",
-    sellCost: 0,
-    buyCost: 0,
-    listURLImage: [],
-  });
+
+  const [formData, setFormData] = useState(initialForm);
 
   const fetchData = async () => {
     try {
@@ -50,10 +41,9 @@ function Home() {
         updated: item[`@d_${index + 1}`],
       }));
       setGoldPrice(goldData);
-      console.log(goldData);
+
       const materialResponse = await axiosInstance.get(`material/notGold`);
       setMaterialPrice(materialResponse.data.result);
-      console.log(materialResponse.data.result);
     } catch (error) {
       console.error(error);
     }
@@ -69,7 +59,7 @@ function Home() {
 
   const handleUpload = async () => {
     if (fileList.length === 0) {
-      console.log("Vui lòng chọn file hình ảnh");
+      message.error("Vui lòng chọn file hình ảnh");
       return;
     }
     setUploading(true);
@@ -81,14 +71,11 @@ function Home() {
         ...prevFormData,
         listURLImage: [...prevFormData.listURLImage, ...uploadedURLs],
       }));
-      console.log("After set in formData:", uploadedURLs);
-      console.log(formData);
       message.success("Tải ảnh thành công");
     } catch (error) {
       console.error("Error uploading files:", error);
     } finally {
       setUploading(false);
-      setFormData(initialForm);
     }
   };
 
@@ -102,6 +89,7 @@ function Home() {
 
   const handleOk = async () => {
     try {
+      await handleUpload;
       const user = authService.getCurrentUser();
       if (!user) {
         throw new Error("Vui lòng đăng nhập để đặt yêu cầu");
@@ -109,7 +97,6 @@ function Home() {
       await axiosInstance.post(`/requests/${user.id}`, formData);
       handleHideModal();
       message.success("Đặt yêu cầu thành công");
-      message.success("Gửi yêu cầu thành công");
     } catch (error) {
       console.error("Có lỗi khi gửi dữ liệu:", error);
     }
@@ -163,7 +150,6 @@ function Home() {
             <Tutorial />
           </RevealAppear>
         </div>
-
         <button
           onClick={handleShowModal}
           className="col-start-5 col-span-4 bg-[#F7EF8A] text-black p-4 my-4 rounded-lg font-bold hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f]"
@@ -214,10 +200,7 @@ function Home() {
             name="materialWeight"
             label="Trọng lượng vật liệu: (Đơn vị: Chỉ)"
             rules={[
-              {
-                required: true,
-                message: "Vui lòng nhập trọng lượng vật liệu",
-              },
+              { required: true, message: "Vui lòng nhập trọng lượng vật liệu" },
               {
                 validator: (_, value) => {
                   if (isNaN(value) || parseFloat(value) <= 0) {
@@ -232,7 +215,6 @@ function Home() {
           >
             <Input />
           </Form.Item>
-
           <Form.Item name="mainStoneId" label="Đá chính (Nếu có):">
             <Select allowClear>
               {materialPrice.map((item, index) => (
@@ -254,12 +236,7 @@ function Home() {
           <Form.Item
             name="description"
             label="Mô tả:"
-            rules={[
-              {
-                required: true,
-                message: "Vui lòng nhập mô tả",
-              },
-            ]}
+            rules={[{ required: true, message: "Vui lòng nhập mô tả" }]}
           >
             <Input />
           </Form.Item>

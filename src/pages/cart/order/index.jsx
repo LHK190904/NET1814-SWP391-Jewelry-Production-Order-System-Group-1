@@ -59,6 +59,8 @@ function CartOrder() {
 
   const fetchInvoice = async () => {
     try {
+      await axiosInstance.post(`invoices/${order.requestID}`);
+      await axiosInstance.post(`invoice-details/${order.id}`);
       const response = await axiosInstance(
         `invoices/getInvoiceInfor/${order.id}`
       );
