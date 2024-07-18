@@ -48,6 +48,9 @@ public enum ErrorCode {
     NO_DESIGN_WAS_ASSIGNED(1036,"There are no design from designer", HttpStatus.NOT_FOUND),
     PASSWORD_EXISTED(1037, "Password already existed", HttpStatus.BAD_REQUEST),
     MATERIAL_TYPE_INVALID(1038, "Material type is invalid", HttpStatus.BAD_REQUEST),
+    WEIGHT_REQUIRED(1039, "Please input the weight of the material", HttpStatus.BAD_REQUEST),
+    INVALID_CATEGORY(1040, "Invalid category", HttpStatus.BAD_REQUEST),
+    DESCRIPTION_IS_EMPTY(1041, "Description cannot be empty", HttpStatus.BAD_REQUEST),
     ;
     private int code;
     private String message;
