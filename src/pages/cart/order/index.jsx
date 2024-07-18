@@ -78,6 +78,8 @@ function CartOrder() {
   useEffect(() => {
     if (order.status === "Completed!!!") {
       fetchInvoice();
+    } else if (order.status === "finished") {
+      fetchWarranty();
     }
   }, [order]);
 
@@ -267,6 +269,12 @@ function CartOrder() {
                         className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
                       >
                         XEM HÓA ĐƠN
+                      </button>
+                      <button
+                        onClick={handleShowModal}
+                        className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
+                      >
+                        XEM GIẤY BẢO HÀNH
                       </button>
                     </div>
                   </div>

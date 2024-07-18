@@ -50,7 +50,6 @@ function Home() {
         updated: item[`@d_${index + 1}`],
       }));
       setGoldPrice(goldData);
-      console.log(goldData);
       const materialResponse = await axiosInstance.get(`material/notGold`);
       setMaterialPrice(materialResponse.data.result);
       console.log(materialResponse.data.result);
@@ -105,10 +104,12 @@ function Home() {
       if (!user) {
         throw new Error("Vui lòng đăng nhập để đặt yêu cầu");
       }
+      console.log("handle OK", formData);
       await axiosInstance.post(`/requests/${user.id}`, formData);
       handleHideModal();
       message.success("Đặt yêu cầu thành công");
-      message.success("Gửi yêu cầu thành công");
+      // setFormData(initialForm);
+      // form.resetFields();
     } catch (error) {
       console.error("Có lỗi khi gửi dữ liệu:", error);
     }
