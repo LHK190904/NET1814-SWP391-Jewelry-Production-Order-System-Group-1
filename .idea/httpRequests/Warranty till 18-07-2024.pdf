@@ -1,0 +1,6 @@
+{
+  "timestamp": "2024-07-18T08:53:04.744+00:00",
+  "status": 500,
+  "error": "Internal Server Error",
+  "path": "/pdf/generate/4002"
+}

@@ -43,7 +43,7 @@ public class PDFGeneratorService {
         title.setAlignment(Paragraph.ALIGN_CENTER);
         document.add(title);
 
-        String imagePath = "C:\\Users\\Dell\\NET1814-SWP391-Jewelry-Production-Order-System-Group-1\\src\\assets\\images\\logo.png"; // Replace with your image path
+        String imagePath = "C:\\Users\\truon\\Downloads\\logo.png"; // Replace with your image path
         Image image = Image.getInstance(imagePath);
 
         // Adjust the image size if needed

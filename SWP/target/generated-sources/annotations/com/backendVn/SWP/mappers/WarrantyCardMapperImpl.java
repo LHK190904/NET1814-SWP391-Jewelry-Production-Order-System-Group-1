@@ -13,28 +13,6 @@ import org.springframework.stereotype.Component;
 public class WarrantyCardMapperImpl implements WarrantyCardMapper {
 
     @Override
-    public WarrantyCard toWarrantyCard(WarrantyCardCreationRequest warrantyCardCreationRequest) {
-        if ( warrantyCardCreationRequest == null ) {
-            return null;
-        }
-
-        WarrantyCard.WarrantyCardBuilder warrantyCard = WarrantyCard.builder();
-
-        warrantyCard.endAt( warrantyCardCreationRequest.getEndAt() );
-
-        return warrantyCard.build();
-    }
-
-    @Override
-    public void updateWarranty(WarrantyCard warrantyCard, WarrantyCardCreationRequest warrantyCardCreationRequest) {
-        if ( warrantyCardCreationRequest == null ) {
-            return;
-        }
-
-        warrantyCard.setEndAt( warrantyCardCreationRequest.getEndAt() );
-    }
-
-    @Override
     public WarrantyCardResponse toWarrantyCardResponse(WarrantyCard warrantyCard) {
         if ( warrantyCard == null ) {
             return null;

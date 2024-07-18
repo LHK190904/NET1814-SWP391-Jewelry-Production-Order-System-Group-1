@@ -7,7 +7,5 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface WarrantyCardMapper {
-    WarrantyCard toWarrantyCard(WarrantyCardCreationRequest warrantyCardCreationRequest);
-    void updateWarranty(@MappingTarget WarrantyCard warrantyCard, WarrantyCardCreationRequest warrantyCardCreationRequest);
     WarrantyCardResponse toWarrantyCardResponse(WarrantyCard warrantyCard);
 }
