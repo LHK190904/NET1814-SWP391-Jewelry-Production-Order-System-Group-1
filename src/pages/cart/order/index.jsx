@@ -59,11 +59,22 @@ function CartOrder() {
 
   const fetchInvoice = async () => {
     try {
-      const response = await axiosInstance(
+      console.log("api", order);
+      const response = await axiosInstance.get(
         `invoices/getInvoiceInfor/${order.id}`
       );
       setInvoice(response.data.result);
       console.log("Invoice:", response.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchWarranty = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/${order.id}`
+      );
+      // setWarranty(response.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -76,6 +87,8 @@ function CartOrder() {
   useEffect(() => {
     if (order.status === "Completed!!!") {
       fetchInvoice();
+    } else if (order.status === "finished") {
+      fetchWarranty();
     }
   }, [order]);
 
@@ -83,7 +96,7 @@ function CartOrder() {
     try {
       const values = { feedback };
       console.log("Approve values:", values);
-      const response = await axiosInstance.put(
+       await axiosInstance.put(
         `request-orders/acceptDesign/${design.id}`,
         values
       );
@@ -102,7 +115,7 @@ function CartOrder() {
       const requestData = {
         description: feedback,
       };
-      const response = await axiosInstance.put(
+      await axiosInstance.put(
         `design/denyDesign/${design.id}`,
         requestData
       );
@@ -265,6 +278,12 @@ function CartOrder() {
                         className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
                       >
                         XEM HÓA ĐƠN
+                      </button>
+                      <button
+                        onClick={handleShowModal}
+                        className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
+                      >
+                        XEM GIẤY BẢO HÀNH
                       </button>
                     </div>
                   </div>
