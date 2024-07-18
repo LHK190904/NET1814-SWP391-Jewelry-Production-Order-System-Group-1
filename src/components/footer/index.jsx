@@ -6,7 +6,7 @@ function Footer() {
       <div className="grid grid-cols-4 gap-4">
         <div>
           <img
-            src="./src/assets/images/logo.png"
+            src="https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2Flogo.png?alt=media&token=f74d4ea2-5687-40b8-b045-21d1c2daee7b"
             alt="Company Logo"
             className="w-[200px] h-auto"
           />
@@ -37,14 +37,14 @@ function Footer() {
               target="_blank"
             >
               <img
-                src="./src/assets/images/icon/facebook.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2Ffacebook.jpg?alt=media&token=d26d6223-51ee-42ee-85db-f382e8c835b8"
                 alt="Facebook"
                 className="w-[50px] h-auto"
               />
             </a>
             <a href="#">
               <img
-                src="./src/assets/images/icon/instagram.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2Finstagram.jpg?alt=media&token=17e9dc04-e6e6-4161-9117-670248fc3dc6"
                 target="_blank"
                 alt="Instagram"
                 className="w-[50px] h-auto"
@@ -52,7 +52,7 @@ function Footer() {
             </a>
             <a href="https://zalo.me/0909910224" target="_blank">
               <img
-                src="./src/assets/images/icon/zalo.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2Fzalo.jpg?alt=media&token=00313680-e692-447d-8b88-5c45b81a5b5a"
                 alt="Zalo"
                 className="w-[50px] h-auto"
               />

@@ -109,7 +109,7 @@ function Home() {
       handleHideModal();
       message.success("Đặt yêu cầu thành công");
       // setFormData(initialForm);
-      // form.resetFields();
+      form.resetFields();
     } catch (error) {
       console.error("Có lỗi khi gửi dữ liệu:", error);
     }
@@ -180,7 +180,7 @@ function Home() {
         <Form
           form={form}
           labelCol={{ span: 24 }}
-          initialValues={formData}
+          initialValues={initialForm}
           onValuesChange={handleFormChange}
         >
           <Form.Item

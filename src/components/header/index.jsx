@@ -67,7 +67,7 @@ function Header() {
         >
           <img
             className="lg:h-52 lg:w-54 "
-            src="./src/assets/images/logo.png"
+            src="https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2Flogo.png?alt=media&token=f74d4ea2-5687-40b8-b045-21d1c2daee7b"
             alt="Logo"
           />
         </Link>

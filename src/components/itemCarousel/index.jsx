@@ -37,12 +37,14 @@ function ItemCarousel({ items }) {
               className="w-full h-[300px] object-cover"
             />
             <div className="bg-black p-6">
-              <h2 className="text-2xl mb-2 text-white">{item.designName}</h2>
+              <h2 className="text-2xl mb-2 text-[#F7EF8A]">
+                {item.designName}
+              </h2>
               <p className="text-white mb-4">{item.description}</p>
-              <p className="text-xl text-[#F7EF8A]">{item.category}</p>
+              <p className="text-xl text-white">{item.category}</p>
               <button
                 onClick={() => handleViewDetail(item.id)}
-                className="mt-4 px-4 py-2 bg-[#F7EF8A] text-black rounded"
+                className="mt-4 px-4 py-2 font-xl font-bold w-full bg-[#F7EF8A] hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] text-black rounded"
               >
                 XEM CHI TIẾT
               </button>
