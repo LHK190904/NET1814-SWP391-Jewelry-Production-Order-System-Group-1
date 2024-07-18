@@ -1,6 +1,5 @@
 package com.backendVn.SWP.services;
 
-import com.backendVn.SWP.dtos.request.WarrantyCardCreationRequest;
 import com.backendVn.SWP.dtos.response.WarrantyCardResponse;
 import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.entities.WarrantyCard;
@@ -15,6 +14,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -25,13 +26,18 @@ public class WarrantyCardService {
     RequestOrderRepository requestOrderRepository;
     WarrantyCardMapper warrantyCardMapper;
 
-    public WarrantyCardResponse createWarrantyCard(Integer id,WarrantyCardCreationRequest warrantyCardCreationRequest) {
+    public WarrantyCardResponse createWarrantyCard(Integer id) {
         RequestOrder requestOrder = requestOrderRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
 
-        WarrantyCard warrantyCard = warrantyCardMapper.toWarrantyCard(warrantyCardCreationRequest);
+        WarrantyCard warrantyCard = new WarrantyCard();
         warrantyCard.setRequestOrder(requestOrder);
         warrantyCard.setCreatedAt(Instant.now());
+        Instant endAt = Instant.now();
+        ZonedDateTime zonedDateTime = endAt.atZone(ZoneId.systemDefault());
+        zonedDateTime.plusYears(2);
+        endAt = zonedDateTime.toInstant();
+        warrantyCard.setEndAt(endAt);
 
         requestOrder.setEndAt(Instant.now());
         requestOrderRepository.save(requestOrder);
@@ -40,10 +46,10 @@ public class WarrantyCardService {
         return warrantyCardMapper.toWarrantyCardResponse(savedWarrantyCard);
     }
 
-    public WarrantyCardResponse updateWarrantyCard(Integer id, WarrantyCardCreationRequest warrantyCardCreationRequest) {
+    public WarrantyCardResponse updateWarrantyCard(Integer id) {
         WarrantyCard warrantyCard = warrantyCardRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
-        warrantyCardMapper.updateWarranty(warrantyCard, warrantyCardCreationRequest);
+
 
         return warrantyCardMapper.toWarrantyCardResponse(warrantyCardRepository.save(warrantyCard));
     }
