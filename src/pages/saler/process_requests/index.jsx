@@ -289,18 +289,18 @@ function ProcessRequests() {
           <div className="flex flex-row gap-4">
             <div className="flex flex-col flex-wrap w-1/2">
               <FormItem label="Giá vàng" name="materialPrice">
-                <Input />
+                <Input readOnly />
               </FormItem>
               <FormItem label="Trọng lượng" name="materialWeight">
-                <Input />
+                <Input readOnly />
               </FormItem>
               <FormItem label="Tiền công" name="producePrice">
-                <Input />
+                <Input readOnly />
               </FormItem>
             </div>
             <div className="flex flex-col flex-wrap w-1/2">
               <FormItem label="Tiền đá" name="stonePrice">
-                <Input />
+                <Input readOnly />
               </FormItem>
               <FormItem
                 label="Tổng giá bán"

@@ -80,8 +80,8 @@ function ManagerOrder() {
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-      <h1 className="text-center text-[#F7EF8A] text-2xl ">
-        REQUEST MANAGEMENT
+      <h1 className="text-center text-[#F7EF8A] text-4xl font bold">
+        ORDER MANAGEMENT
       </h1>
       <div className="grid grid-cols-8 gap-1 mb-1 text-white">
         <button
@@ -105,32 +105,20 @@ function ManagerOrder() {
           Filter
         </button>
       </div>
-      <div className="grid grid-cols-5 w-3/4 mx-auto bg-white p-4 rounded-lg">
-        <div className="col-span-1 bg-gray-400 p-2 font-bold">ORDER ID</div>
+      <div className="grid grid-cols-3 w-3/4 mx-auto bg-white p-4 rounded-lg">
         <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
+          ORDER ID
+        </div>
+        <div className="col-span-2 bg-gray-400 p-2 font-bold text-center">
           STAFF
         </div>
-        <div className="col-span-1 bg-gray-400 p-2 font-bold">PROBLEM</div>
-        <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
-          STATUS
-        </div>
-        <div className="col-span-1 bg-gray-400 p-2 font-bold"></div>
 
         {orderList.map((item) => (
           <React.Fragment key={item.id}>
-            <div className="col-span-1 border p-2">{item.id}</div>
-            <div className="col-span-1 border p-2 text-center">
+            <div className="col-span-1 border p-2 text-center">{item.id}</div>
+            <div className="col-span-2 border p-2 text-center">
               <Button type="link" onClick={() => handleAssignClick(item)}>
                 Assign Job
-              </Button>
-            </div>
-            <div className="col-span-1 border p-2">-</div>
-            <div className="col-span-1 border p-2 text-center">
-              {item.status}
-            </div>
-            <div className="col-span-1 border p-2">
-              <Button type="link" onClick={() => handleSubmit(item.id)}>
-                Submit
               </Button>
             </div>
           </React.Fragment>

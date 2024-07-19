@@ -26,6 +26,7 @@ function ManagerRequest() {
       );
 
       setRequests(combinedData);
+      console.log(combinedData);
     } catch (error) {
       console.error(error);
     }
@@ -91,7 +92,7 @@ function ManagerRequest() {
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-      <h1 className="text-center text-[#F7EF8A] text-2xl ">
+      <h1 className="text-center text-[#F7EF8A] text-4xl font-bold">
         REQUEST MANAGEMENT
       </h1>
       <div className="grid grid-cols-8 gap-1 mb-1 text-white">
@@ -116,16 +117,19 @@ function ManagerRequest() {
           Filter
         </button>
       </div>
-      <div className="grid grid-cols-5 w-3/4 mx-auto bg-gray-400 p-4 rounded-lg">
+      <div className="grid grid-cols-6 w-3/4 mx-auto bg-gray-400 p-4 rounded-lg">
         <div className="col-span-1 p-2 font-bold">REQUEST ID</div>
         <div className="col-span-1 p-2 font-bold">CUSTOMER ID</div>
         <div className="col-span-1 p-2 font-bold text-center">DETAILS</div>
+        <div className="col-span-1 p-2 font-bold text-center">CAPITAL COST</div>
         <div className="col-span-1 p-2 font-bold text-center">COST</div>
         <div className="col-span-1 p-2 font-bold text-center">STATUS</div>
         {paginatedData.map((item) => (
           <React.Fragment key={item.id}>
-            <div className="col-span-1 border p-2 bg-white">{item.id}</div>
-            <div className="col-span-1 border p-2 bg-white">
+            <div className="col-span-1 border p-2 bg-white text-center">
+              {item.id}
+            </div>
+            <div className="col-span-1 border p-2 bg-white text-center">
               {item.customerID}
             </div>
             <div className="col-span-1 border p-2 text-center bg-white">
@@ -135,6 +139,9 @@ function ManagerRequest() {
               >
                 Details
               </Button>
+            </div>
+            <div className="col-span-1 border p-2 text-center bg-white">
+              {item.quotation.capitalCost}
             </div>
             <div className="col-span-1 border p-2 text-center bg-white">
               {item.quotation.cost}
@@ -186,10 +193,11 @@ function ManagerRequest() {
       {/* Details Modal */}
       <Modal
         title="Details"
-        visible={isModalOpen}
+        open={isModalOpen}
         onOk={handleCloseModal}
         onCancel={handleCloseModal}
       >
+        <img src="" alt="" />
         <p>{popupDetails}</p>
       </Modal>
     </div>

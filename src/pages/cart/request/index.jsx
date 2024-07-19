@@ -82,7 +82,7 @@ function CartRequest() {
 
   const handleDelete = async (reqID) => {
     try {
-      await axiosInstance.delete(`requests/${reqID}`);
+      await axiosInstance.put(`requests/deleteRequest/${reqID}`);
       setRequests((prevRequest) =>
         prevRequest.filter((req) => req.id !== reqID)
       );
@@ -117,7 +117,7 @@ function CartRequest() {
             </div>
             <div className="col-span-1 p-2 text-xl border">GIÁ</div>
             <div className="col-span-1 p-2 text-xl border">MÔ TẢ</div>
-            <div className="col-span-1 p-2 text-xl border">ĐƠN HÀNG</div>
+            <div className="col-span-1 p-2 text-xl border"></div>
           </div>
           {requests.map((item, index) => (
             <div
