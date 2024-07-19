@@ -54,13 +54,6 @@ public class AdminController {
                 .build();
     }
 
-    @PutMapping("change-password/{id}")
-    public ApiResponse<UserResponse> updateUserPassword(@PathVariable Integer id,@RequestBody @Valid String password) {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.updateUserPassword(id, password))
-                .build();
-    }
-
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);

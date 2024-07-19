@@ -88,16 +88,9 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         userMapper.updateUser(user, request);
-        return userMapper.toUserResponse(userRepository.save(user));
-    }
-
-    public UserResponse updateUserPassword(Integer id ,String password) {
-        if (password.length() < 8)
-            throw new AppException(ErrorCode.INVALID_PASSWORD);
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        userMapper.updateUserPassword(user, password);
-        user.setPassword(passwordEncoder.encode(password));
+        if (!request.getPassword().equals(user.getPassword())){
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
