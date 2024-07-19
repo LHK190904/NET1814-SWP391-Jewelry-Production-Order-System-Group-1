@@ -261,7 +261,7 @@ function CartOrder() {
                       <div>
                         CẬP NHẬT LÚC:{" "}
                         {process
-                          ? new Date(process.updatedAt).toDateString()
+                          ? new Date(process.updatedAt).toLocaleString()
                           : "N/A"}
                       </div>
                       <button

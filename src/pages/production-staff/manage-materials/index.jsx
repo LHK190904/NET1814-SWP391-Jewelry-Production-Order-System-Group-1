@@ -86,7 +86,7 @@ function ManageMaterial() {
           }`}
           to="/production-staff/process-orders"
         >
-          Process orders
+          Xử lí đơn hàng
         </Link>
         <Link
           className={`${
@@ -96,24 +96,24 @@ function ManageMaterial() {
           }`}
           to="/production-staff/manage-materials"
         >
-          Manage materials
+          Quản lí vật liệu
         </Link>
       </div>
       <div className="bg-[#434343] min-h-screen w-screen flex justify-center items-center">
         <div className="w-3/4 bg-gray-300 p-6 rounded-lg">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl">Manage Materials</h1>
+            <h1 className="text-2xl">Bảng nguyên vật liệu</h1>
             <Button type="primary" onClick={handleAddMaterial}>
-              Add Material
+              Thêm vật liệu
             </Button>
           </div>
           <table className="w-full bg-white rounded-lg">
             <thead>
               <tr className="border-b">
-                <th className="p-4 text-left">Type</th>
-                <th className="p-4 text-left">Price Per Unit</th>
-                <th className="p-4 text-left">Material Name</th>
-                <th className="p-4 text-center">Actions</th>
+                <th className="p-4 text-left">Loại</th>
+                <th className="p-4 text-left">Giá theo đơn vị</th>
+                <th className="p-4 text-left">Tên vật liệu</th>
+                <th className="p-4 text-center"></th>
               </tr>
             </thead>
             <tbody>
@@ -127,7 +127,7 @@ function ManageMaterial() {
                       type="link"
                       onClick={() => handleEditMaterial(material)}
                     >
-                      Edit
+                      Chỉnh sửa
                     </Button>
                   </td>
                 </tr>
@@ -138,40 +138,36 @@ function ManageMaterial() {
       </div>
 
       <Modal
-        title={isEditMode ? "Edit Material" : "Add Material"}
+        title={isEditMode ? "Chỉnh sửa vật liệu" : "Thêm mới vật liệu"}
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
       >
         <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
           <Form.Item
-            label="Type"
+            label="Loại"
             name="type"
-            rules={[{ required: true, message: "Please input the type!" }]}
+            rules={[{ required: true, message: "Không được để trống" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="Price Per Unit"
+            label="Giá theo đơn vị"
             name="pricePerUnit"
-            rules={[
-              { required: true, message: "Please input the price per unit!" },
-            ]}
+            rules={[{ required: true, message: "Không được để trống" }]}
           >
             <Input type="number" />
           </Form.Item>
           <Form.Item
-            label="Material Name"
+            label="Tên vật liệu"
             name="materialName"
-            rules={[
-              { required: true, message: "Please input the material name!" },
-            ]}
+            rules={[{ required: true, message: "Không được để trống" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              {isEditMode ? "Save Changes" : "Add Material"}
+              {isEditMode ? "Lưu thay đổi" : "Thêm mới"}
             </Button>
           </Form.Item>
         </Form>
