@@ -39,7 +39,6 @@ public class UserMapperImpl implements UserMapper {
         }
 
         user.setUserName( userUpdateRequest.getUserName() );
-        user.setPassword( userUpdateRequest.getPassword() );
         user.setEmail( userUpdateRequest.getEmail() );
         user.setAddress( userUpdateRequest.getAddress() );
         user.setTitle( userUpdateRequest.getTitle() );
@@ -61,6 +60,15 @@ public class UserMapperImpl implements UserMapper {
         userResponse.title( user.getTitle() );
 
         return userResponse.build();
+    }
+
+    @Override
+    public void updateUserPassword(User user, String password) {
+        if ( password == null ) {
+            return;
+        }
+
+        user.setPassword( password );
     }
 
     @Override

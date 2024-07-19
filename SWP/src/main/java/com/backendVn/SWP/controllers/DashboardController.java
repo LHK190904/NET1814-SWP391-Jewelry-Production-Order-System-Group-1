@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DashboardController {
-    private final DashboardService dashboardService;
+    DashboardService dashboardService;
 
     @GetMapping("/monthly-revenue")
     public ApiResponse<List<MonthlyIncomeResponse>> getMonthlyRevenue(

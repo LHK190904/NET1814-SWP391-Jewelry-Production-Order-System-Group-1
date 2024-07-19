@@ -88,9 +88,16 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         userMapper.updateUser(user, request);
-        if(!request.getPassword().contains("$2a$10$")) {
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
-        }
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    public UserResponse updateUserPassword(Integer id ,String password) {
+        if (password.length() < 8)
+            throw new AppException(ErrorCode.INVALID_PASSWORD);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userMapper.updateUserPassword(user, password);
+        user.setPassword(passwordEncoder.encode(password));
         return userMapper.toUserResponse(userRepository.save(user));
     }
 

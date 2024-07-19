@@ -13,5 +13,6 @@ public interface UserMapper {
     User toUser(UserCreationRequest userCreationRequest);
     void updateUser(@MappingTarget User user,UserUpdateRequest userUpdateRequest);
     UserResponse toUserResponse(User user);
+    void updateUserPassword(@MappingTarget User user,String password);
     User toUser(CustomerRegisterRequest customerRegisterRequest);
 }
