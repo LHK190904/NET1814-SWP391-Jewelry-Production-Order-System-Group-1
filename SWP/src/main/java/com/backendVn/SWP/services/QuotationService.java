@@ -97,7 +97,7 @@ public class QuotationService {
         Request request = requestRepository.findById(quotation.getRequestID().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        request.setStatus("Denied quotation");
+        request.setStatus("Processing");
 
         requestRepository.save(request);
 

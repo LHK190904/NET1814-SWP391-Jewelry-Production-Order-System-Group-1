@@ -156,7 +156,8 @@ public class RequestService {
     public void deleteRequest(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-        requestRepository.delete(request);
+        request.setStatus("Disable");
+        requestRepository.save(request);
     }
 
     public List<RequestResponse> getAllRequests() {
