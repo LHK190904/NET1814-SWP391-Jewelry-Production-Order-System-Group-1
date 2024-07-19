@@ -175,7 +175,7 @@ function ProcessRequests() {
       width: "5%",
       render: (status) => {
         let color = "volcano";
-        let showStatus = "Từ chối báo giá";
+        let showStatus = "Từ chối giá đã báo";
         if (status === "Ordering") {
           color = "green";
           showStatus = "Đã duyệt";

@@ -95,26 +95,18 @@ function ManagerRequest() {
       <h1 className="text-center text-[#F7EF8A] text-4xl font-bold">
         REQUEST MANAGEMENT
       </h1>
-      <div className="grid grid-cols-8 gap-1 mb-1 text-white">
+      <div className="flex justify-center gap-1 mb-1 text-white">
         <button
           onClick={() => handleNavigateClick("/manager/request")}
-          className="col-start-2 col-span-1 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
+          className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
         >
           Request
         </button>
         <button
           onClick={() => handleNavigateClick("/manager/order")}
-          className="col-span-1 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
+          className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
         >
           Order
-        </button>
-        <input
-          type="search"
-          placeholder="Search . . ."
-          className="col-start-5 col-span-2 px-2 p-1 rounded-lg"
-        />
-        <button className="p-1 rounded-lg bg-blue-400 hover:bg-blue-500">
-          Filter
         </button>
       </div>
       <div className="grid grid-cols-6 w-3/4 mx-auto bg-gray-400 p-4 rounded-lg">
