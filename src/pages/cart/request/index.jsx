@@ -124,9 +124,7 @@ function CartRequest() {
               key={index}
               className="grid grid-cols-1 lg:grid-cols-8 border my-2 lg:my-0"
             >
-              <div className="col-span-1 p-2 bg-white border">
-                <Link to={`/order/${item.id}`}>{item.id}</Link>
-              </div>
+              <div className="col-span-1 p-2 bg-white border">{item.id}</div>
               <div className="col-span-1 p-2 bg-white border">
                 {item.saleStaffID}
               </div>
@@ -177,7 +175,9 @@ function CartRequest() {
                 {new Date(item.recievedAt).toDateString()}
               </div>
               <div className="col-span-1 p-2 bg-white border">
-                {item.quotation ? item.quotation.cost : "N/A"}
+                {new Intl.NumberFormat().format(item.quotation)
+                  ? new Intl.NumberFormat().format(item.quotation.cost)
+                  : "N/A"}
               </div>
               <div className="col-span-1 p-2 bg-white border">
                 {item.description}

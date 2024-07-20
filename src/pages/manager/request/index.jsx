@@ -133,10 +133,10 @@ function ManagerRequest() {
               </Button>
             </div>
             <div className="col-span-1 border p-2 text-center bg-white">
-              {item.quotation.capitalCost}
+              {new Intl.NumberFormat().format(item.quotation.capitalCost)}
             </div>
             <div className="col-span-1 border p-2 text-center bg-white">
-              {item.quotation.cost}
+              {new Intl.NumberFormat().format(item.quotation.cost)}
             </div>
             <div className="col-span-1 border p-2 text-center bg-white">
               {statuses[item.id] === "action" ? (

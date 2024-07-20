@@ -85,6 +85,7 @@ function Header() {
     {
       key: "logout",
       label: "ĐĂNG XUẤT",
+      danger: true,
       onClick: handleLogout,
     },
   ];
@@ -119,16 +120,26 @@ function Header() {
                 <li
                   key={design.id}
                   onClick={() => handleSearchSelect(design.id)}
-                  className="p-2 hover:bg-gray-200 cursor-pointer"
+                  className="p-2 hover:bg-gray-200 cursor-pointer flex items-start"
                 >
-                  {design.designName}
+                  <img
+                    src={`${design.listURLImage[0]}`}
+                    alt=""
+                    className="w-16 h-16 object-cover rounded-lg mr-2"
+                  />
+                  <div className="flex-1">
+                    <div className="text-xl font-semibold">
+                      {design.designName}
+                    </div>
+                    <div className="text-sm">{design.description}</div>
+                  </div>
                 </li>
               ))}
             </ul>
           )}
         </form>
         <div className="xl:col-start-9 lg:col-start-10 md:col-start-9 sm:col-start-9 flex gap-1 xl:gap-10 lg:gap-4 md:gap-8 sm:gap-4 items-center">
-          <Link to={"/cart/request"} className=" flex items-center">
+          <Link to={"/cart/request"} className="flex items-center">
             <span className="hover:text-[#ddd012]">GIỎ HÀNG</span>
             <img
               className="w-6 h-6"
@@ -137,7 +148,7 @@ function Header() {
             ></img>
           </Link>
         </div>
-        <div className=" col-start-11 sm:col-start-10 lg:col-start-11 xl:col-start-10">
+        <div className="col-start-11 sm:col-start-10 lg:col-start-11 xl:col-start-10">
           {user ? (
             <div className="flex items-center gap-2">
               <span>{user.username}</span>

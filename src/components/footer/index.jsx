@@ -5,11 +5,13 @@ function Footer() {
     <footer className="bg-black text-[#F7EF8A] p-4 w-screen">
       <div className="grid grid-cols-4 gap-4">
         <div>
-          <img
-            src="https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2Flogo.png?alt=media&token=f74d4ea2-5687-40b8-b045-21d1c2daee7b"
-            alt="Company Logo"
-            className="w-[200px] h-auto"
-          />
+          <a href="/">
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2Flogo.png?alt=media&token=f74d4ea2-5687-40b8-b045-21d1c2daee7b"
+              alt="Company Logo"
+              className="w-[200px] h-auto"
+            />
+          </a>
         </div>
         <div>
           <div className="text-xl font-bold">Chi nhánh</div>

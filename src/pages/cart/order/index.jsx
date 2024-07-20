@@ -21,6 +21,7 @@ function CartOrder() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [feedback, setFeedback] = useState("");
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [stones, setStones] = useState([]);
 
   const fetchOrders = async () => {
     if (!requestID) {
@@ -71,8 +72,19 @@ function CartOrder() {
     }
   };
 
+  const fetchStone = async () => {
+    try {
+      const response = await axiosInstance.get(`material/notGold`);
+      setStones(response.data.result);
+      console.log("Stones :", response.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
+    fetchStone();
   }, [requestID]);
 
   useEffect(() => {
@@ -150,6 +162,11 @@ function CartOrder() {
 
   const handleHideModal = () => {
     setIsOpenModal(false);
+  };
+
+  const getMainStoneType = () => {
+    const mainStone = stones.find((stone) => stone.id === design.mainStoneId);
+    return mainStone ? mainStone.type : "N/A";
   };
 
   return (
@@ -253,7 +270,7 @@ function CartOrder() {
                       <div>LOẠI TRANG SỨC: {design.category}</div>
                       <div>LOẠI VÀNG: {design.materialName}</div>
                       <div>TRỌNG LƯỢNG: {design.materialWeight}</div>
-                      <div>ĐÁ CHÍNH: {design.mainStoneId}</div>
+                      <div>ĐÁ CHÍNH: {getMainStoneType()}</div>
                       <div>ĐÁ PHỤ: {design.subStoneId}</div>
                       <div>MÔ TẢ: {design.description}</div>
                       <div>TIẾN TRÌNH: {process ? process.status : "N/A"}</div>
