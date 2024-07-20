@@ -109,7 +109,7 @@ function ProductionStaff() {
           }`}
           to="/production-staff/process-orders"
         >
-          Process orders
+          Xử lí đơn hàng
         </Link>
         <Link
           className={`${
@@ -119,7 +119,7 @@ function ProductionStaff() {
           }`}
           to="/production-staff/manage-materials"
         >
-          Manage materials
+          Quản lí vật liệu
         </Link>
       </div>
 
@@ -137,10 +137,10 @@ function ProductionStaff() {
                     className="bg-blue-500 text-white p-2 rounded-md"
                     onClick={showModal}
                   >
-                    Show images
+                    Xem bản thiết kế
                   </button>
                   <Modal
-                    title="Design Images"
+                    title="Bản thiết kế"
                     visible={isModalVisible}
                     onCancel={handleCancel}
                     footer={null}
@@ -165,20 +165,20 @@ function ProductionStaff() {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="font-bold">CATEGORY</div>
+                  <div className="font-bold">Loại trang sức</div>
                   <div className="bg-white p-2 rounded-md">
                     {selectedOrder.category}
                   </div>
                 </div>
                 <div className="space-y-2 flex gap-2">
                   <div className="flex-1 space-y-2">
-                    <div className="font-bold mt-2">MAIN STONE ID</div>
+                    <div className="font-bold mt-2">Đá chính</div>
                     <div className="bg-white p-2 rounded-md w-full">
                       {selectedOrder.mainStoneId || 0}
                     </div>
                   </div>
                   <div className="flex-1 space-y-2">
-                    <div className="font-bold">SUB STONE ID</div>
+                    <div className="font-bold">Đá phụ</div>
                     <div className="bg-white p-2 rounded-md w-full">
                       {selectedOrder.subStoneId || 0}
                     </div>
@@ -186,19 +186,19 @@ function ProductionStaff() {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="font-bold">MATERIAL WEIGHT</div>
+                  <div className="font-bold">Trọng lượng vật liệu</div>
                   <div className="bg-white p-2 rounded-md">
                     {selectedOrder.materialWeight}
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="font-bold">MATERIAL NAME</div>
+                  <div className="font-bold">Vật liệu</div>
                   <div className="bg-white p-2 rounded-md">
                     {selectedOrder.materialName}
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="font-bold">Status of process</div>
+                  <div className="font-bold">Tiến độ hoàn thành</div>
                   <div className="bg-white p-2 rounded-md">
                     {statusProcess.status}
                   </div>
@@ -208,7 +208,7 @@ function ProductionStaff() {
                     className="bg-green-500 text-white p-2 rounded-md"
                     onClick={() => updateStatusProcess(orderId)}
                   >
-                    Update Status
+                   Cập nhật tiến độ
                   </button>
                 </div>
               </div>
@@ -217,7 +217,7 @@ function ProductionStaff() {
           <div className="col-start-8 col-span-4 m-4 rounded-lg p-4 bg-gray-300 flex flex-col">
             <h1 className="text-center bg-gray-400 p-4 text-2xl">ĐƠN HÀNG</h1>
             <div className="grid grid-cols-2 text-center mt-4 border">
-              <div className="col-span-1">ID ORDER</div>
+              <div className="col-span-1">Mã đơn</div>
               <div className="col-span-1">TRẠNG THÁI</div>
             </div>
             <div className="flex-grow overflow-auto">
