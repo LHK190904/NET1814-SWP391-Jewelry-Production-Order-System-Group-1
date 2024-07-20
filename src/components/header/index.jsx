@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
 import axiosInstance from "../../services/axiosInstance";
+import { Dropdown, Menu } from "antd";
 
 function Header() {
   const [user, setUser] = useState(null);
@@ -58,6 +59,36 @@ function Header() {
     navigate("/");
   };
 
+  const menuItems = [
+    {
+      key: "profile",
+      label: (
+        <Link
+          to={
+            user?.title === "ADMIN"
+              ? "/admin"
+              : user?.title === "SALE_STAFF"
+              ? "/saler/receive_requests"
+              : user?.title === "PRODUCTION_STAFF"
+              ? "/production-staff/process-orders"
+              : user?.title === "DESIGN_STAFF"
+              ? "/designer/process_orders"
+              : user?.title === "MANAGER"
+              ? "/manager/request"
+              : "/profile"
+          }
+        >
+          TRANG LÀM VIỆC
+        </Link>
+      ),
+    },
+    {
+      key: "logout",
+      label: "ĐĂNG XUẤT",
+      onClick: handleLogout,
+    },
+  ];
+
   return (
     <div>
       <div className="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 bg-black text-[#F7EF8A] items-center w-screen">
@@ -66,7 +97,7 @@ function Header() {
           className="lg:col-start-2 lg:col-span-2 md:col-start-2 md:col-span-2 sm:col-start-2 sm:col-span-2"
         >
           <img
-            className="lg:h-52 lg:w-54 "
+            className="lg:h-52 lg:w-54"
             src="https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2Flogo.png?alt=media&token=f74d4ea2-5687-40b8-b045-21d1c2daee7b"
             alt="Logo"
           />
@@ -96,7 +127,6 @@ function Header() {
             </ul>
           )}
         </form>
-
         <div className="xl:col-start-9 lg:col-start-10 md:col-start-9 sm:col-start-9 flex gap-1 xl:gap-10 lg:gap-4 md:gap-8 sm:gap-4 items-center">
           <Link to={"/cart/request"} className=" flex items-center">
             <span className="hover:text-[#ddd012]">GIỎ HÀNG</span>
@@ -110,24 +140,20 @@ function Header() {
         <div className=" col-start-11 sm:col-start-10 lg:col-start-11 xl:col-start-10">
           {user ? (
             <div className="flex items-center gap-2">
-              <img
-                className="inline-block h-8 w-8 rounded-full ring-2 ring-[#F7EF8A] "
-                src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
               <span>{user.username}</span>
-              <button
-                onClick={handleLogout}
-                className="text-[#F7EF8A] hover:text-[#ddd012]"
+              <Dropdown
+                overlay={<Menu items={menuItems} />}
+                trigger={["click"]}
               >
-                ĐĂNG XUẤT
-              </button>
+                <img
+                  className="inline-block h-8 w-8 rounded-full ring-2 ring-[#F7EF8A] cursor-pointer"
+                  src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt="User Avatar"
+                />
+              </Dropdown>
             </div>
           ) : (
-            <Link
-              to={"/login"}
-              className="text-[#F7EF8A] hover:text-[#ddd012] mr-4"
-            >
+            <Link to="/login" className="hover:text-[#ddd012]">
               ĐĂNG NHẬP
             </Link>
           )}

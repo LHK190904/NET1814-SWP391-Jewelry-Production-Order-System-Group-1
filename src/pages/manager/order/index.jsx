@@ -80,7 +80,7 @@ function ManagerOrder() {
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-      <h1 className="text-center text-[#F7EF8A] text-4xl font bold">
+      <h1 className="text-center text-[#F7EF8A] text-4xl font-bold">
         ORDER MANAGEMENT
       </h1>
       <div className="flex justify-center gap-1 mb-1 text-white">

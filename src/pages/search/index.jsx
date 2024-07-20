@@ -46,14 +46,14 @@ function SearchPage() {
                       alt=""
                       className="p-1 bg-white"
                     />
-                    <div className="bg-black p-2 rounded-lg text-white">
+                    <div className="bg-black p-2 rounded-lg text-white my-2">
                       <div className="text-[#F7EF8A] text-2xl">
                         {item.designName}
                       </div>
                       <div className="text-xl">{item.description}</div>
                       <div className="text-2xl">{item.category}</div>
                       <button
-                        className="text-black text-xl font-bold w-full p-4 bg-[#F7EF8A] hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f]"
+                        className="text-black text-xl rounded-lg font-bold w-full p-4 bg-[#F7EF8A] hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f]"
                         onClick={() => handleNavigate(item.id)}
                       >
                         XEM CHI TIẾT
