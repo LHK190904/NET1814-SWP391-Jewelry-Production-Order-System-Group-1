@@ -54,9 +54,10 @@ public class CustomerController {
     }
 
     @PutMapping("/ResetNewPassword")
-    ApiResponse<AuthenticationResponse> resetNewPassword(@RequestParam(name = "email", required = true) String email, @RequestParam(name = "newPassword", required = true) String newPassword) throws MessagingException {
-        return ApiResponse.<AuthenticationResponse>builder()
-                .result(userService.resetPassword(newPassword,email))
+    ApiResponse<Void> resetNewPassword(@RequestParam(name = "email", required = true) String email, @RequestParam(name = "newPassword", required = true) String newPassword) throws MessagingException {
+        userService.resetPassword(newPassword, email);
+        return ApiResponse.<Void>builder()
+                .message("Password has been reset, you could use it to log-in")
                 .build();
     }
 }

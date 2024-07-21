@@ -112,17 +112,13 @@ public class UserService {
         }
     }
 
-    public AuthenticationResponse resetPassword(String newPassword, String email) {
+    public void resetPassword(String newPassword, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        if(newPassword.length() < 8){
+            throw new AppException(ErrorCode.INVALID_PASSWORD);
+        }
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
-
-        return AuthenticationResponse.builder()
-                .token(authenticationService.generateToken(user))
-                .authenticated(true)
-                .title(user.getTitle())
-                .Id(user.getId())
-                .build();
     }
 }
