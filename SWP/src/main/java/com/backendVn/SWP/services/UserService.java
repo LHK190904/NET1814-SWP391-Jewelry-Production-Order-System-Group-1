@@ -9,6 +9,7 @@ import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,7 +27,7 @@ public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
-
+    SendEmailService sendEmailService;
 
 //    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public List<UserResponse> getAllUsers() {
@@ -97,5 +98,9 @@ public class UserService {
 //    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    public void demoSendNudeFromEmail(String email) throws MessagingException {
+        sendEmailService.sendSimpleMessage(email);
     }
 }

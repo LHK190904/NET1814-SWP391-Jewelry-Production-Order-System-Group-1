@@ -13,7 +13,7 @@ import java.time.Instant;
 public interface RequestOrderRepository extends JpaRepository<RequestOrder, Integer> {
     Optional<RequestOrder> findByRequestID(Request request);
 
-    List<RequestOrder> findAllByDesignStaffAndStatusIsNotLike(User designStaff,String status);
+    List<RequestOrder> findAllByDesignStaffAndStatusIsNotLike(User designStaff, String status);
 
     Optional<RequestOrder> findByDesignID(Design design);
 

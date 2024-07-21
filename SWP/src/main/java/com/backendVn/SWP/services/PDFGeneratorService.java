@@ -59,12 +59,12 @@ public class PDFGeneratorService {
         leftCell.setBorder(Rectangle.NO_BORDER);
 
 
-        String imagePath = "C:\\Users\\Dell\\NET1814-SWP391-Jewelry-Production-Order-System-Group-1\\src\\assets\\images\\logo.png";
-        Image image = Image.getInstance(imagePath);
+//        String imagePath = "";
+//        Image image = Image.getInstance(imagePath);
 
-        image.scaleToFit(250, 250);
-        image.setAlignment(Image.ALIGN_LEFT);
-        leftCell.addElement(image);
+//        image.scaleToFit(250, 250);
+//        image.setAlignment(Image.ALIGN_LEFT);
+//        leftCell.addElement(image);
 
         table.addCell(leftCell);
 
@@ -72,7 +72,7 @@ public class PDFGeneratorService {
         PdfPCell rightCell = new PdfPCell();
         rightCell.setBorder(Rectangle.NO_BORDER);
 
-        Font fontTitle1 = FontFactory.getFont(FontFactory.HELVETICA, 35, Font.BOLD, Color.WHITE);
+        Font fontTitle1 = FontFactory.getFont(FontFactory.TIMES, 35, Font.BOLD, Color.WHITE);
         Paragraph title1 = new Paragraph("Luxe Store", fontTitle1);
         Paragraph title2 = new Paragraph("Jewelry Production", fontTitle1);
         title1.setAlignment(Paragraph.ALIGN_CENTER);

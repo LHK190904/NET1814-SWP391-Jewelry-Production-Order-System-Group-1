@@ -45,5 +45,6 @@ public class CustomerController {
                 .build();
     }
 
+    @PutMapping("/ResetPassword")
 
 }
