@@ -9,10 +9,7 @@ import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfCell;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.*;
 import com.lowagie.text.Element;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,108 +27,101 @@ public class PDFGeneratorService {
 
     RequestOrderRepository requestOrderRepository ;
     WarrantyCardRepository warrantyCardRepository ;
-    public void export(HttpServletResponse response, Integer orderID ) throws IOException, DocumentException {
+
+    public void export(HttpServletResponse response, Integer orderID) throws IOException, DocumentException {
         RequestOrder requestOrder = requestOrderRepository.findById(orderID).orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
         WarrantyCard warrantyCard = warrantyCardRepository.findById(orderID).orElseThrow(() -> new AppException(ErrorCode.WARRANTY_CARD_NOT_FOUND));
 
+
         Document document = new Document(PageSize.A4.rotate());
-        PdfWriter.getInstance(document, response.getOutputStream());
+        PdfWriter pdfWriter = PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
 
-        Font fontTitle = FontFactory.getFont(FontFactory.HELVETICA, 35, Font.BOLD, Color.DARK_GRAY);
+        PdfContentByte canvas = pdfWriter.getDirectContentUnder();
+        Rectangle background = new Rectangle(PageSize.A4.rotate());
+        background.setBackgroundColor(Color.black);
+        canvas.rectangle(background.getLeft(), background.getBottom(), background.getWidth(), background.getHeight());
+        canvas.fill();
+
+        Font fontTitle = FontFactory.getFont(FontFactory.HELVETICA, 35, Font.BOLD, Color.YELLOW);
         Paragraph title = new Paragraph("WARRANTY CARD", fontTitle);
         title.setAlignment(Paragraph.ALIGN_CENTER);
         document.add(title);
 
-        String imagePath = "C:\\Users\\truon\\Downloads\\logo.png"; // Replace with your image path
+        document.add(new Paragraph("\n\n"));
+
+        PdfPTable table = new PdfPTable(2);
+        table.setWidthPercentage(100);
+        table.setSpacingBefore(10f);
+
+
+        PdfPCell leftCell = new PdfPCell();
+        leftCell.setBorder(Rectangle.NO_BORDER);
+
+
+        String imagePath = "C:\\Users\\Dell\\NET1814-SWP391-Jewelry-Production-Order-System-Group-1\\src\\assets\\images\\logo.png";
         Image image = Image.getInstance(imagePath);
 
-        // Adjust the image size if needed
-        image.scaleToFit(200, 200); // Adjust width and height as needed
-        image.setAlignment(Image.ALIGN_CENTER);
-        document.add(image);
+        image.scaleToFit(250, 250);
+        image.setAlignment(Image.ALIGN_LEFT);
+        leftCell.addElement(image);
+
+        table.addCell(leftCell);
 
 
+        PdfPCell rightCell = new PdfPCell();
+        rightCell.setBorder(Rectangle.NO_BORDER);
 
-        Font fontTitle1 = FontFactory.getFont(FontFactory.HELVETICA, 20);
+        Font fontTitle1 = FontFactory.getFont(FontFactory.HELVETICA, 35, Font.BOLD, Color.WHITE);
         Paragraph title1 = new Paragraph("Luxe Store", fontTitle1);
         Paragraph title2 = new Paragraph("Jewelry Production", fontTitle1);
         title1.setAlignment(Paragraph.ALIGN_CENTER);
         title2.setAlignment(Paragraph.ALIGN_CENTER);
-        document.add(title1);
-        document.add(title2);
+        rightCell.addElement(title1);
+        rightCell.addElement(title2);
 
+        table.addCell(rightCell);
+        document.add(table);
+        document.add(new Paragraph("\n\n"));
 
-        Font fontParagraph = FontFactory.getFont(FontFactory.HELVETICA, 15);
-        Paragraph name = new Paragraph("Customer name: " , fontParagraph);
-        name.setAlignment(Paragraph.ALIGN_LEFT);
-        document.add(name);
+        PdfPTable table1 = new PdfPTable(2);
+        table1.setWidthPercentage(100);
+        table1.setSpacingBefore(10f);
 
+        Font fontParagraph = FontFactory.getFont(FontFactory.HELVETICA, 20,Color.WHITE);
+        PdfPCell leftCell1 = new PdfPCell();
+        leftCell1.setBorder(Rectangle.NO_BORDER);
 
-        Paragraph productType = new Paragraph("Product type: " +requestOrder.getRequestID().getCategory(), fontParagraph);
-        Paragraph material = new Paragraph("Material: " +requestOrder.getRequestID().getMaterialID().getMaterialName(), fontParagraph);
-        Paragraph duration = new Paragraph("Duration from: " +warrantyCard.getCreatedAt()+ "->" +warrantyCard.getEndAt() , fontParagraph);
-
-        productType.setAlignment(Paragraph.ALIGN_LEFT);
-        material.setAlignment(Paragraph.ALIGN_LEFT);
-        duration.setAlignment(Paragraph.ALIGN_LEFT);
-        document.add(productType);
-        document.add(material);
-        document.add(duration);
-
-        if (requestOrder.getRequestID().getCompanyDesign()!=null){
-            Paragraph productName = new Paragraph("Product name: " +requestOrder.getRequestID().getCompanyDesign().getDesignName() , fontParagraph);
-            productName.setAlignment(Paragraph.ALIGN_LEFT);
-            document.add(productName);
+        if (requestOrder.getRequestID().getCompanyDesign()!=null) {
+            Paragraph productName = new Paragraph("Product name: " + requestOrder.getRequestID().getCompanyDesign().getDesignName(), fontParagraph);
+            leftCell1.addElement(productName);
         }else{
-            Paragraph productName = new Paragraph("Product name: Customer's design"  , fontParagraph);
-            productName.setAlignment(Paragraph.ALIGN_LEFT);
-            document.add(productName);
+            Paragraph productName = new Paragraph("Product name: Customer's design", fontParagraph);
+            leftCell1.addElement(productName);
         }
+
+        leftCell1.addElement(new Paragraph("Product type: " +requestOrder.getRequestID().getCategory(), fontParagraph));
+        leftCell1.addElement(new Paragraph("Material: " +requestOrder.getRequestID().getMaterialID().getMaterialName(), fontParagraph));
+
+        table1.addCell(leftCell1);
+
+        PdfPCell rightCell1 = new PdfPCell();
+        rightCell1.setBorder(Rectangle.NO_BORDER);
 
         if (requestOrder.getRequestID().getMainStone() != null){
             Paragraph mainStone = new Paragraph("Main Stone: "+requestOrder.getRequestID().getMainStone().getMaterialName() , fontParagraph);
-            mainStone.setAlignment(Paragraph.ALIGN_RIGHT);
-            document.add(mainStone);}
+            rightCell1.addElement(mainStone);
+        }
 
         if(requestOrder.getRequestID().getSubStone() != null){
             Paragraph subStone = new Paragraph("Sub Stone: "+requestOrder.getRequestID().getSubStone().getMaterialName() , fontParagraph);
-            subStone.setAlignment(Paragraph.ALIGN_RIGHT);
-            document.add(subStone);
+            rightCell1.addElement(subStone);
         }
 
+        rightCell1.addElement(new Paragraph("Duration from: " +warrantyCard.getCreatedAt()+ "->" +warrantyCard.getEndAt() , fontParagraph));
 
-
-
-
-
-
-        PdfPTable table = new PdfPTable(2);
-        table.setWidthPercentage(100);
-
-        Font fontFooter = FontFactory.getFont(FontFactory.HELVETICA, 12);
-        Paragraph addressParagraph = new Paragraph("xxxxxxxxxxxxx", fontFooter);
-        Paragraph contactNumberParagraph = new Paragraph("xxxxxxxxxxxxxx", fontFooter);
-
-        // Align paragraphs
-        addressParagraph.setAlignment(Element.ALIGN_LEFT);
-        contactNumberParagraph.setAlignment(Element.ALIGN_RIGHT);
-
-        PdfPCell addressCell = new PdfPCell(addressParagraph);
-        PdfPCell contactNumberCell = new PdfPCell(contactNumberParagraph);
-
-        // Remove borders from cells
-        addressCell.setBorder(Rectangle.NO_BORDER);
-        contactNumberCell.setBorder(Rectangle.NO_BORDER);
-
-        // Add cells to the table
-        table.addCell(addressCell);
-        table.addCell(contactNumberCell);
-
-
-        // Add the table to the document
-        document.add(table);
-
+        table1.addCell(rightCell1);
+        document.add(table1);
 
         document.close();
 
