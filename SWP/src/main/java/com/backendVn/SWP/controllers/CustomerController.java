@@ -46,11 +46,17 @@ public class CustomerController {
                 .build();
     }
 
-    @PutMapping("/ResetPassword")
-    ApiResponse<Void> resetPassword(@RequestParam(name = "email", required = true) String email) throws MessagingException {
-        userService.demoSendNudeFromEmail(email);
-        return ApiResponse.<Void>builder()
-                .message("Update password successfully")
+    @PutMapping("/SendCodeThroughEmail")
+    ApiResponse<String> sendCode(@RequestParam(name = "email", required = true) String email) throws MessagingException {
+        return ApiResponse.<String>builder()
+                .result(userService.sendResetPasswordLinkThroughEmail(email))
+                .build();
+    }
+
+    @PutMapping("/ResetNewPassword")
+    ApiResponse<AuthenticationResponse> resetNewPassword(@RequestParam(name = "email", required = true) String email, @RequestParam(name = "newPassword", required = true) String newPassword) throws MessagingException {
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(userService.resetPassword(newPassword,email))
                 .build();
     }
 }

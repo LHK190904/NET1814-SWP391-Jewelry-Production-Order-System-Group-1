@@ -3,6 +3,7 @@ package com.backendVn.SWP.services;
 import com.backendVn.SWP.dtos.request.PasswordCreationRequest;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
+import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
@@ -28,6 +29,7 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
     SendEmailService sendEmailService;
+    AuthenticationService authenticationService;
 
 //    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public List<UserResponse> getAllUsers() {
@@ -100,7 +102,27 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public void demoSendNudeFromEmail(String email) throws MessagingException {
-        sendEmailService.sendSimpleMessage(email);
+    public String sendResetPasswordLinkThroughEmail(String email) throws MessagingException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        if(user != null) {
+            return sendEmailService.sendSimpleMessage(email);
+        } else {
+            return null;
+        }
+    }
+
+    public AuthenticationResponse resetPassword(String newPassword, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        return AuthenticationResponse.builder()
+                .token(authenticationService.generateToken(user))
+                .authenticated(true)
+                .title(user.getTitle())
+                .Id(user.getId())
+                .build();
     }
 }

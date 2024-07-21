@@ -1,0 +1,12 @@
+{
+  "code": 1000,
+  "result": {
+    "id": 11007,
+    "userName": "giang",
+    "password": "$2a$10$5KfMv1VLFLsqwX/lH71eQu7HWY8cZwP6VoClvmwUQWwEIoG6yAPgy",
+    "email": "giangnguyen102004@gmail.com",
+    "address": "ádasd",
+    "title": "CUSTOMER",
+    "noPassword": null
+  }
+}
