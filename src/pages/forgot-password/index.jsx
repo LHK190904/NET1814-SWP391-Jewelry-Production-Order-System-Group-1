@@ -9,24 +9,48 @@ function ForgotPassword() {
     email: "",
     newPassword: "",
     confirmPassword: "",
+    code: "",
   });
+  const [code, setCode] = useState();
   const navigate = useNavigate();
 
   const handleNextStep = () => {
     setStep(step + 1);
   };
 
-  const handleSubmitStep1 = () => {
-    handleNextStep();
+  const handleSubmitStep1 = async () => {
+    try {
+      const response = await axiosInstance.put(
+        `cust/SendCodeThroughEmail?email=${formData.email}`
+      );
+      setCode(response.data.result);
+      handleNextStep();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleSubmitStep2 = () => {
-    if (formData.newPassword === formData.confirmPassword) {
-      console.log("New Password:", formData.newPassword);
-      console.log("Confirm Password:", formData.confirmPassword);
-      message.success("Đổi mật khẩu thành công");
+  const handleSubmitStep2 = async () => {
+    if (formData.code === code) {
+      if (formData.newPassword.length < 8) {
+        message.error("Mật khẩu phải có ít nhất 8 ký tự");
+      } else {
+        if (formData.newPassword === formData.confirmPassword) {
+          try {
+            const response = await axiosInstance.put(
+              `cust/ResetNewPassword?email=${formData.email}&newPassword=${formData.newPassword}`
+            );
+            message.success("Đổi mật khẩu thành công");
+            navigate("/login");
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          message.error("Mật khẩu không trùng khớp");
+        }
+      }
     } else {
-      message.error("Mật khẩu không trùng khớp");
+      message.error("Mã xác thực không đúng");
     }
   };
 
@@ -39,7 +63,7 @@ function ForgotPassword() {
     <div className="bg-[#434343] min-h-screen w-screen flex items-center justify-center p-4">
       {step === 1 ? (
         <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
-          <h2 className="text-2xl mb-4">Step 1: Enter your email</h2>
+          <h2 className="text-4xl mb-4">VUI LÒNG NHẬP EMAIL ĐÃ ĐƯỢC ĐĂNG KÝ</h2>
           <Form onFinish={handleSubmitStep1}>
             <label>Email:</label>
             <Form.Item
@@ -61,21 +85,19 @@ function ForgotPassword() {
               />
             </Form.Item>
             <Form.Item>
-              <button
+              <Button
                 type="primary"
                 htmlType="submit"
                 className="w-full bg-[#F7EF8A] text-black text-xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] rounded-lg p-2"
               >
                 XÁC NHẬN
-              </button>
+              </Button>
             </Form.Item>
           </Form>
         </div>
       ) : step === 2 ? (
         <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
-          <h2 className="text-2xl mb-4">
-            Step 2: Enter new password and confirm
-          </h2>
+          <h2 className="text-2xl mb-4">NHẬP MẬT KHẨU MỚI</h2>
           <Form onFinish={handleSubmitStep2}>
             <label>Email:</label>
             <Form.Item>
@@ -88,9 +110,7 @@ function ForgotPassword() {
             <label>Mật khẩu mới:</label>
             <Form.Item
               name="newPassword"
-              rules={[
-                { required: true, message: "Please enter your new password!" },
-              ]}
+              rules={[{ required: true, message: "Nhập mật khẩu mới" }]}
             >
               <Input.Password
                 value={formData.newPassword}
@@ -105,7 +125,7 @@ function ForgotPassword() {
               rules={[
                 {
                   required: true,
-                  message: "Please confirm your new password!",
+                  message: "Nhập lại mật khẩu vừa nhập",
                 },
               ]}
             >
@@ -116,14 +136,31 @@ function ForgotPassword() {
                 className="w-full p-2 border rounded"
               />
             </Form.Item>
+            <label>Mã xác nhận:</label>
+            <Form.Item
+              name="code"
+              rules={[
+                {
+                  required: true,
+                  message: "Nhập mã code đã được gửi trong email",
+                },
+              ]}
+            >
+              <Input
+                value={formData.code}
+                onChange={handleInputChange}
+                name="code"
+                className="w-full p-2 border rounded"
+              />
+            </Form.Item>
             <Form.Item>
-              <button
+              <Button
                 type="primary"
                 htmlType="submit"
                 className="w-full bg-[#F7EF8A] text-black text-xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] rounded-lg p-2"
               >
                 XÁC NHẬN
-              </button>
+              </Button>
             </Form.Item>
           </Form>
         </div>

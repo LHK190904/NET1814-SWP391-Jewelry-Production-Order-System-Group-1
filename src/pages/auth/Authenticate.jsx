@@ -34,8 +34,6 @@ export default function Authenticate() {
 
       const data = response.data;
 
-      console.log(data.result);
-
       if (data.result) {
         const userData = {
           username: data.result.userName,
@@ -57,8 +55,6 @@ export default function Authenticate() {
   };
 
   const authenticateUser = async () => {
-    console.log(window.location.href);
-
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
 

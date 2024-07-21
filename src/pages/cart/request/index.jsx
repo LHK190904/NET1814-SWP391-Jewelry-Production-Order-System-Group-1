@@ -33,7 +33,6 @@ function CartRequest() {
       );
 
       setRequests(combinedData);
-      console.log(`fetch requests & orders`, combinedData);
     } catch (error) {
       console.error("Error fetching requests", error);
     }
@@ -54,8 +53,6 @@ function CartRequest() {
           req.id === reqID ? { ...req, status: "Approved" } : req
         )
       );
-      console.log(`Approved`, response1.data.result);
-      console.log(`Created order`, response2.data.result);
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +68,6 @@ function CartRequest() {
           req.id === reqID ? { ...req, status: "Denied" } : req
         )
       );
-      console.log(`Denied`, response.data.result);
     } catch (error) {
       console.error(error);
     }
@@ -83,7 +79,6 @@ function CartRequest() {
       setRequests((prevRequest) =>
         prevRequest.filter((req) => req.id !== reqID)
       );
-      console.log(`Deleted request ID ${reqID}`);
     } catch (error) {
       console.error(`Error deleting request ID ${reqID}`, error);
     }

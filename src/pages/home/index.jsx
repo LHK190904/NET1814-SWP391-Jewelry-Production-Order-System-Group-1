@@ -52,7 +52,6 @@ function Home() {
       setGoldPrice(goldData);
       const materialResponse = await axiosInstance.get(`material/notGold`);
       setMaterialPrice(materialResponse.data.result);
-      console.log(materialResponse.data.result);
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +67,7 @@ function Home() {
 
   const handleUpload = async () => {
     if (fileList.length === 0) {
-      console.log("Vui lòng chọn file hình ảnh");
+      message.error("Vui lòng chọn file hình ảnh");
       return;
     }
     setUploading(true);
@@ -80,8 +79,6 @@ function Home() {
         ...prevFormData,
         listURLImage: [...prevFormData.listURLImage, ...uploadedURLs],
       }));
-      console.log("After set in formData:", uploadedURLs);
-      console.log(formData);
       message.success("Tải ảnh thành công");
     } catch (error) {
       console.error("Error uploading files:", error);
@@ -104,7 +101,6 @@ function Home() {
       if (!user) {
         throw new Error("Vui lòng đăng nhập để đặt yêu cầu");
       }
-      console.log("handle OK", formData);
       await axiosInstance.post(`/requests/${user.id}`, formData);
       handleHideModal();
       message.success("Đặt yêu cầu thành công");

@@ -26,7 +26,6 @@ function ManagerRequest() {
       );
 
       setRequests(combinedData);
-      console.log(combinedData);
     } catch (error) {
       console.error(error);
     }
@@ -48,7 +47,6 @@ function ManagerRequest() {
   const handleApprove = async (quoID, reqID) => {
     try {
       const response = await axiosInstance.put(`quotation/update/${quoID}`);
-      console.log(response.data.result);
       setStatuses((prev) => ({ ...prev, [reqID]: "Approved" }));
     } catch (error) {
       console.error(error);
@@ -58,7 +56,6 @@ function ManagerRequest() {
   const handleDeny = async (quoID, reqID) => {
     try {
       const response = await axiosInstance.put(`quotation/update/${quoID}`);
-      console.log(response.data.result);
       setStatuses((prev) => ({ ...prev, [reqID]: "Denied" }));
     } catch (error) {
       console.error(error);

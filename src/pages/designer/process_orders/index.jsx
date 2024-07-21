@@ -79,7 +79,6 @@ function ProcessOrder() {
 
     if (designID) {
       const response = await axiosInstance.put(`/design/${designID}`, payload);
-      console.log(response);
     } else {
       await axiosInstance.post(`/design/${selectedOrderItem.id}`, payload);
     }
@@ -171,7 +170,7 @@ function ProcessOrder() {
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-     <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
+      <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
         <Link to={"/"}>
           <img
             className="h-[160px] w-auto"

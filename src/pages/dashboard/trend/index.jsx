@@ -36,7 +36,6 @@ function SaleTrend() {
         `dashboard/monthly-revenue?year=${year}&startMonth=${startMonth}&endMonth=${endMonth}`
       );
       setRevenue(responseRevenue.data.result.map((item) => item.totalProfit));
-      console.log("Revenue: ", responseRevenue.data.result);
 
       const responseOrderCount = await axiosInstance.get(
         `dashboard/monthly-order-count?year=${year}&startMonth=${startMonth}&endMonth=${endMonth}`
@@ -44,7 +43,6 @@ function SaleTrend() {
       setOrderCount(
         responseOrderCount.data.result.map((item) => item.orderCount)
       );
-      console.log("Order count: ", responseOrderCount.data.result);
     } catch (error) {
       console.log(error);
     }

@@ -17,13 +17,14 @@ const login = async (username, password) => {
     }
   } catch (error) {
     const errorMessage =
-        error.response?.data?.message || error.message || "Login failed";
+      error.response?.data?.message || error.message || "Login failed";
     throw new Error(errorMessage);
   }
 };
 
 const logout = () => {
   localStorage.removeItem("user");
+  window.location.reload();
 };
 
 const getCurrentUser = () => {

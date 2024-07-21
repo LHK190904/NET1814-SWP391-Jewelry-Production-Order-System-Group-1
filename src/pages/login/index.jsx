@@ -14,7 +14,6 @@ function Login() {
     event.preventDefault();
     try {
       const user = await authService.login(userName, password);
-      console.log(user);
       if (user) {
         if (user.title === "ADMIN") {
           navigate("/admin");
@@ -51,8 +50,6 @@ function Login() {
     const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
       callbackUrl
     )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
-
-    console.log(targetUrl);
 
     window.location.href = targetUrl;
   };

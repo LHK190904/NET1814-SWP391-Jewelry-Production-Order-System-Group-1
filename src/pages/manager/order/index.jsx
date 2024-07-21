@@ -25,19 +25,16 @@ function ManagerOrder() {
         `request-orders/getAllNewRequestOrder`
       );
       setOrderList(orderResponse.data.result);
-      console.log(orderResponse.data.result);
 
       const designResponse = await axiosInstance.get(
         `request-orders/getUserByRole/DESIGN_STAFF`
       );
       setDesignStaffList(designResponse.data.result);
-      console.log(designResponse.data.result);
 
       const productionResponse = await axiosInstance.get(
         `request-orders/getUserByRole/PRODUCTION_STAFF`
       );
       setProductionStaffList(productionResponse.data.result);
-      console.log(productionResponse.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +51,6 @@ function ManagerOrder() {
           ? values.designStaff
           : "0";
       const url = `request-orders/${selectedOrder.id}/${designStaffId}/${values.productionStaff}`;
-      console.log("Submitting to URL:", url);
       await axiosInstance.put(url);
       message.success("Staff assigned successfully");
       handleHideModal();

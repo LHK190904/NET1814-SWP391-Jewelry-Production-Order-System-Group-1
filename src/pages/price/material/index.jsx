@@ -11,7 +11,6 @@ function PriceMaterial() {
     try {
       const response = await axiosInstance.get(`material/notGold`);
       setMaterialPrice(response.data.result);
-      console.log(response.data.result);
     } catch (error) {
       console.error(error);
     }

@@ -32,14 +32,12 @@ function CartOrder() {
       const responseOrder = await axiosInstance.get(
         `request-orders/getOrderByRequestIdForCustomer/${requestID}`
       );
-      console.log("Order data:", responseOrder.data.result);
       setOrder(responseOrder.data.result);
       try {
         const responseDesign = await axiosInstance.get(
           `design/${responseOrder.data.result.id}`
         );
         setDesign(responseDesign.data.result);
-        console.log("Design:", responseDesign.data.result);
       } catch (error) {
         console.log(`No image found`);
       }
@@ -48,7 +46,6 @@ function CartOrder() {
           `process/getProcessByRequestOrderId/${responseOrder.data.result.id}`
         );
         setProcess(responseProcess.data.result);
-        console.log("Process", responseProcess.data.result);
       } catch (error) {
         console.log(error);
       }
@@ -66,7 +63,6 @@ function CartOrder() {
         `invoices/getInvoiceInfor/${order.id}`
       );
       setInvoice(response.data.result);
-      console.log("Invoice:", response.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -76,7 +72,6 @@ function CartOrder() {
     try {
       const response = await axiosInstance.get(`material/notGold`);
       setStones(response.data.result);
-      console.log("Stones :", response.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -98,7 +93,6 @@ function CartOrder() {
   const handleApprove = async () => {
     try {
       const values = { feedback };
-      console.log("Approve values:", values);
       const response = await axiosInstance.put(
         `request-orders/acceptDesign/${design.id}`,
         values
@@ -115,7 +109,6 @@ function CartOrder() {
   const handleDeny = async () => {
     try {
       const values = { feedback };
-      console.log("Deny values:", values);
       const requestData = {
         description: feedback,
       };

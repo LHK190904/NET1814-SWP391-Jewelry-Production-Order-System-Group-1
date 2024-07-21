@@ -83,7 +83,6 @@ function ProcessRequests() {
     try {
       const response = await axiosInstance.get(`/quotation/${record.id}`);
       const data = response.data.result;
-      console.log(data);
       formDataQuotation.setFieldsValue({
         createdAt: data.createdAt,
         capitalCost: data.capitalCost,

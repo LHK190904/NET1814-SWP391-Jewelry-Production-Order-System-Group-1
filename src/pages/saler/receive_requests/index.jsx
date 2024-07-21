@@ -26,7 +26,6 @@ function ReceiveRequests() {
     try {
       const response = await axiosInstance.put(`requests/sales/${record.id}`);
       setRequests(requests.filter((request) => request.id !== record.id));
-      console.log(response.data);
     } catch (error) {
       console.error("Failed to accept request:", error);
     }

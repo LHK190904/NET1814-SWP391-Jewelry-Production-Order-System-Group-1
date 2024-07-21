@@ -20,8 +20,6 @@ function SearchPage() {
           design.designName.toLowerCase().includes(query.toLowerCase())
         );
         setFilteredDesigns(filtered);
-        console.log("Filtered designs:", filtered);
-        console.log("Keyword:", query);
       } catch (error) {
         console.log(error);
       }
