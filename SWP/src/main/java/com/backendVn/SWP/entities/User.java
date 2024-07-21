@@ -49,12 +49,12 @@ public class User {
 
     @Size(max = 50)
     @Nationalized
-    @Column(name = "cusName", length = 50)
+    @Column(name = "cus_name", length = 50)
     private String cusName;
 
     @Size(max = 20)
     @Nationalized
-    @Column(name = "phoneNum", length = 20)
+    @Column(name = "phone_num", length = 20)
     private String phoneNum;
 
 }

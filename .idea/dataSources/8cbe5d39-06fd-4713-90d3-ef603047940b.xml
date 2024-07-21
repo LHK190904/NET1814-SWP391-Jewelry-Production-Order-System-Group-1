@@ -16989,7 +16989,7 @@ int</ExtendedProperties>
     <table id="5582" parent="5563" name="Users">
       <CreatedTimestamp>2024-06-08.15:45:57.137</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
-      <ModifiedTimestamp>2024-07-21.16:05:04.583</ModifiedTimestamp>
+      <ModifiedTimestamp>2024-07-21.17:00:57.637</ModifiedTimestamp>
       <ObjectId>1205579333</ObjectId>
       <LedgerViewId>0</LedgerViewId>
       <LobDataSpaceId>1</LobDataSpaceId>
@@ -17711,11 +17711,11 @@ int</ExtendedProperties>
       <DasType>nvarchar(50 char)|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="5707" parent="5582" name="cusName">
+    <column id="5707" parent="5582" name="cus_name">
       <DasType>nvarchar(50 char)|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="5708" parent="5582" name="phoneNum">
+    <column id="5708" parent="5582" name="phone_num">
       <DasType>nvarchar(20 char)|0s</DasType>
       <Position>8</Position>
     </column>

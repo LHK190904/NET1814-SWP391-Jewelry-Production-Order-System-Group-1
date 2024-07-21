@@ -20,10 +20,6 @@ public class SendEmailService {
     @Value("${spring.mail.username}")
     String appEmail;
 
-    @NonFinal
-    @Value("${spring.mail.password}")
-    String appPassword;
-
     public void sendSimpleMessage(String to) throws MessagingException {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
@@ -31,12 +27,10 @@ public class SendEmailService {
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject("RESET PASSWORD LINK");
         mimeMessageHelper.setText("""
-                <div>
-                    <p> Xin chào, bạn vừa gửi yêu cầu đổi mật khẩu, vui lòng nhấn vào đường dẫn bên dưới để thay đổi mật khẩu </p>
-                    <a href="" target="_blank">Bấm vào đây để đặt lại mật khẩu</a>
-                    <p> Nếu như bạn không yêu cầu điều này, vui lòng bỏ qua thông báo này ! </p>
-                </div>
-                """.formatted(to), true);
+        Xin chào, bạn vừa gửi yêu cầu đổi mật khẩu, vui lòng nhấn vào đường dẫn bên dưới để thay đổi mật khẩu:
+        link="http://localhost:5173/forgot-password?email=%s"Bấm vào đây để đặt lại mật khẩu
+        Nếu như bạn không yêu cầu điều này, vui lòng bỏ qua thông báo này
+    """.formatted(to));
         emailSender.send(mimeMessage);
     }
 }
