@@ -113,19 +113,20 @@ function Register() {
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
+                    required
                   />
                 </div>
               </div>
               <div className="flex space-x-4">
                 <button
                   type="submit"
-                  className="w-1/2 bg-gray-800 text-[#F7EF8A] py-2 px-4 rounded-md"
+                  className="w-1/2 bg-gray-800 text-[#F7EF8A] py-2 px-4 rounded-md transition-transform duration-300 transform hover:scale-105"
                 >
                   ĐĂNG KÝ
                 </button>
                 <button
                   type="button"
-                  className="w-1/2 bg-white border border-gray-300 py-2 px-4 rounded-md"
+                  className="w-1/2 bg-white border border-gray-300 py-2 px-4 rounded-md transition-transform duration-300 transform hover:scale-105"
                   onClick={() => handleNavigate("/login")}
                 >
                   QUAY VỀ

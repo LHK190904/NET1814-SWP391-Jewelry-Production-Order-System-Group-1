@@ -60,7 +60,7 @@ function Login() {
   return (
     <div className="flex items-center justify-center w-screen lg:min-h-screen bg-[#434343]">
       <div className="bg-white shadow-md rounded-lg w-full max-w-lg text-center m-4">
-        <h4 className="text-base font-semibold p-4 border-b">ĐĂNG NHẬP</h4>
+        <h4 className="text-2xl font-semibold p-4 border-b">ĐĂNG NHẬP</h4>
         <div className="p-6">
           {errorMessage && (
             <div className="mb-4 text-red-500">{errorMessage}</div>
@@ -102,24 +102,33 @@ function Login() {
               <div className="flex space-x-4">
                 <button
                   type="submit"
-                  className="w-1/2 bg-gray-800 text-[#F7EF8A] hover:text-[#ddd012] py-2 px-4 rounded-md"
+                  className="w-1/2 bg-gray-800 text-[#F7EF8A] hover:text-[#ddd012] py-2 px-4 rounded-md transition-transform duration-300 transform hover:scale-105"
                 >
                   ĐĂNG NHẬP
                 </button>
                 <button
                   type="button"
-                  className="flex w-1/2 justify-center bg-white border border-gray-300 rounded-md py-2 px-2 gap-1 text-base"
+                  className="flex w-1/2 justify-center bg-white border border-gray-300 rounded-md py-2 px-2 gap-1 text-base transition-transform duration-300 transform hover:scale-105"
                   onClick={handleContinueWithGoogle}
                 >
                   <GoogleIcon />
                   <span>ĐĂNG NHẬP VỚI GOOGLE</span>
                 </button>
               </div>
-              <Link to={"/register"} className="flex space-x-4 justify-center">
+              <Link
+                to={"/register"}
+                className="flex space-x-4 justify-center transition-transform duration-300 transform hover:scale-105"
+              >
                 ĐĂNG KÝ NGAY
               </Link>
             </div>
           </form>
+          <button
+            className="transition-transform duration-300 transform hover:scale-105 my-2"
+            onClick={() => navigate("/forgot-password")}
+          >
+            QUÊN MẬT KHẨU
+          </button>
         </div>
       </div>
     </div>

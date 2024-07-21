@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getToken, setToken } from "../../services/authService";
+import axiosInstance from "../../services/axiosInstance"; // Import axiosInstance
 import {
   Box,
   CircularProgress,
@@ -25,14 +26,13 @@ export default function Authenticate() {
 
   const getUserDetails = async (accessToken) => {
     try {
-      const response = await fetch("http://localhost:8080/cust/myInfo", {
-        method: "GET",
+      const response = await axiosInstance.get("/cust/myInfo", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      const data = await response.json();
+      const data = response.data;
 
       console.log(data.result);
 
@@ -66,13 +66,10 @@ export default function Authenticate() {
       const authCode = isMatch[1];
 
       try {
-        const response = await fetch(
-          `http://localhost:8080/auth/outbound/authentication?code=${authCode}`,
-          {
-            method: "POST",
-          }
+        const response = await axiosInstance.post(
+          `/auth/outbound/authentication?code=${authCode}`
         );
-        const data = await response.json();
+        const data = response.data;
         console.log(data);
         setToken(data.result.token);
         await getUserDetails(data.result.token);
@@ -94,19 +91,14 @@ export default function Authenticate() {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:8080/cust/create-password",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await axiosInstance.post("/cust/create-password", body, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
 
-      const data = await response.json();
+      const data = response.data;
 
       if (data.code !== 1000) throw new Error(data.message);
 
@@ -127,20 +119,6 @@ export default function Authenticate() {
     }
     navigate("/");
   };
-
-  useEffect(() => {
-    const skipPasswordCreation =
-      localStorage.getItem("skipPasswordCreation") === "true";
-    if (skipPasswordCreation) {
-      navigate("/");
-    } else if (isLoggedin) {
-      if (currentUser?.noPassword) {
-        setCurrentUser(currentUser);
-      } else {
-        navigate("/");
-      }
-    }
-  }, [isLoggedin, navigate, currentUser]);
 
   useEffect(() => {
     const skipPasswordCreation =

@@ -105,6 +105,7 @@ function CartOrder() {
       );
       message.success(`Đã gửi`);
       setFeedback("");
+      window.location.reload();
     } catch (error) {
       console.log(error);
       message.error("Có lỗi xảy ra");
@@ -164,9 +165,9 @@ function CartOrder() {
     setIsOpenModal(false);
   };
 
-  const getMainStoneType = () => {
-    const mainStone = stones.find((stone) => stone.id === design.mainStoneId);
-    return mainStone ? mainStone.type : "N/A";
+  const getStoneType = (stoneId) => {
+    const stone = stones.find((stone) => stone.id === stoneId);
+    return stone ? stone.materialName : "N/A";
   };
 
   return (
@@ -267,19 +268,33 @@ function CartOrder() {
                   )}
                   <div className="col-span-1 md:col-span-6 text-lg md:text-xl">
                     <div className="h-full">
-                      <div>LOẠI TRANG SỨC: {design.category}</div>
-                      <div>LOẠI VÀNG: {design.materialName}</div>
-                      <div>TRỌNG LƯỢNG: {design.materialWeight}</div>
-                      <div>ĐÁ CHÍNH: {getMainStoneType()}</div>
-                      <div>ĐÁ PHỤ: {design.subStoneId}</div>
-                      <div>MÔ TẢ: {design.description}</div>
-                      <div>TIẾN TRÌNH: {process ? process.status : "N/A"}</div>
+                      <div>
+                        <b>LOẠI TRANG SỨC:</b> {design.category}
+                      </div>
+                      <div>
+                        <b>LOẠI VÀNG:</b> {design.materialName}
+                      </div>
+                      <div>
+                        <b>TRỌNG LƯỢNG:</b> {design.materialWeight}
+                      </div>
+                      <div>
+                        <b>ĐÁ CHÍNH:</b> {getStoneType(design.mainStoneId)}
+                      </div>
+                      <div>
+                        <b>ĐÁ PHỤ:</b> {getStoneType(design.subStoneId)}
+                      </div>
+                      <div>
+                        <b>MÔ TẢ:</b> {design.description}
+                      </div>
+                      <div>
+                        <b>TIẾN TRÌNH:</b> {process ? process.status : "N/A"}
+                      </div>
                       <Stepper currentStep={getCurrentStep()} />
                       <div>
-                        CẬP NHẬT LÚC:{" "}
+                        <b>CẬP NHẬT LÚC:</b>
                         {process
                           ? new Date(process.updatedAt).toLocaleString()
-                          : "N/A"}
+                          : ""}
                       </div>
                       <button
                         onClick={handleShowModal}

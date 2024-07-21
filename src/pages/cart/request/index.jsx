@@ -5,7 +5,6 @@ import axiosInstance from "../../../services/axiosInstance";
 
 function CartRequest() {
   const [requests, setRequests] = useState([]);
-  const [statuses, setStatuses] = useState({});
   const navigate = useNavigate();
 
   const fetchRequests = async () => {
@@ -50,7 +49,6 @@ function CartRequest() {
         `requests/approveQuotationFromCustomer/${reqID}`
       );
       const response2 = await axiosInstance.post(`request-orders/${reqID}`);
-      setStatuses((prev) => ({ ...prev, [reqID]: "Approved" }));
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
           req.id === reqID ? { ...req, status: "Approved" } : req
@@ -68,7 +66,6 @@ function CartRequest() {
       const response = await axiosInstance.put(
         `requests/denyQuotationFromCustomer/${reqID}`
       );
-      setStatuses((prev) => ({ ...prev, [reqID]: "Denied" }));
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
           req.id === reqID ? { ...req, status: "Denied" } : req
@@ -90,10 +87,6 @@ function CartRequest() {
     } catch (error) {
       console.error(`Error deleting request ID ${reqID}`, error);
     }
-  };
-
-  const handleStatusClick = (reqID) => {
-    setStatuses((prev) => ({ ...prev, [reqID]: "action" }));
   };
 
   const handleOrderClick = (reqID) => {
@@ -128,7 +121,7 @@ function CartRequest() {
               <div className="col-span-1 p-2 bg-white border">
                 {item.saleStaffID}
               </div>
-              {statuses[item.id] === "action" ? (
+              {item.status === "action" ? (
                 <div className="col-span-1 p-2 bg-white flex flex-col lg:flex-row">
                   <button
                     onClick={() => handleApprove(item.id)}
@@ -143,16 +136,15 @@ function CartRequest() {
                     Deny
                   </button>
                 </div>
-              ) : statuses[item.id] === "Unapproved" ||
-                item.status === "Unapproved" ? (
+              ) : item.status === "Unapproved" ? (
                 <div className="col-span-1 p-2 bg-white">
-                  <span>{statuses[item.id] || item.status}</span>
+                  <span>{item.status}</span>
                 </div>
-              ) : statuses[item.id] === "Approved" ||
+              ) : item.status === "Approved" ||
                 item.status === "Ordering" ||
                 item.status === "Processing" ? (
                 <div className="col-span-1 p-2 bg-white">
-                  <span>{statuses[item.id] || item.status}</span>
+                  <span>{item.status}</span>
                 </div>
               ) : item.status === "Pending quotation for manager" ? (
                 <div className="col-span-1 p-2 bg-white">
@@ -161,10 +153,18 @@ function CartRequest() {
               ) : (
                 <div className="col-span-1 p-2 bg-white">
                   <button
-                    onClick={() => handleStatusClick(item.id)}
+                    onClick={() =>
+                      setRequests((prevRequest) =>
+                        prevRequest.map((req) =>
+                          req.id === item.id
+                            ? { ...req, status: "action" }
+                            : req
+                        )
+                      )
+                    }
                     className="bg-blue-400 p-2 rounded-lg hover:bg-blue-500"
                   >
-                    {statuses[item.id] || item.status}
+                    {item.status}
                   </button>
                 </div>
               )}
@@ -175,15 +175,14 @@ function CartRequest() {
                 {new Date(item.recievedAt).toDateString()}
               </div>
               <div className="col-span-1 p-2 bg-white border">
-                {new Intl.NumberFormat().format(item.quotation)
+                {item.quotation
                   ? new Intl.NumberFormat().format(item.quotation.cost)
                   : "N/A"}
               </div>
               <div className="col-span-1 p-2 bg-white border">
                 {item.description}
               </div>
-              {statuses[item.id] === "Approved" ||
-              item.status === "Ordering" ? (
+              {item.status === "Approved" || item.status === "Ordering" ? (
                 <div className="col-span-1 p-2 bg-white border">
                   <button
                     onClick={() => handleOrderClick(item.id)}
@@ -192,9 +191,7 @@ function CartRequest() {
                     CHI TIẾT
                   </button>
                 </div>
-              ) : (statuses[item.id] === "Denied" ||
-                  item.status === "Unapproved") &&
-                item.quotation.cost !== null ? (
+              ) : item.status === "Denied" || item.status === "Unapproved" ? (
                 <div className="col-span-1 p-2 bg-white border">
                   <button
                     onClick={() => handleDelete(item.id)}

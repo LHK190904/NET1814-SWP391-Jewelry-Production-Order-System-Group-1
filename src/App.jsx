@@ -28,6 +28,7 @@ import Authenticate from "./pages/auth/Authenticate";
 import ManageMaterial from "./pages/production-staff/manage-materials";
 import Post from "./pages/posts/[slug]";
 import SearchPage from "./pages/search";
+import ForgotPassword from "./pages/forgot-password";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -110,6 +111,10 @@ function App() {
         {
           path: "/search/:query",
           element: <SearchPage />,
+        },
+        {
+          path: "/forgot-password",
+          element: <ForgotPassword />,
         },
       ],
     },

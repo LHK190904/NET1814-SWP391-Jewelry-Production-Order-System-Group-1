@@ -108,7 +108,6 @@ function Home() {
       await axiosInstance.post(`/requests/${user.id}`, formData);
       handleHideModal();
       message.success("Đặt yêu cầu thành công");
-      // setFormData(initialForm);
       form.resetFields();
     } catch (error) {
       console.error("Có lỗi khi gửi dữ liệu:", error);

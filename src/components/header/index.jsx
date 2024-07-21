@@ -59,37 +59,46 @@ function Header() {
     navigate("/");
   };
 
-  const menuItems = [
-    {
-      key: "profile",
-      label: (
-        <Link
-          to={
-            user?.title === "ADMIN"
-              ? "/admin"
-              : user?.title === "SALE_STAFF"
-              ? "/saler/receive_requests"
-              : user?.title === "PRODUCTION_STAFF"
-              ? "/production-staff/process-orders"
-              : user?.title === "DESIGN_STAFF"
-              ? "/designer/process_orders"
-              : user?.title === "MANAGER"
-              ? "/manager/request"
-              : "/profile"
-          }
-        >
-          TRANG LÀM VIỆC
-        </Link>
-      ),
-    },
-    {
-      key: "logout",
-      label: "ĐĂNG XUẤT",
-      danger: true,
-      onClick: handleLogout,
-    },
-  ];
-
+  const menuItems =
+    user?.title === "CUSTOMER"
+      ? [
+          {
+            key: "logout",
+            label: "ĐĂNG XUẤT",
+            danger: true,
+            onClick: handleLogout,
+          },
+        ]
+      : [
+          {
+            key: "profile",
+            label: (
+              <Link
+                to={
+                  user?.title === "ADMIN"
+                    ? "/admin"
+                    : user?.title === "SALE_STAFF"
+                    ? "/saler/receive_requests"
+                    : user?.title === "PRODUCTION_STAFF"
+                    ? "/production-staff/process-orders"
+                    : user?.title === "DESIGN_STAFF"
+                    ? "/designer/process_orders"
+                    : user?.title === "MANAGER"
+                    ? "/manager/request"
+                    : "/"
+                }
+              >
+                TRANG LÀM VIỆC
+              </Link>
+            ),
+          },
+          {
+            key: "logout",
+            label: "ĐĂNG XUẤT",
+            danger: true,
+            onClick: handleLogout,
+          },
+        ];
   return (
     <div>
       <div className="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 bg-black text-[#F7EF8A] items-center w-screen">
