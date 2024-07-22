@@ -16,7 +16,7 @@ WORKDIR /app
 COPY pom.xml .
 
 # Copy the source code
-COPY src ./src
+COPY SWP/src ./src
 
 # Run the Maven clean and package command
 RUN mvn clean package -DskipTests
