@@ -19,7 +19,7 @@ import java.time.Instant;
 public class PaymentResponse {
     Integer id;
 
-    Request requestID;
+    Integer requestID;
 
     BigDecimal amount;
 
