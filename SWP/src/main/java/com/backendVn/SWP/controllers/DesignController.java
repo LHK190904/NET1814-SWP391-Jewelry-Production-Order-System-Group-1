@@ -70,14 +70,22 @@ public class DesignController {
                 .build();
     }
 
-    @GetMapping("/getAllCompanyDesign")
+    @GetMapping("/getAllCompanyDesign2")
     public ApiResponse<List<DesignResponse>> getAllCompanyDesign(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) Integer mainStone,
             @RequestParam(required = false) Integer subStone) {
         return ApiResponse.<List<DesignResponse>>builder()
-                .result(designService.getAllCompanyDesign(search, category, mainStone, subStone))
+                .result(designService.getAllCompanyDesign2(search, category, mainStone, subStone))
+                .build();
+    }
+
+    @GetMapping("/getAllCompanyDesign")
+    public ApiResponse<List<DesignResponse>> getAllCompanyDesign(@RequestParam(required = false) String designName,
+                                                                 @RequestParam(required = false) String category) {
+        return ApiResponse.<List<DesignResponse>>builder()
+                .result(designService.getAllCompanyDesign(designName, category))
                 .build();
     }
 
