@@ -60,6 +60,10 @@ public class RequestService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
+        if(user.getAddress().isEmpty() || user.getCusName().isEmpty() || user.getPhoneNum().isEmpty() || user.getEmail().isEmpty()){
+            throw new AppException(ErrorCode.CAN_NOT_REQUEST);
+        }
+
         Request theRequest = requestMapper.toRequest(request);
         theRequest.setCustomerID(user);
 

@@ -49,10 +49,10 @@ public class PaymentService {
                 .requestID(request)
                 .build();
 
-        request.setStatus("Complete");
+        request.setStatus("finished");
         request.setEndAt(Instant.now());
 
-        requestOrder.setStatus("Complete");
+        requestOrder.setStatus("finished");
         requestOrder.setEndAt(Instant.now());
 
         paymentRepository.save(payment);
