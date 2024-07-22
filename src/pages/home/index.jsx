@@ -99,6 +99,7 @@ function Home() {
     try {
       const user = authService.getCurrentUser();
       if (!user) {
+        message.error("Vui lòng đăng nhập để đặt yêu cầu");
         throw new Error("Vui lòng đăng nhập để đặt yêu cầu");
       }
       await axiosInstance.post(`/requests/${user.id}`, formData);

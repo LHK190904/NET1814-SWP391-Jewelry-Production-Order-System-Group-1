@@ -1,62 +1,65 @@
-import React, { useEffect, useRef } from "react";
-import { message } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const PayPalButton = ({ amount, onSuccess, onError }) => {
-  const paypalRef = useRef();
+  const [exchangeRate, setExchangeRate] = useState(null);
+  const [isPayPalButtonRendered, setIsPayPalButtonRendered] = useState(false);
 
   useEffect(() => {
-    // Check if PayPal SDK is loaded
-    if (!window.paypal) {
-      const interval = setInterval(() => {
-        if (window.paypal) {
-          clearInterval(interval);
-          window.paypal.Buttons({
-            createOrder: (data, actions) => {
-              return actions.order.create({
-                purchase_units: [
-                  {
-                    amount: {
-                      value: amount,
-                    },
-                  },
-                ],
-              });
-            },
-            onApprove: async (data, actions) => {
-              const order = await actions.order.capture();
-              onSuccess(order);
-            },
-            onError: (err) => {
-              onError(err);
-            },
-          }).render(paypalRef.current);
+    const fetchExchangeRate = async () => {
+      try {
+        const response = await axios.get(
+          "https://v6.exchangerate-api.com/v6/4f3248892be516271282559b/latest/USD"
+        );
+        const data = response.data;
+        if (data.conversion_rates.VND) {
+          setExchangeRate(data.conversion_rates.VND);
         }
-      }, 100);
-    } else {
-      window.paypal.Buttons({
-        createOrder: (data, actions) => {
-          return actions.order.create({
-            purchase_units: [
-              {
-                amount: {
-                  value: amount,
-                },
-              },
-            ],
-          });
-        },
-        onApprove: async (data, actions) => {
-          const order = await actions.order.capture();
-          onSuccess(order);
-        },
-        onError: (err) => {
-          onError(err);
-        },
-      }).render(paypalRef.current);
-    }
-  }, [amount, onSuccess, onError]);
+      } catch (error) {
+        console.error("Error fetching exchange rate:", error);
+      }
+    };
 
-  return <div ref={paypalRef}></div>;
+    fetchExchangeRate();
+  }, []);
+
+  useEffect(() => {
+    if (exchangeRate === null) return;
+
+    const amountInUSD = (amount / exchangeRate).toFixed(2);
+
+    if (!isPayPalButtonRendered) {
+      window.paypal
+        .Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: {
+                    value: amountInUSD,
+                  },
+                },
+              ],
+            });
+          },
+          onApprove: async (data, actions) => {
+            const order = await actions.order.capture();
+            onSuccess(order);
+          },
+          onError: (err) => {
+            onError(err);
+          },
+        })
+        .render("#paypal-button");
+      setIsPayPalButtonRendered(true);
+    }
+  }, [amount, onSuccess, onError, exchangeRate, isPayPalButtonRendered]);
+
+  if (exchangeRate === null) {
+    return <div>Loading...</div>;
+  }
+
+  return <div id="paypal-button"></div>;
 };
 
 export default PayPalButton;

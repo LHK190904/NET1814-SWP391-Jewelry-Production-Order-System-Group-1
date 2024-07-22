@@ -329,17 +329,17 @@ function ProcessRequests() {
         ]}
       >
         <p className="text-lg font-semibold mb-10">
-          Request ID: {selectedRecord.id}
+          Mã yêu cầu: {selectedRecord.id}
         </p>
         <Form form={formDataQuotation}>
           <div className="flex flex-row gap-4">
-            <FormItem label="Created At" name="createdAt">
+            <FormItem label="Ngày tạo" name="createdAt">
               <Input disabled />
             </FormItem>
-            <FormItem label="Capital cost" name="capitalCost">
+            <FormItem label="Giá vốn" name="capitalCost">
               <Input disabled />
             </FormItem>
-            <FormItem label="Total cost" name="cost">
+            <FormItem label="Giá tổng" name="cost">
               <Input disabled />
             </FormItem>
           </div>
@@ -348,28 +348,29 @@ function ProcessRequests() {
 
       <Modal
         open={isCustomerModalOpen}
-        title={<div className="text-center text-2xl">Customer information</div>}
+        title={<div className="text-center text-2xl">Thông tin khách hàng</div>}
         onCancel={handleHideCustomerModal}
         width="60%"
         footer={[
           <Button key="back" onClick={handleHideCustomerModal}>
-            Close
+            Đóng
           </Button>,
         ]}
       >
         {customerInfo && (
           <div>
             <p className="text-lg font-semibold mb-2">
-              Name: <span className="font-thin">{customerInfo.cusName}</span>
+              Tên khách hàng:{" "}
+              <span className="font-thin">{customerInfo.cusName}</span>
             </p>
             <p className="text-lg font-semibold mb-2">
               Email: <span className="font-thin">{customerInfo.email}</span>
             </p>
             <p className="text-lg font-semibold mb-2">
-              Address: <span className="font-thin">{customerInfo.address}</span>
+              Địa chỉ: <span className="font-thin">{customerInfo.address}</span>
             </p>
             <p className="text-lg font-semibold mb-2">
-              Phone number:{" "}
+              Số điện thoại:{" "}
               <span className="font-thin">{customerInfo.phoneNum}</span>
             </p>
           </div>
