@@ -22,6 +22,6 @@ public interface DesignRepository extends JpaRepository<Design, Integer> {
                                     @Param("mainStone") Material mainStone,
                                     @Param("subStone") Material subStone);
 
-    @Query("SELECT d FROM Design d WHERE (:designName IS NULL OR LOWER(d.designName) LIKE LOWER(CONCAT('%', :designName, '%'))) AND (:category IS NULL OR LOWER(d.category) LIKE LOWER(CONCAT('%', :category, '%')))")
+    @Query("SELECT d FROM Design d WHERE (:designName IS NULL OR LOWER(d.designName) LIKE LOWER(CONCAT('%', :designName, '%'))) AND (:category IS NULL OR :category = '' OR d.category = :category)")
     List<Design> searchAndFilterDesigns(@Param("designName") String designName, @Param("category") String category);
 }
