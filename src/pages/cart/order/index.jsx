@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import PayPalButton from "../../../components/paypalButton";
 
 function CartOrder() {
   const { requestID } = useParams();
@@ -22,6 +23,7 @@ function CartOrder() {
   const [feedback, setFeedback] = useState("");
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [stones, setStones] = useState([]);
+  const [isPaid, setIsPaid] = useState(false);
 
   const fetchOrders = async () => {
     if (!requestID) {
@@ -33,6 +35,10 @@ function CartOrder() {
         `request-orders/getOrderByRequestIdForCustomer/${requestID}`
       );
       setOrder(responseOrder.data.result);
+      console.log(responseOrder.data.result);
+      if (responseOrder.data.result.status === "finished") {
+        setIsPaid(true);
+      }
       try {
         const responseDesign = await axiosInstance.get(
           `design/${responseOrder.data.result.id}`
@@ -86,14 +92,19 @@ function CartOrder() {
     if (order.status === "Completed!!!") {
       fetchInvoice();
     } else if (order.status === "finished") {
+      setIsPaid(true);
       fetchWarranty();
     }
   }, [order]);
 
+  const fetchWarranty = async () => {
+    await axiosInstance.get(`/pdf/generate/${order.id}`);
+  };
+
   const handleApprove = async () => {
     try {
       const values = { feedback };
-      const response = await axiosInstance.put(
+      await axiosInstance.put(
         `request-orders/acceptDesign/${design.id}`,
         values
       );
@@ -108,14 +119,10 @@ function CartOrder() {
 
   const handleDeny = async () => {
     try {
-      const values = { feedback };
       const requestData = {
         description: feedback,
       };
-      const response = await axiosInstance.put(
-        `design/denyDesign/${design.id}`,
-        requestData
-      );
+      await axiosInstance.put(`design/denyDesign/${design.id}`, requestData);
       message.success(`Đã gửi`);
       setFeedback("");
     } catch (error) {
@@ -161,6 +168,20 @@ function CartOrder() {
   const getStoneType = (stoneId) => {
     const stone = stones.find((stone) => stone.id === stoneId);
     return stone ? stone.materialName : "N/A";
+  };
+
+  const handlePaymentSuccess = (order) => {
+    message.success("Thanh toán thành công!");
+    console.log("Order:", order);
+    setIsPaid(true);
+    axiosInstance.post(`/payment/${requestID}`);
+    console.log("payment", requestID);
+    axiosInstance.post(`/warranty-cards/${order.id}`);
+  };
+
+  const handlePaymentError = (error) => {
+    message.error("Có lỗi xảy ra khi thanh toán");
+    console.error("PayPal Error:", error);
   };
 
   return (
@@ -315,6 +336,7 @@ function CartOrder() {
         onOk={handleHideModal}
         onCancel={handleHideModal}
         width={"75%"}
+        footer={null}
       >
         <TableContainer>
           <Table>
@@ -336,13 +358,13 @@ function CartOrder() {
               <TableRow>
                 <TableCell>{design.designName}</TableCell>
                 <TableCell>{invoice.materialName}</TableCell>
-                <TableCell>{invoice.materialTotalCost}</TableCell>
+                <TableCell>{invoice.materialTotalCost} VNĐ</TableCell>
                 <TableCell>{invoice.mainStone}</TableCell>
-                <TableCell>{invoice.mainStoneCost}</TableCell>
+                <TableCell>{invoice.mainStoneCost} VNĐ</TableCell>
                 <TableCell>{invoice.subStone}</TableCell>
-                <TableCell>{invoice.subStoneCost}</TableCell>
-                <TableCell>{invoice.produceCost}</TableCell>
-                <TableCell>{invoice.invoiceTotalCost}</TableCell>
+                <TableCell>{invoice.subStoneCost} VNĐ</TableCell>
+                <TableCell>{invoice.produceCost} VNĐ</TableCell>
+                <TableCell>{invoice.invoiceTotalCost} VNĐ</TableCell>
                 <TableCell>
                   {new Date(invoice.invoiceCreatedAt).toDateString()}
                 </TableCell>
@@ -350,6 +372,17 @@ function CartOrder() {
             </TableBody>
           </Table>
         </TableContainer>
+        <div className="flex justify-center mt-4">
+          {isPaid ? (
+            <div>Đã thanh toán</div>
+          ) : (
+            <PayPalButton
+              amount={invoice.invoiceTotalCost}
+              onSuccess={handlePaymentSuccess}
+              onError={handlePaymentError}
+            />
+          )}
+        </div>
       </Modal>
     </div>
   );

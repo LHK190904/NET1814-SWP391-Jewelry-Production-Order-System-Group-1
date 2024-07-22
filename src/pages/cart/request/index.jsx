@@ -44,10 +44,8 @@ function CartRequest() {
 
   const handleApprove = async (reqID) => {
     try {
-      const response1 = await axiosInstance.put(
-        `requests/approveQuotationFromCustomer/${reqID}`
-      );
-      const response2 = await axiosInstance.post(`request-orders/${reqID}`);
+      await axiosInstance.put(`requests/approveQuotationFromCustomer/${reqID}`);
+      await axiosInstance.post(`request-orders/${reqID}`);
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
           req.id === reqID ? { ...req, status: "Approved" } : req
@@ -164,10 +162,10 @@ function CartRequest() {
                 </div>
               )}
               <div className="col-span-1 p-2 bg-white border">
-                {new Date(item.createdAt).toDateString()}
+                {new Date(item.createdAt).toLocaleString()}
               </div>
               <div className="col-span-1 p-2 bg-white border">
-                {new Date(item.recievedAt).toDateString()}
+                {new Date(item.recievedAt).toLocaleString()}
               </div>
               <div className="col-span-1 p-2 bg-white border">
                 {item.quotation
@@ -181,7 +179,7 @@ function CartRequest() {
                 <div className="col-span-1 p-2 bg-white border">
                   <button
                     onClick={() => handleOrderClick(item.id)}
-                    className="bg-blue-400 p-2 rounded-lg hover:bg-blue-500"
+                    className="bg-blue-500 p-2 rounded-lg hover:bg-blue-600"
                   >
                     CHI TIẾT
                   </button>
@@ -190,9 +188,9 @@ function CartRequest() {
                 <div className="col-span-1 p-2 bg-white border">
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="bg-red-400 p-2 rounded-lg hover:bg-red-500"
+                    className="bg-red-500 p-2 rounded-lg hover:bg-red-600"
                   >
-                    DELETE
+                    Xóa
                   </button>
                 </div>
               ) : (

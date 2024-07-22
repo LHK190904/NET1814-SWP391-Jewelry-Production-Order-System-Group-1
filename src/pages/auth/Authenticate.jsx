@@ -152,7 +152,7 @@ export default function Authenticate() {
         </>
       ) : (
         <Box sx={{ width: "300px" }}>
-          <Typography variant="h5">Create Password</Typography>
+          <Typography variant="h5">Đặt mật khẩu</Typography>
           <form onSubmit={addPassword}>
             <TextField
               label="New Password"
@@ -183,7 +183,7 @@ export default function Authenticate() {
                   onChange={(e) => setDoNotShowAgain(e.target.checked)}
                 />
               }
-              label="Don't show this again"
+              label="Không hiển thị lại"
             />
             {errorMessage && (
               <Typography color="error">{errorMessage}</Typography>
@@ -195,7 +195,7 @@ export default function Authenticate() {
               fullWidth
               sx={{ mt: 2 }}
             >
-              Create Password
+              Đặt mật khẩu
             </Button>
             <Button
               onClick={handleSkip}
@@ -204,7 +204,7 @@ export default function Authenticate() {
               fullWidth
               sx={{ mt: 1 }}
             >
-              Skip
+              Bỏ qua
             </Button>
           </form>
         </Box>
