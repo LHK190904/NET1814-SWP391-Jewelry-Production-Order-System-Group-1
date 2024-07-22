@@ -1,8 +1,11 @@
 package com.backendVn.SWP.dtos.response;
 
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Nationalized;
 
 @Data
 @Builder
@@ -16,5 +19,7 @@ public class UserResponse {
     String email;
     String address;
     String title;
+    String cusName;
+    String phoneNum;
     Boolean noPassword;
 }

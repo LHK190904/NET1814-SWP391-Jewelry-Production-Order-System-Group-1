@@ -1,7 +1,9 @@
 package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
+import com.backendVn.SWP.dtos.request.CustomerUpdateInforRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
+import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.UserMapper;
@@ -80,4 +82,14 @@ public class CustomerService {
         }
     }
 
+    public UserResponse updateCustomerInfor(Integer userId ,CustomerUpdateInforRequest customerUpdateInforRequest){
+                User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+                userMapper.updateUser(user, customerUpdateInforRequest);
+
+                userRepository.save(user);
+
+                return userMapper.toUserResponse(user);
+    }
 }

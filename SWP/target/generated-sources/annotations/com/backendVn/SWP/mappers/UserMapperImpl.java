@@ -1,6 +1,7 @@
 package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
+import com.backendVn.SWP.dtos.request.CustomerUpdateInforRequest;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.dtos.response.UserResponse;
@@ -28,6 +29,8 @@ public class UserMapperImpl implements UserMapper {
         user.email( userCreationRequest.getEmail() );
         user.address( userCreationRequest.getAddress() );
         user.title( userCreationRequest.getTitle() );
+        user.cusName( userCreationRequest.getCusName() );
+        user.phoneNum( userCreationRequest.getPhoneNum() );
 
         return user.build();
     }
@@ -43,6 +46,8 @@ public class UserMapperImpl implements UserMapper {
         user.setEmail( userUpdateRequest.getEmail() );
         user.setAddress( userUpdateRequest.getAddress() );
         user.setTitle( userUpdateRequest.getTitle() );
+        user.setCusName( userUpdateRequest.getCusName() );
+        user.setPhoneNum( userUpdateRequest.getPhoneNum() );
     }
 
     @Override
@@ -59,6 +64,8 @@ public class UserMapperImpl implements UserMapper {
         userResponse.email( user.getEmail() );
         userResponse.address( user.getAddress() );
         userResponse.title( user.getTitle() );
+        userResponse.cusName( user.getCusName() );
+        userResponse.phoneNum( user.getPhoneNum() );
 
         return userResponse.build();
     }
@@ -83,9 +90,20 @@ public class UserMapperImpl implements UserMapper {
         user.userName( customerRegisterRequest.getUserName() );
         user.password( customerRegisterRequest.getPassword() );
         user.email( customerRegisterRequest.getEmail() );
-        user.address( customerRegisterRequest.getAddress() );
         user.title( customerRegisterRequest.getTitle() );
 
         return user.build();
+    }
+
+    @Override
+    public void updateUser(User user, CustomerUpdateInforRequest customerRegisterRequest) {
+        if ( customerRegisterRequest == null ) {
+            return;
+        }
+
+        user.setEmail( customerRegisterRequest.getEmail() );
+        user.setAddress( customerRegisterRequest.getAddress() );
+        user.setCusName( customerRegisterRequest.getCusName() );
+        user.setPhoneNum( customerRegisterRequest.getPhoneNum() );
     }
 }

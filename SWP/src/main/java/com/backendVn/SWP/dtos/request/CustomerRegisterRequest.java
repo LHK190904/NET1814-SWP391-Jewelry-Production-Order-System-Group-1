@@ -1,6 +1,7 @@
 package com.backendVn.SWP.dtos.request;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -19,6 +20,6 @@ public class CustomerRegisterRequest {
 
     @Email(message = "INVALID_EMAIL")
     String email;
-    String address;
+
     String title;
 }

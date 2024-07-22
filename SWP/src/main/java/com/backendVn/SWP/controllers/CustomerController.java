@@ -1,7 +1,9 @@
 package com.backendVn.SWP.controllers;
 
 import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
+import com.backendVn.SWP.dtos.request.CustomerUpdateInforRequest;
 import com.backendVn.SWP.dtos.request.PasswordCreationRequest;
+import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
@@ -58,6 +60,13 @@ public class CustomerController {
         userService.resetPassword(newPassword, email);
         return ApiResponse.<Void>builder()
                 .message("Password has been reset, you could use it to log-in")
+                .build();
+    }
+
+    @PutMapping("/UpdateInfor/{userId}")
+    ApiResponse<UserResponse> updateInfo(@PathVariable Integer userId,@RequestBody @Valid CustomerUpdateInforRequest customerUpdateInforRequest){
+        return ApiResponse.<UserResponse>builder()
+                .result(customerService.updateCustomerInfor(userId, customerUpdateInforRequest))
                 .build();
     }
 }

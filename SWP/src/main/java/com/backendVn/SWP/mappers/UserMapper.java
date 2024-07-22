@@ -1,6 +1,7 @@
 package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
+import com.backendVn.SWP.dtos.request.CustomerUpdateInforRequest;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
 import com.backendVn.SWP.dtos.response.UserResponse;
@@ -15,4 +16,6 @@ public interface UserMapper {
     UserResponse toUserResponse(User user);
     void updateUserPassword(@MappingTarget User user,String password);
     User toUser(CustomerRegisterRequest customerRegisterRequest);
+    void updateUser(@MappingTarget User user, CustomerUpdateInforRequest customerRegisterRequest);
+
 }

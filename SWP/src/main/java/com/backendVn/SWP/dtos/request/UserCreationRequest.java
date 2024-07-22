@@ -1,10 +1,12 @@
 package com.backendVn.SWP.dtos.request;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Nationalized;
 
 import java.io.Serializable;
 
@@ -30,4 +32,8 @@ public class UserCreationRequest implements Serializable {
 
     @Pattern(regexp = "ADMIN|PRODUCTION_STAFF|DESIGN_STAFF|SALE_STAFF|CUSTOMER|MANAGER", message = "INVALID_TITLE")
     String title;
+
+    String cusName;
+
+    String phoneNum;
 }
