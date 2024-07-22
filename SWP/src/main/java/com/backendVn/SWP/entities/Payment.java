@@ -19,6 +19,7 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Payment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PaymentID", nullable = false)
     private Integer id;
 
@@ -30,12 +31,12 @@ public class Payment {
     private BigDecimal amount;
 
     @ColumnDefault("getdate()")
-    @Column(name = "PaymentDate")
+    @Column(name = "payment_date")
     private Instant paymentDate;
 
     @Size(max = 50)
     @Nationalized
-    @Column(name = "PaymentType", length = 50)
+    @Column(name = "payment_type", length = 50)
     private String paymentType;
 
     @Size(max = 50)
