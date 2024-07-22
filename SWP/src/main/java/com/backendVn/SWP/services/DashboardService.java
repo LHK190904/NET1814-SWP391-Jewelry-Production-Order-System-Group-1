@@ -257,5 +257,26 @@ public class DashboardService {
         return designResponses;
     }
 
+    public List<DesignResponse> sellingProducts(){
+        List<Request> requests = requestRepository.findAllByCompanyDesignIsNotNull();
+        HashMap<Request, Integer> map = new HashMap<>();
+        for (Request request : requests){
+            if(!map.containsKey(request)){
+                map.put(request, 1);
+            } else if(map.containsKey(request)){
+                map.put(request, map.get(request) + 1);
+            }
+        }
+        map.entrySet().stream().sorted(Map.Entry.comparingByValue());
+        List<DesignResponse> designResponses = new ArrayList<>();
+        for (Map.Entry<Request, Integer> entry : map.entrySet()){
+            Design design = entry.getKey().getCompanyDesign();
+            List<String> listURLImage = Arrays.asList(design.getURLImage().split(","));
+            DesignResponse designResponse = designMapper.toDesignResponse(design, listURLImage);
+            designResponses.add(designResponse);
+        }
+        return designResponses;
+    }
+
 
 }
