@@ -1,6 +1,7 @@
 package com.backendVn.SWP.repositories;
 
 import com.backendVn.SWP.entities.Design;
+import com.backendVn.SWP.entities.Material;
 import feign.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,6 @@ public interface DesignRepository extends JpaRepository<Design, Integer> {
             "(:subStone IS NULL OR d.subStone = :subStone)")
     List<Design> findAllWithFilters(@Param("search") String search,
                                     @Param("category") String category,
-                                    @Param("mainStone") String mainStone,
-                                    @Param("subStone") String subStone);
+                                    @Param("mainStone") Material mainStone,
+                                    @Param("subStone") Material subStone);
 }

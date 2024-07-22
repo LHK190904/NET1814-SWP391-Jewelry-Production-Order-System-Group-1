@@ -74,8 +74,8 @@ public class DesignController {
     public ApiResponse<List<DesignResponse>> getAllCompanyDesign(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) String mainStone,
-            @RequestParam(required = false) String subStone) {
+            @RequestParam(required = false) Integer mainStone,
+            @RequestParam(required = false) Integer subStone) {
         return ApiResponse.<List<DesignResponse>>builder()
                 .result(designService.getAllCompanyDesign(search, category, mainStone, subStone))
                 .build();
