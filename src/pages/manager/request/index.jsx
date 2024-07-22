@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
+import LogoutButton from "../../../components/logoutButton";
 
 function ManagerRequest() {
   const [popupDetails, setPopupDetails] = useState(null);
   const [statuses, setStatuses] = useState({});
   const [isModalOpen, setModalOpen] = useState(false);
   const [requests, setRequests] = useState([]);
-  const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchRequests = async () => {
     try {
       const reqRes = await axiosInstance.get(
-        `requests/getPendingQuotationRequest`
+        "requests/getPendingQuotationRequest"
       );
       const requestsData = reqRes.data.result;
 
@@ -44,19 +43,13 @@ function ManagerRequest() {
     setStatuses((prev) => ({ ...prev, [reqId]: "action" }));
   };
 
-  const handleApprove = async (quoID, reqID) => {
+  const handleApproveDeny = async (quoID, reqID, action) => {
     try {
-      const response = await axiosInstance.put(`quotation/update/${quoID}`);
-      setStatuses((prev) => ({ ...prev, [reqID]: "Approved" }));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleDeny = async (quoID, reqID) => {
-    try {
-      const response = await axiosInstance.put(`quotation/update/${quoID}`);
-      setStatuses((prev) => ({ ...prev, [reqID]: "Denied" }));
+      await axiosInstance.put(`quotation/update/${quoID}`, { action });
+      setStatuses((prev) => ({
+        ...prev,
+        [reqID]: action === "approve" ? "Approved" : "Denied",
+      }));
     } catch (error) {
       console.error(error);
     }
@@ -75,45 +68,48 @@ function ManagerRequest() {
     }
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  // Calculate the data to display based on pagination
-  const paginatedData = requests.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const totalPages = Math.ceil(requests.length / itemsPerPage);
-
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
+      <div className="bg-[#1d1d1d] flex justify-evenly items-center ">
+        <Link to="/">
+          <img
+            className="h-[160px] w-auto"
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+          />
+        </Link>
+        <div className="flex-grow text-center">
+          <h1 className="text-5xl text-white">QUẢN LÝ</h1>
+        </div>
+        <div className="w-80 text-right">
+          <LogoutButton />
+        </div>
+      </div>
       <h1 className="text-center text-[#F7EF8A] text-4xl font-bold">
-        REQUEST MANAGEMENT
+        QUẢN LÝ YÊU CẦU
       </h1>
       <div className="flex justify-center gap-1 mb-1 text-white">
         <button
           onClick={() => handleNavigateClick("/manager/request")}
           className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
         >
-          Request
+          QUẢN LÝ YÊU CẦU
         </button>
         <button
           onClick={() => handleNavigateClick("/manager/order")}
           className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
         >
-          Order
+          QUẢN LÝ ĐƠN HÀNG
         </button>
       </div>
       <div className="grid grid-cols-6 w-3/4 mx-auto bg-gray-400 p-4 rounded-lg">
-        <div className="col-span-1 p-2 font-bold">REQUEST ID</div>
-        <div className="col-span-1 p-2 font-bold">CUSTOMER ID</div>
-        <div className="col-span-1 p-2 font-bold text-center">DETAILS</div>
-        <div className="col-span-1 p-2 font-bold text-center">CAPITAL COST</div>
-        <div className="col-span-1 p-2 font-bold text-center">COST</div>
-        <div className="col-span-1 p-2 font-bold text-center">STATUS</div>
-        {paginatedData.map((item) => (
+        <div className="col-span-1 p-2 font-bold">ID YÊU CẦU</div>
+        <div className="col-span-1 p-2 font-bold">ID KHÁCH HÀNG</div>
+        <div className="col-span-1 p-2 font-bold text-center">CHI TIẾT</div>
+        <div className="col-span-1 p-2 font-bold text-center">GIÁ VỐN</div>
+        <div className="col-span-1 p-2 font-bold text-center">GIÁ</div>
+        <div className="col-span-1 p-2 font-bold text-center">TRẠNG THÁI</div>
+        {requests.map((item) => (
           <React.Fragment key={item.id}>
             <div className="col-span-1 border p-2 bg-white text-center">
               {item.id}
@@ -126,7 +122,7 @@ function ManagerRequest() {
                 type="link"
                 onClick={() => handleDetailsClick(item.description)}
               >
-                Details
+                CHI TIẾT ĐƠN HÀNG
               </Button>
             </div>
             <div className="col-span-1 border p-2 text-center bg-white">
@@ -139,13 +135,17 @@ function ManagerRequest() {
               {statuses[item.id] === "action" ? (
                 <div>
                   <button
-                    onClick={() => handleApprove(item.quotation.id, item.id)}
+                    onClick={() =>
+                      handleApproveDeny(item.quotation.id, item.id, "approve")
+                    }
                     className="bg-green-400 text-black p-2 rounded-lg mr-2"
                   >
                     Approve
                   </button>
                   <button
-                    onClick={() => handleDeny(item.quotation.id, item.id)}
+                    onClick={() =>
+                      handleApproveDeny(item.quotation.id, item.id, "deny")
+                    }
                     className="bg-red-400 text-black p-2 rounded-lg"
                   >
                     Deny
@@ -164,21 +164,6 @@ function ManagerRequest() {
         ))}
       </div>
 
-      {/* Pagination Buttons */}
-      <div className="flex justify-center mt-4">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
-            className={`mx-1 px-2 py-1 border ${
-              currentPage === index + 1 ? "bg-gray-400" : "bg-white"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-      </div>
-
       {/* Details Modal */}
       <Modal
         title="Details"
@@ -192,4 +177,5 @@ function ManagerRequest() {
     </div>
   );
 }
+
 export default ManagerRequest;

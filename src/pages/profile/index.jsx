@@ -40,7 +40,9 @@ function Profile() {
   return (
     <div className="bg-[#434343] w-screen min-h-screen flex justify-center">
       <div className="bg-white w-3/4 p-8 rounded-lg">
-        <h1 className="text-center text-2xl mb-6">THÔNG TIN NGƯỜI DÙNG</h1>
+        <h1 className="text-center text-4xl font-bold mb-6">
+          THÔNG TIN NGƯỜI DÙNG
+        </h1>
         {profile && (
           <Form
             form={form}
@@ -60,7 +62,7 @@ function Profile() {
               <Input readOnly={!isEdit} />
             </Form.Item>
 
-            <Form.Item label="ĐẠI CHỈ" name="address">
+            <Form.Item label="ĐỊA CHỈ" name="address">
               <Input readOnly={!isEdit} />
             </Form.Item>
 

@@ -2,6 +2,7 @@ import { Button, Form, Modal, Select, message } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
+import LogoutButton from "../../../components/logoutButton";
 
 function ManagerOrder() {
   const [isOpenModal, setOpenModal] = useState(false);
@@ -9,8 +10,31 @@ function ManagerOrder() {
   const [designStaffList, setDesignStaffList] = useState([]);
   const [productionStaffList, setProductionStaffList] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const navigate = useNavigate();
 
-  const handleShowModal = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [orderResponse, designResponse, productionResponse] =
+          await Promise.all([
+            axiosInstance.get("request-orders/getAllNewRequestOrder"),
+            axiosInstance.get("request-orders/getUserByRole/DESIGN_STAFF"),
+            axiosInstance.get("request-orders/getUserByRole/PRODUCTION_STAFF"),
+          ]);
+
+        setOrderList(orderResponse.data.result);
+        setDesignStaffList(designResponse.data.result);
+        setProductionStaffList(productionResponse.data.result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleShowModal = (order) => {
+    setSelectedOrder(order);
     setOpenModal(true);
   };
 
@@ -19,49 +43,19 @@ function ManagerOrder() {
     setSelectedOrder(null);
   };
 
-  const fetchData = async () => {
-    try {
-      const orderResponse = await axiosInstance.get(
-        `request-orders/getAllNewRequestOrder`
-      );
-      setOrderList(orderResponse.data.result);
-
-      const designResponse = await axiosInstance.get(
-        `request-orders/getUserByRole/DESIGN_STAFF`
-      );
-      setDesignStaffList(designResponse.data.result);
-
-      const productionResponse = await axiosInstance.get(
-        `request-orders/getUserByRole/PRODUCTION_STAFF`
-      );
-      setProductionStaffList(productionResponse.data.result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const handleSubmit = async (values) => {
     try {
       const designStaffId =
-        selectedOrder && selectedOrder.designID === null
-          ? values.designStaff
-          : "0";
+        selectedOrder?.designID === null ? values.designStaff : "0";
       const url = `request-orders/${selectedOrder.id}/${designStaffId}/${values.productionStaff}`;
       await axiosInstance.put(url);
       message.success("Staff assigned successfully");
       handleHideModal();
     } catch (error) {
       console.error("Error assigning staff:", error);
-      console.error("Error details:", error.response?.data);
       message.error("Failed to assign staff");
     }
   };
-
-  const navigate = useNavigate();
 
   const handleNavigateClick = (path) => {
     if (location.pathname !== path) {
@@ -69,53 +63,62 @@ function ManagerOrder() {
     }
   };
 
-  const handleAssignClick = (order) => {
-    setSelectedOrder(order);
-    handleShowModal();
-  };
-
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
+      <div className="bg-[#1d1d1d] flex justify-evenly items-center">
+        <Link to="/">
+          <img
+            className="h-[160px] w-auto"
+            src="/src/assets/images/logo.png"
+            alt="Logo"
+          />
+        </Link>
+        <div className="flex-grow text-center">
+          <h1 className="text-5xl text-white">QUẢN LÝ</h1>
+        </div>
+        <div className="w-80 text-right">
+          <LogoutButton />
+        </div>
+      </div>
       <h1 className="text-center text-[#F7EF8A] text-4xl font-bold">
-        ORDER MANAGEMENT
+        QUẢN LÝ ĐƠN HÀNG
       </h1>
       <div className="flex justify-center gap-1 mb-1 text-white">
         <button
           onClick={() => handleNavigateClick("/manager/request")}
           className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
         >
-          Request
+          QUẢN LÝ YÊU CẦU
         </button>
         <button
           onClick={() => handleNavigateClick("/manager/order")}
           className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
         >
-          Order
+          QUẢN LÝ ĐƠN HÀNG
         </button>
       </div>
       <div className="grid grid-cols-3 w-3/4 mx-auto bg-gray-300 p-4 rounded-lg">
         <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
-          ORDER ID
+          ID ĐƠN HÀNG
         </div>
         <div className="col-span-2 bg-gray-400 p-2 font-bold text-center">
-          STAFF
+          CHỈ ĐỊNH CÔNG VIỆC
         </div>
-
         {orderList.map((item) => (
           <React.Fragment key={item.id}>
             <div className="col-span-1 border p-2 text-center bg-white">
               {item.id}
             </div>
             <div className="col-span-2 border p-2 text-center bg-white">
-              <Button type="link" onClick={() => handleAssignClick(item)}>
-                Assign Job
+              <Button type="link" onClick={() => handleShowModal(item)}>
+                Chọn nhân viên
               </Button>
             </div>
           </React.Fragment>
         ))}
       </div>
       <Modal
-        title="Assign Job"
+        title="CHỈ ĐỊNH CÔNG VIỆC"
         open={isOpenModal}
         onCancel={handleHideModal}
         footer={null}
@@ -127,10 +130,10 @@ function ManagerOrder() {
           }}
           onFinish={handleSubmit}
         >
-          {selectedOrder && selectedOrder.designID === null ? (
+          {selectedOrder?.designID === null && (
             <Form.Item
               name="designStaff"
-              label="Design Staff"
+              label="Nhân viến thiết kế"
               rules={[
                 {
                   required: true,
@@ -146,10 +149,10 @@ function ManagerOrder() {
                 ))}
               </Select>
             </Form.Item>
-          ) : null}
+          )}
           <Form.Item
             name="productionStaff"
-            label="Production Staff"
+            label="Nhân viên gia công"
             rules={[
               {
                 required: true,
@@ -167,7 +170,7 @@ function ManagerOrder() {
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Assign
+              CHỈ ĐỊNH
             </Button>
           </Form.Item>
         </Form>
