@@ -29,6 +29,7 @@ import ManageMaterial from "./pages/production-staff/manage-materials";
 import Post from "./pages/posts/[slug]";
 import SearchPage from "./pages/search";
 import ForgotPassword from "./pages/forgot-password";
+import Profile from "./pages/profile";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -115,6 +116,10 @@ function App() {
         {
           path: "/forgot-password",
           element: <ForgotPassword />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
         },
       ],
     },

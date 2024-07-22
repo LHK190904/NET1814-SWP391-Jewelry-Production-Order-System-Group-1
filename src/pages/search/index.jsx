@@ -6,9 +6,27 @@ function SearchPage() {
   const { query } = useParams();
   const [filteredDesigns, setFilteredDesigns] = useState([]);
   const navigate = useNavigate();
+  const [searchDesign, setSearchDesign] = useState({
+    name: "",
+    category: "",
+    mainStone: "",
+    subStone: "",
+  });
 
   const handleNavigate = (designID) => {
     navigate(`/product-details/${designID}`);
+  };
+
+  const handleSearchSelect = async (type) => {
+    try {
+      const response = await axiosInstance.get(
+        `design/getAllCompanyDesign?search=${searchDesign.name}&category=${searchDesign.category}&mainStone=${searchDesign.mainStone}&subStone=${searchDesign.subStone}`
+      );
+      setFilteredDesigns(response.data.result);
+      console.log(response.data.result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -40,7 +58,7 @@ function SearchPage() {
                 <img
                   src={`${item.listURLImage[0]}`}
                   alt={item.designName}
-                  className="w-full h-48 object-cover rounded-lg"
+                  className="w-full h-48 object-cover rounded-lg bg-white"
                 />
                 <div className="mt-2">
                   <div className="text-[#F7EF8A] text-xl md:text-2xl">

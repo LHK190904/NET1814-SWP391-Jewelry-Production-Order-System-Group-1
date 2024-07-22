@@ -19,7 +19,6 @@ function ProductDetail() {
       );
       setProduct(selectedProduct || {});
       setSelectedImage(selectedProduct?.listURLImage?.[0] || null);
-      console.log(selectedProduct);
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +34,6 @@ function ProductDetail() {
           const response = await axiosInstance.post(
             `requests/requestCompanyDesign/${user.id}/${product.id}`
           );
-          console.log(response.data);
           message.success("ĐÃ THÊM VÀO GIỎ HÀNG");
         } catch (error) {
           console.log(error);
