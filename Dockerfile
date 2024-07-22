@@ -1,7 +1,7 @@
 FROM maven:3.8.5-openjdk-17-slim AS build
 WORKDIR /build
 COPY SWP/pom.xml .
-COPY SWP /build
+COPY SWP/src /build
 RUN mvn clean package -DskipTest
 
 FROM openjdk:17-slim
