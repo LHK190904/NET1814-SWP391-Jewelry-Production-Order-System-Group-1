@@ -193,7 +193,7 @@ public class DesignService {
         return designResponses;
     }
 
-    public List<DesignResponse> getAllCompanyDesign(String search, String category, Integer mainStoneId, Integer subStoneId) {
+    public List<DesignResponse> getAllCompanyDesign2(String search, String category, Integer mainStoneId, Integer subStoneId) {
         Material mainStone = null;
         Material subStone = null;
 
@@ -219,6 +219,15 @@ public class DesignService {
             designResponses.add(designMapper.toDesignResponse(design, brokeCSV(design.getURLImage())));
         }
 
+        return designResponses;
+    }
+
+    public List<DesignResponse> getAllCompanyDesign(String designName, String category) {
+        List<Design> designs = designRepository.searchAndFilterDesigns(designName, category);
+        List<DesignResponse> designResponses = new ArrayList<>();
+        for (Design design : designs) {
+            designResponses.add(designMapper.toDesignResponse(design, brokeCSV(design.getURLImage())));
+        }
         return designResponses;
     }
 
