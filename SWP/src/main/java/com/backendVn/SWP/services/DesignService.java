@@ -180,9 +180,25 @@ public class DesignService {
         return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
     }
 
-    public List<DesignResponse> getAllCompanyDesign() {
+    public List<DesignResponse> getAllCompanyDesign1() {
         List<Design> designs = designRepository.findByDesignNameIsNotLike("Customer's design")
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
+
+        List<DesignResponse> designResponses = new ArrayList<>();
+
+        for (Design design : designs) {
+            designResponses.add(designMapper.toDesignResponse(design, brokeCSV(design.getURLImage())));
+        }
+
+        return designResponses;
+    }
+
+    public List<DesignResponse> getAllCompanyDesign(String search, String category, String mainStone, String subStone) {
+        List<Design> designs = designRepository.findAllWithFilters(search, category, mainStone, subStone);
+
+        if (designs.isEmpty()) {
+            throw new AppException(ErrorCode.DESIGN_NOT_FOUND);
+        }
 
         List<DesignResponse> designResponses = new ArrayList<>();
 
