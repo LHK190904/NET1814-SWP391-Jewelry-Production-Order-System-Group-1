@@ -14,11 +14,15 @@ import com.lowagie.text.Element;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -96,7 +100,7 @@ public class PDFGeneratorService {
             Paragraph productName = new Paragraph("Product name: " + requestOrder.getRequestID().getCompanyDesign().getDesignName(), fontParagraph);
             leftCell1.addElement(productName);
         }else{
-            Paragraph productName = new Paragraph("Product name: Customer's design", fontParagraph);
+            Paragraph productName = new Paragraph("Product name: " + requestOrder.getDesignID().getDesignName(), fontParagraph);
             leftCell1.addElement(productName);
         }
 
@@ -118,7 +122,10 @@ public class PDFGeneratorService {
             rightCell1.addElement(subStone);
         }
 
-        rightCell1.addElement(new Paragraph("Duration from: " +warrantyCard.getCreatedAt()+ "->" +warrantyCard.getEndAt() , fontParagraph));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                .withZone(ZoneId.systemDefault());
+
+        rightCell1.addElement(new Paragraph("Duration from: " +formatter.format(warrantyCard.getCreatedAt())+ " - " +formatter.format(warrantyCard.getEndAt()) , fontParagraph));
 
         table1.addCell(rightCell1);
         document.add(table1);
