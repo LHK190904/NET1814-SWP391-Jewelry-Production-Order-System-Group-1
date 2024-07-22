@@ -53,6 +53,10 @@ function Header() {
     setSearchQuery("");
   };
 
+  const handleNavigateProfile = () => {
+    navigate(`/profile`);
+  };
+
   const handleLogout = () => {
     authService.logout();
     setUser(null);
@@ -63,6 +67,11 @@ function Header() {
     user?.title === "CUSTOMER"
       ? [
           {
+            key: "profile",
+            label: "THÔNG TIN CÁ NHÂN",
+            onClick: handleNavigateProfile,
+          },
+          {
             key: "logout",
             label: "ĐĂNG XUẤT",
             danger: true,
@@ -71,7 +80,7 @@ function Header() {
         ]
       : [
           {
-            key: "profile",
+            key: "work",
             label: (
               <Link
                 to={
@@ -166,8 +175,8 @@ function Header() {
                 trigger={["click"]}
               >
                 <img
-                  className="inline-block h-8 w-8 rounded-full ring-2 ring-[#F7EF8A] cursor-pointer"
-                  src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  className="inline-block h-8 w-8 cursor-pointer"
+                  src="src\assets\images\user-logo.png"
                   alt="User Avatar"
                 />
               </Dropdown>

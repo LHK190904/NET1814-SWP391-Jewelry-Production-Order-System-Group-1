@@ -8,7 +8,6 @@ function Register() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
 
   const handleNavigate = (path) => {
@@ -21,7 +20,6 @@ function Register() {
       const payload = {
         userName,
         password,
-        address,
         email,
       };
       const response = await axios.post(API_URL, payload);
@@ -43,7 +41,6 @@ function Register() {
   function handleCancel() {
     setUserName("");
     setPassword("");
-    setAddress("");
     setEmail("");
   }
 
@@ -83,21 +80,6 @@ function Register() {
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                     required
-                  />
-                </div>
-              </div>
-              <div className="flex items-center">
-                <label className="w-1/4 text-right mr-4" htmlFor="address">
-                  Địa chỉ:
-                </label>
-                <div className="flex-grow">
-                  <input
-                    type="text"
-                    className="form-input w-full p-2 border border-gray-300 rounded-md"
-                    id="address"
-                    placeholder="Địa chỉ"
-                    onChange={(e) => setAddress(e.target.value)}
-                    value={address}
                   />
                 </div>
               </div>

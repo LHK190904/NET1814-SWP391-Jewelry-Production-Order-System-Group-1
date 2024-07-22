@@ -118,7 +118,7 @@ function App() {
           element: <ForgotPassword />,
         },
         {
-          path: "/profile",
+          path: "/profile/",
           element: <Profile />,
         },
       ],
