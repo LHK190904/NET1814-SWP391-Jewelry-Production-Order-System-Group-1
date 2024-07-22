@@ -257,25 +257,38 @@ public class DashboardService {
         return designResponses;
     }
 
-    public List<DesignResponse> sellingProducts(){
+    public List<SellingProductResponse> sellingProducts() {
         List<Request> requests = requestRepository.findAllByCompanyDesignIsNotNull();
-        HashMap<Request, Integer> map = new HashMap<>();
-        for (Request request : requests){
-            if(!map.containsKey(request)){
-                map.put(request, 1);
-            } else if(map.containsKey(request)){
-                map.put(request, map.get(request) + 1);
-            }
+        Map<Design, Integer> map = new HashMap<>();
+
+        // Count the occurrences of each design
+        for (Request request : requests) {
+            Design design = request.getCompanyDesign();
+            map.put(design, map.getOrDefault(design, 0) + 1);
         }
-        map.entrySet().stream().sorted(Map.Entry.comparingByValue());
-        List<DesignResponse> designResponses = new ArrayList<>();
-        for (Map.Entry<Request, Integer> entry : map.entrySet()){
-            Design design = entry.getKey().getCompanyDesign();
-            List<String> listURLImage = Arrays.asList(design.getURLImage().split(","));
-            DesignResponse designResponse = designMapper.toDesignResponse(design, listURLImage);
-            designResponses.add(designResponse);
+
+        // Sort the map entries by value (order count) in descending order
+        List<Map.Entry<Design, Integer>> sortedEntries = map.entrySet().stream()
+                .sorted(Map.Entry.<Design, Integer>comparingByValue().reversed())
+                .toList();
+
+        List<SellingProductResponse> sellingProductResponses = new ArrayList<>();
+
+        for (Map.Entry<Design, Integer> entry : sortedEntries) {
+            Design design = entry.getKey();
+            Integer orderCount = entry.getValue();
+            BigDecimal price = requestRepository.findRequestByCompanyDesign(design).getProduceCost();
+
+            SellingProductResponse sellingProductResponse = new SellingProductResponse();
+            sellingProductResponse.setId(design.getId());
+            sellingProductResponse.setDesignName(design.getDesignName());
+            sellingProductResponse.setOrder_count(orderCount);
+            sellingProductResponse.setPrice(price);
+
+            sellingProductResponses.add(sellingProductResponse);
         }
-        return designResponses;
+
+        return sellingProductResponses;
     }
 
 

@@ -31,9 +31,9 @@ public class DashboardController {
                 .build();
     }
 
-    @GetMapping("tops-selling-products")
-    public ApiResponse<List<DesignResponse>> getTopSellingProducts() {
-        return ApiResponse.<List<DesignResponse>>builder()
+    @GetMapping("/top-selling-products")
+    public ApiResponse<List<SellingProductResponse>> getTopSellingProducts() {
+        return ApiResponse.<List<SellingProductResponse>>builder()
                 .result(dashboardService.sellingProducts())
                 .build();
     }
