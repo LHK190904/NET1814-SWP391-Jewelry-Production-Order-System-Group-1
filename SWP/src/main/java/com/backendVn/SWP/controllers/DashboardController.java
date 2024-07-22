@@ -31,6 +31,13 @@ public class DashboardController {
                 .build();
     }
 
+    @GetMapping("tops-selling-products")
+    public ApiResponse<List<DesignResponse>> getTopSellingProducts() {
+        return ApiResponse.<List<DesignResponse>>builder()
+                .result(dashboardService.sellingProducts())
+                .build();
+    }
+
     @GetMapping("/revenue")
     public ApiResponse<BigDecimal> getTotalRevenue(
             @RequestParam("startDate") Instant startDate, @RequestParam("endDate") Instant endDate) {
