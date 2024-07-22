@@ -2,7 +2,7 @@ FROM maven:3.8.5-openjdk-22-slim AS build
 COPY . .
 RUN mvn clean package -DskipTest
 
-FROM openjdk:22-jdk-slim
+FROM openjdk:22-jdk
 EXPOSE 8080
 ARG JAR_FILE=target/*.jar
 COPY SWP/target/SWP-0.0.1-SNAPSHOT.jar app.jar
