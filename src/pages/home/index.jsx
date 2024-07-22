@@ -102,6 +102,7 @@ function Home() {
         throw new Error("Vui lòng đăng nhập để đặt yêu cầu");
       }
       await axiosInstance.post(`/requests/${user.id}`, formData);
+
       handleHideModal();
       message.success("Đặt yêu cầu thành công");
       form.resetFields();
