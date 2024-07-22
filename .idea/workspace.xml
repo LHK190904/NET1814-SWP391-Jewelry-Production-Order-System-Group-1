@@ -5,21 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39c3ee47-c46d-487f-ae55-b59203e55ae7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/3576ffb1-2aee-4232-a02b-cc7eea76c39a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/3576ffb1-2aee-4232-a02b-cc7eea76c39a.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_06_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_06_AM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_10_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_10_AM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_9_25_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_9_25_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/SWP-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/SWP-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/SWP-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/SWP-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/surefire-reports/2024-07-22T14-39-35_519.dumpstream" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/surefire-reports/TEST-com.backendVn.SWP.SwpApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/surefire-reports/TEST-com.backendVn.SWP.SwpApplicationTests.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/surefire-reports/com.backendVn.SWP.SwpApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/surefire-reports/com.backendVn.SWP.SwpApplicationTests.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
