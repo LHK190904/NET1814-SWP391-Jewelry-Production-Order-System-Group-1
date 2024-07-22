@@ -193,7 +193,20 @@ public class DesignService {
         return designResponses;
     }
 
-    public List<DesignResponse> getAllCompanyDesign(String search, String category, String mainStone, String subStone) {
+    public List<DesignResponse> getAllCompanyDesign(String search, String category, Integer mainStoneId, Integer subStoneId) {
+        Material mainStone = null;
+        Material subStone = null;
+
+        if (mainStoneId != null) {
+            mainStone = materialRepository.findById(mainStoneId)
+                    .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+        }
+
+        if (subStoneId != null) {
+            subStone = materialRepository.findById(subStoneId)
+                    .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+        }
+
         List<Design> designs = designRepository.findAllWithFilters(search, category, mainStone, subStone);
 
         if (designs.isEmpty()) {
