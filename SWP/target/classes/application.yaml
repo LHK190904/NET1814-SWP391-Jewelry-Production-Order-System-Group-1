@@ -6,6 +6,19 @@ spring:
     url: jdbc:sqlserver://localhost:1433;database=SWP1;encrypt=false
     username: sa
     password: Abc@1234
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: giangNTSE183662@fpt.edu.vn
+    password: "dalr qpiv pyxr elyu"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     hibernate:
@@ -22,3 +35,4 @@ outbound:
 
 jwt:
   signerKey: "ha+MtmyenlAuB5AZutl1uNHRhrkmDGfFI7xpExHY50pZP+50iuif23teGaUwNa1I"
+

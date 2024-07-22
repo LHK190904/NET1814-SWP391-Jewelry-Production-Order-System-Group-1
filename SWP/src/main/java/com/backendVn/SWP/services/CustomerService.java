@@ -2,7 +2,6 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
 import com.backendVn.SWP.dtos.response.AuthenticationResponse;
-import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.UserMapper;
@@ -18,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.backendVn.SWP.entities.User;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

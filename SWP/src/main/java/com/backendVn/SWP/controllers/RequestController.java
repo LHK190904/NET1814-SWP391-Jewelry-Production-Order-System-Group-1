@@ -70,7 +70,7 @@ public class RequestController {
                 .build();
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/deleteRequest/{id}")
     public void deleteRequest(@PathVariable Integer id) {
         requestService.deleteRequest(id);
     }

@@ -3,12 +3,14 @@ package com.backendVn.SWP.services;
 import com.backendVn.SWP.dtos.request.PasswordCreationRequest;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
+import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.User;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,7 +28,8 @@ public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
-
+    SendEmailService sendEmailService;
+    AuthenticationService authenticationService;
 
 //    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public List<UserResponse> getAllUsers() {
@@ -88,12 +91,34 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         userMapper.updateUser(user, request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        if (!request.getPassword().equals(user.getPassword())){
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
 //    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    public String sendResetPasswordLinkThroughEmail(String email) throws MessagingException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        if(user != null) {
+            return sendEmailService.sendSimpleMessage(email);
+        } else {
+            return null;
+        }
+    }
+
+    public void resetPassword(String newPassword, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        if(newPassword.length() < 8){
+            throw new AppException(ErrorCode.INVALID_PASSWORD);
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }

@@ -64,6 +64,15 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
+    public void updateUserPassword(User user, String password) {
+        if ( password == null ) {
+            return;
+        }
+
+        user.setPassword( password );
+    }
+
+    @Override
     public User toUser(CustomerRegisterRequest customerRegisterRequest) {
         if ( customerRegisterRequest == null ) {
             return null;

@@ -1,6 +1,5 @@
 package com.backendVn.SWP.controllers;
 
-import com.backendVn.SWP.dtos.request.WarrantyCardCreationRequest;
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.WarrantyCardResponse;
 import com.backendVn.SWP.services.WarrantyCardService;
@@ -20,16 +19,16 @@ public class WarrantyCardController {
     WarrantyCardService warrantyCardService;
 
     @PostMapping("/{id}")
-    public ApiResponse<WarrantyCardResponse> createWarrantyCard(@PathVariable Integer id, @RequestBody @Valid WarrantyCardCreationRequest warrantyCardCreationRequest) {
-        WarrantyCardResponse warrantyCardResponse = warrantyCardService.createWarrantyCard(id, warrantyCardCreationRequest);
+    public ApiResponse<WarrantyCardResponse> createWarrantyCard(@PathVariable Integer id) {
+        WarrantyCardResponse warrantyCardResponse = warrantyCardService.createWarrantyCard(id);
         return ApiResponse.<WarrantyCardResponse>builder()
                 .result(warrantyCardResponse)
                 .build();
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<WarrantyCardResponse> updateWarrantyCard(@PathVariable Integer id, @RequestBody @Valid WarrantyCardCreationRequest warrantyCardCreationRequest) {
-        WarrantyCardResponse warrantyCardResponse = warrantyCardService.updateWarrantyCard(id, warrantyCardCreationRequest);
+    public ApiResponse<WarrantyCardResponse> updateWarrantyCard(@PathVariable Integer id ) {
+        WarrantyCardResponse warrantyCardResponse = warrantyCardService.updateWarrantyCard(id);
         return ApiResponse.<WarrantyCardResponse>builder()
                 .result(warrantyCardResponse)
                 .build();

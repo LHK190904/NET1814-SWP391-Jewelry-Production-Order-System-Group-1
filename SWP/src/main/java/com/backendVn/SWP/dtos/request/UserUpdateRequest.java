@@ -16,7 +16,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @FieldDefaults (level = AccessLevel.PRIVATE)
-public class UserUpdateRequest implements Serializable {
+public class UserUpdateRequest {
     @Size(min = 3,message = "INVALID_USERNAME")
     String userName;
 

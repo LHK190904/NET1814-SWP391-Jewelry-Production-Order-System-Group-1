@@ -7,6 +7,7 @@ import com.backendVn.SWP.dtos.response.AuthenticationResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.services.CustomerService;
 import com.backendVn.SWP.services.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,18 @@ public class CustomerController {
                 .build();
     }
 
+    @PutMapping("/SendCodeThroughEmail")
+    ApiResponse<String> sendCode(@RequestParam(name = "email", required = true) String email) throws MessagingException {
+        return ApiResponse.<String>builder()
+                .result(userService.sendResetPasswordLinkThroughEmail(email))
+                .build();
+    }
 
+    @PutMapping("/ResetNewPassword")
+    ApiResponse<Void> resetNewPassword(@RequestParam(name = "email", required = true) String email, @RequestParam(name = "newPassword", required = true) String newPassword) throws MessagingException {
+        userService.resetPassword(newPassword, email);
+        return ApiResponse.<Void>builder()
+                .message("Password has been reset, you could use it to log-in")
+                .build();
+    }
 }
