@@ -28,7 +28,7 @@ function ProductDetail() {
     try {
       const user = authService.getCurrentUser();
       if (!user) {
-        navigate(`/register`);
+        navigate(`/login`);
       } else {
         try {
           const response = await axiosInstance.post(

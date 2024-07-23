@@ -107,7 +107,7 @@ function Home() {
       message.success("Đặt yêu cầu thành công");
       form.resetFields();
     } catch (error) {
-      console.error("Có lỗi khi gửi dữ liệu:", error);
+      message.error("Vui lòng cập nhật địa chỉ, SĐT");
     }
   };
 

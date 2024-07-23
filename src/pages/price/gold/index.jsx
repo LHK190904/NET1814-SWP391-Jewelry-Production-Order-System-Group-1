@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../services/axiosInstance";
 
 function PriceGold() {
   const [goldPrice, setGoldPrice] = useState([]);
@@ -8,9 +9,7 @@ function PriceGold() {
 
   const fetchGoldPrice = async () => {
     try {
-      const responseGold = await axios.get(
-        `http://localhost:8080/api/gold/prices`
-      );
+      const responseGold = await axiosInstance.get(`api/gold/prices`);
       const goldData = responseGold.data.DataList.Data.map((item, index) => ({
         goldType: item[`@n_${index + 1}`],
         sellCost: item[`@pb_${index + 1}`],
