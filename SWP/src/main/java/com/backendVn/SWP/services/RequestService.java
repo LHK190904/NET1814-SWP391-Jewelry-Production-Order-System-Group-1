@@ -82,6 +82,10 @@ public class RequestService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
+        if(user.getAddress().isEmpty() || user.getCusName().isEmpty() || user.getPhoneNum().isEmpty() || user.getEmail().isEmpty()){
+            throw new AppException(ErrorCode.CAN_NOT_REQUEST);
+        }
+
         Design design = designRepository.findById(companyDesignId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
 
