@@ -226,6 +226,7 @@ public class DesignService {
         List<Design> designs = designRepository.searchAndFilterDesigns(designName, category);
         List<DesignResponse> designResponses = new ArrayList<>();
         for (Design design : designs) {
+            if (design.getDesignName().equals("Customer's design")) continue;
             designResponses.add(designMapper.toDesignResponse(design, brokeCSV(design.getURLImage())));
         }
         return designResponses;
