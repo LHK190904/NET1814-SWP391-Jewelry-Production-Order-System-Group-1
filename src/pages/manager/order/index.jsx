@@ -50,11 +50,11 @@ function ManagerOrder() {
         selectedOrder?.designID === null ? values.designStaff : "0";
       const url = `request-orders/${selectedOrder.id}/${designStaffId}/${values.productionStaff}`;
       await axiosInstance.put(url);
-      message.success("Staff assigned successfully");
+      message.success("Phân công thành công");
       handleHideModal();
     } catch (error) {
       console.error("Error assigning staff:", error);
-      message.error("Failed to assign staff");
+      message.error("Phân công thất bại");
     }
   };
 
@@ -139,7 +139,7 @@ function ManagerOrder() {
               rules={[
                 {
                   required: true,
-                  message: "Please select a design staff member",
+                  message: "Vui lòng chọn nhân viên thiết kế",
                 },
               ]}
             >
@@ -158,7 +158,7 @@ function ManagerOrder() {
             rules={[
               {
                 required: true,
-                message: "Please select a production staff member",
+                message: "Vui lòng chọn nhân viên gia công",
               },
             ]}
           >

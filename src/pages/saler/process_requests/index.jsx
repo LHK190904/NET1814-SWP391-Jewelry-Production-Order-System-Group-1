@@ -27,6 +27,7 @@ function ProcessRequests() {
   const [customerInfo, setCustomerInfo] = useState(null);
   const [formData] = useForm();
   const [formDataQuotation] = useForm();
+  const [capitalCost, setCapitalCost] = useState(0);
   const location = useLocation();
 
   useEffect(() => {
@@ -58,12 +59,21 @@ function ProcessRequests() {
         `/quotation/autoPricing/${record.id}`
       );
       const data = response.data.result;
+
+      const capitalCost =
+        (data.materialPrice || 0) * (data.materialWeight || 0) +
+        (data.producePrice || 0) +
+        (data.stonePrice || 0);
+
       formData.setFieldsValue({
         materialPrice: data.materialPrice,
         materialWeight: data.materialWeight,
         producePrice: data.producePrice,
         stonePrice: data.stonePrice,
+        capitalCost: capitalCost,
       });
+
+      setCapitalCost(capitalCost);
     } catch (error) {
       console.error("Không thể lấy giá tự động:", error);
       message.error("Không thể lấy giá tự động.");
@@ -203,7 +213,7 @@ function ProcessRequests() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          {record.status === "Processing"|| record.status === "Denied" ? (
+          {record.status === "Processing" || record.status === "Denied" ? (
             <Button type="primary" onClick={() => handleShowModal(record)}>
               Lấy giá
             </Button>
@@ -301,6 +311,9 @@ function ProcessRequests() {
             <div className="flex flex-col flex-wrap w-1/2">
               <FormItem label="Tiền đá" name="stonePrice">
                 <Input readOnly />
+              </FormItem>
+              <FormItem label="Giá vốn" name="capitalCost">
+                <Input />
               </FormItem>
               <FormItem
                 label="Tổng giá bán"
