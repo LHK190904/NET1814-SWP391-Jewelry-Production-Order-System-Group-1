@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
 import LogoutButton from "../../../components/logoutButton";
+import Navbar from "../../../components/navbar";
 
 function ManagerOrder() {
   const [isOpenModal, setOpenModal] = useState(false);
@@ -65,8 +66,8 @@ function ManagerOrder() {
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
-      <div className="bg-[#1d1d1d] flex justify-evenly items-center">
-        <Link to="/">
+      <div className="bg-[#1d1d1d] text-white h-40 flex justify-between items-center px-10">
+        <Link to={"/"}>
           <img
             className="h-[160px] w-auto"
             src="/src/assets/images/logo.png"
@@ -74,12 +75,13 @@ function ManagerOrder() {
           />
         </Link>
         <div className="flex-grow text-center">
-          <h1 className="text-5xl text-white">QUẢN LÝ</h1>
+          <h1 className="text-5xl">Quản lí</h1>
         </div>
         <div className="w-80 text-right">
           <LogoutButton />
         </div>
       </div>
+      <Navbar />
       <h1 className="text-center text-[#F7EF8A] text-4xl font-bold">
         QUẢN LÝ ĐƠN HÀNG
       </h1>

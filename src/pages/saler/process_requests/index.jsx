@@ -136,10 +136,10 @@ function ProcessRequests() {
 
   const handleShowCustomerInfo = async (record) => {
     try {
-      const response = await axiosInstance.get(
-        `/requests/customerInfo/${record.customerID}`
-      );
-      setCustomerInfo(response.data.result);
+      console.log(record.customerID);
+      const response = await axiosInstance.get(`/user/${record.customerID}`);
+      console.log(response);
+      setCustomerInfo(response.data);
       setIsCustomerModalOpen(true);
     } catch (error) {
       console.error("Không thể lấy thông tin khách hàng:", error);
@@ -173,10 +173,10 @@ function ProcessRequests() {
       dataIndex: "status",
       width: "5%",
       render: (status) => {
-        let color = "volcano";
-        let showStatus = "Từ chối giá đã báo";
+        let color = "green";
+        let showStatus = "Hoàn thành";
         if (status === "Ordering") {
-          color = "green";
+          color = "yellow";
           showStatus = "Đã duyệt";
         } else if (status === "Processing") {
           color = "gray";
@@ -185,8 +185,11 @@ function ProcessRequests() {
           color = "blue";
           showStatus = "Chờ quản lí duyệt";
         } else if (status === "Pending quotation for customer") {
-          color = "purple";
+          color = "blue";
           showStatus = "Chờ khách hàng duyệt";
+        } else if (status === "Denied") {
+          color = "volcano";
+          showStatus = "Khách từ chối giá đã báo";
         }
         return (
           <Tag color={color} key={status}>
@@ -200,9 +203,7 @@ function ProcessRequests() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          {record.status !== "Ordering" &&
-          record.status !== "Pending quotation for manager" &&
-          record.status !== "Pending quotation for customer" ? (
+          {record.status === "Processing"|| record.status === "Denied" ? (
             <Button type="primary" onClick={() => handleShowModal(record)}>
               Lấy giá
             </Button>

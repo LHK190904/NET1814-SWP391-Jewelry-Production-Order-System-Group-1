@@ -135,6 +135,7 @@ function CartRequest() {
                 </div>
               ) : item.status === "Approved" ||
                 item.status === "Ordering" ||
+                item.status === "finished" ||
                 item.status === "Processing" ? (
                 <div className="col-span-1 p-2 bg-white">
                   <span>{item.status}</span>
@@ -175,7 +176,9 @@ function CartRequest() {
               <div className="col-span-1 p-2 bg-white border">
                 {item.description}
               </div>
-              {item.status === "Approved" || item.status === "Ordering" ? (
+              {item.status === "Approved" ||
+              item.status === "Ordering" ||
+              item.status === "finished" ? (
                 <div className="col-span-1 p-2 bg-white border">
                   <button
                     onClick={() => handleOrderClick(item.id)}

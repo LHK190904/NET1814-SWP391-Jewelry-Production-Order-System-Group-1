@@ -92,13 +92,29 @@ function CartOrder() {
     if (order.status === "Completed!!!") {
       fetchInvoice();
     } else if (order.status === "finished") {
+      fetchInvoice();
       setIsPaid(true);
-      fetchWarranty();
     }
   }, [order]);
 
-  const fetchWarranty = async () => {
-    await axiosInstance.get(`/pdf/generate/${order.id}`);
+  const handlePaymentSuccess = async () => {
+    try {
+      message.success("Thanh toán thành công!");
+      console.log("Order:", order);
+      setIsPaid(true);
+
+      await axiosInstance.post(`/payment/${requestID}`);
+      console.log("order ID", order.id);
+      await axiosInstance.post(`/warranty-cards/${order.id}`);
+    } catch (error) {
+      console.error("Error during payment success handling:", error);
+      message.error("Có lỗi xảy ra khi xử lý thanh toán");
+    }
+  };
+
+  const handlePaymentError = (error) => {
+    message.error("Có lỗi xảy ra khi thanh toán");
+    console.error("PayPal Error:", error);
   };
 
   const handleApprove = async () => {
@@ -170,18 +186,23 @@ function CartOrder() {
     return stone ? stone.materialName : "N/A";
   };
 
-  const handlePaymentSuccess = (order) => {
-    message.success("Thanh toán thành công!");
-    console.log("Order:", order);
-    setIsPaid(true);
-    axiosInstance.post(`/payment/${requestID}`);
-    console.log("payment", requestID);
-    axiosInstance.post(`/warranty-cards/${order.id}`);
-  };
-
-  const handlePaymentError = (error) => {
-    message.error("Có lỗi xảy ra khi thanh toán");
-    console.error("PayPal Error:", error);
+  const handleViewWarranty = async () => {
+    try {
+      const response = await axiosInstance.get(`/pdf/generate/${order.id}`, {
+        responseType: "blob", // Đảm bảo rằng phản hồi từ API là dạng blob
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `Warranty_${order.id}.pdf`); // Tên tệp tải xuống
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      message.success("Giấy bảo hành đã được tải thành công!");
+    } catch (error) {
+      console.error("Error fetching warranty:", error);
+      message.error("Có lỗi xảy ra khi tải giấy bảo hành");
+    }
   };
 
   return (
@@ -317,7 +338,7 @@ function CartOrder() {
                         XEM HÓA ĐƠN
                       </button>
                       <button
-                        onClick={handleShowModal}
+                        onClick={handleViewWarranty}
                         className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
                       >
                         XEM GIẤY BẢO HÀNH
