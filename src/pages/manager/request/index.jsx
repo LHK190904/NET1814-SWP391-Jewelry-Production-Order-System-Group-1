@@ -44,13 +44,20 @@ function ManagerRequest() {
     setStatuses((prev) => ({ ...prev, [reqId]: "action" }));
   };
 
-  const handleApproveDeny = async (quoID, reqID, action) => {
+  const handleApprove = async (quoID, reqID, action) => {
     try {
       await axiosInstance.put(`quotation/update/${quoID}`, { action });
       setStatuses((prev) => ({
         ...prev,
         [reqID]: action === "approve" ? "Approved" : "Denied",
       }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleDeny = async (quoID) => {
+    try {
+      await axiosInstance.put(`quotation/denyFromManager/${quoID}`);
     } catch (error) {
       console.error(error);
     }
@@ -138,16 +145,14 @@ function ManagerRequest() {
                 <div>
                   <button
                     onClick={() =>
-                      handleApproveDeny(item.quotation.id, item.id, "approve")
+                      handleApprove(item.quotation.id, item.id, "approve")
                     }
                     className="bg-green-400 text-black p-2 rounded-lg mr-2"
                   >
                     Approve
                   </button>
                   <button
-                    onClick={() =>
-                      handleApproveDeny(item.quotation.id, item.id, "deny")
-                    }
+                    onClick={() => handleDeny(item.quotation.id)}
                     className="bg-red-400 text-black p-2 rounded-lg"
                   >
                     Deny
