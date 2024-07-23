@@ -277,7 +277,7 @@ public class DashboardService {
         for (Map.Entry<Design, Integer> entry : sortedEntries) {
             Design design = entry.getKey();
             Integer orderCount = entry.getValue();
-            BigDecimal price = requestRepository.findRequestByCompanyDesign(design).getProduceCost();
+            BigDecimal price = quotationRepository.findFirstByRequestID(requestRepository.findFirstByCompanyDesign(design)).getCapitalCost(); ;
 
             SellingProductResponse sellingProductResponse = new SellingProductResponse();
             sellingProductResponse.setId(design.getId());

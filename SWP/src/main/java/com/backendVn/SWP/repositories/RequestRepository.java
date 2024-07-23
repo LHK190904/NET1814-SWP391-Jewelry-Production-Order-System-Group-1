@@ -21,5 +21,5 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 
     List<Request> findAllByCompanyDesignIsNotNull();
 
-    Request findRequestByCompanyDesign(Design design);
+    Request findFirstByCompanyDesign(Design design);
 }
