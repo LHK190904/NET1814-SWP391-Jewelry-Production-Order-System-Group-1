@@ -31,31 +31,22 @@ public class QuotationService {
     RequestRepository requestRepository;
     UserRepository userRepository;
 
-    public QuotationResponse createQuotation(QuotationCreationRequest quotationCreationRequest, Integer requestId){
+    public QuotationResponse createQuotation (QuotationCreationRequest quotationCreationRequest, Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
         Quotation quotation = quotationMapper.toQuotation(quotationCreationRequest);
         quotation.setRequestID(request);
         quotation.setCreatedAt(Instant.now());
-
-        request.setStatus("Pending quotation for manager");
-
-        BigDecimal capitalCost = (quotationCreationRequest.getMaterialPrice().multiply(quotationCreationRequest.getMaterialWeight())).add(quotationCreationRequest.getProducePrice());
-
-        if (request.getSubStone() != null || request.getMainStone() != null){
+        BigDecimal capitalCost = quotationCreationRequest.getMaterialPrice().multiply(quotationCreationRequest.getMaterialWeight()).add(quotationCreationRequest.getProducePrice());
+        if (request.getMainStone() != null || request.getSubStone() != null){
             capitalCost = capitalCost.add(quotationCreationRequest.getStonePrice());
         }
-
-        if (capitalCost.compareTo(quotation.getCost()) >= 0){
-             throw new AppException(ErrorCode.INVALID_SALE_COST);
+        if (quotationCreationRequest.getCost().compareTo(capitalCost)<0){
+            throw new AppException(ErrorCode.INVALID_SALE_COST);
         }
         quotation.setCapitalCost(capitalCost);
-
         requestRepository.save(request);
-
-        Quotation savedQuotation = quotationRepository.save(quotation);
-
-        return quotationMapper.toQuotationResponse(savedQuotation);
+        return quotationMapper.toQuotationResponse(quotationRepository.save(quotation));
     }
 
     public List<QuotationResponse> getAllQuotation() {
