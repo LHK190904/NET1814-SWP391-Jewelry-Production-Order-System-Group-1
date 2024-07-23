@@ -2,9 +2,10 @@ import { message } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../services/axiosInstance";
 
 function Register() {
-  const API_URL = "http://localhost:8080/cust/register_token";
+  const API_URL = "cust/register_token";
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +23,7 @@ function Register() {
         password,
         email,
       };
-      const response = await axios.post(API_URL, payload);
+      const response = await axiosInstance.post(API_URL, payload);
       const { token, authenticated, title, id } = response.data.result;
 
       if (authenticated) {
