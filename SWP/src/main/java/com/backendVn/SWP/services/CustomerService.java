@@ -49,25 +49,26 @@ public class CustomerService {
 
         userRepository.save(user);
 
-        var token = generateToken(request.getUserName());
+        var token = generateToken(user);
 
         return AuthenticationResponse.builder()
                 .token(token)
                 .authenticated(true)
                 .title("CUSTOMER")
+                .Id(user.getId())
                 .build();
     }
 
-    private String generateToken(String username) {
+    public String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(user.getUserName())
                 .issuer("Jewelry_Production_Order.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
-                .claim("role", "idk")
+                .claim("scope", user.getTitle().toUpperCase())
                 .build();
         Payload payload = new Payload(claimsSet.toJSONObject());
 
@@ -77,7 +78,7 @@ public class CustomerService {
             jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
             return jwsObject.serialize();
         } catch (JOSEException e) {
-            log.error("Error signing token: " + e.getMessage());
+            log.error("Error signing token: " + e);
             throw new AppException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
