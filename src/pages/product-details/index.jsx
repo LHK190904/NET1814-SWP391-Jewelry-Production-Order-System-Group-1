@@ -8,6 +8,7 @@ function ProductDetail() {
   const { productId } = useParams();
   const [product, setProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
+  const [materials, setMaterials] = useState([]);
   const navigate = useNavigate();
 
   const fetchProduct = async () => {
@@ -24,9 +25,19 @@ function ProductDetail() {
     }
   };
 
+  const fetchMaterials = async () => {
+    try {
+      const response = await axiosInstance.get("material/notGold");
+      setMaterials(response.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleAddToCart = async () => {
     try {
       const user = authService.getCurrentUser();
+      console.log(user);
       if (!user) {
         navigate(`/login`);
       } else {
@@ -34,9 +45,10 @@ function ProductDetail() {
           const response = await axiosInstance.post(
             `requests/requestCompanyDesign/${user.id}/${product.id}`
           );
-          message.success("ĐÃ THÊM VÀO GIỎ HÀNG");
         } catch (error) {
-          console.log(error);
+          message.error(
+            "Vui lòng cập nhật đầy đủ thông tin trong 'Thông tin cá nhân'"
+          );
         }
       }
     } catch (error) {
@@ -46,6 +58,7 @@ function ProductDetail() {
 
   useEffect(() => {
     fetchProduct();
+    fetchMaterials();
   }, [productId]);
 
   const handleImageClick = (url) => {
@@ -54,6 +67,11 @@ function ProductDetail() {
 
   const handleNavigate = (path) => {
     navigate(path);
+  };
+
+  const getMaterialNameById = (id) => {
+    const material = materials.find((item) => item.id === id);
+    return material ? material.materialName : "";
   };
 
   return (
@@ -95,10 +113,12 @@ function ProductDetail() {
                 <strong>TRỌNG LƯỢNG:</strong> {product.materialWeight} lượng
               </div>
               <div className="mb-2">
-                <strong>ĐÁ CHÍNH:</strong> {product.mainStoneId}
+                <strong>ĐÁ CHÍNH:</strong>{" "}
+                {getMaterialNameById(product.mainStoneId)}
               </div>
               <div className="mb-2">
-                <strong>ĐÁ PHỤ:</strong> {product.subStoneId}
+                <strong>ĐÁ PHỤ:</strong>{" "}
+                {getMaterialNameById(product.subStoneId)}
               </div>
               <div className="mb-2">
                 <strong>MÔ TẢ:</strong> {product.description}

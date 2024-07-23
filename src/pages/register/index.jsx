@@ -23,12 +23,13 @@ function Register() {
         email,
       };
       const response = await axios.post(API_URL, payload);
-      const token = response.data;
-      const authenticated = response.data;
+      const { token, authenticated, title, id } = response.data.result;
+
       if (authenticated) {
-        const userData = { userName, password, token };
+        const userData = { userName, token, title, id };
         localStorage.setItem("user", JSON.stringify(userData));
         message.success("ĐĂNG KÝ THÀNH CÔNG");
+        console.log(userData);
         navigate("/");
       }
     } catch (error) {
