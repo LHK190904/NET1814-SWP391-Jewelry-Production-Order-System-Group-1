@@ -45,6 +45,7 @@ function ProductDetail() {
           const response = await axiosInstance.post(
             `requests/requestCompanyDesign/${user.id}/${product.id}`
           );
+          message.success("Đặt gia công thành công");
         } catch (error) {
           message.error(
             "Vui lòng cập nhật đầy đủ thông tin trong 'Thông tin cá nhân'"

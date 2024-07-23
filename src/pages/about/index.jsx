@@ -22,7 +22,7 @@ export default function About() {
         <div className="col-span-12 md:col-span-6 lg:col-span-4 flex justify-center">
           <RevealFloatIn floatDirection={"left"}>
             <img
-              src="./src/assets/images/about/about1.jpg"
+              src="./about1.jpg"
               alt=""
               className="w-3/4 h-auto rounded-lg shadow-lg"
             />
@@ -63,7 +63,7 @@ export default function About() {
         <div className="col-span-12 lg:col-span-4 flex justify-center">
           <RevealFloatIn floatDirection={"right"}>
             <img
-              src="./src/assets/images/about/about2.jpg"
+              src="./about2.jpg"
               alt=""
               className="w-screen h-auto rounded-lg shadow-lg"
             />
@@ -73,7 +73,7 @@ export default function About() {
         <div className="col-span-12 lg:col-span-4 flex justify-center">
           <RevealFloatIn floatDirection={"left"}>
             <img
-              src="./src/assets/images/about/about3.jpg"
+              src="./about3.jpg"
               alt=""
               className="w-3/4 h-auto rounded-lg shadow-lg"
             />

@@ -3,6 +3,7 @@ import { getToken } from "./authService";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080",
+  // baseURL: "https://net1814-swp391-jewelry-production-order-3s3q.onrender.com/",
 });
 
 axiosInstance.interceptors.request.use(

@@ -176,7 +176,7 @@ function Header() {
               >
                 <img
                   className="inline-block h-8 w-8 cursor-pointer"
-                  src="src\assets\images\user-logo.png"
+                  src="./user-logo.png"
                   alt="User Avatar"
                 />
               </Dropdown>

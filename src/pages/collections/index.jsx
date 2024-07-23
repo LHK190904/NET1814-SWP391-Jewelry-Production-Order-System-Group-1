@@ -8,11 +8,11 @@ import RevealAppear from "../../components/revealAppear";
 import RevealFloatIn from "../../components/revealFloatIn";
 
 const banners = [
-  "./src/assets/images/banner/banner1.jpg",
-  "./src/assets/images/banner/banner2.jpg",
-  "./src/assets/images/banner/banner3.jpg",
-  "./src/assets/images/banner/banner4.jpg",
-  "./src/assets/images/banner/banner5.jpg",
+  "./banner1.jpg",
+  "./banner2.jpg",
+  "./banner3.jpg",
+  "./banner4.jpg",
+  "./banner5.jpg",
 ];
 
 export default function Collections() {

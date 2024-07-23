@@ -140,9 +140,13 @@ function Home() {
     <div className="w-screen min-h-screen bg-[#434343] text-[#F7EF8A]">
       <div className="grid grid-cols-12">
         <div className="col-span-12 relative">
-          <video className="w-screen h-auto" autoPlay loop muted>
-            <source src="./src/assets/images/bgvideo.mp4" type="video/mp4" />
-          </video>
+          <video
+            className="w-screen h-auto"
+            autoPlay
+            loop
+            muted
+            src="./bgvideo.webm"
+          ></video>
           <h1 className="text-[#F7EF8A] text-center text-7xl my-4 font-bold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shiny-text">
             WELCOME TO LUXE
           </h1>
