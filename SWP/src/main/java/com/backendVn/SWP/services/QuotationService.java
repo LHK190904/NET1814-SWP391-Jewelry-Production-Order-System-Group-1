@@ -37,6 +37,7 @@ public class QuotationService {
         Quotation quotation = quotationMapper.toQuotation(quotationCreationRequest);
         quotation.setRequestID(request);
         quotation.setCreatedAt(Instant.now());
+        request.setStatus("Pending quotation for customer");
         BigDecimal capitalCost = quotationCreationRequest.getMaterialPrice().multiply(quotationCreationRequest.getMaterialWeight()).add(quotationCreationRequest.getProducePrice());
         if (request.getMainStone() != null || request.getSubStone() != null){
             capitalCost = capitalCost.add(quotationCreationRequest.getStonePrice());

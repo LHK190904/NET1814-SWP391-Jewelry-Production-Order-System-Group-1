@@ -1,0 +1,45 @@
+{
+  "code": 1000,
+  "result": [
+    {
+      "id": 1,
+      "description": "dây chuyền hoa cương",
+      "customerID": 12,
+      "saleStaffID": 11,
+      "status": "Processing",
+      "createdAt": "2024-07-23T06:35:28.053Z",
+      "recievedAt": "2024-07-23T06:40:03.687Z",
+      "endAt": null
+    },
+    {
+      "id": 2,
+      "description": "vòng tay thường",
+      "customerID": 12,
+      "saleStaffID": 11,
+      "status": "Processing",
+      "createdAt": "2024-07-23T06:37:08.450Z",
+      "recievedAt": "2024-07-23T06:40:03.080Z",
+      "endAt": null
+    },
+    {
+      "id": 3,
+      "description": "Bracelet Gift",
+      "customerID": 5,
+      "saleStaffID": 11,
+      "status": "Processing",
+      "createdAt": "2024-07-23T06:45:28.900Z",
+      "recievedAt": "2024-07-23T06:46:10.533Z",
+      "endAt": null
+    },
+    {
+      "id": 4,
+      "description": "nhan rong",
+      "customerID": 4,
+      "saleStaffID": 11,
+      "status": "Processing",
+      "createdAt": "2024-07-23T06:57:27.947Z",
+      "recievedAt": "2024-07-23T06:57:57.760Z",
+      "endAt": null
+    }
+  ]
+}
