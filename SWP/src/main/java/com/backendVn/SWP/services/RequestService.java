@@ -77,6 +77,7 @@ public class RequestService {
         theRequest.setSubStone(getMaterialById(request.getSubStoneId()));
         theRequest.setProduceCost(makeProduceCost(request.getCategory()));
         theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
+        theRequest.setStatus("Unapproved");
 
         return requestMapper.toRequestResponse(requestRepository.save(theRequest));
     }
