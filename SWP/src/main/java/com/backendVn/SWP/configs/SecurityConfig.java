@@ -41,6 +41,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedOrigin("https://jewelry-gv309rxh6-le-nguyen-chi-baos-projects.vercel.app");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
 
