@@ -1,0 +1,15 @@
+{
+  "code": 1000,
+  "result": {
+    "orderId": 3002,
+    "materialName": "gold",
+    "materialTotalCost": 200.00,
+    "produceCost": 1500.00,
+    "mainStone": null,
+    "subStone": null,
+    "mainStoneCost": null,
+    "subStoneCost": null,
+    "invoiceCreatedAt": "2024-07-08T08:25:41.703Z",
+    "invoiceTotalCost": 1700.00
+  }
+}
