@@ -17,7 +17,6 @@ function ManagerRequest() {
         "requests/getPendingQuotationRequest"
       );
       const requestsData = reqRes.data.result;
-
       const combinedData = await Promise.all(
         requestsData.map(async (req) => {
           const quoRes = await axiosInstance.get(`quotation/${req.id}`);
@@ -26,6 +25,7 @@ function ManagerRequest() {
       );
 
       setRequests(combinedData);
+      console.log(combinedData);
     } catch (error) {
       console.error(error);
     }
