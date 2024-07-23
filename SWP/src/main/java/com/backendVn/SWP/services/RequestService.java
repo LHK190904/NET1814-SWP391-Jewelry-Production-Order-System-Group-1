@@ -60,7 +60,10 @@ public class RequestService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        if(user.getAddress().isEmpty() || user.getCusName().isEmpty() || user.getPhoneNum().isEmpty() || user.getEmail().isEmpty()){
+        if(user.getAddress() == null ||
+                user.getCusName() == null ||
+                user.getPhoneNum() == null ||
+                user.getEmail() == null){
             throw new AppException(ErrorCode.CAN_NOT_REQUEST);
         }
 
@@ -82,7 +85,10 @@ public class RequestService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        if(user.getAddress().isEmpty() || user.getCusName().isEmpty() || user.getPhoneNum().isEmpty() || user.getEmail().isEmpty()){
+        if(user.getAddress() == null ||
+                user.getCusName() == null ||
+                user.getPhoneNum() == null ||
+                user.getEmail() == null){
             throw new AppException(ErrorCode.CAN_NOT_REQUEST);
         }
 
