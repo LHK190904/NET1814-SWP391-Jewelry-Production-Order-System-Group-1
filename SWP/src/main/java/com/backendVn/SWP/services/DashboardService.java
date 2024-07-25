@@ -149,6 +149,24 @@ public class DashboardService {
         return requestRepository.countByCreatedAtBetween(startDate, endDate);
     }
 
+    public List<MonthlyCountResponse> calculateMonthlyOrderCompleteCount(int year, int startMonth, int endMonth) {
+        List<MonthlyCountResponse> monthlyOrderCompleteCounts = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            Long orderCompleteCount = countOrdersComplete(startDate, endDate);
+            monthlyOrderCompleteCounts.add(new MonthlyCountResponse(month, orderCompleteCount));
+        }
+
+        return monthlyOrderCompleteCounts;
+    }
+
+    private Long countOrdersComplete(Instant startDate, Instant endDate) {
+        return invoiceRepository.countByCreatedAtBetween(startDate, endDate);
+    }
+
     public List<KpiResponse> calculateKpi(Instant startDate, Instant endDate) {
         List<RequestOrder> requestOrders = requestOrderRepository.findByCreatedAtBetween(startDate, endDate);
         List<Request> requests = requestRepository.findByCreatedAtBetween(startDate, endDate);

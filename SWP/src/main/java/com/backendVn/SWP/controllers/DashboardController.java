@@ -42,6 +42,16 @@ public class DashboardController {
                 .build();
     }
 
+    @GetMapping("/monthly-order-complete-count")
+    public ApiResponse<List<MonthlyCountResponse>> getMonthlyOrderCompleteCount(
+            @RequestParam("year") int year,
+            @RequestParam("startMonth") int startMonth,
+            @RequestParam("endMonth") int endMonth) {
+        return ApiResponse.<List<MonthlyCountResponse>>builder()
+                .result(dashboardService.calculateMonthlyOrderCompleteCount(year, startMonth, endMonth))
+                .build();
+    }
+
     //SAFU SAFUUUUUUUUUUUUUUUUUUUUU
     @GetMapping("/monthly-revenue")
     public ApiResponse<List<MonthlyIncomeResponse>> getMonthlyRevenue(
