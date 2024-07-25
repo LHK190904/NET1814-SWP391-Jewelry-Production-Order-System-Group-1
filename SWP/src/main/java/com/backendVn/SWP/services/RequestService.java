@@ -45,6 +45,11 @@ public class RequestService {
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
         request.setStatus("Sending");
+
+        if(request.getDeniedReason() != null){
+            request.setStatus("Processing");
+        }
+
         requestRepository.save(request);
 
         return requestMapper.toRequestResponse(request);
