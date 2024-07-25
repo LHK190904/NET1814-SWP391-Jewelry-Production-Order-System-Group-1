@@ -10,9 +10,11 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
       const user = await authService.login(userName, password);
+      console.log(user);
       if (user) {
         if (user.title === "ADMIN") {
           navigate("/admin");
