@@ -13,10 +13,11 @@ import {
   InputNumber,
 } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import FormItem from "antd/es/form/FormItem";
 import LogoutButton from "../../../components/logoutButton";
 import Navbar from "../../../components/navbar";
+import authorService from "../../../services/authorService";
 
 function ProcessRequests() {
   const [requests, setRequests] = useState([]);
@@ -29,26 +30,29 @@ function ProcessRequests() {
   const [formDataQuotation] = useForm();
   const [capitalCost, setCapitalCost] = useState(0);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const fetchSalerData = async () => {
+    const saler = authService.getCurrentUser();
+    if (saler && saler.id) {
+      try {
+        const response = await axiosInstance.get(`/requests/sales/${saler.id}`);
+        setRequests(response.data.result);
+      } catch (error) {
+        console.error("Không thể lấy yêu cầu:", error);
+      }
+    } else {
+      console.error("Người dùng chưa đăng nhập");
+    }
+  };
 
   useEffect(() => {
-    const fetchSalerData = async () => {
-      const saler = authService.getCurrentUser();
-      if (saler && saler.id) {
-        try {
-          const response = await axiosInstance.get(
-            `/requests/sales/${saler.id}`
-          );
-          setRequests(response.data.result);
-        } catch (error) {
-          console.error("Không thể lấy yêu cầu:", error);
-        }
-      } else {
-        console.error("Người dùng chưa đăng nhập");
-      }
-    };
-
-    fetchSalerData();
-  }, []);
+    if (authorService.checkPermission()) {
+      fetchSalerData();
+    } else {
+      navigate("/unauthorized");
+    }
+  }, [navigate]);
 
   const handleShowModal = async (record) => {
     setSelectedRecord(record);

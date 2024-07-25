@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
 import LogoutButton from "../../../components/logoutButton";
 import Navbar from "../../../components/navbar";
+import authorService from "../../../services/authorService";
 
 function ManagerRequest() {
   const [popupDetails, setPopupDetails] = useState(null);
@@ -32,7 +33,11 @@ function ManagerRequest() {
   };
 
   useEffect(() => {
-    fetchRequests();
+    if (authorService.checkPermission("MANAGER")) {
+      fetchRequests();
+    } else {
+      navigate("/unauthorized");
+    }
   }, []);
 
   const handleDetailsClick = (details) => {

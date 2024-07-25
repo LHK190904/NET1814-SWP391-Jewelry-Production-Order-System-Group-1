@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import LogoutButton from "../../../components/logoutButton";
 import { Modal, Input, Button, Form } from "antd";
 import Navbar from "../../../components/navbar";
+import authorService from "../../../services/authorService";
 
 function ManageMaterial() {
   const location = useLocation();
@@ -12,10 +13,15 @@ function ManageMaterial() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [currentMaterial, setCurrentMaterial] = useState(null);
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMaterials();
-  }, []);
+    if (authorService.checkPermission("PRODUCTION_STAFF")) {
+      fetchMaterials();
+    } else {
+      navigate("/unauthorized");
+    }
+  }, [navigate]);
 
   const fetchMaterials = async () => {
     try {

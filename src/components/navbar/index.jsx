@@ -11,7 +11,7 @@ export default function Navbar() {
     };
 
   return (
-    <div className="grid grid-cols-6 bg-[#2A2A2A] text-[#F7EF8A] font-bold z-10 sticky top-0">
+    <div className="grid grid-cols-6 w-screen bg-[#2A2A2A] text-[#F7EF8A] font-bold z-10 sticky top-0">
       <button
         onClick={handleNavigate("/")}
         className="hover:text-[#ddd012] hover:bg-black p-4 rounded-lg"

@@ -14,8 +14,9 @@ import {
 } from "antd";
 import axiosInstance from "../../services/axiosInstance";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoutButton from "../../components/logoutButton";
+import authorService from "../../services/authorService";
 
 const { Option } = Select;
 
@@ -139,6 +140,7 @@ function Admin() {
   const [editingKey, setEditingKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const showModal = () => setIsModalOpen(true);
 
@@ -186,8 +188,12 @@ function Admin() {
   };
 
   useEffect(() => {
-    fetchAccount();
-  }, []);
+    if (authorService.checkPermission("ADMIN")) {
+      fetchAccount();
+    } else {
+      navigate("/unauthorized");
+    }
+  }, [navigate]);
 
   const handleDeleteAccount = async (id) => {
     try {

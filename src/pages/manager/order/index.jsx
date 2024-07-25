@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
 import LogoutButton from "../../../components/logoutButton";
 import Navbar from "../../../components/navbar";
+import authorService from "../../../services/authorService";
 
 function ManagerOrder() {
   const [isOpenModal, setOpenModal] = useState(false);
@@ -13,26 +14,30 @@ function ManagerOrder() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const navigate = useNavigate();
 
+  const fetchData = async () => {
+    try {
+      const [orderResponse, designResponse, productionResponse] =
+        await Promise.all([
+          axiosInstance.get("request-orders/getAllNewRequestOrder"),
+          axiosInstance.get("request-orders/getUserByRole/DESIGN_STAFF"),
+          axiosInstance.get("request-orders/getUserByRole/PRODUCTION_STAFF"),
+        ]);
+
+      setOrderList(orderResponse.data.result);
+      setDesignStaffList(designResponse.data.result);
+      setProductionStaffList(productionResponse.data.result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [orderResponse, designResponse, productionResponse] =
-          await Promise.all([
-            axiosInstance.get("request-orders/getAllNewRequestOrder"),
-            axiosInstance.get("request-orders/getUserByRole/DESIGN_STAFF"),
-            axiosInstance.get("request-orders/getUserByRole/PRODUCTION_STAFF"),
-          ]);
-
-        setOrderList(orderResponse.data.result);
-        setDesignStaffList(designResponse.data.result);
-        setProductionStaffList(productionResponse.data.result);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+    if (authorService.checkPermission("MANAGER")) {
+      fetchData();
+    } else {
+      navigate("/unauthorized");
+    }
+  }, [navigate]);
 
   const handleShowModal = (order) => {
     setSelectedOrder(order);

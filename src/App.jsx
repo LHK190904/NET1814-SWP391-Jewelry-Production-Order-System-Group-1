@@ -30,6 +30,7 @@ import Post from "./pages/posts/[slug]";
 import SearchPage from "./pages/search";
 import ForgotPassword from "./pages/forgot-password";
 import Profile from "./pages/profile";
+import Unauthorize from "./pages/unauthorized";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -212,6 +213,10 @@ function App() {
     {
       path: "/authenticate",
       element: <Authenticate />,
+    },
+    {
+      path: "/unauthorized",
+      element: <Unauthorize />,
     },
     {
       path: "*",

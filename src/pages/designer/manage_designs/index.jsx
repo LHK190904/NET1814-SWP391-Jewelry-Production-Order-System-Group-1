@@ -15,9 +15,10 @@ import uploadFile from "../../../utils/upload";
 import LogoutButton from "../../../components/logoutButton";
 import axiosInstance from "../../../services/axiosInstance";
 import TextArea from "antd/es/input/TextArea";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../../components/navbar";
+import authorService from "../../../services/authorService";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -41,6 +42,7 @@ function ManageDesign() {
   const [dataAPI, setDataAPI] = useState([]);
   const [materialName, setMaterialName] = useState("");
   const [modalTitle, setModalTitle] = useState("Thêm bản thiết kế");
+  const navigate = useNavigate();
 
   const fetchInfo = async () => {
     try {
@@ -74,9 +76,13 @@ function ManageDesign() {
   };
 
   useEffect(() => {
-    fetchInfo();
-    fetchAPI();
-  }, []);
+    if (authorService.checkPermission("DESIGN_STAFF")) {
+      fetchInfo();
+      fetchAPI();
+    } else {
+      navigate("/unauthorized");
+    }
+  }, [navigate]);
 
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {

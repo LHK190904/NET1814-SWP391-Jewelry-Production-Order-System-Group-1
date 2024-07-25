@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
 import { Button, Table } from "antd";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import LogoutButton from "../../../components/logoutButton";
 import Navbar from "../../../components/navbar";
+import authorService from "../../../services/authorService";
 
 function ReceiveRequests() {
   const [requests, setRequests] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchRequests();
+    if (authorService.checkPermission("SALE_STAFF")) {
+      fetchRequests();
+    } else {
+      navigate("/unauthorized");
+    }
   }, []);
 
   const fetchRequests = async () => {

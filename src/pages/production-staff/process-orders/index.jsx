@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import authService from "../../../services/authService";
 import axiosInstance from "../../../services/axiosInstance";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import LogoutButton from "../../../components/logoutButton";
 import { Modal, Image } from "antd";
 import Navbar from "../../../components/navbar";
+import authorService from "../../../services/authorService";
 
 function ProductionStaff() {
   const location = useLocation();
@@ -16,26 +17,32 @@ function ProductionStaff() {
   const [statusProcess, setStatusProcess] = useState("");
   const [user, setUser] = useState(null);
   const itemsPerPage = 12;
+  const navigate = useNavigate();
+
+  const fetchSalerData = async () => {
+    const currentUser = authService.getCurrentUser();
+    if (currentUser && currentUser.id) {
+      try {
+        setUser(currentUser);
+        const response = await axiosInstance.get(
+          `/request-orders/getAllOrderByProductionStaff/${currentUser.id}`
+        );
+        setDataSource(response.data.result || []);
+      } catch (error) {
+        console.error("Không thể lấy yêu cầu:", error);
+      }
+    } else {
+      console.error("Người dùng chưa đăng nhập");
+    }
+  };
 
   useEffect(() => {
-    const fetchSalerData = async () => {
-      const currentUser = authService.getCurrentUser();
-      if (currentUser && currentUser.id) {
-        try {
-          setUser(currentUser);
-          const response = await axiosInstance.get(
-            `/request-orders/getAllOrderByProductionStaff/${currentUser.id}`
-          );
-          setDataSource(response.data.result || []);
-        } catch (error) {
-          console.error("Không thể lấy yêu cầu:", error);
-        }
-      } else {
-        console.error("Người dùng chưa đăng nhập");
-      }
-    };
-    fetchSalerData();
-  }, []);
+    if (authorService.checkPermission("PRODUCTION_STAFF")) {
+      fetchSalerData();
+    } else {
+      navigate("/unauthorized");
+    }
+  }, [navigate]);
 
   const handleSelectOrder = async (id) => {
     try {
@@ -208,7 +215,7 @@ function ProductionStaff() {
                     className="bg-green-500 text-white p-2 rounded-md"
                     onClick={() => updateStatusProcess(orderId)}
                   >
-                   Cập nhật tiến độ
+                    Cập nhật tiến độ
                   </button>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
+import { message } from "antd";
 
 const API_URL = "auth/login_token";
 
@@ -7,19 +8,16 @@ const login = async (username, password) => {
   try {
     const payload = { userName: username, password };
     const response = await axiosInstance.post(API_URL, payload);
-
     const { token, authenticated, title, id } = response.data.result;
     if (authenticated) {
       const userData = { username, token, title, id };
       localStorage.setItem("user", JSON.stringify(userData));
       return userData;
     } else {
-      throw new Error("Invalid username or password");
+      message.error("Tài khoản hoặc mật khẩu không hợp lệ");
     }
   } catch (error) {
-    const errorMessage =
-      error.response?.data?.message || error.message || "Login failed";
-    throw new Error(errorMessage);
+    message.error("Đăng nhập thất bại");
   }
 };
 
@@ -37,16 +35,6 @@ const authService = { login, logout, getCurrentUser };
 const isAuthenticated = () => {
   const user = getCurrentUser();
   return user && user.token;
-};
-
-const isAdmin = () => {
-  const user = getCurrentUser();
-  return user && user.title === "ADMIN";
-};
-
-const isCustomer = () => {
-  const user = getCurrentUser();
-  return user && user.title === "CUSTOMER" && user.id;
 };
 
 export const getToken = () => {

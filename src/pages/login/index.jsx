@@ -10,8 +10,7 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async () => {
     try {
       const user = await authService.login(userName, password);
       if (user) {
