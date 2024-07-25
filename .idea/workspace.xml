@@ -5,22 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1af738b-bf98-4814-9a93-12f34525442e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_06_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_06_AM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_10_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_10_10_AM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_9_25_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_19_2024_9_25_PM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_22_2024_11_11_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_22_2024_11_11_PM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_22_2024_11_49_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_22_2024_11_49_PM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/SWP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/SWP.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/MonthlyIncomeResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/MonthlyIncomeResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/MonthlyOrderCountResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/MonthlyCountResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/repositories/RequestRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DashboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DashboardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/DashboardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/controllers/DashboardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/DashboardService.class" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/target/classes/com/backendVn/SWP/services/DashboardService.class" afterDir="false" />
     </list>
     <list id="6954d707-cf86-43f1-88d4-158668584ab2" name="Changes by Truong Giang" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +56,7 @@
     "Spring Boot.SwpApplication.executor": "Run",
     "git-widget-placeholder": "NSJPOSG1-5-Back-end-Register",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/HizukiAkira/Downloads/FPTveso/swp391/buCommit",
+    "last_opened_file_path": "C:/Users/HizukiAkira/Downloads/FPTveso/swp391/bucommit2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

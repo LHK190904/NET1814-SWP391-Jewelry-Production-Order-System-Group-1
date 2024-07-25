@@ -130,6 +130,25 @@ public class DashboardService {
         return totalRevenue.divide(BigDecimal.valueOf(invoices.size()), RoundingMode.HALF_UP);
     }
 
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
+    public List<MonthlyCountResponse> calculateMonthlyRequestCount(int year, int startMonth, int endMonth) {
+        List<MonthlyCountResponse> monthlyRequestCounts = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            Long requestCount = countRequests(startDate, endDate);
+            monthlyRequestCounts.add(new MonthlyCountResponse(month, requestCount));
+        }
+
+        return monthlyRequestCounts;
+    }
+
+    private Long countRequests(Instant startDate, Instant endDate) {
+        return requestRepository.countByCreatedAtBetween(startDate, endDate);
+    }
+
     public List<KpiResponse> calculateKpi(Instant startDate, Instant endDate) {
         List<RequestOrder> requestOrders = requestOrderRepository.findByCreatedAtBetween(startDate, endDate);
         List<Request> requests = requestRepository.findByCreatedAtBetween(startDate, endDate);

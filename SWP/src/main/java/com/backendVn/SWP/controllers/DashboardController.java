@@ -21,6 +21,27 @@ import java.util.List;
 public class DashboardController {
     DashboardService dashboardService;
 
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUUU
+    @GetMapping("/monthly-order-count")
+    public ApiResponse<List<MonthlyCountResponse>> getMonthlyOrderCount(
+            @RequestParam("year") int year,
+            @RequestParam("startMonth") int startMonth,
+            @RequestParam("endMonth") int endMonth) {
+        return ApiResponse.<List<MonthlyCountResponse>>builder()
+                .result(dashboardService.calculateMonthlyOrderCount(year, startMonth, endMonth))
+                .build();
+    }
+
+    @GetMapping("/monthly-request-count")
+    public ApiResponse<List<MonthlyCountResponse>> getMonthlyRequestCount(
+            @RequestParam("year") int year,
+            @RequestParam("startMonth") int startMonth,
+            @RequestParam("endMonth") int endMonth) {
+        return ApiResponse.<List<MonthlyCountResponse>>builder()
+                .result(dashboardService.calculateMonthlyRequestCount(year, startMonth, endMonth))
+                .build();
+    }
+
     //SAFU SAFUUUUUUUUUUUUUUUUUUUUU
     @GetMapping("/monthly-revenue")
     public ApiResponse<List<MonthlyIncomeResponse>> getMonthlyRevenue(
