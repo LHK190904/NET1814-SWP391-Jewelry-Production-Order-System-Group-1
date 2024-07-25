@@ -38,7 +38,17 @@ public class RequestService {
     UserMapper userMapper;
     MaterialRepository materialRepository;
     DesignRepository designRepository;
-    private final DesignService designService;
+    DesignService designService;
+
+    public RequestResponse sendRequest(Integer requestId){
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        request.setStatus("Sending");
+        requestRepository.save(request);
+
+        return requestMapper.toRequestResponse(request);
+    }
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -111,6 +121,7 @@ public class RequestService {
                 .subStone(design.getSubStone())
                 .materialWeight(design.getMaterialWeight())
                 .materialID(materials.getLast())
+                .description(design.getDesignName() + ": " + design.getDescription())
                 .status("Unapproved")
                 .build();
 

@@ -53,6 +53,7 @@ public enum ErrorCode {
     DESCRIPTION_IS_EMPTY(1041, "Description cannot be empty", HttpStatus.BAD_REQUEST),
     FIELD_NOT_NULL(1042, "Field cannot be null", HttpStatus.BAD_REQUEST),
     CAN_NOT_REQUEST(1043, "Can not request", HttpStatus.BAD_REQUEST),
+    SECONDARY_LOGIN(1044, "This is your secondary login", HttpStatus.BAD_REQUEST),
     ;
     private int code;
     private String message;
