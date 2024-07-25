@@ -54,6 +54,7 @@ public enum ErrorCode {
     FIELD_NOT_NULL(1042, "Field cannot be null", HttpStatus.BAD_REQUEST),
     CAN_NOT_REQUEST(1043, "Can not request", HttpStatus.BAD_REQUEST),
     SECONDARY_LOGIN(1044, "This is your secondary login", HttpStatus.BAD_REQUEST),
+    CAN_NOT_UPDATE_COMPANY_DESIGN_REQUEST(1045, "You can not update this request", HttpStatus.BAD_REQUEST),
     ;
     private int code;
     private String message;

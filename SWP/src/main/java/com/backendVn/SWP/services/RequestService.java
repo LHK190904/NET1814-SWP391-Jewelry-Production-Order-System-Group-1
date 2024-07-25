@@ -152,11 +152,24 @@ public class RequestService {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
+        if (request.getCompanyDesign() != null){
+            throw new AppException(ErrorCode.CAN_NOT_UPDATE_COMPANY_DESIGN_REQUEST);
+        }
+
         if ("Pending Quotation".equalsIgnoreCase(request.getStatus())) {
             throw new AppException(ErrorCode.REQUEST_STATUS_NOT_ALLOWED);
         }
 
         requestMapper.updateRequestFromDto(request, requestCreationRequestForCustomerDesign);
+
+        Material goldMaterial = findOrCreateGoldMaterial(requestCreationRequestForCustomerDesign);
+
+        request.setMaterialID(goldMaterial);
+        request.setMainStone(getMaterialById(requestCreationRequestForCustomerDesign.getMainStoneId()));
+        request.setSubStone(getMaterialById(requestCreationRequestForCustomerDesign.getSubStoneId()));
+        request.setProduceCost(makeProduceCost(request.getCategory()));
+        request.setURLImage(designService.createCSV(requestCreationRequestForCustomerDesign.getListURLImage()));
+        request.setStatus("Unapproved");
 
         return requestMapper.toRequestResponse(requestRepository.save(request));
     }
@@ -208,7 +221,7 @@ public class RequestService {
     }
 
     public List<RequestResponse> getUnrecievedRequests() {
-        return requestRepository.findAllBySaleStaffidNull().stream()
+        return requestRepository.findAllBySaleStaffidIsNullAndStatusIs("Sending").stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
     }
@@ -238,10 +251,15 @@ public class RequestService {
         return requestMapper.toRequestResponse(savedRequest);
     }
 
-    public RequestResponse denyQuotationFromCustomer(Integer requestId) {
+    public RequestResponse denyQuotationFromCustomer(Integer requestId, String deniedReason) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
+        if (deniedReason != null && deniedReason.isEmpty()){
+            throw new AppException(ErrorCode.DESCRIPTION_IS_EMPTY);
+        }
+
+        request.setDeniedReason(deniedReason);
         request.setStatus("Denied");
 
         Request savedRequest = requestRepository.save(request);

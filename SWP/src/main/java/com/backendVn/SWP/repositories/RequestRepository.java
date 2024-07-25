@@ -13,7 +13,7 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 
     List<Request> findAllBySaleStaffid(User user);
 
-    List<Request> findAllBySaleStaffidNull();
+    List<Request> findAllBySaleStaffidIsNullAndStatusIs(String status);
 
     List<Request> findAllByCustomerIDAndStatusIsNotLike(User customer, String status);
 
