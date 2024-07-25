@@ -93,11 +93,6 @@ public class AuthenticationService {
         User user = userRepository.findByUserName(request.getUserName())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        var context = SecurityContextHolder.getContext();
-        if(context.getAuthentication() != null && context.getAuthentication().isAuthenticated()){
-            throw new AppException(ErrorCode.SECONDARY_LOGIN);
-        }
-
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
         if (!authenticated)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
