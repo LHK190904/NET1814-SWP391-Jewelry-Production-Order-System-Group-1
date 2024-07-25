@@ -21,6 +21,7 @@ import java.util.List;
 public class DashboardController {
     DashboardService dashboardService;
 
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUU
     @GetMapping("/monthly-revenue")
     public ApiResponse<List<MonthlyIncomeResponse>> getMonthlyRevenue(
             @RequestParam("year") int year,
@@ -31,6 +32,7 @@ public class DashboardController {
                 .build();
     }
 
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUU
     @GetMapping("/top-selling-products")
     public ApiResponse<List<SellingProductResponse>> getTopSellingProducts() {
         return ApiResponse.<List<SellingProductResponse>>builder()
@@ -83,16 +85,6 @@ public class DashboardController {
                 .build();
     }
 
-    @GetMapping("/monthly-order-count")
-    public ApiResponse<List<MonthlyOrderCountResponse>> getMonthlyOrderCount(
-            @RequestParam("year") int year,
-            @RequestParam("startMonth") int startMonth,
-            @RequestParam("endMonth") int endMonth) {
-        return ApiResponse.<List<MonthlyOrderCountResponse>>builder()
-                .result(dashboardService.calculateMonthlyOrderCount(year, startMonth, endMonth))
-                .build();
-    }
-
     @GetMapping("/order-count")
     public ApiResponse<Long> getOrderCount(
             @RequestParam("startDate") Instant startDate, @RequestParam("endDate") Instant endDate) {
@@ -107,29 +99,6 @@ public class DashboardController {
             @RequestParam("startDate") Instant startDate, @RequestParam("endDate") Instant endDate) {
         return ApiResponse.<List<KpiResponse>>builder()
                 .result(dashboardService.calculateKpi(startDate, endDate))
-                .build();
-    }
-
-    @GetMapping("/designs-sorted-by-order-count")
-    public ApiResponse<List<DesignResponse>> getDesignsSortedByOrderCount() {
-        return ApiResponse.<List<DesignResponse>>builder()
-                .result(dashboardService.getDesignsSortedByOrderCount())
-                .build();
-    }
-
-    @GetMapping("/revenue/month/1")
-    public ApiResponse<List<RevenueEachMonth>> getRevenuePerMonth() {
-        List<RevenueEachMonth> revenue = dashboardService.sumRevenuePerMonth();
-        return ApiResponse.<List<RevenueEachMonth>>builder()
-                .result(revenue)
-                .build();
-    }
-
-    @GetMapping("/average-order-value1")
-    public ApiResponse<BigDecimal> getAverageOrderValue() {
-        BigDecimal averageOrderValue = dashboardService.averageOrderValue();
-        return ApiResponse.<BigDecimal>builder()
-                .result(averageOrderValue)
                 .build();
     }
 
