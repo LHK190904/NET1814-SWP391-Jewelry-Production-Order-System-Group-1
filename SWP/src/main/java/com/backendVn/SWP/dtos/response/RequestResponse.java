@@ -33,6 +33,6 @@ public class RequestResponse {
     String category;
     BigDecimal produceCost;
     Integer companyDesign;
-    List<String> uRLImage;
+    List<String> listURLImage;
     String deniedReason;
 }

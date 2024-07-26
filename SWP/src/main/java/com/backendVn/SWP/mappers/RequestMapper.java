@@ -32,7 +32,6 @@ public interface RequestMapper {
     @Mapping(target = "subStone", source = "request.subStone.id")
     @Mapping(target = "materialID", source = "request.materialID.id")
     @Mapping(target = "companyDesign", source = "request.companyDesign.id")
-    @Mapping(target = "uRLImage", source = "uRLImage")
-    RequestResponse toRequestResponseWithCustomerDesign(Request request, List<String> uRLImage);
+    RequestResponse toRequestResponseWithCustomerDesign(Request request, List<String> listURLImage);
 
 }

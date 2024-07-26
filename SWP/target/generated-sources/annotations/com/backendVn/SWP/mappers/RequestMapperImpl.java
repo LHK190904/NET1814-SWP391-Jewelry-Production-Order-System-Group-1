@@ -76,8 +76,8 @@ public class RequestMapperImpl implements RequestMapper {
     }
 
     @Override
-    public RequestResponse toRequestResponseWithCustomerDesign(Request request, List<String> uRLImage) {
-        if ( request == null && uRLImage == null ) {
+    public RequestResponse toRequestResponseWithCustomerDesign(Request request, List<String> listURLImage) {
+        if ( request == null && listURLImage == null ) {
             return null;
         }
 
@@ -101,9 +101,9 @@ public class RequestMapperImpl implements RequestMapper {
             requestResponse.produceCost( request.getProduceCost() );
             requestResponse.deniedReason( request.getDeniedReason() );
         }
-        List<String> list = uRLImage;
+        List<String> list = listURLImage;
         if ( list != null ) {
-            requestResponse.uRLImage( new ArrayList<String>( list ) );
+            requestResponse.listURLImage( new ArrayList<String>( list ) );
         }
 
         return requestResponse.build();
