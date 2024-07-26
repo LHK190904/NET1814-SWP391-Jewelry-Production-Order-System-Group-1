@@ -98,7 +98,7 @@ public class RequestService {
         theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
         theRequest.setStatus("Unapproved");
 
-        if(theRequest.getCompanyDesign() == null) {
+        if (theRequest.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(theRequest));
         } else {
             return requestMapper.toRequestResponseWithCustomerDesign(theRequest, designService.brokeCSV(theRequest.getURLImage()));
@@ -184,7 +184,7 @@ public class RequestService {
         request.setURLImage(designService.createCSV(requestCreationRequestForCustomerDesign.getListURLImage()));
         request.setStatus("Unapproved");
 
-        if (request.getCompanyDesign() == null) {
+        if (request.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(request));
         } else {
             return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
@@ -205,7 +205,7 @@ public class RequestService {
         request.setRecievedAt(Instant.now());
         request.setStatus("Processing");
 
-        if (request.getCompanyDesign() == null) {
+        if (request.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(request));
         } else {
             return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
@@ -229,7 +229,7 @@ public class RequestService {
     public RequestResponse getRequestById(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-        if (request.getCompanyDesign() == null) {
+        if (request.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(request));
         } else {
             return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
@@ -273,7 +273,7 @@ public class RequestService {
 
         Request savedRequest = requestRepository.save(request);
 
-        if (request.getCompanyDesign() == null) {
+        if (request.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(savedRequest));
         } else {
             return requestMapper.toRequestResponseWithCustomerDesign(savedRequest, designService.brokeCSV(savedRequest.getURLImage()));
@@ -293,7 +293,7 @@ public class RequestService {
 
         Request savedRequest = requestRepository.save(request);
 
-        if (request.getCompanyDesign() == null) {
+        if (request.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(savedRequest));
         } else {
             return requestMapper.toRequestResponseWithCustomerDesign(savedRequest, designService.brokeCSV(savedRequest.getURLImage()));
