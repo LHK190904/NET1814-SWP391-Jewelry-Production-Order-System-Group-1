@@ -35,4 +35,6 @@ public class RequestResponse {
     Integer companyDesign;
     List<String> listURLImage;
     String deniedReason;
+    Double sellCost;
+    String updated;
 }

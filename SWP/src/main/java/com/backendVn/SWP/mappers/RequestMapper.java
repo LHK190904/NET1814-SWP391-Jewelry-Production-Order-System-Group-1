@@ -24,6 +24,8 @@ public interface RequestMapper {
     @Mapping(target = "subStone", source = "subStone.materialName")
     @Mapping(target = "materialName", source = "materialID.materialName")
     @Mapping(target = "companyDesign", source = "companyDesign.id")
+    @Mapping(target = "sellCost", source = "materialID.pricePerUnit")
+    @Mapping(target = "updated", source = "materialID.updateTime")
     RequestResponse toRequestResponse(Request request);
 
     @Mapping(target = "customerID", source = "request.customerID.id")

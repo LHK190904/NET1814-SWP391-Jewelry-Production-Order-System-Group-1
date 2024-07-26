@@ -6,6 +6,8 @@ import com.backendVn.SWP.entities.Design;
 import com.backendVn.SWP.entities.Material;
 import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.User;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -61,6 +63,14 @@ public class RequestMapperImpl implements RequestMapper {
         requestResponse.subStone( requestSubStoneMaterialName( request ) );
         requestResponse.materialName( requestMaterialIDMaterialName( request ) );
         requestResponse.companyDesign( requestCompanyDesignId( request ) );
+        BigDecimal pricePerUnit = requestMaterialIDPricePerUnit( request );
+        if ( pricePerUnit != null ) {
+            requestResponse.sellCost( pricePerUnit.doubleValue() );
+        }
+        Instant updateTime = requestMaterialIDUpdateTime( request );
+        if ( updateTime != null ) {
+            requestResponse.updated( updateTime.toString() );
+        }
         requestResponse.id( request.getId() );
         requestResponse.description( request.getDescription() );
         requestResponse.status( request.getStatus() );
@@ -197,5 +207,35 @@ public class RequestMapperImpl implements RequestMapper {
             return null;
         }
         return id;
+    }
+
+    private BigDecimal requestMaterialIDPricePerUnit(Request request) {
+        if ( request == null ) {
+            return null;
+        }
+        Material materialID = request.getMaterialID();
+        if ( materialID == null ) {
+            return null;
+        }
+        BigDecimal pricePerUnit = materialID.getPricePerUnit();
+        if ( pricePerUnit == null ) {
+            return null;
+        }
+        return pricePerUnit;
+    }
+
+    private Instant requestMaterialIDUpdateTime(Request request) {
+        if ( request == null ) {
+            return null;
+        }
+        Material materialID = request.getMaterialID();
+        if ( materialID == null ) {
+            return null;
+        }
+        Instant updateTime = materialID.getUpdateTime();
+        if ( updateTime == null ) {
+            return null;
+        }
+        return updateTime;
     }
 }
