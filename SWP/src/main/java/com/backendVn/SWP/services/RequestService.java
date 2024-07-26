@@ -255,7 +255,7 @@ public class RequestService {
         User user = userRepository.findById(saleStaffId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        return requestRepository.findAllBySaleStaffid(user).stream()
+        return requestRepository.findAllBySaleStaffidAndStatusIsNot(user, "Disable").stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
     }

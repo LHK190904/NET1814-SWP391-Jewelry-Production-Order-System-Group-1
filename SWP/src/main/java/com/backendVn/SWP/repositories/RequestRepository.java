@@ -11,7 +11,7 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findByStatus(String pendingQuotation);
 
-    List<Request> findAllBySaleStaffid(User user);
+    List<Request> findAllBySaleStaffidAndStatusIsNot(User user,String status);
 
     List<Request> findAllBySaleStaffidIsNullAndStatusIs(String status);
 
