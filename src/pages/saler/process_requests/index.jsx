@@ -47,7 +47,7 @@ function ProcessRequests() {
   };
 
   useEffect(() => {
-    if (authorService.checkPermission()) {
+    if (authorService.checkPermission("SALE_STAFF")) {
       fetchSalerData();
     } else {
       navigate("/unauthorized");
