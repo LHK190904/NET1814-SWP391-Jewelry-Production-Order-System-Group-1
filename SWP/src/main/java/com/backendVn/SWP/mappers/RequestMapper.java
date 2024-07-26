@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface RequestMapper {
 
@@ -18,6 +20,19 @@ public interface RequestMapper {
 
     @Mapping(target = "customerID", source = "customerID.id")
     @Mapping(target = "saleStaffID", source = "saleStaffid.id")
+    @Mapping(target = "mainStone", source = "mainStone.id")
+    @Mapping(target = "subStone", source = "subStone.id")
+    @Mapping(target = "materialID", source = "materialID.id")
+    @Mapping(target = "companyDesign", source = "companyDesign.id")
     RequestResponse toRequestResponse(Request request);
+
+    @Mapping(target = "customerID", source = "request.customerID.id")
+    @Mapping(target = "saleStaffID", source = "request.saleStaffid.id")
+    @Mapping(target = "mainStone", source = "request.mainStone.id")
+    @Mapping(target = "subStone", source = "request.subStone.id")
+    @Mapping(target = "materialID", source = "request.materialID.id")
+    @Mapping(target = "companyDesign", source = "request.companyDesign.id")
+    @Mapping(target = "uRLImage", source = "uRLImage")
+    RequestResponse toRequestResponseWithCustomerDesign(Request request, List<String> uRLImage);
 
 }

@@ -52,7 +52,11 @@ public class RequestService {
 
         requestRepository.save(request);
 
-        return requestMapper.toRequestResponse(request);
+        if(request.getURLImage() != null) {
+            return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
+        } else {
+            return requestMapper.toRequestResponse(request);
+        }
     }
 
     public Instant stringToInstant(String input){
@@ -94,7 +98,11 @@ public class RequestService {
         theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
         theRequest.setStatus("Unapproved");
 
-        return requestMapper.toRequestResponse(requestRepository.save(theRequest));
+        if(theRequest.getCompanyDesign() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(theRequest));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(theRequest, designService.brokeCSV(theRequest.getURLImage()));
+        }
     }
 
     public RequestResponse createRequestWithCompanyDesign(Integer userId, Integer companyDesignId){
@@ -176,7 +184,11 @@ public class RequestService {
         request.setURLImage(designService.createCSV(requestCreationRequestForCustomerDesign.getListURLImage()));
         request.setStatus("Unapproved");
 
-        return requestMapper.toRequestResponse(requestRepository.save(request));
+        if (request.getCompanyDesign() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(request));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
+        }
     }
 
     public RequestResponse updateRequestBySales(Integer id) {
@@ -193,7 +205,11 @@ public class RequestService {
         request.setRecievedAt(Instant.now());
         request.setStatus("Processing");
 
-        return requestMapper.toRequestResponse(requestRepository.save(request));
+        if (request.getCompanyDesign() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(request));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
+        }
     }
 
 
@@ -213,7 +229,11 @@ public class RequestService {
     public RequestResponse getRequestById(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-        return requestMapper.toRequestResponse(request);
+        if (request.getCompanyDesign() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(request));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
+        }
     }
 
     public List<RequestResponse> getRequestsByCustomerId(Integer customerId) {
@@ -253,7 +273,11 @@ public class RequestService {
 
         Request savedRequest = requestRepository.save(request);
 
-        return requestMapper.toRequestResponse(savedRequest);
+        if (request.getCompanyDesign() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(savedRequest));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(savedRequest, designService.brokeCSV(savedRequest.getURLImage()));
+        }
     }
 
     public RequestResponse denyQuotationFromCustomer(Integer requestId, String deniedReason) {
@@ -269,7 +293,11 @@ public class RequestService {
 
         Request savedRequest = requestRepository.save(request);
 
-        return requestMapper.toRequestResponse(savedRequest);
+        if (request.getCompanyDesign() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(savedRequest));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(savedRequest, designService.brokeCSV(savedRequest.getURLImage()));
+        }
     }
 
     public List<RequestResponse> getListOfRequestQuotations() {
