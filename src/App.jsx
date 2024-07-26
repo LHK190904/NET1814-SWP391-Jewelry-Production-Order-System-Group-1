@@ -46,10 +46,6 @@ const isAdmin = () => {
   return user && user.title === "ADMIN";
 };
 
-const isCustomer = () => {
-  const user = getCurrentUser();
-  return user && user.title === "CUSTOMER";
-};
 
 function App() {
   const router = createBrowserRouter([

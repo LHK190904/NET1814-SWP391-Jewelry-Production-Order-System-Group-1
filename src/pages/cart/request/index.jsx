@@ -1,11 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import authService from "../../../services/authService";
 import axiosInstance from "../../../services/axiosInstance";
+import { PlusOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@mui/icons-material";
+import {
+  Form,
+  Image,
+  Input,
+  message,
+  Modal,
+  Popconfirm,
+  Select,
+  Upload,
+} from "antd";
+import TextArea from "antd/es/input/TextArea";
+import uploadFile from "../../../utils/upload";
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 function CartRequest() {
   const [requests, setRequests] = useState([]);
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
+  const [fileList, setFileList] = useState([]);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [dataGoldAPI, setDataGoldAPI] = useState([]);
+  const [material, setMaterial] = useState([]);
+  const [materialName, setMaterialName] = useState("");
 
   const fetchRequests = async () => {
     try {
@@ -40,6 +74,7 @@ function CartRequest() {
 
   useEffect(() => {
     fetchRequests();
+    fetchAPI();
   }, []);
 
   const handleApprove = async (reqID) => {
@@ -58,9 +93,7 @@ function CartRequest() {
 
   const handleDeny = async (reqID) => {
     try {
-      const response = await axiosInstance.put(
-        `requests/denyQuotationFromCustomer/${reqID}`
-      );
+      await axiosInstance.put(`requests/denyQuotationFromCustomer/${reqID}`);
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
           req.id === reqID ? { ...req, status: "Denied" } : req
@@ -82,128 +115,386 @@ function CartRequest() {
     }
   };
 
+  const fetchAPI = async () => {
+    try {
+      const goldResponse = await axiosInstance.get(`api/gold/prices`);
+      const goldData = goldResponse.data.DataList.Data.map((item, index) => ({
+        goldType: item[`@n_${index + 1}`],
+        sellCost: item[`@pb_${index + 1}`],
+        buyCost: item[`@pb_${index + 1}`],
+        updated: item[`@d_${index + 1}`],
+      }));
+      setDataGoldAPI(goldData);
+
+      const materialResponse = await axiosInstance.get(`material/notGold`);
+      setMaterial(materialResponse.data.result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchRequestData = async (reqID) => {
+    try {
+      const response = await axiosInstance.get(`/requests/${reqID}`);
+      console.log(response.data.result);
+      return response.data.result;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const openUpdateModal = async (reqID) => {
+    try {
+      const requestData = await fetchRequestData(reqID);
+      initializeFormAndFileList(requestData);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.log("Failed to open modal");
+    }
+  };
+
+  const handleHideModal = () => {
+    setIsModalOpen(false);
+    setFileList([]);
+    form.resetFields();
+  };
+  const uploadImages = async (reqID) => {
+    const uploadPromises = fileList.map(async (file) => {
+      if (!file.url) {
+        const url = await uploadFile(file.originFileObj, `request/${reqID}`);
+        return url;
+      }
+      return file.url;
+    });
+    return await Promise.all(uploadPromises);
+  };
+  const handleUpload = async (reqID) => {
+    try {
+      const uploadedUrls = await uploadImages(reqID);
+      const values = await form.validateFields();
+      const {
+        description,
+        category,
+        mainStone = 0,
+        subStone = 0,
+        materialWeight,
+        materialName,
+      } = values;
+      const payload = {
+        description,
+        listURLImage: uploadedUrls,
+        category,
+        materialName,
+        mainStone,
+        subStone,
+        materialWeight,
+      };
+      await axiosInstance.put(`/requests/${reqID}`, payload);
+    } catch (error) {
+      console.error(error);
+      message.error("Tải lên thất bại.");
+    }
+  };
+
+  const initializeFormAndFileList = (requestItem) => {
+    form.setFieldsValue({
+      description: requestItem.description,
+      category: requestItem.category,
+      designName: requestItem.designName,
+      materialName: requestItem.materialName,
+      mainStone: requestItem.mainStone ?? "0",
+      subStone: requestItem.subStone ?? "0",
+      materialWeight: requestItem.materialWeight,
+    });
+
+    const initialFileList = (requestItem.listURLImage || []).map(
+      (url, index) => ({
+        uid: index,
+        name: `image-${index}`,
+        status: "done",
+        url,
+      })
+    );
+    setFileList(initialFileList);
+  };
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+  };
+
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleGoldTypeChange = async (value) => {
+    try {
+      const selectedGoldTypeData = dataGoldAPI.find(
+        (item) => item.goldType === value
+      );
+      setMaterialName(selectedGoldTypeData?.goldType || "");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleSendRequest = async (reqID) => {
+    try {
+      await axiosInstance.put(`/requests/sendRequest/${reqID}`);
+      message.success("Gửi yêu cầu thành công");
+    } catch (error) {
+      console.log(error);
+      message.error("Gửi yêu cầu thât bại");
+    }
+  };
   const handleOrderClick = (reqID) => {
     navigate(`/cart/order/${reqID}`);
   };
-
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Tải lên</div>
+    </div>
+  );
   return (
-    <div className="bg-[#434343] min-h-screen w-screen">
-      <div className="grid grid-cols-12 gap-4 pt-4 px-2 lg:px-0">
-        <div className="col-span-12 lg:col-start-2 lg:col-span-10 bg-gray-300 text-center p-1 rounded-lg">
-          <h1 className="bg-gray-400 p-4 text-2xl">YÊU CẦU</h1>
-          <div className="hidden lg:grid lg:grid-cols-8 border">
-            <div className="col-span-1 p-2 text-xl border">MÃ YÊU CẦU</div>
-            <div className="col-span-1 p-2 text-xl border">
-              NHÂN VIÊN BÁN HÀNG
-            </div>
-            <div className="col-span-1 p-2 text-xl border">TRẠNG THÁI</div>
-            <div className="col-span-1 p-2 text-xl border">THỜI ĐIỂM TẠO</div>
-            <div className="col-span-1 p-2 text-xl border">
-              THỜI ĐIỂM TIẾP NHẬN
-            </div>
-            <div className="col-span-1 p-2 text-xl border">GIÁ</div>
-            <div className="col-span-1 p-2 text-xl border">MÔ TẢ</div>
-            <div className="col-span-1 p-2 text-xl border"></div>
-          </div>
-          {requests.map((item, index) => (
-            <div
-              key={index}
-              className="grid grid-cols-1 lg:grid-cols-8 border my-2 lg:my-0"
-            >
-              <div className="col-span-1 p-2 bg-white border">{item.id}</div>
-              <div className="col-span-1 p-2 bg-white border">
-                {item.saleStaffID}
+    <>
+      <div className="bg-[#434343] min-h-screen w-screen">
+        <div className="grid grid-cols-12 gap-4 pt-4 px-2 lg:px-0">
+          <div className="col-span-12 lg:col-start-2 lg:col-span-10 bg-gray-300 text-center p-1 rounded-lg">
+            <h1 className="bg-gray-400 p-4 text-2xl">YÊU CẦU</h1>
+            <div className="hidden lg:grid lg:grid-cols-8 border">
+              <div className="col-span-1 p-2 text-xl border">MÃ YÊU CẦU</div>
+              <div className="col-span-1 p-2 text-xl border">
+                NHÂN VIÊN BÁN HÀNG
               </div>
-              {item.status === "action" ? (
-                <div className="col-span-1 p-2 bg-white flex flex-col lg:flex-row">
-                  <button
-                    onClick={() => handleApprove(item.id)}
-                    className="bg-green-400 p-1 rounded-lg mb-2 lg:mr-2 lg:mb-0 hover:bg-green-500"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => handleDeny(item.id)}
-                    className="bg-red-400 p-1 rounded-lg hover:bg-red-500"
-                  >
-                    Deny
-                  </button>
+              <div className="col-span-1 p-2 text-xl border">TRẠNG THÁI</div>
+              <div className="col-span-1 p-2 text-xl border">THỜI ĐIỂM TẠO</div>
+              <div className="col-span-1 p-2 text-xl border">
+                THỜI ĐIỂM TIẾP NHẬN
+              </div>
+              <div className="col-span-1 p-2 text-xl border">GIÁ</div>
+              <div className="col-span-1 p-2 text-xl border">MÔ TẢ</div>
+              <div className="col-span-1 p-2 text-xl border"></div>
+            </div>
+            {requests.map((item, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 lg:grid-cols-8 border my-2 lg:my-0"
+              >
+                <div className="col-span-1 p-2 bg-white border">{item.id}</div>
+                <div className="col-span-1 p-2 bg-white border">
+                  {item.saleStaffID}
                 </div>
-              ) : item.status === "Unapproved" ? (
-                <div className="col-span-1 p-2 bg-white">
-                  <span>{item.status}</span>
-                </div>
-              ) : item.status === "Approved" ||
-                item.status === "Ordering" ||
-                item.status === "finished" ||
-                item.status === "Processing" ? (
-                <div className="col-span-1 p-2 bg-white">
-                  <span>{item.status}</span>
-                </div>
-              ) : item.status === "Pending quotation for manager" ? (
-                <div className="col-span-1 p-2 bg-white">
-                  <span>{item.status}</span>
-                </div>
-              ) : (
-                <div className="col-span-1 p-2 bg-white">
-                  <button
-                    onClick={() =>
-                      setRequests((prevRequest) =>
-                        prevRequest.map((req) =>
-                          req.id === item.id
-                            ? { ...req, status: "action" }
-                            : req
+                {item.status === "action" ? (
+                  <div className="col-span-1 p-2 bg-white flex flex-col lg:flex-row">
+                    <button
+                      onClick={() => handleApprove(item.id)}
+                      className="bg-green-400 p-1 rounded-lg mb-2 lg:mr-2 lg:mb-0 hover:bg-green-500"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleDeny(item.id)}
+                      className="bg-red-400 p-1 rounded-lg hover:bg-red-500"
+                    >
+                      Deny
+                    </button>
+                  </div>
+                ) : item.status === "Unapproved" ? (
+                  <div className="col-span-1 p-2 bg-white">
+                    <span>{item.status}</span>
+                  </div>
+                ) : item.status === "Approved" ||
+                  item.status === "Ordering" ||
+                  item.status === "finished" ||
+                  item.status === "Processing" ? (
+                  <div className="col-span-1 p-2 bg-white">
+                    <span>{item.status}</span>
+                  </div>
+                ) : item.status === "Pending quotation for manager" ? (
+                  <div className="col-span-1 p-2 bg-white">
+                    <span>{item.status}</span>
+                  </div>
+                ) : (
+                  <div className="col-span-1 p-2 bg-white">
+                    <button
+                      onClick={() =>
+                        setRequests((prevRequest) =>
+                          prevRequest.map((req) =>
+                            req.id === item.id
+                              ? { ...req, status: "action" }
+                              : req
+                          )
                         )
-                      )
-                    }
-                    className="bg-blue-400 p-2 rounded-lg hover:bg-blue-500"
-                  >
-                    {item.status}
-                  </button>
-                </div>
-              )}
-              <div className="col-span-1 p-2 bg-white border">
-                {new Date(item.createdAt).toLocaleString()}
-              </div>
-              <div className="col-span-1 p-2 bg-white border">
-                {new Date(item.recievedAt).toLocaleString()}
-              </div>
-              <div className="col-span-1 p-2 bg-white border">
-                {item.quotation
-                  ? new Intl.NumberFormat().format(item.quotation.cost)
-                  : "N/A"}
-              </div>
-              <div className="col-span-1 p-2 bg-white border">
-                {item.description}
-              </div>
-              {item.status === "Approved" ||
-              item.status === "Ordering" ||
-              item.status === "finished" ? (
+                      }
+                      className="bg-blue-400 p-2 rounded-lg hover:bg-blue-500"
+                    >
+                      {item.status}
+                    </button>
+                  </div>
+                )}
                 <div className="col-span-1 p-2 bg-white border">
-                  <button
-                    onClick={() => handleOrderClick(item.id)}
-                    className="bg-blue-500 p-2 rounded-lg hover:bg-blue-600"
-                  >
-                    CHI TIẾT
-                  </button>
+                  {new Date(item.createdAt).toLocaleString()}
                 </div>
-              ) : item.status === "Denied" || item.status === "Unapproved" ? (
                 <div className="col-span-1 p-2 bg-white border">
-                  <button
-                    onClick={() => handleDelete(item.id)}
-                    className="bg-red-500 p-2 rounded-lg hover:bg-red-600"
-                  >
-                    Xóa
-                  </button>
+                  {new Date(item.recievedAt).toLocaleString()}
                 </div>
-              ) : (
-                <div className="col-span-1 p-2 bg-white border"></div>
-              )}
-            </div>
-          ))}
+                <div className="col-span-1 p-2 bg-white border">
+                  {item.quotation
+                    ? new Intl.NumberFormat().format(item.quotation.cost)
+                    : "N/A"}
+                </div>
+                <div className="col-span-1 p-2 bg-white border">
+                  {item.description}
+                </div>
+                {item.status === "Approved" ||
+                item.status === "Ordering" ||
+                item.status === "finished" ? (
+                  <div className="col-span-1 p-2 bg-white border">
+                    <button
+                      onClick={() => handleOrderClick(item.id)}
+                      className="bg-blue-300 p-2 rounded-md hover:bg-blue-600"
+                    >
+                      CHI TIẾT
+                    </button>
+                  </div>
+                ) : item.status === "Denied" || item.status === "Unapproved" ? (
+                  <div className="col-span-1 p-2 bg-white border">
+                    <Popconfirm
+                      title="Xác nhận xóa yêu cầu "
+                      onConfirm={() => handleDelete(item.id)}
+                      okText="Xóa"
+                      cancelText="Hủy"
+                    >
+                      <button className="bg-red-500 p-2 rounded-md hover:bg-red-600">
+                        <DeleteOutlined />
+                      </button>
+                    </Popconfirm>
+                    <button
+                      onClick={() => openUpdateModal(item.id)}
+                      className="p-2 rounded-md hover:bg-slate-300"
+                    >
+                      <EditOutlined />
+                    </button>
+                    <Popconfirm
+                      title="Xác nhận gửi yêu cầu "
+                      onConfirm={() => handleSendRequest(item.id)}
+                      okText="Gửi yêu cầu"
+                      cancelText="Hủy"
+                    >
+                      <button className="bg-green-500 p-2 rounded-lg hover:bg-green-600">
+                        <CheckOutlined />
+                      </button>
+                    </Popconfirm>
+                  </div>
+                ) : (
+                  <div className="col-span-1 p-2 bg-white border"></div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+      <Modal
+        title="Chỉnh sửa yêu cầu"
+        open={isModalOpen}
+        onOk={handleUpload}
+        onCancel={handleHideModal}
+      >
+        <Form
+          form={form}
+          labelCol={{ span: 24 }}
+          initialValues={{ mainStone: 0, subStone: 0 }}
+        >
+          <Form.Item
+            name="category"
+            label="Loại trang sức:"
+            rules={[
+              { required: true, message: "Vui lòng chọn loại trang sức" },
+            ]}
+          >
+            <Select>
+              <Select.Option value="RING">Nhẫn</Select.Option>
+              <Select.Option value="NECKLACE">Dây chuyền</Select.Option>
+              <Select.Option value="BRACELET">Vòng tay</Select.Option>
+              <Select.Option value="EARRINGS">Bông tai</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="materialName"
+            label="Vật liệu:"
+            rules={[{ required: true, message: "Vui lòng nhập vật liệu" }]}
+          >
+            <Select onChange={handleGoldTypeChange}>
+              {dataGoldAPI.map((item, index) => (
+                <Select.Option key={index} value={item.goldType}>
+                  {item.goldType}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="materialWeight"
+            label="Trọng lượng vật liệu: (Đơn vị: Chỉ)"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập trọng lượng vật liệu",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="mainStone" label="Đá chính (Nếu có):">
+            <Select allowClear>
+              {material.map((item, index) => (
+                <Select.Option key={index} value={item.id}>
+                  {item.materialName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="subStone" label="Đá phụ (Nếu có):">
+            <Select allowClear>
+              {material.map((item, index) => (
+                <Select.Option key={index} value={item.id}>
+                  {item.materialName}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="description"
+            label="Mô tả:"
+            rules={[{ required: true, message: "Vui lòng nhập mô tả" }]}
+          >
+            <TextArea />
+          </Form.Item>
+
+          <Form.Item label="Tải lên hình ảnh:">
+            <Upload
+              listType="picture-card"
+              fileList={fileList}
+              accept=".png,.jpg"
+              onPreview={handlePreview}
+              onChange={handleChange}
+              beforeUpload={() => false}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        open={previewOpen}
+        title="Preview Image"
+        footer={null}
+        onCancel={() => setPreviewOpen(false)}
+      >
+        <Image src={previewImage} />
+      </Modal>
+    </>
   );
 }
 

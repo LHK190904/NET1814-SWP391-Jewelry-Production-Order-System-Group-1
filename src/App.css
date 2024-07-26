@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base{
-    *{
-        font-family: "Jura", sans-serif;
-        font-optical-sizing: auto;
-    }
+@layer base {
+  * {
+    font-family: "Jura", sans-serif;
+    font-optical-sizing: auto;
+  }
+  html,
+  body,
+  #root {
+    @apply h-full;
+  }
 }

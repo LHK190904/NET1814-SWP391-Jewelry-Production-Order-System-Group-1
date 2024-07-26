@@ -183,7 +183,6 @@ function Admin() {
       setData(result);
     } catch (error) {
       console.log("Failed to fetch account:", error);
-      message.error("Failed to fetch account");
     }
   };
 

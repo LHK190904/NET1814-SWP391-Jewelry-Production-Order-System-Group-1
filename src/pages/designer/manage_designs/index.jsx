@@ -16,13 +16,13 @@ import LogoutButton from "../../../components/logoutButton";
 import axiosInstance from "../../../services/axiosInstance";
 import TextArea from "antd/es/input/TextArea";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Navbar from "../../../components/navbar";
 import authorService from "../../../services/authorService";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
+
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
@@ -48,6 +48,7 @@ function ManageDesign() {
     try {
       const response = await axiosInstance.get("/design/getAllCompanyDesign");
       setListItems(response.data.result || []);
+      console.log(response.data.result);
     } catch (error) {
       console.error(error);
     }
@@ -55,9 +56,7 @@ function ManageDesign() {
 
   const fetchAPI = async () => {
     try {
-      const goldResponse = await axios.get(
-        `http://localhost:8080/api/gold/prices`
-      );
+      const goldResponse = await axiosInstance.get(`api/gold/prices`);
       const goldData = goldResponse.data.DataList.Data.map((item, index) => ({
         goldType: item[`@n_${index + 1}`],
         sellCost: item[`@pb_${index + 1}`],
@@ -66,9 +65,7 @@ function ManageDesign() {
       }));
       setDataAPI(goldData);
 
-      const materialResponse = await axios.get(
-        `http://localhost:8080/material/notGold`
-      );
+      const materialResponse = await axiosInstance.get(`material/notGold`);
       setMaterial(materialResponse.data.result);
     } catch (error) {
       console.error(error);
@@ -376,7 +373,7 @@ function ManageDesign() {
             <Select allowClear>
               {material.map((item, index) => (
                 <Select.Option key={index} value={item.id}>
-                  {item.type}
+                  {item.materialName}
                 </Select.Option>
               ))}
             </Select>
@@ -385,7 +382,7 @@ function ManageDesign() {
             <Select allowClear>
               {material.map((item, index) => (
                 <Select.Option key={index} value={item.id}>
-                  {item.type}
+                  {item.materialName}
                 </Select.Option>
               ))}
             </Select>
