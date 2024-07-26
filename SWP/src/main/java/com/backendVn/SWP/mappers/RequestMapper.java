@@ -2,6 +2,7 @@ package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.RequestResponse;
+import com.backendVn.SWP.dtos.response.TransactionResponse;
 import com.backendVn.SWP.entities.Request;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,5 +20,7 @@ public interface RequestMapper {
     @Mapping(target = "customerID", source = "customerID.id")
     @Mapping(target = "saleStaffID", source = "saleStaffid.id")
     RequestResponse toRequestResponse(Request request);
+
+    TransactionResponse toTransactionResponse(Request request);
 
 }

@@ -2,11 +2,15 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.response.*;
 import com.backendVn.SWP.entities.*;
+import com.backendVn.SWP.mappers.PaymentMapper;
+import com.backendVn.SWP.mappers.RequestMapper;
+import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,6 +31,10 @@ public class DashboardService {
     UserRepository userRepository;
     QuotationRepository quotationRepository;
     RequestRepository requestRepository;
+    PaymentRepository paymentRepository;
+    UserMapper userMapper;
+    RequestMapper requestMapper;
+    PaymentMapper paymentMapper;
 
 
     public List<ProductionStaffKPI> getProductionStaffKPI() {
@@ -258,4 +266,21 @@ public class DashboardService {
     }
 
 
+    public List<TransactionResponse> getLatestTransactions() {
+        List<Payment> payments = paymentRepository.findTop10ByOrderByPaymentDateDesc();
+        List<TransactionResponse> transactionResponses = new ArrayList<>();
+
+        for (Payment payment : payments) {
+            Request request = payment.getRequestID();
+            User user = request.getCustomerID();
+
+            TransactionResponse transactionResponse = new TransactionResponse();
+
+            transactionResponse = requestMapper.toTransactionResponse(request);
+            paymentMapper.updateTransactionResponseFromPayment(payment, transactionResponse);
+            userMapper.updateTransactionResponseFromUser(user, transactionResponse);
+            transactionResponses.add(transactionResponse);
+        }
+        return transactionResponses;
+    }
 }

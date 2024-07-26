@@ -52,6 +52,13 @@ public class DashboardController {
                 .build();
     }
 
+    @GetMapping("/latest-transactions")
+    public ApiResponse<List<TransactionResponse>> getLatestTransactions() {
+        return ApiResponse.<List<TransactionResponse>>builder()
+                .result(dashboardService.getLatestTransactions())
+                .build();
+    }
+
     //SAFU SAFUUUUUUUUUUUUUUUUUUUUU
     @GetMapping("/monthly-revenue")
     public ApiResponse<List<MonthlyIncomeResponse>> getMonthlyRevenue(

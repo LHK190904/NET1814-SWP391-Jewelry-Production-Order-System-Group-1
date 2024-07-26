@@ -16935,7 +16935,7 @@
     <table id="5584" parent="5573" name="Users">
       <CreatedTimestamp>2024-07-19.02:24:28.817</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
-      <ModifiedTimestamp>2024-07-22.21:30:22.990</ModifiedTimestamp>
+      <ModifiedTimestamp>2024-07-26.05:01:13.140</ModifiedTimestamp>
       <ObjectId>1189579276</ObjectId>
       <LobDataSpaceId>1</LobDataSpaceId>
     </table>
@@ -17361,7 +17361,7 @@
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <SequenceIdentity>1(11)</SequenceIdentity>
+      <SequenceIdentity>1(14)</SequenceIdentity>
     </column>
     <column id="5667" parent="5584" name="user_name">
       <DasType>nvarchar(50 char)|0s</DasType>
@@ -17385,11 +17385,11 @@
       <Position>6</Position>
     </column>
     <column id="5672" parent="5584" name="cus_name">
-      <DasType>varchar(50 char)|0s</DasType>
+      <DasType>nvarchar(50 char)|0s</DasType>
       <Position>7</Position>
     </column>
     <column id="5673" parent="5584" name="phone_num">
-      <DasType>varchar(20 char)|0s</DasType>
+      <DasType>nvarchar(20 char)|0s</DasType>
       <Position>8</Position>
     </column>
     <index id="5674" parent="5584" name="PK__Users__1788CCAC9F1BB057">
