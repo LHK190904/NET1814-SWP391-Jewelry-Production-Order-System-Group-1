@@ -106,6 +106,7 @@ public class RequestService {
         }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse createRequestWithCompanyDesign(Integer userId, Integer companyDesignId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -227,6 +228,7 @@ public class RequestService {
                 .toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse getRequestById(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));

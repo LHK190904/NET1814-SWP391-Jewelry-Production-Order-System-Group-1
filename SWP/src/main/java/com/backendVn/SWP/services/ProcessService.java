@@ -37,6 +37,7 @@ public class ProcessService {
                 .map(processMapper::toProcessResponse).toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_PRODUCTION_STAFF')")
     public ProcessResponse createProcess(Integer requestOrderId, Integer userId) {
         Process process = new Process();
 

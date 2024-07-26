@@ -60,6 +60,7 @@ public class QuotationService {
         quotationRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_MANAGER')")
     public QuotationResponse updateQuotation(Integer id) {
         Quotation quotation = quotationRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));

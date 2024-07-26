@@ -100,6 +100,7 @@ public class RequestOrderService {
         return requestOrderMapper.toRequestOrderResponse(savedRequestOrder);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_MANAGER')")
     public RequestOrderResponse assignWork(Integer requestOrderId, Integer designStaffId, Integer productionStaffId){
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(()-> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
@@ -120,6 +121,7 @@ public class RequestOrderService {
         return requestOrderMapper.toRequestOrderResponse(savedRequestOrder);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_MANAGER')")
     public List<UserResponse> getUserByRole(String role){
         return userRepository.findByTitle(role).stream()
                 .map(userMapper::toUserResponse).toList();
@@ -170,6 +172,7 @@ public class RequestOrderService {
         return requestOrderMapper.toRequestOrderResponse(requestOrderRepository.save(requestOrder));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_MANAGER')")
     public List<RequestOrderResponse> getAllNewRequestOrder(){
         List<RequestOrder> requestOrders = requestOrderRepository.findByStatus("New")
                 .orElseThrow(() -> new AppException(ErrorCode.MO_NEW_REQUEST_ORDERS));
