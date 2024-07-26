@@ -185,11 +185,13 @@ function CartRequest() {
         description,
         listURLImage: uploadedUrls,
         category,
-        materialName,
-        mainStone,
-        subStone,
+        // materialName,
+        goldType: materialName,
+        mainStoneId:mainStone,
+        subStoneId:subStone,
         materialWeight,
       };
+      console.log(payload);
       await axiosInstance.put(`/requests/${reqID}`, payload);
     } catch (error) {
       console.error(error);
