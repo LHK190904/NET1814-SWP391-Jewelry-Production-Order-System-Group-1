@@ -6,10 +6,7 @@ import com.backendVn.SWP.services.PaymentService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/payment")
@@ -20,9 +17,23 @@ public class PaymentController {
     PaymentService paymentService;
 
     @PostMapping("/{requestId}")
+    public ApiResponse<PaymentResponse> createDeposit(@PathVariable Integer requestId) {
+        return ApiResponse.<PaymentResponse>builder()
+                .result(paymentService.createDeposit(requestId))
+                .build();
+    }
+
+    @PostMapping("/createPayment/{requestId}")
     public ApiResponse<PaymentResponse> createPayment(@PathVariable Integer requestId) {
         return ApiResponse.<PaymentResponse>builder()
-                .result(paymentService.create(requestId))
+                .result(paymentService.createPayment(requestId))
+                .build();
+    }
+
+    @PutMapping("/makePayment/{paymentId}")
+    public ApiResponse<PaymentResponse> makePayment(@PathVariable Integer paymentId) {
+        return ApiResponse.<PaymentResponse>builder()
+                .result(paymentService.makePayment(paymentId))
                 .build();
     }
 }

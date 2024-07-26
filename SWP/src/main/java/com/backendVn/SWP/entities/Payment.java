@@ -44,4 +44,7 @@ public class Payment {
     @Column(name = "Status", length = 50)
     private String status;
 
+    @Column(name = "created_at")
+    private Instant createdAt;
+
 }
