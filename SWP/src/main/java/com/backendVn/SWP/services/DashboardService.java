@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.control.MappingControl;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -139,6 +140,7 @@ public class DashboardService {
     }
 
     //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
     public List<MonthlyCountResponse> calculateMonthlyRequestCount(int year, int startMonth, int endMonth) {
         List<MonthlyCountResponse> monthlyRequestCounts = new ArrayList<>();
 
@@ -157,6 +159,7 @@ public class DashboardService {
         return requestRepository.countByCreatedAtBetween(startDate, endDate);
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
     public List<MonthlyCountResponse> calculateMonthlyOrderCompleteCount(int year, int startMonth, int endMonth) {
         List<MonthlyCountResponse> monthlyOrderCompleteCounts = new ArrayList<>();
 
@@ -212,6 +215,7 @@ public class DashboardService {
     }
 
     //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUU
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
     public List<MonthlyCountResponse> calculateMonthlyOrderCount(int year, int startMonth, int endMonth) {
         List<MonthlyCountResponse> monthlyOrderCounts = new ArrayList<>();
 
@@ -266,6 +270,7 @@ public class DashboardService {
     }
 
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
     public List<TransactionResponse> getLatestTransactions() {
         List<Payment> payments = paymentRepository.findTop10ByOrderByPaymentDateDesc();
         List<TransactionResponse> transactionResponses = new ArrayList<>();
@@ -284,6 +289,7 @@ public class DashboardService {
         return transactionResponses;
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
     public List<MonthlyIncomeResponse> calculateMonthlyProfitCount(int year, int startMonth, int endMonth) {
         List<MonthlyIncomeResponse> monthlyProfitCounts = new ArrayList<>();
 

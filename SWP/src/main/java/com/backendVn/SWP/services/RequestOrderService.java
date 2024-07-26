@@ -125,6 +125,7 @@ public class RequestOrderService {
                 .map(userMapper::toUserResponse).toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public List<RequestOrderResponse> getRequestOrdersByDesign(Integer designId){
         User user = userRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));

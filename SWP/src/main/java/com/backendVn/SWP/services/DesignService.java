@@ -55,6 +55,7 @@ public class DesignService {
         return Arrays.stream(uRLImage.split(",")).toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse createDesign(DesignCreationRequest designCreationRequest, Integer requestOrderId){
         if (designCreationRequest.getListURLImage() == null || designCreationRequest.getListURLImage().isEmpty()){
             throw new AppException(ErrorCode.NO_URLIMAGE_IN_DESIGN_REQUEST);
@@ -97,6 +98,7 @@ public class DesignService {
         return designResponses;
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse updateDesign(Integer designId, DesignUpdateRequest designUpdateRequest) {
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
@@ -145,6 +147,7 @@ public class DesignService {
         return designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse modifyDesign(CompanyDesignModifyRequest request){
         if(request.getListURLImage() == null || request.getListURLImage().isEmpty()){
             throw new AppException(ErrorCode.NO_URLIMAGE_IN_DESIGN_REQUEST);
@@ -165,6 +168,7 @@ public class DesignService {
                 .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse updateCompanyDesign(Integer designId ,CompanyDesignModifyRequest request){
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
@@ -235,6 +239,7 @@ public class DesignService {
         return designResponses;
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse deleteDesign(Integer designId){
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));

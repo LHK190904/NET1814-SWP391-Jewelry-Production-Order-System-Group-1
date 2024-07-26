@@ -17031,7 +17031,7 @@ int</ExtendedProperties>
     <table id="5592" parent="5573" name="Users">
       <CreatedTimestamp>2024-07-09.08:27:48.913</CreatedTimestamp>
       <DataRetentionPeriod>-1</DataRetentionPeriod>
-      <ModifiedTimestamp>2024-07-22.01:07:04.290</ModifiedTimestamp>
+      <ModifiedTimestamp>2024-07-27.03:22:20.023</ModifiedTimestamp>
       <ObjectId>1189579276</ObjectId>
       <LobDataSpaceId>1</LobDataSpaceId>
     </table>
@@ -17742,7 +17742,7 @@ int</ExtendedProperties>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <SequenceIdentity>1(2008)</SequenceIdentity>
+      <SequenceIdentity>1(2014)</SequenceIdentity>
     </column>
     <column id="5716" parent="5592" name="user_name">
       <DasType>nvarchar(50 char)|0s</DasType>
@@ -17766,11 +17766,11 @@ int</ExtendedProperties>
       <Position>6</Position>
     </column>
     <column id="5721" parent="5592" name="cus_name">
-      <DasType>varchar(50 char)|0s</DasType>
+      <DasType>nvarchar(50 char)|0s</DasType>
       <Position>7</Position>
     </column>
     <column id="5722" parent="5592" name="phone_num">
-      <DasType>varchar(20 char)|0s</DasType>
+      <DasType>nvarchar(20 char)|0s</DasType>
       <Position>8</Position>
     </column>
     <index id="5723" parent="5592" name="PK__Users__1788CCAC1AA62CDF">
