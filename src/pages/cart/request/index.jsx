@@ -40,6 +40,8 @@ function CartRequest() {
   const [dataGoldAPI, setDataGoldAPI] = useState([]);
   const [material, setMaterial] = useState([]);
   const [materialName, setMaterialName] = useState("");
+  const [selectedReqID, setSelectedReqID] = useState(null);
+  const [isRequestSent, setIsRequestSent] = useState(false);
 
   const fetchRequests = async () => {
     try {
@@ -76,6 +78,13 @@ function CartRequest() {
     fetchRequests();
     fetchAPI();
   }, []);
+
+  useEffect(() => {
+    if (isRequestSent) {
+      fetchRequests();
+      setIsRequestSent(false);
+    }
+  }, [isRequestSent]);
 
   const handleApprove = async (reqID) => {
     try {
@@ -136,7 +145,6 @@ function CartRequest() {
   const fetchRequestData = async (reqID) => {
     try {
       const response = await axiosInstance.get(`/requests/${reqID}`);
-      console.log(response.data.result);
       return response.data.result;
     } catch (error) {
       console.error(error);
@@ -148,6 +156,7 @@ function CartRequest() {
     try {
       const requestData = await fetchRequestData(reqID);
       initializeFormAndFileList(requestData);
+      setSelectedReqID(reqID);
       setIsModalOpen(true);
     } catch (error) {
       console.log("Failed to open modal");
@@ -169,9 +178,11 @@ function CartRequest() {
     });
     return await Promise.all(uploadPromises);
   };
-  const handleUpload = async (reqID) => {
+
+  const handleUpload = async () => {
     try {
-      const uploadedUrls = await uploadImages(reqID);
+      // Lấy danh sách URL hình ảnh đã upload
+      const uploadedUrls = await uploadImages(selectedReqID);
       const values = await form.validateFields();
       const {
         description,
@@ -181,18 +192,45 @@ function CartRequest() {
         materialWeight,
         materialName,
       } = values;
+
+      const goldResponse = await axiosInstance.get(`api/gold/prices`);
+      const goldData = goldResponse.data.DataList.Data.map((item, index) => ({
+        goldType: item[`@n_${index + 1}`],
+        sellCost: item[`@pb_${index + 1}`],
+        buyCost: item[`@pb_${index + 1}`],
+        updated: item[`@d_${index + 1}`],
+      }));
+
+      // Tìm giá vàng tương ứng với vật liệu
+      const selectedGoldTypeData = goldData.find(
+        (item) => item.goldType === materialName
+      );
+
+      let buyCost, sellCost, updated;
+      if (selectedGoldTypeData) {
+        buyCost = selectedGoldTypeData.buyCost;
+        sellCost = selectedGoldTypeData.sellCost;
+        updated = selectedGoldTypeData.updated;
+      } else {
+        throw new Error("Không tìm thấy thông tin giá vàng phù hợp");
+      }
+
       const payload = {
         description,
         listURLImage: uploadedUrls,
         category,
-        // materialName,
         goldType: materialName,
-        mainStoneId:mainStone,
-        subStoneId:subStone,
+        mainStoneId: mainStone,
+        subStoneId: subStone,
         materialWeight,
+        buyCost,
+        sellCost,
+        updated,
       };
-      console.log(payload);
-      await axiosInstance.put(`/requests/${reqID}`, payload);
+
+      await axiosInstance.put(`/requests/${selectedReqID}`, payload);
+      handleHideModal();
+      message.success("Cập nhật yêu cầu thành công.");
     } catch (error) {
       console.error(error);
       message.error("Tải lên thất bại.");
@@ -242,6 +280,7 @@ function CartRequest() {
   const handleSendRequest = async (reqID) => {
     try {
       await axiosInstance.put(`/requests/sendRequest/${reqID}`);
+      setIsRequestSent(true);
       message.success("Gửi yêu cầu thành công");
     } catch (error) {
       console.log(error);
