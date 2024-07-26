@@ -283,4 +283,18 @@ public class DashboardService {
         }
         return transactionResponses;
     }
+
+    public List<MonthlyIncomeResponse> calculateMonthlyProfitCount(int year, int startMonth, int endMonth) {
+        List<MonthlyIncomeResponse> monthlyProfitCounts = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            BigDecimal totalProfit = calculateTotalProfit(startDate, endDate);
+            monthlyProfitCounts.add(new MonthlyIncomeResponse(month, totalProfit));
+        }
+
+        return monthlyProfitCounts;
+    }
 }
