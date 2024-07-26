@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
@@ -32,31 +33,52 @@ public class PaymentService {
     RequestOrderRepository requestOrderRepository;
     PaymentMapper paymentMapper;
 
-    public PaymentResponse create(Integer requestId){
+    public PaymentResponse createDeposit(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
         List<Quotation> quotations = quotationRepository.findByRequestID(request)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
         quotations.sort(Comparator.comparing(Quotation::getCreatedAt));
-        RequestOrder requestOrder = requestOrderRepository.findByRequestID(request)
-                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
 
         Payment payment = Payment.builder()
-                .paymentType("Paypal")
+                .paymentType("Deposit")
                 .paymentDate(Instant.now())
-                .amount(quotations.getLast().getCost())
-                .status("Paid")
+                .amount(quotations.getLast().getCost().divide(BigDecimal.valueOf(2)))
+                .status("Unpaid")
                 .requestID(request)
                 .build();
 
-        request.setStatus("finished");
-        request.setEndAt(Instant.now());
+        paymentRepository.save(payment);
 
-        requestOrder.setStatus("finished");
-        requestOrder.setEndAt(Instant.now());
+        return paymentMapper.toPaymentResponse(payment);
+    }
+
+    public PaymentResponse createPayment(Integer requestId) {
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+        List<Quotation> quotations = quotationRepository.findByRequestID(request)
+                .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
+        quotations.sort(Comparator.comparing(Quotation::getCreatedAt));
+
+        Payment payment = Payment.builder()
+                .paymentType("Payment")
+                .paymentDate(Instant.now())
+                .amount(quotations.getLast().getCost().divide(BigDecimal.valueOf(2)))
+                .status("Unpaid")
+                .requestID(request)
+                .build();
 
         paymentRepository.save(payment);
-        requestOrderRepository.save(requestOrder);
+
+        return paymentMapper.toPaymentResponse(payment);
+    }
+
+    public PaymentResponse makePayment(Integer paymentId){
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_NOT_FOUND));
+
+        payment.setStatus("Paid");
+
         paymentRepository.save(payment);
 
         return paymentMapper.toPaymentResponse(payment);
