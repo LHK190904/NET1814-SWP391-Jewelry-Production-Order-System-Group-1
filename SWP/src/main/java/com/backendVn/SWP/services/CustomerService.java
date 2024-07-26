@@ -17,6 +17,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.backendVn.SWP.entities.User;
@@ -83,6 +84,7 @@ public class CustomerService {
         }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public UserResponse updateCustomerInfor(Integer userId ,CustomerUpdateInforRequest customerUpdateInforRequest){
                 User user = userRepository.findById(userId)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));

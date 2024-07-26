@@ -193,6 +193,7 @@ public class RequestService {
         }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public RequestResponse updateRequestBySales(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -249,12 +250,14 @@ public class RequestService {
                 .toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public List<RequestResponse> getUnrecievedRequests() {
         return requestRepository.findAllBySaleStaffidIsNullAndStatusIs("Sending").stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public List<RequestResponse> getRequestBySaleStaffId(Integer saleStaffId){
         User user = userRepository.findById(saleStaffId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));

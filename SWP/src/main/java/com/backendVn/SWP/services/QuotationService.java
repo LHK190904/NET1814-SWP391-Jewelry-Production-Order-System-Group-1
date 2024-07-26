@@ -32,6 +32,7 @@ public class QuotationService {
     RequestRepository requestRepository;
     UserRepository userRepository;
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public QuotationResponse createQuotation (QuotationCreationRequest quotationCreationRequest, Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -115,6 +116,7 @@ public class QuotationService {
         return quotationMapper.toQuotationResponse(quotation.getLast());
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public AutoPricingResponse getAutoPricing(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
