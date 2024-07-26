@@ -56,9 +56,9 @@ public class QuotationController {
     }
 
     @PutMapping("denyFromManager/{quotationId}")
-    public ApiResponse<QuotationResponse> denyFromManager(@PathVariable Integer quotationId){
+    public ApiResponse<QuotationResponse> denyFromManager(@PathVariable Integer quotationId, @RequestParam("deniedReason") String deniedReason){
         return ApiResponse.<QuotationResponse>builder()
-                .result(quotationService.denyFromManager(quotationId))
+                .result(quotationService.denyFromManager(quotationId, deniedReason))
                 .build();
     }
 }

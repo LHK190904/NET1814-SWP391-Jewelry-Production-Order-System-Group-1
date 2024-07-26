@@ -25,11 +25,11 @@ public class QuotationMapperImpl implements QuotationMapper {
             return null;
         }
 
-        Quotation.QuotationBuilder quotation = Quotation.builder();
+        Quotation quotation = new Quotation();
 
-        quotation.cost( quotationCreationRequest.getCost() );
+        quotation.setCost( quotationCreationRequest.getCost() );
 
-        return quotation.build();
+        return quotation;
     }
 
     @Override

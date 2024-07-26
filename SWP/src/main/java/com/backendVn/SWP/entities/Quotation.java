@@ -1,9 +1,10 @@
 package com.backendVn.SWP.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Nationalized;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -11,14 +12,10 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Quotation {
     @Id
-    @Column(name = "QuotationID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "QuotationID", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,5 +38,10 @@ public class Quotation {
 
     @Column(name = "capital_cost", precision = 18, scale = 2)
     private BigDecimal capitalCost;
+
+    @Nationalized
+    @Lob
+    @Column(name = "denied_reason")
+    private String deniedReason;
 
 }
