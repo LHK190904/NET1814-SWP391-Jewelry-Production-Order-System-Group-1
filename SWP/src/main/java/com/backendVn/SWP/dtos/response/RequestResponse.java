@@ -26,10 +26,10 @@ public class RequestResponse {
     Instant createdAt;
     Instant recievedAt;
     Instant endAt;
-    Integer materialID;
+    String materialName;
     BigDecimal materialWeight;
-    Integer mainStone;
-    Integer subStone;
+    String mainStone;
+    String subStone;
     String category;
     BigDecimal produceCost;
     Integer companyDesign;

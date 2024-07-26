@@ -20,17 +20,17 @@ public interface RequestMapper {
 
     @Mapping(target = "customerID", source = "customerID.id")
     @Mapping(target = "saleStaffID", source = "saleStaffid.id")
-    @Mapping(target = "mainStone", source = "mainStone.id")
-    @Mapping(target = "subStone", source = "subStone.id")
-    @Mapping(target = "materialID", source = "materialID.id")
+    @Mapping(target = "mainStone", source = "mainStone.materialName")
+    @Mapping(target = "subStone", source = "subStone.materialName")
+    @Mapping(target = "materialName", source = "materialID.materialName")
     @Mapping(target = "companyDesign", source = "companyDesign.id")
     RequestResponse toRequestResponse(Request request);
 
     @Mapping(target = "customerID", source = "request.customerID.id")
     @Mapping(target = "saleStaffID", source = "request.saleStaffid.id")
-    @Mapping(target = "mainStone", source = "request.mainStone.id")
-    @Mapping(target = "subStone", source = "request.subStone.id")
-    @Mapping(target = "materialID", source = "request.materialID.id")
+    @Mapping(target = "mainStone", source = "request.mainStone.materialName")
+    @Mapping(target = "subStone", source = "request.subStone.materialName")
+    @Mapping(target = "materialName", source = "request.materialID.materialName")
     @Mapping(target = "companyDesign", source = "request.companyDesign.id")
     RequestResponse toRequestResponseWithCustomerDesign(Request request, List<String> listURLImage);
 

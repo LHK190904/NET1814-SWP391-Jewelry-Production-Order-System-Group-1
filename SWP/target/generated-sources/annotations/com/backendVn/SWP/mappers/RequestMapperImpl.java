@@ -57,9 +57,9 @@ public class RequestMapperImpl implements RequestMapper {
 
         requestResponse.customerID( requestCustomerIDId( request ) );
         requestResponse.saleStaffID( requestSaleStaffidId( request ) );
-        requestResponse.mainStone( requestMainStoneId( request ) );
-        requestResponse.subStone( requestSubStoneId( request ) );
-        requestResponse.materialID( requestMaterialIDId( request ) );
+        requestResponse.mainStone( requestMainStoneMaterialName( request ) );
+        requestResponse.subStone( requestSubStoneMaterialName( request ) );
+        requestResponse.materialName( requestMaterialIDMaterialName( request ) );
         requestResponse.companyDesign( requestCompanyDesignId( request ) );
         requestResponse.id( request.getId() );
         requestResponse.description( request.getDescription() );
@@ -86,9 +86,9 @@ public class RequestMapperImpl implements RequestMapper {
         if ( request != null ) {
             requestResponse.customerID( requestCustomerIDId( request ) );
             requestResponse.saleStaffID( requestSaleStaffidId( request ) );
-            requestResponse.mainStone( requestMainStoneId( request ) );
-            requestResponse.subStone( requestSubStoneId( request ) );
-            requestResponse.materialID( requestMaterialIDId( request ) );
+            requestResponse.mainStone( requestMainStoneMaterialName( request ) );
+            requestResponse.subStone( requestSubStoneMaterialName( request ) );
+            requestResponse.materialName( requestMaterialIDMaterialName( request ) );
             requestResponse.companyDesign( requestCompanyDesignId( request ) );
             requestResponse.id( request.getId() );
             requestResponse.description( request.getDescription() );
@@ -139,7 +139,7 @@ public class RequestMapperImpl implements RequestMapper {
         return id;
     }
 
-    private Integer requestMainStoneId(Request request) {
+    private String requestMainStoneMaterialName(Request request) {
         if ( request == null ) {
             return null;
         }
@@ -147,14 +147,14 @@ public class RequestMapperImpl implements RequestMapper {
         if ( mainStone == null ) {
             return null;
         }
-        Integer id = mainStone.getId();
-        if ( id == null ) {
+        String materialName = mainStone.getMaterialName();
+        if ( materialName == null ) {
             return null;
         }
-        return id;
+        return materialName;
     }
 
-    private Integer requestSubStoneId(Request request) {
+    private String requestSubStoneMaterialName(Request request) {
         if ( request == null ) {
             return null;
         }
@@ -162,14 +162,14 @@ public class RequestMapperImpl implements RequestMapper {
         if ( subStone == null ) {
             return null;
         }
-        Integer id = subStone.getId();
-        if ( id == null ) {
+        String materialName = subStone.getMaterialName();
+        if ( materialName == null ) {
             return null;
         }
-        return id;
+        return materialName;
     }
 
-    private Integer requestMaterialIDId(Request request) {
+    private String requestMaterialIDMaterialName(Request request) {
         if ( request == null ) {
             return null;
         }
@@ -177,11 +177,11 @@ public class RequestMapperImpl implements RequestMapper {
         if ( materialID == null ) {
             return null;
         }
-        Integer id = materialID.getId();
-        if ( id == null ) {
+        String materialName = materialID.getMaterialName();
+        if ( materialName == null ) {
             return null;
         }
-        return id;
+        return materialName;
     }
 
     private Integer requestCompanyDesignId(Request request) {

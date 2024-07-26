@@ -5,6 +5,17 @@ Accept: */*
 Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
+<> 2024-07-26T121136.200.json
+
+###
+
+GET http://localhost:8080/requests/9006
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
 <> 2024-07-26T113312.200.json
 
 ###
@@ -682,17 +693,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
 <> Warranty till 18-07-2024-1.pdf
-
-###
-
-GET http://localhost:8080/pdf/generate/4002
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> Warranty till 18-07-2024.pdf
 
 ###
 
