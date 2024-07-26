@@ -104,7 +104,7 @@ public class RequestController {
     }
 
     @PutMapping("/denyQuotationFromCustomer/{requestId}")
-    public ApiResponse<RequestResponse> denyQuotationFromCustomer(@PathVariable Integer requestId, @RequestParam("deniedReason") String deniedReason) {
+    public ApiResponse<RequestResponse> denyQuotationFromCustomer(@PathVariable Integer requestId, @RequestBody String deniedReason) {
         return ApiResponse.<RequestResponse>builder()
                 .result(requestService.denyQuotationFromCustomer(requestId, deniedReason))
                 .build();

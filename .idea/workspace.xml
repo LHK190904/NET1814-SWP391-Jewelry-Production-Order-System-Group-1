@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1af738b-bf98-4814-9a93-12f34525442e" name="Changes" comment="" />
+    <list default="true" id="e1af738b-bf98-4814-9a93-12f34525442e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/QuotationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/QuotationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/RequestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/RequestController.java" afterDir="false" />
+    </list>
     <list id="6954d707-cf86-43f1-88d4-158668584ab2" name="Changes by Truong Giang" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,6 +108,7 @@
       <workItem from="1721894521211" duration="2410000" />
       <workItem from="1721918284023" duration="4663000" />
       <workItem from="1721962632469" duration="2130000" />
+      <workItem from="1722004015856" duration="564000" />
     </task>
     <servers />
   </component>
