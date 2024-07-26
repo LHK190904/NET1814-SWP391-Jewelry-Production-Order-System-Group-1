@@ -4,7 +4,6 @@ import com.backendVn.SWP.dtos.response.PaymentResponse;
 import com.backendVn.SWP.entities.Payment;
 import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.entities.Request;
-import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.PaymentMapper;
@@ -42,9 +41,9 @@ public class PaymentService {
 
         Payment payment = Payment.builder()
                 .paymentType("Deposit")
-                .paymentDate(Instant.now())
                 .amount(quotations.getLast().getCost().divide(BigDecimal.valueOf(2)))
                 .status("Unpaid")
+                .createdAt(Instant.now())
                 .requestID(request)
                 .build();
 
@@ -62,7 +61,7 @@ public class PaymentService {
 
         Payment payment = Payment.builder()
                 .paymentType("Payment")
-                .paymentDate(Instant.now())
+                .createdAt(Instant.now())
                 .amount(quotations.getLast().getCost().divide(BigDecimal.valueOf(2)))
                 .status("Unpaid")
                 .requestID(request)
@@ -78,6 +77,7 @@ public class PaymentService {
                 .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_NOT_FOUND));
 
         payment.setStatus("Paid");
+        payment.setPaymentDate(Instant.now());
 
         paymentRepository.save(payment);
 

@@ -2,7 +2,6 @@ package com.backendVn.SWP.controllers;
 
 import com.backendVn.SWP.dtos.response.ApiResponse;
 import com.backendVn.SWP.dtos.response.PaymentResponse;
-import com.backendVn.SWP.entities.Payment;
 import com.backendVn.SWP.services.PaymentService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
