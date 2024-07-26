@@ -2,6 +2,7 @@ package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.RequestResponse;
+import com.backendVn.SWP.dtos.response.TransactionResponse;
 import com.backendVn.SWP.entities.Design;
 import com.backendVn.SWP.entities.Material;
 import com.backendVn.SWP.entities.Request;
@@ -86,6 +87,20 @@ public class RequestMapperImpl implements RequestMapper {
     }
 
     @Override
+    public TransactionResponse toTransactionResponse(Request request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        TransactionResponse.TransactionResponseBuilder transactionResponse = TransactionResponse.builder();
+
+        transactionResponse.id( request.getId() );
+        transactionResponse.description( request.getDescription() );
+
+        return transactionResponse.build();
+    }
+
+    @Override
     public RequestResponse toRequestResponseWithCustomerDesign(Request request, List<String> listURLImage) {
         if ( request == null && listURLImage == null ) {
             return null;
@@ -100,6 +115,14 @@ public class RequestMapperImpl implements RequestMapper {
             requestResponse.subStone( requestSubStoneMaterialName( request ) );
             requestResponse.materialName( requestMaterialIDMaterialName( request ) );
             requestResponse.companyDesign( requestCompanyDesignId( request ) );
+            BigDecimal pricePerUnit = requestMaterialIDPricePerUnit( request );
+            if ( pricePerUnit != null ) {
+                requestResponse.sellCost( pricePerUnit.doubleValue() );
+            }
+            Instant updateTime = requestMaterialIDUpdateTime( request );
+            if ( updateTime != null ) {
+                requestResponse.updated( updateTime.toString() );
+            }
             requestResponse.id( request.getId() );
             requestResponse.description( request.getDescription() );
             requestResponse.status( request.getStatus() );

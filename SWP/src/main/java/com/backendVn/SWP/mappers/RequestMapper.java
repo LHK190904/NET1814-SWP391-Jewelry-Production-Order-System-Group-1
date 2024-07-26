@@ -29,16 +29,15 @@ public interface RequestMapper {
     @Mapping(target = "updated", source = "materialID.updateTime")
     RequestResponse toRequestResponse(Request request);
 
-<<<<<<< HEAD
     TransactionResponse toTransactionResponse(Request request);
-=======
+
     @Mapping(target = "customerID", source = "request.customerID.id")
     @Mapping(target = "saleStaffID", source = "request.saleStaffid.id")
     @Mapping(target = "mainStone", source = "request.mainStone.materialName")
     @Mapping(target = "subStone", source = "request.subStone.materialName")
     @Mapping(target = "materialName", source = "request.materialID.materialName")
     @Mapping(target = "companyDesign", source = "request.companyDesign.id")
+    @Mapping(target = "sellCost", source = "request.materialID.pricePerUnit")
+    @Mapping(target = "updated", source = "request.materialID.updateTime")
     RequestResponse toRequestResponseWithCustomerDesign(Request request, List<String> listURLImage);
->>>>>>> 9bf7eb01cceb059323f6a6339518892ae09fcfed
-
 }
