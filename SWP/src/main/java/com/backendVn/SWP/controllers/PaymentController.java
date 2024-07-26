@@ -22,7 +22,7 @@ public class PaymentController {
     @PostMapping("/{requestId}")
     public ApiResponse<PaymentResponse> createPayment(@PathVariable Integer requestId) {
         return ApiResponse.<PaymentResponse>builder()
-                .result(paymentService.create(requestId))
+                .result(paymentService.createDeposit(requestId))
                 .build();
     }
 }
