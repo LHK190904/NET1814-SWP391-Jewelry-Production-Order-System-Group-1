@@ -73,5 +73,14 @@ public class PaymentService {
         return paymentMapper.toPaymentResponse(payment);
     }
 
+    public PaymentResponse makePayment(Integer paymentId){
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_NOT_FOUND));
 
+        payment.setStatus("Paid");
+
+        paymentRepository.save(payment);
+
+        return paymentMapper.toPaymentResponse(payment);
+    }
 }
