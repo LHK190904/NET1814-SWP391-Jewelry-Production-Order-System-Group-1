@@ -1,3 +1,189 @@
+POST http://localhost:8080/requests/11008
+Content-Type: application/json
+Content-Length: 226
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "description": "asdas",
+  "buyCost": 10,
+  "sellCost": 10,
+  "updated": "26/07/2024 01:03",
+  "goldType": "d",
+  "materialWeight": 100,
+  "mainStoneId": 0,
+  "subStoneId": 0,
+  "category": "RING",
+  "listURLImage": [2,3]
+}
+
+<> 2024-07-26T130413.200.json
+
+###
+
+GET http://localhost:8080/requests
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-26T130252.200.json
+
+###
+
+POST http://localhost:8080/requests/11008
+Content-Type: application/json
+Content-Length: 227
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "description": "asdasd",
+  "buyCost": 10,
+  "sellCost": 10,
+  "updated": "27/06/2024 03:27",
+  "goldType": "h",
+  "materialWeight": 100,
+  "mainStoneId": 0,
+  "subStoneId": 0,
+  "category": "RING",
+  "listURLImage": [2,3]
+}
+
+<> 2024-07-26T125829.200.json
+
+###
+
+POST http://localhost:8080/requests/11008
+Content-Type: application/json
+Content-Length: 230
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "description": "asdasd",
+  "buyCost": 10,
+  "sellCost": 10,
+  "updated": "27/06/2024 03:27:06",
+  "goldType": "h",
+  "materialWeight": 100,
+  "mainStoneId": 0,
+  "subStoneId": 0,
+  "category": "RING",
+  "listURLImage": [2,3]
+}
+
+<> 2024-07-26T125823.400.json
+
+###
+
+POST http://localhost:8080/requests/11008
+Content-Type: application/json
+Content-Length: 234
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "description": "asdasd",
+  "buyCost": 10,
+  "sellCost": 10,
+  "updated": "27/06/2024 03:27:06.640",
+  "goldType": "h",
+  "materialWeight": 100,
+  "mainStoneId": 0,
+  "subStoneId": 0,
+  "category": "RING",
+  "listURLImage": [2,3]
+}
+
+<> 2024-07-26T125807.400.json
+
+###
+
+POST http://localhost:8080/requests/11008
+Content-Type: application/json
+Content-Length: 234
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "description": "asdasd",
+  "buyCost": 10,
+  "sellCost": 10,
+  "updated": "2024/07/26 03:27:06.640",
+  "goldType": "h",
+  "materialWeight": 100,
+  "mainStoneId": 0,
+  "subStoneId": 0,
+  "category": "RING",
+  "listURLImage": [2,3]
+}
+
+<> 2024-07-26T125756.400.json
+
+###
+
+POST http://localhost:8080/requests/11008
+Content-Type: application/json
+Content-Length: 234
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "description": "asdasd",
+  "buyCost": 10,
+  "sellCost": 10,
+  "updated": "2024-07-26 03:27:06.640",
+  "goldType": "h",
+  "materialWeight": 100,
+  "mainStoneId": 0,
+  "subStoneId": 0,
+  "category": "RING",
+  "listURLImage": [2,3]
+}
+
+<> 2024-07-26T125743.400.json
+
+###
+
+POST http://localhost:8080/requests/11008
+Content-Type: application/json
+Content-Length: 221
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "description": "asdasd",
+  "buyCost": 10,
+  "sellCost": 10,
+  "updated": "26/07/2024",
+  "goldType": "h",
+  "materialWeight": 100,
+  "mainStoneId": 0,
+  "subStoneId": 0,
+  "category": "RING",
+  "listURLImage": [2,3]
+}
+
+<> 2024-07-26T125346.400.json
+
+###
+
 GET http://localhost:8080/requests/9006
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -605,94 +791,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 }
 
 <> 2024-07-21T214752.200.json
-
-###
-
-GET http://localhost:8080/pdf/generate/4002
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> Warranty till 21-07-2024-4.pdf
-
-###
-
-GET http://localhost:8080/pdf/generate/4002
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> Warranty till 21-07-2024-3.pdf
-
-###
-
-GET http://localhost:8080/pdf/generate/4002
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> Warranty till 21-07-2024-2.pdf
-
-###
-
-GET http://localhost:8080/pdf/generate/4002
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> Warranty till 21-07-2024-1.pdf
-
-###
-
-GET http://localhost:8080/pdf/generate/5004
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> Warranty till 21-07-2024.pdf
-
-###
-
-GET http://localhost:8080/api/gold/prices
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-07-19T224733.200.json
-
-###
-
-GET http://localhost:8080/pdf/generate/4002
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> Warranty till 18-07-2024-2.pdf
-
-###
-
-GET http://localhost:8080/pdf/generate/4002
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> Warranty till 18-07-2024-1.pdf
 
 ###
 

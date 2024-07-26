@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1af738b-bf98-4814-9a93-12f34525442e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-07-19T224733.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 18-07-2024-1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 18-07-2024-2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024-1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024-2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024-3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024-4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/RequestResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/dtos/response/RequestResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/mappers/RequestMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" afterDir="false" />
     </list>
     <list id="6954d707-cf86-43f1-88d4-158668584ab2" name="Changes by Truong Giang" comment="" />
     <option name="SHOW_DIALOG" value="false" />

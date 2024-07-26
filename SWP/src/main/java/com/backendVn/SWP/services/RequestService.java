@@ -101,7 +101,7 @@ public class RequestService {
         if (theRequest.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(theRequest));
         } else {
-            return requestMapper.toRequestResponseWithCustomerDesign(theRequest, designService.brokeCSV(theRequest.getURLImage()));
+            return requestMapper.toRequestResponseWithCustomerDesign(requestRepository.save(theRequest), designService.brokeCSV(theRequest.getURLImage()));
         }
     }
 
@@ -187,7 +187,7 @@ public class RequestService {
         if (request.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(request));
         } else {
-            return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
+            return requestMapper.toRequestResponseWithCustomerDesign(requestRepository.save(request), designService.brokeCSV(request.getURLImage()));
         }
     }
 
@@ -208,7 +208,7 @@ public class RequestService {
         if (request.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(request));
         } else {
-            return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
+            return requestMapper.toRequestResponseWithCustomerDesign(requestRepository.save(request), designService.brokeCSV(request.getURLImage()));
         }
     }
 
@@ -232,7 +232,7 @@ public class RequestService {
         if (request.getURLImage() == null) {
             return requestMapper.toRequestResponse(requestRepository.save(request));
         } else {
-            return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
+            return requestMapper.toRequestResponseWithCustomerDesign(requestRepository.save(request), designService.brokeCSV(request.getURLImage()));
         }
     }
 
