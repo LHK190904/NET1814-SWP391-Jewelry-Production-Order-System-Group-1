@@ -14,6 +14,7 @@ import com.backendVn.SWP.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -102,6 +103,7 @@ public class ProcessService {
                 .toList();
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_CUSTOMER', 'SCOPE_PRODUCTON_STAFF')")
     public ProcessResponse getProcessByRequestOrderId(Integer requestOrderId) {
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));

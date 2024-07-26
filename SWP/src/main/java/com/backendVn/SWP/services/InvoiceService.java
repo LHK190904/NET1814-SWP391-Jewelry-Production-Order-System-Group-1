@@ -17,6 +17,7 @@ import com.backendVn.SWP.repositories.RequestRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -32,6 +33,7 @@ public class InvoiceService {
     private final RequestOrderRepository requestOrderRepository;
     private final InvoiceDetailRepository invoiceDetailRepository;
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public InvoiceResponse createInvoice(Integer requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -74,6 +76,7 @@ public class InvoiceService {
         return invoiceMapper.toInvoiceResponse(invoice);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public InvoiceInfor getAddInvoiceInfor(Integer orderId){
         RequestOrder requestOrder = requestOrderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
