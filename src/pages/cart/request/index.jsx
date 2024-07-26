@@ -103,19 +103,6 @@ function CartRequest() {
     }
   };
 
-  // const handleDeny = async (reqID) => {
-  //   try {
-  //     await axiosInstance.put(`requests/denyQuotationFromCustomer/${reqID}`);
-  //     setRequests((prevRequest) =>
-  //       prevRequest.map((req) =>
-  //         req.id === reqID ? { ...req, status: "Denied" } : req
-  //       )
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const handleDeny = (reqID) => {
     setSelectedReqID(reqID);
     setIsDenyModalOpen(true);
@@ -123,10 +110,16 @@ function CartRequest() {
 
   const handleConfirmDeny = async () => {
     try {
-      const response = await axiosInstance.put(
-        `requests/denyQuotationFromCustomer/${selectedReqID}?deniedReason=${deniedReason}`
+      const respone = await axiosInstance.put(
+        `requests/denyQuotationFromCustomer/${selectedReqID}`,
+        deniedReason,
+        {
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        }
       );
-      console.log("Denied:", response);
+      console.log(respone);
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
           req.id === selectedReqID ? { ...req, status: "Denied" } : req

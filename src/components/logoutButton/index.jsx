@@ -11,7 +11,7 @@ function LogoutButton() {
 
   return (
     <button
-      className="bg-red-500 text-black text-xl rounded-lg p-1"
+      className=" bg-red-500 text-black text-xl rounded-md p-1"
       onClick={handleLogout}
     >
       ĐĂNG XUẤT

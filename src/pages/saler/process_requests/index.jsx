@@ -37,6 +37,7 @@ function ProcessRequests() {
     if (saler && saler.id) {
       try {
         const response = await axiosInstance.get(`/requests/sales/${saler.id}`);
+        console.log(response);
         setRequests(response.data.result);
       } catch (error) {
         console.error("Không thể lấy yêu cầu:", error);
@@ -217,7 +218,7 @@ function ProcessRequests() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          {record.status === "Processing" || record.status === "Denied" ? (
+          {record.status === "Processing" ? (
             <Button type="primary" onClick={() => handleShowModal(record)}>
               Lấy giá
             </Button>
@@ -299,6 +300,11 @@ function ProcessRequests() {
         <p className="text-lg font-semibold mb-10">
           Mã yêu cầu: {selectedRecord.id}
         </p>
+        {selectedRecord.deniedReason !== null && (
+          <p className="p-4 border border-red-500 bg-red-100 text-red-700 rounded-md mb-5">
+            <span className="font-extrabold">Lí do từ chối:</span> {selectedRecord.deniedReason}
+          </p>
+        )}
         <Form form={formData}>
           <div className="flex flex-row gap-4">
             <div className="flex flex-col flex-wrap w-1/2">
@@ -346,6 +352,7 @@ function ProcessRequests() {
           </Button>,
         ]}
       >
+        {}
         <p className="text-lg font-semibold mb-10">
           Mã yêu cầu: {selectedRecord.id}
         </p>
