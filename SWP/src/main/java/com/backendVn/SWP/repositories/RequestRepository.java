@@ -22,4 +22,6 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findAllByCompanyDesignIsNotNull();
 
     Request findFirstByCompanyDesign(Design design);
+
+    Long countByCreatedAtBetween(Instant startDate, Instant endDate);
 }
