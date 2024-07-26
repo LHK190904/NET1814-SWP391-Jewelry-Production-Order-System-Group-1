@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1af738b-bf98-4814-9a93-12f34525442e" name="Changes" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/9d30d7b8-40ea-4a98-9843-b243e134f41e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9d30d7b8-40ea-4a98-9843-b243e134f41e.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" afterDir="false" />
@@ -204,6 +205,19 @@
       <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/RequestOrderMapperImpl.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/UserMapperImpl.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/target/generated-sources/annotations/com/backendVn/SWP/mappers/WarrantyCardMapperImpl.java" beforeDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2024-07-19T224733.200.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 18-07-2024-1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 18-07-2024-2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024-1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024-2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024-3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024-4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/Warranty till 21-07-2024.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/RequestService.java" afterDir="false" />
+>>>>>>> 9bf7eb01cceb059323f6a6339518892ae09fcfed
     </list>
     <list id="6954d707-cf86-43f1-88d4-158668584ab2" name="Changes by Truong Giang" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -214,6 +228,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+<<<<<<< HEAD
         <option value="Class" />
       </list>
     </option>
@@ -223,16 +238,25 @@
       <map>
         <entry key="$PROJECT_DIR$" value="main" />
       </map>
+=======
+        <option value="com.intellij.jpb.JpaEntity" />
+      </list>
+>>>>>>> 9bf7eb01cceb059323f6a6339518892ae09fcfed
     </option>
+  </component>
+  <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
+<<<<<<< HEAD
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
+=======
+>>>>>>> 9bf7eb01cceb059323f6a6339518892ae09fcfed
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -261,13 +285,18 @@
     &quot;Spring Boot.SwpApplication.executor&quot;: &quot;Run&quot;,
     &quot;git-widget-placeholder&quot;: &quot;NSJPOSG1-5-Back-end-Register&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+<<<<<<< HEAD
     &quot;last_opened_file_path&quot;: &quot;C:/Users/HizukiAkira/Downloads/FPTveso/swp391/bucommit2&quot;,
+=======
+    &quot;last_opened_file_path&quot;: &quot;D:/studying/FPT-lessons/SWP-391/Back_end/NET1814-SWP391-Jewelry-Production-Order-System-Group-1&quot;,
+>>>>>>> 9bf7eb01cceb059323f6a6339518892ae09fcfed
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+<<<<<<< HEAD
   },
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
@@ -275,6 +304,13 @@
     ]
   }
 }</component>
+=======
+  }
+}</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+>>>>>>> 9bf7eb01cceb059323f6a6339518892ae09fcfed
   <component name="RunManager">
     <configuration name="SwpApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="SWP" />
@@ -294,8 +330,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17011.79" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17011.79" />
       </set>
     </attachedChunks>
   </component>
@@ -313,7 +349,12 @@
       <workItem from="1721893980026" duration="103000" />
       <workItem from="1721894102207" duration="396000" />
       <workItem from="1721894521211" duration="2410000" />
+<<<<<<< HEAD
       <workItem from="1721965092945" duration="6438000" />
+=======
+      <workItem from="1721918284023" duration="4663000" />
+      <workItem from="1721962632469" duration="2130000" />
+>>>>>>> 9bf7eb01cceb059323f6a6339518892ae09fcfed
     </task>
     <servers />
   </component>

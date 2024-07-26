@@ -82,16 +82,18 @@ public class QuotationService {
         return quotationMapper.toQuotationResponse(savedQuotation);
     }
 
-    public QuotationResponse denyFromManager(Integer quotationId){
+    public QuotationResponse denyFromManager(Integer quotationId, String deniedReason){
         Quotation quotation = quotationRepository.findById(quotationId)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
 
         Request request = requestRepository.findById(quotation.getRequestID().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        request.setStatus("Processing");
+        request.setStatus("Denied from manager");
+        quotation.setDeniedReason(deniedReason);
 
         requestRepository.save(request);
+        quotationRepository.save(quotation);
 
         return quotationMapper.toQuotationResponse(quotation);
     }

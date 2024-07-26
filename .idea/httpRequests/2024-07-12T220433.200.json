@@ -1,9 +1,0 @@
-{
-  "code": 1000,
-  "result": {
-    "token": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJKZXdlbHJ5X1Byb2R1Y3Rpb25fT3JkZXIuY29tIiwic3ViIjoiYWRtaW4xMjMiLCJyb2xlIjoiaWRrIiwiZXhwIjoxNzIwODAwMjczLCJpYXQiOjE3MjA3OTY2NzN9.6Q4Vah6hKSiSpVDrZI3aCzA6lWyxOzy3qhJZuZGHHDSzICfTSNkXb1vjvFYuIe7ao9-aTSXm4V93Vv9gfPcC4w",
-    "authenticated": true,
-    "title": "CUSTOMER",
-    "id": null
-  }
-}
