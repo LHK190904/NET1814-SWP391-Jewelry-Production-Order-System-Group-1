@@ -43,6 +43,9 @@ function CartRequest() {
   const [selectedReqID, setSelectedReqID] = useState(null);
   const [isRequestSent, setIsRequestSent] = useState(false);
 
+  const [isDenyModalOpen, setIsDenyModalOpen] = useState(false);
+  const [deniedReason, setDeniedReason] = useState("");
+
   const fetchRequests = async () => {
     try {
       const user = authService.getCurrentUser();
@@ -100,14 +103,37 @@ function CartRequest() {
     }
   };
 
-  const handleDeny = async (reqID) => {
+  // const handleDeny = async (reqID) => {
+  //   try {
+  //     await axiosInstance.put(`requests/denyQuotationFromCustomer/${reqID}`);
+  //     setRequests((prevRequest) =>
+  //       prevRequest.map((req) =>
+  //         req.id === reqID ? { ...req, status: "Denied" } : req
+  //       )
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const handleDeny = (reqID) => {
+    setSelectedReqID(reqID);
+    setIsDenyModalOpen(true);
+  };
+
+  const handleConfirmDeny = async () => {
     try {
-      await axiosInstance.put(`requests/denyQuotationFromCustomer/${reqID}`);
+      const response = await axiosInstance.put(
+        `requests/denyQuotationFromCustomer/${selectedReqID}?deniedReason=${deniedReason}`
+      );
+      console.log("Denied:", response);
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
-          req.id === reqID ? { ...req, status: "Denied" } : req
+          req.id === selectedReqID ? { ...req, status: "Denied" } : req
         )
       );
+      setIsDenyModalOpen(false);
+      setDeniedReason("");
     } catch (error) {
       console.error(error);
     }
@@ -331,13 +357,13 @@ function CartRequest() {
                       onClick={() => handleApprove(item.id)}
                       className="bg-green-400 p-1 rounded-lg mb-2 lg:mr-2 lg:mb-0 hover:bg-green-500"
                     >
-                      Approve
+                      Chấp nhận
                     </button>
                     <button
                       onClick={() => handleDeny(item.id)}
                       className="bg-red-400 p-1 rounded-lg hover:bg-red-500"
                     >
-                      Deny
+                      Từ chối
                     </button>
                   </div>
                 ) : item.status === "Unapproved" ? (
@@ -534,6 +560,22 @@ function CartRequest() {
         onCancel={() => setPreviewOpen(false)}
       >
         <Image src={previewImage} />
+      </Modal>
+
+      <Modal
+        title="Lý do từ chối"
+        open={isDenyModalOpen}
+        onOk={handleConfirmDeny}
+        onCancel={() => setIsDenyModalOpen(false)}
+        okText="Xác nhận"
+        cancelText="Hủy"
+      >
+        <Input.TextArea
+          rows={4}
+          value={deniedReason}
+          onChange={(e) => setDeniedReason(e.target.value)}
+          placeholder="Nhập lý do từ chối..."
+        />
       </Modal>
     </>
   );

@@ -35,7 +35,6 @@ function CartOrder() {
         `request-orders/getOrderByRequestIdForCustomer/${requestID}`
       );
       setOrder(responseOrder.data.result);
-      console.log(responseOrder.data.result);
       if (responseOrder.data.result.status === "finished") {
         setIsPaid(true);
       }
@@ -268,7 +267,7 @@ function CartOrder() {
                             className="w-full md:w-auto bg-red-400 p-2 font-bold"
                             onClick={handleDeny}
                           >
-                            Deny
+                            Từ chối
                           </Button>
                         </div>
                       </form>
