@@ -17,6 +17,7 @@ import com.backendVn.SWP.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -33,6 +34,7 @@ public class RequestOrderService {
     UserRepository userRepository;
     UserMapper userMapper;
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestOrderResponse createRequestOrder(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));

@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -212,7 +213,7 @@ public class RequestService {
         }
     }
 
-
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public void deleteRequest(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -236,6 +237,7 @@ public class RequestService {
         }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public List<RequestResponse> getRequestsByCustomerId(Integer customerId) {
         User customer = userRepository.findById(customerId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -265,6 +267,7 @@ public class RequestService {
                 .orElseThrow(() -> new RuntimeException("User not found")));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse  approveQuotationFromCustomer(Integer requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -280,6 +283,7 @@ public class RequestService {
         }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse denyQuotationFromCustomer(Integer requestId, String deniedReason) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
