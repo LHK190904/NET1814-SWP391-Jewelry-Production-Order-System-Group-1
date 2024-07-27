@@ -148,7 +148,7 @@ public class RequestOrderService {
         return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
+//    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestOrderResponse getOrderByRequestIdForCustomer(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
