@@ -202,6 +202,9 @@ function ProcessRequests() {
         } else if (status === "Pending quotation for customer") {
           color = "blue";
           showStatus = "Chờ khách hàng duyệt";
+        } else if (status === "Denied from manager") {
+          color = "volcano";
+          showStatus = "Quản lí từ chối giá đã báo";
         } else if (status === "Denied") {
           color = "volcano";
           showStatus = "Khách từ chối giá đã báo";
@@ -218,7 +221,8 @@ function ProcessRequests() {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          {record.status === "Processing" ? (
+          {record.status === "Processing" ||
+          record.status === "Denied from manager" ? (
             <Button type="primary" onClick={() => handleShowModal(record)}>
               Lấy giá
             </Button>
@@ -302,7 +306,8 @@ function ProcessRequests() {
         </p>
         {selectedRecord.deniedReason !== null && (
           <p className="p-4 border border-red-500 bg-red-100 text-red-700 rounded-md mb-5">
-            <span className="font-extrabold">Lí do từ chối:</span> {selectedRecord.deniedReason}
+            <span className="font-extrabold">Lí do từ chối:</span>{" "}
+            {selectedRecord.deniedReason}
           </p>
         )}
         <Form form={formData}>
