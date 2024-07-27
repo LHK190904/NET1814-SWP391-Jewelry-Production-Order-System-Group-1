@@ -86,8 +86,6 @@ function CartOrder() {
     }
   };
 
-  
-
   useEffect(() => {
     fetchOrders();
     fetchStone();
@@ -406,7 +404,7 @@ function CartOrder() {
             <div>Đã thanh toán</div>
           ) : (
             <PayPalButton
-              amount={invoice.invoiceTotalCost}
+              amount={invoice.invoiceTotalCost / 2}
               onSuccess={handlePaymentSuccess}
               onError={handlePaymentError}
             />
