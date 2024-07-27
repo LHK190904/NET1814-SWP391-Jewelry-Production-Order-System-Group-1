@@ -69,6 +69,7 @@ function CartOrder() {
         `invoices/getInvoiceInfor/${order.id}`
       );
       setInvoice(response.data.result);
+      await axiosInstance.post(`/payment/${requestID}`);
     } catch (error) {
       console.log(error);
     }
@@ -99,12 +100,16 @@ function CartOrder() {
 
   const handlePaymentSuccess = async () => {
     try {
-      message.success("Thanh toán thành công!");
       console.log("Order:", order);
       setIsPaid(true);
 
-      await axiosInstance.post(`/payment/${requestID}`);
+      const payID = await axiosInstance.get(
+        `payment/getPayment/${requestID}/Payment`
+      );
+      await axiosInstance.put(`/payment/makePayment/${payID.data.result.id}`);
       await axiosInstance.post(`/warranty-cards/${order.id}`);
+
+      message.success("Thanh toán thành công!");
     } catch (error) {
       console.error("Error during payment success handling:", error);
       message.error("Có lỗi xảy ra khi xử lý thanh toán");
