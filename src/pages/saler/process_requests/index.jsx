@@ -26,6 +26,7 @@ function ProcessRequests() {
   const [isQuotationModalOpen, setIsQuotationModalOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState("");
   const [customerInfo, setCustomerInfo] = useState(null);
+  const [deniedReasons, setDeniedReasons] = useState(null);
   const [formData] = useForm();
   const [formDataQuotation] = useForm();
   const [capitalCost, setCapitalCost] = useState(0);
@@ -56,32 +57,38 @@ function ProcessRequests() {
   }, [navigate]);
 
   const handleShowModal = async (record) => {
-    setSelectedRecord(record);
-    setIsModalOpen(true);
-
     try {
-      const response = await axiosInstance.get(
-        `/quotation/autoPricing/${record.id}`
-      );
-      const data = response.data.result;
+      const [quotationResponse, autoPricingResponse] = await Promise.all([
+        axiosInstance.get(`quotation/${record.id}`),
+        axiosInstance.get(`/quotation/autoPricing/${record.id}`),
+      ]);
+
+      const quotationData = quotationResponse.data.result;
+      const autoPricingData = autoPricingResponse.data.result;
+
+      console.log(quotationData.deniedReason);
+      setDeniedReasons(quotationData.deniedReason);
+      setSelectedRecord(record);
 
       const capitalCost =
-        (data.materialPrice || 0) * (data.materialWeight || 0) +
-        (data.producePrice || 0) +
-        (data.stonePrice || 0);
+        (autoPricingData.materialPrice || 0) *
+          (autoPricingData.materialWeight || 0) +
+        (autoPricingData.producePrice || 0) +
+        (autoPricingData.stonePrice || 0);
 
       formData.setFieldsValue({
-        materialPrice: data.materialPrice,
-        materialWeight: data.materialWeight,
-        producePrice: data.producePrice,
-        stonePrice: data.stonePrice,
+        materialPrice: autoPricingData.materialPrice,
+        materialWeight: autoPricingData.materialWeight,
+        producePrice: autoPricingData.producePrice,
+        stonePrice: autoPricingData.stonePrice,
         capitalCost: capitalCost,
       });
 
       setCapitalCost(capitalCost);
+      setIsModalOpen(true);
     } catch (error) {
-      console.error("Không thể lấy giá tự động:", error);
-      message.error("Không thể lấy giá tự động.");
+      console.error("Không thể lấy dữ liệu:", error);
+      message.error("Không thể lấy dữ liệu.");
     }
   };
 
@@ -310,6 +317,12 @@ function ProcessRequests() {
             {selectedRecord.deniedReason}
           </p>
         )}
+        {deniedReasons !== null && (
+          <p className="p-4 border border-red-500 bg-red-100 text-red-700 rounded-md mb-5">
+            <span className="font-extrabold">Lí do từ chối:</span>{" "}
+            {deniedReasons}
+          </p>
+        )}
         <Form form={formData}>
           <div className="flex flex-row gap-4">
             <div className="flex flex-col flex-wrap w-1/2">
@@ -328,7 +341,7 @@ function ProcessRequests() {
                 <Input readOnly />
               </FormItem>
               <FormItem label="Giá vốn" name="capitalCost">
-                <Input />
+                <Input readOnly />
               </FormItem>
               <FormItem
                 label="Tổng giá bán"
