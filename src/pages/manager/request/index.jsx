@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button } from "antd";
+import { Modal, Button, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
 import LogoutButton from "../../../components/logoutButton";
@@ -11,6 +11,10 @@ function ManagerRequest() {
   const [statuses, setStatuses] = useState({});
   const [isModalOpen, setModalOpen] = useState(false);
   const [requests, setRequests] = useState([]);
+  const [isDenyModalOpen, setDenyModalOpen] = useState(false);
+  const [denyReason, setDenyReason] = useState("");
+  const [currentRequestId, setCurrentRequestId] = useState(null);
+  const [currentQuotationId, setCurrentQuotationId] = useState(null);
 
   const fetchRequests = async () => {
     try {
@@ -24,9 +28,7 @@ function ManagerRequest() {
           return { ...req, quotation: quoRes.data.result };
         })
       );
-
       setRequests(combinedData);
-      console.log(combinedData);
     } catch (error) {
       console.error(error);
     }
@@ -49,13 +51,41 @@ function ManagerRequest() {
     setStatuses((prev) => ({ ...prev, [reqId]: "action" }));
   };
 
-  const handleApproveDeny = async (quoID, reqID, action) => {
+  const handleApprove = async (quoID, reqID) => {
     try {
-      await axiosInstance.put(`quotation/update/${quoID}`, { action });
+      await axiosInstance.put(`quotation/update/${quoID}`, {
+        action: "approve",
+      });
       setStatuses((prev) => ({
         ...prev,
-        [reqID]: action === "approve" ? "Approved" : "Denied",
+        [reqID]: "Approved",
       }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleOpenDenyModal = (quoID, reqID) => {
+    setCurrentQuotationId(quoID);
+    setCurrentRequestId(reqID);
+    setDenyModalOpen(true);
+  };
+
+  const handleDeny = async () => {
+    try {
+      await axiosInstance.put(
+        `quotation/denyFromManager/${currentQuotationId}`,
+        {
+          action: "deny",
+          reason: denyReason,
+        }
+      );
+      setStatuses((prev) => ({
+        ...prev,
+        [currentRequestId]: "Denied",
+      }));
+      setDenyModalOpen(false);
+      setDenyReason("");
     } catch (error) {
       console.error(error);
     }
@@ -64,6 +94,11 @@ function ManagerRequest() {
   const handleCloseModal = () => {
     setModalOpen(false);
     setPopupDetails(null);
+  };
+
+  const handleCloseDenyModal = () => {
+    setDenyModalOpen(false);
+    setDenyReason("");
   };
 
   const navigate = useNavigate();
@@ -125,10 +160,7 @@ function ManagerRequest() {
               {item.customerID}
             </div>
             <div className="col-span-1 border p-2 text-center bg-white">
-              <Button
-                type="link"
-                onClick={() => handleDetailsClick(item.description)}
-              >
+              <Button type="link" onClick={() => handleDetailsClick(item)}>
                 CHI TIẾT ĐƠN HÀNG
               </Button>
             </div>
@@ -142,16 +174,14 @@ function ManagerRequest() {
               {statuses[item.id] === "action" ? (
                 <div>
                   <button
-                    onClick={() =>
-                      handleApproveDeny(item.quotation.id, item.id, "approve")
-                    }
+                    onClick={() => handleApprove(item.quotation.id, item.id)}
                     className="bg-green-400 text-black p-2 rounded-lg mr-2"
                   >
                     Approve
                   </button>
                   <button
                     onClick={() =>
-                      handleApproveDeny(item.quotation.id, item.id, "deny")
+                      handleOpenDenyModal(item.quotation.id, item.id)
                     }
                     className="bg-red-400 text-black p-2 rounded-lg"
                   >
@@ -173,13 +203,51 @@ function ManagerRequest() {
 
       {/* Details Modal */}
       <Modal
-        title="Details"
+        title="CHI TIẾT YÊU CẦU"
         open={isModalOpen}
         onOk={handleCloseModal}
         onCancel={handleCloseModal}
       >
-        <img src="" alt="" />
-        <p>{popupDetails}</p>
+        {popupDetails && (
+          <div>
+            <p>
+              <strong>Loại trang sức:</strong> {popupDetails.category}
+            </p>
+            <p>
+              <strong>Mô tả:</strong> {popupDetails.description}
+            </p>
+            <p>
+              <strong>Vật liệu:</strong> {popupDetails.materialName}
+            </p>
+            <p>
+              <strong>Trọng lượng vật liệu:</strong>{" "}
+              {popupDetails.materialWeight} Chỉ
+            </p>
+            <p>
+              <strong>Đá chính:</strong> {popupDetails.mainStone}
+            </p>
+            <p>
+              <strong>Đá phụ:</strong> {popupDetails.subStone}
+            </p>
+          </div>
+        )}
+      </Modal>
+
+      {/* Deny Modal */}
+      <Modal
+        title="TỪ CHỐI YÊU CẦU"
+        open={isDenyModalOpen}
+        onOk={handleDeny}
+        onCancel={handleCloseDenyModal}
+      >
+        <div>
+          <p>Vui lòng cung cấp lý do từ chối:</p>
+          <Input.TextArea
+            value={denyReason}
+            onChange={(e) => setDenyReason(e.target.value)}
+            rows={4}
+          />
+        </div>
       </Modal>
     </div>
   );

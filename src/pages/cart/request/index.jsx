@@ -156,6 +156,7 @@ function CartRequest() {
       setDataGoldAPI(goldData);
 
       const materialResponse = await axiosInstance.get(`material/notGold`);
+      console.log(materialResponse.data.result);
       setMaterial(materialResponse.data.result);
     } catch (error) {
       console.error(error);
@@ -235,19 +236,36 @@ function CartRequest() {
         throw new Error("Không tìm thấy thông tin giá vàng phù hợp");
       }
 
+      // Find the IDs for mainStone and subStone based on their names
+      let mainStoneID = mainStone;
+      let subStoneID = subStone;
+
+      if (typeof mainStone === "string") {
+        mainStoneID =
+          material.find((item) => item.materialName === mainStone)?.id || null;
+      }
+      if (typeof subStone === "string") {
+        subStoneID =
+          material.find((item) => item.materialName === subStone)?.id || null;
+      }
+
+      // Check the data types
+      console.log("mainStoneID:", mainStoneID, "type:", typeof mainStoneID);
+      console.log("subStoneID:", subStoneID, "type:", typeof subStoneID);
+
       const payload = {
         description,
         listURLImage: uploadedUrls,
         category,
         goldType: materialName,
-        mainStoneId: mainStone,
-        subStoneId: subStone,
+        mainStoneId: mainStoneID,
+        subStoneId: subStoneID,
         materialWeight,
         buyCost,
         sellCost,
         updated,
       };
-
+      console.log(payload);
       await axiosInstance.put(`/requests/${selectedReqID}`, payload);
       handleHideModal();
       message.success("Cập nhật yêu cầu thành công.");
@@ -256,7 +274,6 @@ function CartRequest() {
       message.error("Tải lên thất bại.");
     }
   };
-
   const initializeFormAndFileList = (requestItem) => {
     form.setFieldsValue({
       description: requestItem.description,
@@ -360,14 +377,13 @@ function CartRequest() {
                       Từ chối
                     </button>
                   </div>
-                ) : item.status === "Unapproved" ? (
-                  <div className="col-span-1 p-2 bg-white">
-                    <span>{item.status}</span>
-                  </div>
                 ) : item.status === "Approved" ||
+                  item.status === "Unapproved" ||
+                  item.status === "Denied from manager" ||
                   item.status === "Ordering" ||
                   item.status === "finished" ||
                   item.status === "Sending" ||
+                  item.status === "Denied" ||
                   item.status === "Depositing" ||
                   item.status === "Processing" ? (
                   <div className="col-span-1 p-2 bg-white">

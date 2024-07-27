@@ -37,7 +37,9 @@ function LatestTransaction() {
             <div className="col-span-2">{item.userName}</div>
             <div className="col-span-3">{item.email}</div>
             <div className="col-span-1 text-center">{item.phoneNum}</div>
-            <div className="col-span-1 text-center">{item.amount}</div>
+            <div className="col-span-1 text-center">
+              {new Intl.NumberFormat().format(item.amount)}
+            </div>
             <div className="col-span-1">
               {new Date(item.paymentDate).toLocaleString()}
             </div>

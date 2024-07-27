@@ -35,7 +35,9 @@ function TopSelling() {
             <span className="col-span-1 text-center ">{item.id}</span>
             <span className="col-span-2">{item.designName}</span>
             <span className="col-span-1 text-center">{item.order_count}</span>
-            <span className="col-span-1 ">{item.price}</span>
+            <span className="col-span-1 ">
+              {new Intl.NumberFormat().format(item.price)}
+            </span>
           </div>
         ))}
       </ul>
