@@ -315,7 +315,7 @@ function CartRequest() {
       const orderData = responseOrder.data.result;
 
       if (orderData && orderData.id) {
-        navigate(`/cart/order/${orderData.id}`);
+        navigate(`/cart/order/${reqID}`);
       } else {
         navigate(`/cart/request_detail/${reqID}`);
       }
