@@ -35,7 +35,7 @@ public class PaymentService {
     PaymentMapper paymentMapper;
 
     @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
-    public PaymentResponse createDeposit(Integer requestId){
+    public PaymentResponse createDeposit(Integer requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
         List<Quotation> quotations = quotationRepository.findByRequestID(request)
@@ -75,14 +75,14 @@ public class PaymentService {
         return paymentMapper.toPaymentResponse(payment);
     }
 
-    public PaymentResponse makePayment(Integer paymentId){
+    public PaymentResponse makePayment(Integer paymentId) {
         Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_NOT_FOUND));
 
         payment.setStatus("Paid");
         payment.setPaymentDate(Instant.now());
 
-        if(payment.getPaymentType().equals("Deposit")){
+        if (payment.getPaymentType().equals("Deposit")) {
             payment.getRequestID().setStatus("Ordering");
             requestRepository.save(payment.getRequestID());
         } else {
@@ -98,6 +98,12 @@ public class PaymentService {
 
         paymentRepository.save(payment);
 
+        return paymentMapper.toPaymentResponse(payment);
+    }
+    
+    public PaymentResponse getPayment(Integer paymentId, String paymentType) {
+        Payment payment = paymentRepository.findByIdAndPaymentType(paymentId, paymentType)
+                .orElseThrow(()-> new AppException(ErrorCode.PAYMENT_NOT_FOUND));
         return paymentMapper.toPaymentResponse(payment);
     }
 }
