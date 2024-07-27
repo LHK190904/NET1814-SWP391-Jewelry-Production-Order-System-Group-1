@@ -76,7 +76,12 @@ function ManagerRequest() {
       const payload = denyReason;
       await axiosInstance.put(
         `quotation/denyFromManager/${currentQuotationId}`,
-        payload
+        payload,
+        {
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        }
       );
       setStatuses((prev) => ({
         ...prev,
