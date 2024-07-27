@@ -1,0 +1,25 @@
+{
+  "code": 1000,
+  "result": {
+    "id": 9006,
+    "description": "asdasdgsdvsac",
+    "customerID": 11008,
+    "saleStaffID": null,
+    "status": "Unapproved",
+    "createdAt": "2024-07-26T03:27:06.640Z",
+    "recievedAt": null,
+    "endAt": null,
+    "materialName": "VÀNG NGUYÊN LIỆU (Vàng thị trường)",
+    "materialWeight": 3.00,
+    "mainStone": "asdasd",
+    "subStone": "asdasd",
+    "category": "RING",
+    "produceCost": 1500.00,
+    "companyDesign": null,
+    "listURLImage": [
+      "https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2FRemove-bg.ai_1721536221413.png?alt=media&token=a82cd3dc-d157-453c-819e-3c19621efc90",
+      "https://firebasestorage.googleapis.com/v0/b/jewelry-production-a025c.appspot.com/o/requests%2FRemove-bg.ai_1721536221413.png?alt=media&token=a82cd3dc-d157-453c-819e-3c19621efc90"
+    ],
+    "deniedReason": null
+  }
+}

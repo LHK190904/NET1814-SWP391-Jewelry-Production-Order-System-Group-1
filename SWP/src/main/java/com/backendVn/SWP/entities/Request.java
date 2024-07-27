@@ -83,4 +83,9 @@ public class Request {
     @Column(name = "URLImage")
     private String uRLImage;
 
+    @Nationalized
+    @Lob
+    @Column(name = "denied_reason", nullable = true)
+    private String deniedReason;
+
 }

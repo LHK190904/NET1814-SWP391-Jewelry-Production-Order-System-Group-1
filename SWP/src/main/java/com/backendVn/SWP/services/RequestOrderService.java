@@ -17,6 +17,7 @@ import com.backendVn.SWP.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -33,6 +34,7 @@ public class RequestOrderService {
     UserRepository userRepository;
     UserMapper userMapper;
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestOrderResponse createRequestOrder(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -98,6 +100,7 @@ public class RequestOrderService {
         return requestOrderMapper.toRequestOrderResponse(savedRequestOrder);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_MANAGER')")
     public RequestOrderResponse assignWork(Integer requestOrderId, Integer designStaffId, Integer productionStaffId){
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(()-> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
@@ -118,11 +121,13 @@ public class RequestOrderService {
         return requestOrderMapper.toRequestOrderResponse(savedRequestOrder);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_MANAGER')")
     public List<UserResponse> getUserByRole(String role){
         return userRepository.findByTitle(role).stream()
                 .map(userMapper::toUserResponse).toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public List<RequestOrderResponse> getRequestOrdersByDesign(Integer designId){
         User user = userRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -143,6 +148,7 @@ public class RequestOrderService {
         return requestOrders.stream().map(requestOrderMapper::toRequestOrderResponse).toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestOrderResponse getOrderByRequestIdForCustomer(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -153,6 +159,7 @@ public class RequestOrderService {
         return requestOrderMapper.toRequestOrderResponse(requestOrders);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestOrderResponse acceptDesign(Integer designId){
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
@@ -165,6 +172,7 @@ public class RequestOrderService {
         return requestOrderMapper.toRequestOrderResponse(requestOrderRepository.save(requestOrder));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_MANAGER')")
     public List<RequestOrderResponse> getAllNewRequestOrder(){
         List<RequestOrder> requestOrders = requestOrderRepository.findByStatus("New")
                 .orElseThrow(() -> new AppException(ErrorCode.MO_NEW_REQUEST_ORDERS));

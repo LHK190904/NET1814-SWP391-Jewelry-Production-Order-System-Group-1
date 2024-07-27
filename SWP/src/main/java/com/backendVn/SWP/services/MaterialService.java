@@ -10,6 +10,7 @@ import com.backendVn.SWP.repositories.MaterialRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -21,6 +22,8 @@ import java.util.List;
 public class MaterialService {
     MaterialMapper materialMapper;
     MaterialRepository materialRepository;
+
+    @PreAuthorize("hasAuthority('SCOPE_PRODUCTION_STAFF')")
     public MaterialResponse createMaterial(MaterialRequest material) {
         if(material.getType().equalsIgnoreCase("gold")){
             throw new AppException(ErrorCode.MATERIAL_TYPE_INVALID);
@@ -34,6 +37,7 @@ public class MaterialService {
         return materialMapper.toMaterialResponse(savedMaterial);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_PRODUCTION_STAFF')")
     public MaterialResponse updateMaterial(MaterialRequest materialRequest,Integer id) {
         Material material = materialRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
         materialMapper.updateMaterial(material, materialRequest);

@@ -25,6 +25,8 @@ public class PaymentResponse {
 
     Instant paymentDate;
 
+    Instant createdAt;
+
     String paymentType;
 
     String status;

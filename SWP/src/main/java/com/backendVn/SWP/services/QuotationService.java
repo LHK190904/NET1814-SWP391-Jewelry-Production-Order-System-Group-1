@@ -14,6 +14,7 @@ import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class QuotationService {
     RequestRepository requestRepository;
     UserRepository userRepository;
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public QuotationResponse createQuotation (QuotationCreationRequest quotationCreationRequest, Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -59,6 +61,7 @@ public class QuotationService {
         quotationRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_MANAGER')")
     public QuotationResponse updateQuotation(Integer id) {
         Quotation quotation = quotationRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
@@ -82,20 +85,23 @@ public class QuotationService {
         return quotationMapper.toQuotationResponse(savedQuotation);
     }
 
-    public QuotationResponse denyFromManager(Integer quotationId){
+    public QuotationResponse denyFromManager(Integer quotationId, String deniedReason){
         Quotation quotation = quotationRepository.findById(quotationId)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
 
         Request request = requestRepository.findById(quotation.getRequestID().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        request.setStatus("Processing");
+        request.setStatus("Denied from manager");
+        quotation.setDeniedReason(deniedReason);
 
         requestRepository.save(request);
+        quotationRepository.save(quotation);
 
         return quotationMapper.toQuotationResponse(quotation);
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_CUSTOMER', 'SCOPE_MANAGER', 'SCOPE_SALE_STAFF')")
     public QuotationResponse getQuotationById(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -110,6 +116,7 @@ public class QuotationService {
         return quotationMapper.toQuotationResponse(quotation.getLast());
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public AutoPricingResponse getAutoPricing(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));

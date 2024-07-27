@@ -1,0 +1,22 @@
+{
+  "code": 1000,
+  "result": {
+    "id": 9004,
+    "description": "testingggggggggggggggg",
+    "customerID": 11008,
+    "saleStaffID": null,
+    "status": "Unapproved",
+    "createdAt": "2024-07-26T03:25:00.033Z",
+    "recievedAt": null,
+    "endAt": null,
+    "materialID": 3008,
+    "materialWeight": 2.00,
+    "mainStone": 5,
+    "subStone": 5,
+    "category": "RING",
+    "produceCost": 1500.00,
+    "companyDesign": null,
+    "deniedReason": null,
+    "urlimage": null
+  }
+}

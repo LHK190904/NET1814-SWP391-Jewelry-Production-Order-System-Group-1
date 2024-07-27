@@ -16,6 +16,7 @@ import com.backendVn.SWP.repositories.MaterialRepository;
 import com.backendVn.SWP.repositories.RequestOrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class DesignService {
         return Arrays.stream(uRLImage.split(",")).toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse createDesign(DesignCreationRequest designCreationRequest, Integer requestOrderId){
         if (designCreationRequest.getListURLImage() == null || designCreationRequest.getListURLImage().isEmpty()){
             throw new AppException(ErrorCode.NO_URLIMAGE_IN_DESIGN_REQUEST);
@@ -96,6 +98,7 @@ public class DesignService {
         return designResponses;
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse updateDesign(Integer designId, DesignUpdateRequest designUpdateRequest) {
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
@@ -112,6 +115,7 @@ public class DesignService {
         return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_CUSTOMER', 'SCOPE_DEISGN_STAFF', 'SCOPE_PRODUCTION_STAFF')")
     public DesignResponse getDesignById(Integer requestOrderId) {
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
@@ -126,6 +130,7 @@ public class DesignService {
         return designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public DesignResponse denyDesign(Integer designId, DesignFeedBackRequest request){
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
@@ -142,6 +147,7 @@ public class DesignService {
         return designMapper.toDesignResponse(design, brokeCSV(design.getURLImage()));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse modifyDesign(CompanyDesignModifyRequest request){
         if(request.getListURLImage() == null || request.getListURLImage().isEmpty()){
             throw new AppException(ErrorCode.NO_URLIMAGE_IN_DESIGN_REQUEST);
@@ -162,6 +168,7 @@ public class DesignService {
                 .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse updateCompanyDesign(Integer designId ,CompanyDesignModifyRequest request){
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));
@@ -226,12 +233,13 @@ public class DesignService {
         List<Design> designs = designRepository.searchAndFilterDesigns(designName, category);
         List<DesignResponse> designResponses = new ArrayList<>();
         for (Design design : designs) {
-            if (design.getDesignName().equals("Customer's design")) continue;
+            if (design.getDesignName() != null && design.getDesignName().equals("Customer's design")) continue;
             designResponses.add(designMapper.toDesignResponse(design, brokeCSV(design.getURLImage())));
         }
         return designResponses;
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_DESIGN_STAFF')")
     public DesignResponse deleteDesign(Integer designId){
         Design design = designRepository.findById(designId)
                 .orElseThrow(() -> new AppException(ErrorCode.DESIGN_NOT_FOUND));

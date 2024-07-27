@@ -11,9 +11,9 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findByStatus(String pendingQuotation);
 
-    List<Request> findAllBySaleStaffid(User user);
+    List<Request> findAllBySaleStaffidAndStatusIsNot(User user,String status);
 
-    List<Request> findAllBySaleStaffidNull();
+    List<Request> findAllBySaleStaffidIsNullAndStatusIs(String status);
 
     List<Request> findAllByCustomerIDAndStatusIsNotLike(User customer, String status);
 
@@ -22,4 +22,6 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findAllByCompanyDesignIsNotNull();
 
     Request findFirstByCompanyDesign(Design design);
+
+    Long countByCreatedAtBetween(Instant startDate, Instant endDate);
 }

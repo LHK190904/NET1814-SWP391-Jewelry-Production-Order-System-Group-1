@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,26 @@ public class RequestService {
     UserMapper userMapper;
     MaterialRepository materialRepository;
     DesignRepository designRepository;
-    private final DesignService designService;
+    DesignService designService;
+
+    public RequestResponse sendRequest(Integer requestId){
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        request.setStatus("Sending");
+
+        if(request.getDeniedReason() != null){
+            request.setStatus("Processing");
+        }
+
+        requestRepository.save(request);
+
+        if(request.getURLImage() != null) {
+            return requestMapper.toRequestResponseWithCustomerDesign(request, designService.brokeCSV(request.getURLImage()));
+        } else {
+            return requestMapper.toRequestResponse(request);
+        }
+    }
 
     public Instant stringToInstant(String input){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -79,9 +99,14 @@ public class RequestService {
         theRequest.setURLImage(designService.createCSV(request.getListURLImage()));
         theRequest.setStatus("Unapproved");
 
-        return requestMapper.toRequestResponse(requestRepository.save(theRequest));
+        if (theRequest.getURLImage() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(theRequest));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(requestRepository.save(theRequest), designService.brokeCSV(theRequest.getURLImage()));
+        }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse createRequestWithCompanyDesign(Integer userId, Integer companyDesignId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -111,6 +136,7 @@ public class RequestService {
                 .subStone(design.getSubStone())
                 .materialWeight(design.getMaterialWeight())
                 .materialID(materials.getLast())
+                .description(design.getDesignName() + ": " + design.getDescription())
                 .status("Unapproved")
                 .build();
 
@@ -141,15 +167,33 @@ public class RequestService {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
+        if (request.getCompanyDesign() != null){
+            throw new AppException(ErrorCode.CAN_NOT_UPDATE_COMPANY_DESIGN_REQUEST);
+        }
+
         if ("Pending Quotation".equalsIgnoreCase(request.getStatus())) {
             throw new AppException(ErrorCode.REQUEST_STATUS_NOT_ALLOWED);
         }
 
         requestMapper.updateRequestFromDto(request, requestCreationRequestForCustomerDesign);
 
-        return requestMapper.toRequestResponse(requestRepository.save(request));
+        Material goldMaterial = findOrCreateGoldMaterial(requestCreationRequestForCustomerDesign);
+
+        request.setMaterialID(goldMaterial);
+        request.setMainStone(getMaterialById(requestCreationRequestForCustomerDesign.getMainStoneId()));
+        request.setSubStone(getMaterialById(requestCreationRequestForCustomerDesign.getSubStoneId()));
+        request.setProduceCost(makeProduceCost(request.getCategory()));
+        request.setURLImage(designService.createCSV(requestCreationRequestForCustomerDesign.getListURLImage()));
+        request.setStatus("Unapproved");
+
+        if (request.getURLImage() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(request));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(requestRepository.save(request), designService.brokeCSV(request.getURLImage()));
+        }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public RequestResponse updateRequestBySales(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -164,10 +208,14 @@ public class RequestService {
         request.setRecievedAt(Instant.now());
         request.setStatus("Processing");
 
-        return requestMapper.toRequestResponse(requestRepository.save(request));
+        if (request.getURLImage() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(request));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(requestRepository.save(request), designService.brokeCSV(request.getURLImage()));
+        }
     }
 
-
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public void deleteRequest(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -181,12 +229,18 @@ public class RequestService {
                 .toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse getRequestById(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-        return requestMapper.toRequestResponse(request);
+        if (request.getURLImage() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(request));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(requestRepository.save(request), designService.brokeCSV(request.getURLImage()));
+        }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public List<RequestResponse> getRequestsByCustomerId(Integer customerId) {
         User customer = userRepository.findById(customerId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -196,17 +250,19 @@ public class RequestService {
                 .toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public List<RequestResponse> getUnrecievedRequests() {
-        return requestRepository.findAllBySaleStaffidNull().stream()
+        return requestRepository.findAllBySaleStaffidIsNullAndStatusIs("Sending").stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public List<RequestResponse> getRequestBySaleStaffId(Integer saleStaffId){
         User user = userRepository.findById(saleStaffId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        return requestRepository.findAllBySaleStaffid(user).stream()
+        return requestRepository.findAllBySaleStaffidAndStatusIsNot(user, "Disable").stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
     }
@@ -216,26 +272,41 @@ public class RequestService {
                 .orElseThrow(() -> new RuntimeException("User not found")));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse  approveQuotationFromCustomer(Integer requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        request.setStatus("Ordering");
+        request.setStatus("Depositing");
 
         Request savedRequest = requestRepository.save(request);
 
-        return requestMapper.toRequestResponse(savedRequest);
+        if (request.getURLImage() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(savedRequest));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(savedRequest, designService.brokeCSV(savedRequest.getURLImage()));
+        }
     }
 
-    public RequestResponse denyQuotationFromCustomer(Integer requestId) {
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
+    public RequestResponse denyQuotationFromCustomer(Integer requestId, String deniedReason) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
+        if (deniedReason != null && deniedReason.isEmpty()){
+            throw new AppException(ErrorCode.DESCRIPTION_IS_EMPTY);
+        }
+
+        request.setDeniedReason(deniedReason);
         request.setStatus("Denied");
 
         Request savedRequest = requestRepository.save(request);
 
-        return requestMapper.toRequestResponse(savedRequest);
+        if (request.getURLImage() == null) {
+            return requestMapper.toRequestResponse(requestRepository.save(savedRequest));
+        } else {
+            return requestMapper.toRequestResponseWithCustomerDesign(savedRequest, designService.brokeCSV(savedRequest.getURLImage()));
+        }
     }
 
     public List<RequestResponse> getListOfRequestQuotations() {

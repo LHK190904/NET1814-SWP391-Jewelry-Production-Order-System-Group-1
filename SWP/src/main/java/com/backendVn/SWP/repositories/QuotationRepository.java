@@ -3,8 +3,6 @@ package com.backendVn.SWP.repositories;
 import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.entities.Request;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
 import java.util.List;

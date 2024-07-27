@@ -2,12 +2,16 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.response.*;
 import com.backendVn.SWP.entities.*;
-import com.backendVn.SWP.mappers.DesignMapper;
+import com.backendVn.SWP.mappers.PaymentMapper;
+import com.backendVn.SWP.mappers.RequestMapper;
+import com.backendVn.SWP.mappers.UserMapper;
 import com.backendVn.SWP.repositories.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.mapstruct.control.MappingControl;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,41 +32,10 @@ public class DashboardService {
     UserRepository userRepository;
     QuotationRepository quotationRepository;
     RequestRepository requestRepository;
-    DesignRepository designRepository;
-    DesignMapper designMapper;
-
-
-    public List<RevenueEachMonth> sumRevenuePerMonth (){
-        List<Invoice> invoices = getInvoicesForCurrentYear();
-
-        Map<Integer, BigDecimal> revenueMap = new HashMap<>();
-        for (Invoice invoice : invoices) {
-            int month = invoice.getCreatedAt().atZone(ZoneId.systemDefault()).getMonthValue();
-            revenueMap.put(month, revenueMap.getOrDefault(month, BigDecimal.ZERO).add(invoice.getTotalCost()));
-        }
-
-        List<RevenueEachMonth> revenueEachMonths = new ArrayList<>();
-        for (Map.Entry<Integer, BigDecimal> entry : revenueMap.entrySet()) {
-            revenueEachMonths.add(new RevenueEachMonth(entry.getKey(), entry.getValue()));
-        }
-
-        revenueEachMonths.sort(Comparator.comparingInt(RevenueEachMonth::getMonth));
-        return revenueEachMonths;
-    }
-
-    public BigDecimal averageOrderValue() {
-        List<Invoice> invoices = getInvoicesForCurrentYear();
-        if (invoices.isEmpty()) {
-            return BigDecimal.ZERO;
-        }
-
-        BigDecimal totalValue = BigDecimal.ZERO;
-        for (Invoice invoice : invoices) {
-            totalValue = totalValue.add(invoice.getTotalCost());
-        }
-
-        return totalValue.divide(BigDecimal.valueOf(invoices.size()), RoundingMode.HALF_UP);
-    }
+    PaymentRepository paymentRepository;
+    UserMapper userMapper;
+    RequestMapper requestMapper;
+    PaymentMapper paymentMapper;
 
 
     public List<ProductionStaffKPI> getProductionStaffKPI() {
@@ -81,11 +54,6 @@ public class DashboardService {
         return kpiList;
     }
 
-    private List<Invoice> getInvoicesForCurrentYear() {
-        Instant[] dateRange = getCurrentYearDateRange();
-        return invoiceRepository.findByCreatedAtBetween(dateRange[0], dateRange[1]);
-    }
-
     private List<RequestOrder> getRequestOrdersForCurrentYear() {
         Instant[] dateRange = getCurrentYearDateRange();
         return requestOrderRepository.findByCreatedAtBetween(dateRange[0], dateRange[1]);
@@ -98,6 +66,7 @@ public class DashboardService {
         return new Instant[]{start, end};
     }
 
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
     public List<MonthlyIncomeResponse> calculateMonthlyRevenue(int year, int startMonth, int endMonth) {
         List<MonthlyIncomeResponse> monthlyRevenues = new ArrayList<>();
 
@@ -112,6 +81,7 @@ public class DashboardService {
         return monthlyRevenues;
     }
 
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUU
     public BigDecimal calculateTotalRevenue(Instant startDate, Instant endDate) {
         List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(startDate, endDate);
         return invoices.stream()
@@ -133,6 +103,7 @@ public class DashboardService {
         return monthlyProfits;
     }
 
+    // LAT XEM PROFIT
     public BigDecimal calculateTotalProfit(Instant startDate, Instant endDate) {
         BigDecimal totalRevenue = calculateTotalRevenue(startDate, endDate);
         BigDecimal totalExpense = quotationRepository.findByCreatedAtBetween(startDate, endDate).stream()
@@ -141,6 +112,7 @@ public class DashboardService {
         return totalRevenue.subtract(totalExpense);
     }
 
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
     public List<MonthlyIncomeResponse> calculateMonthlyAverageOrderValue(int year, int startMonth, int endMonth) {
         List<MonthlyIncomeResponse> monthlyAverageOrderValues = new ArrayList<>();
 
@@ -155,7 +127,7 @@ public class DashboardService {
         return monthlyAverageOrderValues;
     }
 
-
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
     public BigDecimal calculateAverageOrderValue(Instant startDate, Instant endDate) {
         List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(startDate, endDate);
         if (invoices.isEmpty()) {
@@ -165,6 +137,45 @@ public class DashboardService {
                 .map(Invoice::getTotalCost)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         return totalRevenue.divide(BigDecimal.valueOf(invoices.size()), RoundingMode.HALF_UP);
+    }
+
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
+    public List<MonthlyCountResponse> calculateMonthlyRequestCount(int year, int startMonth, int endMonth) {
+        List<MonthlyCountResponse> monthlyRequestCounts = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            Long requestCount = countRequests(startDate, endDate);
+            monthlyRequestCounts.add(new MonthlyCountResponse(month, requestCount));
+        }
+
+        return monthlyRequestCounts;
+    }
+
+    private Long countRequests(Instant startDate, Instant endDate) {
+        return requestRepository.countByCreatedAtBetween(startDate, endDate);
+    }
+
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
+    public List<MonthlyCountResponse> calculateMonthlyOrderCompleteCount(int year, int startMonth, int endMonth) {
+        List<MonthlyCountResponse> monthlyOrderCompleteCounts = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            Long orderCompleteCount = countOrdersComplete(startDate, endDate);
+            monthlyOrderCompleteCounts.add(new MonthlyCountResponse(month, orderCompleteCount));
+        }
+
+        return monthlyOrderCompleteCounts;
+    }
+
+    private Long countOrdersComplete(Instant startDate, Instant endDate) {
+        return invoiceRepository.countByCreatedAtBetween(startDate, endDate);
     }
 
     public List<KpiResponse> calculateKpi(Instant startDate, Instant endDate) {
@@ -203,15 +214,17 @@ public class DashboardService {
         }
     }
 
-    public List<MonthlyOrderCountResponse> calculateMonthlyOrderCount(int year, int startMonth, int endMonth) {
-        List<MonthlyOrderCountResponse> monthlyOrderCounts = new ArrayList<>();
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUU
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
+    public List<MonthlyCountResponse> calculateMonthlyOrderCount(int year, int startMonth, int endMonth) {
+        List<MonthlyCountResponse> monthlyOrderCounts = new ArrayList<>();
 
         for (int month = startMonth; month <= endMonth; month++) {
             Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
             Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
 
             Long orderCount = countOrders(startDate, endDate);
-            monthlyOrderCounts.add(new MonthlyOrderCountResponse(month, orderCount));
+            monthlyOrderCounts.add(new MonthlyCountResponse(month, orderCount));
         }
 
         return monthlyOrderCounts;
@@ -221,42 +234,7 @@ public class DashboardService {
         return invoiceRepository.countByCreatedAtBetween(startDate, endDate);
     }
 
-    public List<DesignResponse> getDesignsSortedByOrderCount() {
-        // Lấy tất cả các requests có companyDesign không null
-        List<Request> requests = requestRepository.findAllByCompanyDesignIsNotNull();
-
-        // Đếm số lượng order cho từng designId
-        Map<Integer, Long> designCountMap = new HashMap<>();
-        for (Request request : requests) {
-            Design design = request.getCompanyDesign();
-            if (design != null) {
-                Integer designId = design.getId();
-                designCountMap.put(designId, designCountMap.getOrDefault(designId, 0L) + 1);
-            }
-        }
-
-        // Chuyển đổi sang List<Map.Entry> để dễ sắp xếp
-        List<Map.Entry<Integer, Long>> designCountList = new ArrayList<>(designCountMap.entrySet());
-
-        // Sắp xếp theo số lượng order giảm dần
-        designCountList.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
-
-        // Tạo danh sách DesignResponse
-        List<DesignResponse> designResponses = new ArrayList<>();
-        for (Map.Entry<Integer, Long> entry : designCountList) {
-            Integer designId = entry.getKey();
-            Optional<Design> optionalDesign = designRepository.findById(designId);
-            if (optionalDesign.isPresent()) {
-                Design design = optionalDesign.get();
-                List<String> listURLImage = Arrays.asList(design.getURLImage().split(","));
-                DesignResponse designResponse = designMapper.toDesignResponse(design, listURLImage);
-                designResponses.add(designResponse);
-            }
-        }
-
-        return designResponses;
-    }
-
+    //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
     public List<SellingProductResponse> sellingProducts() {
         List<Request> requests = requestRepository.findAllByCompanyDesignIsNotNull();
         Map<Design, Integer> map = new HashMap<>();
@@ -277,7 +255,7 @@ public class DashboardService {
         for (Map.Entry<Design, Integer> entry : sortedEntries) {
             Design design = entry.getKey();
             Integer orderCount = entry.getValue();
-            BigDecimal price = quotationRepository.findFirstByRequestID(requestRepository.findFirstByCompanyDesign(design)).getCapitalCost(); ;
+            BigDecimal price = quotationRepository.findFirstByRequestID(requestRepository.findFirstByCompanyDesign(design)).getCapitalCost();
 
             SellingProductResponse sellingProductResponse = new SellingProductResponse();
             sellingProductResponse.setId(design.getId());
@@ -292,4 +270,37 @@ public class DashboardService {
     }
 
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
+    public List<TransactionResponse> getLatestTransactions() {
+        List<Payment> payments = paymentRepository.findTop10ByOrderByPaymentDateDesc();
+        List<TransactionResponse> transactionResponses = new ArrayList<>();
+
+        for (Payment payment : payments) {
+            Request request = payment.getRequestID();
+            User user = request.getCustomerID();
+
+            TransactionResponse transactionResponse = new TransactionResponse();
+
+            transactionResponse = requestMapper.toTransactionResponse(request);
+            paymentMapper.updateTransactionResponseFromPayment(payment, transactionResponse);
+            userMapper.updateTransactionResponseFromUser(user, transactionResponse);
+            transactionResponses.add(transactionResponse);
+        }
+        return transactionResponses;
+    }
+
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
+    public List<MonthlyIncomeResponse> calculateMonthlyProfitCount(int year, int startMonth, int endMonth) {
+        List<MonthlyIncomeResponse> monthlyProfitCounts = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            Instant startDate = Year.of(year).atMonth(month).atDay(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+            Instant endDate = Year.of(year).atMonth(month).atEndOfMonth().atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant();
+
+            BigDecimal totalProfit = calculateTotalProfit(startDate, endDate);
+            monthlyProfitCounts.add(new MonthlyIncomeResponse(month, totalProfit));
+        }
+
+        return monthlyProfitCounts;
+    }
 }

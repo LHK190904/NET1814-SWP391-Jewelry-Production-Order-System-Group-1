@@ -4,6 +4,7 @@ import com.backendVn.SWP.dtos.request.CustomerRegisterRequest;
 import com.backendVn.SWP.dtos.request.CustomerUpdateInforRequest;
 import com.backendVn.SWP.dtos.request.UserCreationRequest;
 import com.backendVn.SWP.dtos.request.UserUpdateRequest;
+import com.backendVn.SWP.dtos.response.TransactionResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
 import com.backendVn.SWP.entities.User;
 import javax.annotation.processing.Generated;
@@ -93,6 +94,19 @@ public class UserMapperImpl implements UserMapper {
         user.title( customerRegisterRequest.getTitle() );
 
         return user.build();
+    }
+
+    @Override
+    public void updateTransactionResponseFromUser(User user, TransactionResponse transactionResponse) {
+        if ( user == null ) {
+            return;
+        }
+
+        transactionResponse.setId( user.getId() );
+        transactionResponse.setUserName( user.getUserName() );
+        transactionResponse.setEmail( user.getEmail() );
+        transactionResponse.setCusName( user.getCusName() );
+        transactionResponse.setPhoneNum( user.getPhoneNum() );
     }
 
     @Override

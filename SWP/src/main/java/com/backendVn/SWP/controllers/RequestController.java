@@ -104,9 +104,9 @@ public class RequestController {
     }
 
     @PutMapping("/denyQuotationFromCustomer/{requestId}")
-    public ApiResponse<RequestResponse> denyQuotationFromCustomer(@PathVariable Integer requestId) {
+    public ApiResponse<RequestResponse> denyQuotationFromCustomer(@PathVariable Integer requestId, @RequestBody String deniedReason) {
         return ApiResponse.<RequestResponse>builder()
-                .result(requestService.denyQuotationFromCustomer(requestId))
+                .result(requestService.denyQuotationFromCustomer(requestId, deniedReason))
                 .build();
     }
 
@@ -123,4 +123,13 @@ public class RequestController {
                 .result(requestService.createRequestWithCompanyDesign(userId,designId))
                 .build();
     }
+
+    @PutMapping("/sendRequest/{requestId}")
+    public ApiResponse<RequestResponse> sendRequest(@PathVariable Integer requestId) {
+        return  ApiResponse.<RequestResponse>builder()
+                .result(requestService.sendRequest(requestId))
+                .build();
+    }
+
+
 }

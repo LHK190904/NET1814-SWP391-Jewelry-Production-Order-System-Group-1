@@ -1,6 +1,7 @@
 package com.backendVn.SWP.mappers;
 
 import com.backendVn.SWP.dtos.response.PaymentResponse;
+import com.backendVn.SWP.dtos.response.TransactionResponse;
 import com.backendVn.SWP.entities.Payment;
 import com.backendVn.SWP.entities.Request;
 import javax.annotation.processing.Generated;
@@ -29,6 +30,17 @@ public class PaymentMapperImpl implements PaymentMapper {
         paymentResponse.status( payment.getStatus() );
 
         return paymentResponse.build();
+    }
+
+    @Override
+    public void updateTransactionResponseFromPayment(Payment payment, TransactionResponse transactionResponse) {
+        if ( payment == null ) {
+            return;
+        }
+
+        transactionResponse.setId( payment.getId() );
+        transactionResponse.setPaymentDate( payment.getPaymentDate() );
+        transactionResponse.setAmount( payment.getAmount() );
     }
 
     private Integer paymentRequestIDId(Payment payment) {

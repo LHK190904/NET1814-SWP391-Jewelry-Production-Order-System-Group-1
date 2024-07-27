@@ -1,0 +1,13 @@
+{
+  "code": 1000,
+  "result": {
+    "id": 8004,
+    "description": "testing",
+    "customerID": 11008,
+    "saleStaffID": 5010,
+    "status": "Processing",
+    "createdAt": "2024-07-25T09:54:35.137Z",
+    "recievedAt": "2024-07-25T09:56:07.220Z",
+    "endAt": null
+  }
+}
