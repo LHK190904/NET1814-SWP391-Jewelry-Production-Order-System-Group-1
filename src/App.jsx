@@ -31,6 +31,7 @@ import SearchPage from "./pages/search";
 import ForgotPassword from "./pages/forgot-password";
 import Profile from "./pages/profile";
 import Unauthorize from "./pages/unauthorized";
+import RequestDetail from "./pages/cart/request_detail";
 
 const getCurrentUser = () => {
   return authService.getCurrentUser();
@@ -97,6 +98,10 @@ function App() {
         {
           path: "/cart/order/:requestID",
           element: <CartOrder />,
+        },
+        {
+          path: "/cart/request_detail/:requestID",
+          element: <RequestDetail />,
         },
         {
           path: "/price/gold",

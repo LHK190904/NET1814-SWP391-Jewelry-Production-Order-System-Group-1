@@ -93,10 +93,10 @@ function CartRequest() {
   const handleApprove = async (reqID) => {
     try {
       await axiosInstance.put(`requests/approveQuotationFromCustomer/${reqID}`);
-      await axiosInstance.post(`request-orders/${reqID}`);
+      await axiosInstance.post(`payment/${reqID}`);
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
-          req.id === reqID ? { ...req, status: "Approved" } : req
+          req.id === reqID ? { ...req, status: "Depositing" } : req
         )
       );
     } catch (error) {
@@ -247,7 +247,7 @@ function CartRequest() {
         sellCost,
         updated,
       };
-
+      // console.log(payload);
       await axiosInstance.put(`/requests/${selectedReqID}`, payload);
       handleHideModal();
       message.success("Cập nhật yêu cầu thành công.");
@@ -307,9 +307,24 @@ function CartRequest() {
       message.error("Gửi yêu cầu thât bại");
     }
   };
-  const handleOrderClick = (reqID) => {
-    navigate(`/cart/order/${reqID}`);
+  const handleOrderClick = async (reqID) => {
+    try {
+      const responseOrder = await axiosInstance.get(
+        `request-orders/getOrderByRequestIdForCustomer/${reqID}`
+      );
+      const orderData = responseOrder.data.result;
+
+      if (orderData && orderData.id) {
+        navigate(`/cart/order/${orderData.id}`);
+      } else {
+        navigate(`/cart/request_detail/${reqID}`);
+      }
+    } catch (error) {
+      console.error("Is not a order", error);
+      navigate(`/cart/request_detail/${reqID}`);
+    }
   };
+
   const uploadButton = (
     <div>
       <PlusOutlined />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
 import { Button, message, Modal } from "antd";
@@ -16,6 +16,7 @@ import PayPalButton from "../../../components/paypalButton";
 function CartOrder() {
   const { requestID } = useParams();
   const [order, setOrder] = useState({});
+
   const [design, setDesign] = useState({});
   const [invoice, setInvoice] = useState({});
   const [process, setProcess] = useState({});
@@ -103,7 +104,6 @@ function CartOrder() {
       setIsPaid(true);
 
       await axiosInstance.post(`/payment/${requestID}`);
-      console.log("order ID", order.id);
       await axiosInstance.post(`/warranty-cards/${order.id}`);
     } catch (error) {
       console.error("Error during payment success handling:", error);
