@@ -73,12 +73,10 @@ function ManagerRequest() {
 
   const handleDeny = async () => {
     try {
+      const payload = denyReason;
       await axiosInstance.put(
         `quotation/denyFromManager/${currentQuotationId}`,
-        {
-          action: "deny",
-          reason: denyReason,
-        }
+        payload
       );
       setStatuses((prev) => ({
         ...prev,
