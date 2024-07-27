@@ -25,6 +25,7 @@ function CartOrder() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [stones, setStones] = useState([]);
   const [isPaid, setIsPaid] = useState(false);
+  const [paymentID, setPaymentID] = useState("");
 
   const fetchOrders = async () => {
     if (!requestID) {
@@ -84,6 +85,18 @@ function CartOrder() {
     }
   };
 
+  const fetchPaymentId = async () => {
+    try {
+      const payID = await axiosInstance.get(
+        `payment/getPayment/${requestID}/Payment`
+      );
+      console.log(payID.data.result.id);
+      setPaymentID(payID.data.result.id);
+    } catch (error) {
+      console.log("Error fetching paymentId", error);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
     fetchStone();
@@ -92,6 +105,7 @@ function CartOrder() {
   useEffect(() => {
     if (order.status === "Completed!!!") {
       fetchInvoice();
+      fetchPaymentId();
     } else if (order.status === "finished") {
       fetchInvoice();
       setIsPaid(true);
@@ -102,11 +116,7 @@ function CartOrder() {
     try {
       console.log("Order:", order);
       setIsPaid(true);
-
-      const payID = await axiosInstance.get(
-        `payment/getPayment/${requestID}/Payment`
-      );
-      await axiosInstance.put(`/payment/makePayment/${payID.data.result.id}`);
+      await axiosInstance.put(`/payment/makePayment/${paymentID}`);
       await axiosInstance.post(`/warranty-cards/${order.id}`);
 
       message.success("Thanh toán thành công!");
