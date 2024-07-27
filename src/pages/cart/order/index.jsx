@@ -70,7 +70,6 @@ function CartOrder() {
         `invoices/getInvoiceInfor/${order.id}`
       );
       setInvoice(response.data.result);
-      await axiosInstance.post(`/payment/${requestID}`);
     } catch (error) {
       console.log(error);
     }
@@ -85,17 +84,7 @@ function CartOrder() {
     }
   };
 
-  const fetchPaymentId = async () => {
-    try {
-      const payID = await axiosInstance.get(
-        `payment/getPayment/${requestID}/Payment`
-      );
-      console.log(payID.data.result.id);
-      setPaymentID(payID.data.result.id);
-    } catch (error) {
-      console.log("Error fetching paymentId", error);
-    }
-  };
+  
 
   useEffect(() => {
     fetchOrders();
@@ -105,7 +94,7 @@ function CartOrder() {
   useEffect(() => {
     if (order.status === "Completed!!!") {
       fetchInvoice();
-      fetchPaymentId();
+      // fetchPaymentId();
     } else if (order.status === "finished") {
       fetchInvoice();
       setIsPaid(true);
@@ -115,10 +104,13 @@ function CartOrder() {
   const handlePaymentSuccess = async () => {
     try {
       console.log("Order:", order);
-      setIsPaid(true);
-      await axiosInstance.put(`/payment/makePayment/${paymentID}`);
+      await axiosInstance.post(`/payment/createPayment/${requestID}`);
+      const payID = await axiosInstance.get(
+        `payment/getPayment/${requestID}/Payment`
+      );
+      await axiosInstance.put(`/payment/makePayment/${payID.data.result.id}`);
       await axiosInstance.post(`/warranty-cards/${order.id}`);
-
+      setIsPaid(true);
       message.success("Thanh toán thành công!");
     } catch (error) {
       console.error("Error during payment success handling:", error);
