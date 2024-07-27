@@ -4,6 +4,7 @@ import com.backendVn.SWP.dtos.response.PaymentResponse;
 import com.backendVn.SWP.entities.Payment;
 import com.backendVn.SWP.entities.Quotation;
 import com.backendVn.SWP.entities.Request;
+import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.PaymentMapper;
@@ -80,6 +81,20 @@ public class PaymentService {
 
         payment.setStatus("Paid");
         payment.setPaymentDate(Instant.now());
+
+        if(payment.getPaymentType().equals("Deposit")){
+            payment.getRequestID().setStatus("Ordering");
+            requestRepository.save(payment.getRequestID());
+        } else {
+            RequestOrder requestOrder = requestOrderRepository.findByRequestID(payment.getRequestID())
+                    .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+            requestOrder.setStatus("finished");
+            requestOrder.setEndAt(Instant.now());
+            requestOrderRepository.save(requestOrder);
+            requestOrder.getRequestID().setStatus("finished");
+            requestOrder.getRequestID().setEndAt(Instant.now());
+            requestRepository.save(requestOrder.getRequestID());
+        }
 
         paymentRepository.save(payment);
 

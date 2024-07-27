@@ -277,7 +277,7 @@ public class RequestService {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        request.setStatus("Ordering");
+        request.setStatus("Depositing");
 
         Request savedRequest = requestRepository.save(request);
 
