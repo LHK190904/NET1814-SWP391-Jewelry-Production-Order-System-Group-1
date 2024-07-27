@@ -21,4 +21,6 @@ public class QuotationResponse {
     int approvedBy;
     BigDecimal capitalCost;
     BigDecimal cost;
+    String deniedReason;
+
 }
