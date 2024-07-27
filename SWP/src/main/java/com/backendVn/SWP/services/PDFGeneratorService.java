@@ -169,7 +169,7 @@ public class PDFGeneratorService {
         WarrantyCard warrantyCard = warrantyCardRepository.findById(orderID).orElseThrow(() -> new AppException(ErrorCode.WARRANTY_CARD_NOT_FOUND));
 
         // Load the PDF template
-        File file = new File("path/to/your/template.pdf"); // Path to your PDF form
+        File file = new File("C:\\Users\\truon\\Downloads\\PDFForm (2).pdf"); // Path to your PDF form
         try (PDDocument document = PDDocument.load(file)) {
             PDAcroForm acroForm = document.getDocumentCatalog().getAcroForm();
 
