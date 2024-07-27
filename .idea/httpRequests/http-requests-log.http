@@ -1,3 +1,36 @@
+GET http://localhost:8080/dashboard/latest-transactions
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.4
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-26T220028.200.json
+
+###
+
+GET http://localhost:8080/dashboard/latest-transactions
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.4
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-26T215839.400.json
+
+###
+
+GET http://localhost:8080/dashboard/latest-transactions
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.4
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-26T214024.400.json
+
+###
+
 POST http://localhost:8080/requests/11008
 Content-Type: application/json
 Content-Length: 226
@@ -741,56 +774,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 }
 
 <> 2024-07-22T170849.500.json
-
-###
-
-POST http://localhost:8080/cust/register_token
-Content-Type: application/json
-Content-Length: 102
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "userName": "giang123123",
-  "password": "12345678",
-  "email": "Giang@gmail.com",
-  "title": ""
-}
-
-<> 2024-07-22T170645.400.json
-
-###
-
-GET http://localhost:8080/user
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-07-22T155958.200.json
-
-###
-
-POST http://localhost:8080/user
-Content-Type: application/json
-Content-Length: 139
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "userName": "giang",
-  "password": "12345678",
-  "email": "giangnguyen102004@gmail.com",
-  "address": "ádasd",
-  "title": "CUSTOMER"
-}
-
-<> 2024-07-21T214752.200.json
 
 ###
 

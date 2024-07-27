@@ -15,6 +15,7 @@ import com.backendVn.SWP.repositories.RequestOrderRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class InvoiceDetailService {
     InvoiceDetailMapper invoiceDetailMapper;
     private final RequestOrderRepository requestOrderRepository;
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public List<InvoiceDetailResponse> createInvoiceDetail(Integer requestOrderId) {
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));

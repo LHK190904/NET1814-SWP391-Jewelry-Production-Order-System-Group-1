@@ -14,6 +14,7 @@ import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class QuotationService {
     RequestRepository requestRepository;
     UserRepository userRepository;
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public QuotationResponse createQuotation (QuotationCreationRequest quotationCreationRequest, Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -59,6 +61,7 @@ public class QuotationService {
         quotationRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_MANAGER')")
     public QuotationResponse updateQuotation(Integer id) {
         Quotation quotation = quotationRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
@@ -98,6 +101,7 @@ public class QuotationService {
         return quotationMapper.toQuotationResponse(quotation);
     }
 
+    @PreAuthorize("hasAnyAuthority('SCOPE_CUSTOMER', 'SCOPE_MANAGER', 'SCOPE_SALE_STAFF')")
     public QuotationResponse getQuotationById(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -112,6 +116,7 @@ public class QuotationService {
         return quotationMapper.toQuotationResponse(quotation.getLast());
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public AutoPricingResponse getAutoPricing(Integer requestId){
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));

@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -105,6 +106,7 @@ public class RequestService {
         }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse createRequestWithCompanyDesign(Integer userId, Integer companyDesignId){
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -191,6 +193,7 @@ public class RequestService {
         }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public RequestResponse updateRequestBySales(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -212,7 +215,7 @@ public class RequestService {
         }
     }
 
-
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public void deleteRequest(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -226,6 +229,7 @@ public class RequestService {
                 .toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse getRequestById(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -236,6 +240,7 @@ public class RequestService {
         }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public List<RequestResponse> getRequestsByCustomerId(Integer customerId) {
         User customer = userRepository.findById(customerId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -245,12 +250,14 @@ public class RequestService {
                 .toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public List<RequestResponse> getUnrecievedRequests() {
         return requestRepository.findAllBySaleStaffidIsNullAndStatusIs("Sending").stream()
                 .map(requestMapper::toRequestResponse)
                 .toList();
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_SALE_STAFF')")
     public List<RequestResponse> getRequestBySaleStaffId(Integer saleStaffId){
         User user = userRepository.findById(saleStaffId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -265,6 +272,7 @@ public class RequestService {
                 .orElseThrow(() -> new RuntimeException("User not found")));
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse  approveQuotationFromCustomer(Integer requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -280,6 +288,7 @@ public class RequestService {
         }
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public RequestResponse denyQuotationFromCustomer(Integer requestId, String deniedReason) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));

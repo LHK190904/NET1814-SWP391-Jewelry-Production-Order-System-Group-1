@@ -46,5 +46,4 @@ public class Payment {
 
     @Column(name = "created_at")
     private Instant createdAt;
-
 }
