@@ -104,7 +104,7 @@ public class ProcessService {
                 .toList();
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_CUSTOMER', 'SCOPE_PRODUCTON_STAFF')")
+    @PreAuthorize("hasAnyAuthority('SCOPE_CUSTOMER', 'SCOPE_PRODUCTION_STAFF')")
     public ProcessResponse getProcessByRequestOrderId(Integer requestOrderId) {
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));

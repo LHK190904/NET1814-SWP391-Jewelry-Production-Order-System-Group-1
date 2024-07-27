@@ -235,39 +235,39 @@ public class DashboardService {
     }
 
     //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
-    public List<SellingProductResponse> sellingProducts() {
-        List<Request> requests = requestRepository.findAllByCompanyDesignIsNotNull();
-        Map<Design, Integer> map = new HashMap<>();
+        public List<SellingProductResponse> sellingProducts() {
+            List<Request> requests = requestRepository.findAllByCompanyDesignIsNotNull();
+            Map<Design, Integer> map = new HashMap<>();
 
-        // Count the occurrences of each design
-        for (Request request : requests) {
-            Design design = request.getCompanyDesign();
-            map.put(design, map.getOrDefault(design, 0) + 1);
+            // Count the occurrences of each design
+            for (Request request : requests) {
+                Design design = request.getCompanyDesign();
+                map.put(design, map.getOrDefault(design, 0) + 1);
+            }
+
+            // Sort the map entries by value (order count) in descending order
+            List<Map.Entry<Design, Integer>> sortedEntries = map.entrySet().stream()
+                    .sorted(Map.Entry.<Design, Integer>comparingByValue().reversed())
+                    .toList();
+
+            List<SellingProductResponse> sellingProductResponses = new ArrayList<>();
+
+            for (Map.Entry<Design, Integer> entry : sortedEntries) {
+                Design design = entry.getKey();
+                Integer orderCount = entry.getValue();
+                BigDecimal price = quotationRepository.findFirstByRequestID(requestRepository.findFirstByCompanyDesign(design)).getCapitalCost();
+
+                SellingProductResponse sellingProductResponse = new SellingProductResponse();
+                sellingProductResponse.setId(design.getId());
+                sellingProductResponse.setDesignName(design.getDesignName());
+                sellingProductResponse.setOrder_count(orderCount);
+                sellingProductResponse.setPrice(price);
+
+                sellingProductResponses.add(sellingProductResponse);
+            }
+
+            return sellingProductResponses;
         }
-
-        // Sort the map entries by value (order count) in descending order
-        List<Map.Entry<Design, Integer>> sortedEntries = map.entrySet().stream()
-                .sorted(Map.Entry.<Design, Integer>comparingByValue().reversed())
-                .toList();
-
-        List<SellingProductResponse> sellingProductResponses = new ArrayList<>();
-
-        for (Map.Entry<Design, Integer> entry : sortedEntries) {
-            Design design = entry.getKey();
-            Integer orderCount = entry.getValue();
-            BigDecimal price = quotationRepository.findFirstByRequestID(requestRepository.findFirstByCompanyDesign(design)).getCapitalCost();
-
-            SellingProductResponse sellingProductResponse = new SellingProductResponse();
-            sellingProductResponse.setId(design.getId());
-            sellingProductResponse.setDesignName(design.getDesignName());
-            sellingProductResponse.setOrder_count(orderCount);
-            sellingProductResponse.setPrice(price);
-
-            sellingProductResponses.add(sellingProductResponse);
-        }
-
-        return sellingProductResponses;
-    }
 
 
     @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN', 'SCOPE_MANAGER')")
