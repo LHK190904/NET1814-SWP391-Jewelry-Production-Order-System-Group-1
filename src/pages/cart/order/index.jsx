@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
 import { Button, message, Modal } from "antd";
@@ -16,6 +16,7 @@ import PayPalButton from "../../../components/paypalButton";
 function CartOrder() {
   const { requestID } = useParams();
   const [order, setOrder] = useState({});
+
   const [design, setDesign] = useState({});
   const [invoice, setInvoice] = useState({});
   const [process, setProcess] = useState({});
@@ -24,6 +25,7 @@ function CartOrder() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [stones, setStones] = useState([]);
   const [isPaid, setIsPaid] = useState(false);
+  const [paymentID, setPaymentID] = useState("");
 
   const fetchOrders = async () => {
     if (!requestID) {
@@ -84,6 +86,8 @@ function CartOrder() {
     }
   };
 
+  
+
   useEffect(() => {
     fetchOrders();
     fetchStone();
@@ -92,6 +96,7 @@ function CartOrder() {
   useEffect(() => {
     if (order.status === "Completed!!!") {
       fetchInvoice();
+      // fetchPaymentId();
     } else if (order.status === "finished") {
       fetchInvoice();
       setIsPaid(true);
@@ -100,13 +105,15 @@ function CartOrder() {
 
   const handlePaymentSuccess = async () => {
     try {
-      message.success("Thanh toán thành công!");
       console.log("Order:", order);
-      setIsPaid(true);
-
-      await axiosInstance.post(`/payment/${requestID}`);
-      console.log("order ID", order.id);
+      await axiosInstance.post(`/payment/createPayment/${requestID}`);
+      const payID = await axiosInstance.get(
+        `payment/getPayment/${requestID}/Payment`
+      );
+      await axiosInstance.put(`/payment/makePayment/${payID.data.result.id}`);
       await axiosInstance.post(`/warranty-cards/${order.id}`);
+      setIsPaid(true);
+      message.success("Thanh toán thành công!");
     } catch (error) {
       console.error("Error during payment success handling:", error);
       message.error("Có lỗi xảy ra khi xử lý thanh toán");
