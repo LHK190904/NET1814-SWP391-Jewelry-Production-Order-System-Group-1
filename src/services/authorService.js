@@ -2,7 +2,6 @@ import authService from "./authService";
 
 const checkPermission = (role) => {
   const user = authService.getCurrentUser();
-  console.log(user);
   return user.title == role ? true : false;
 };
 

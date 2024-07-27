@@ -153,7 +153,7 @@ function Home() {
         </div>
         <div className="col-span-12">
           <RevealAppear>
-            <h1 className=" text-center text-4xl my-10 font-bold">
+            <h1 className="text-center text-4xl my-10 font-bold">
               QUY TRÌNH ĐẶT GIA CÔNG TẠI LUXE
             </h1>
           </RevealAppear>

@@ -94,7 +94,7 @@ function SaleTrend() {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-4">
+    <div className="bg-white shadow rounded-lg p-4 m-4">
       <h2 className="text-4xl font-bold">SALES TRENDS</h2>
       <Line data={data} options={options} />
     </div>

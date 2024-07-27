@@ -85,7 +85,7 @@ function ManagerRequest() {
           />
         </Link>
         <div className="flex-grow text-center">
-          <h1 className="text-5xl">Quản lí</h1>
+          <h1 className="text-5xl">QUẢN LÝ</h1>
         </div>
         <div className="w-80 text-right">
           <LogoutButton />

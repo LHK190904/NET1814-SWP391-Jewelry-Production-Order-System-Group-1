@@ -25,7 +25,6 @@ function Register() {
       };
       const response = await axiosInstance.post(API_URL, payload);
       const { token, authenticated, title, id } = response.data.result;
-
       if (authenticated) {
         const userData = { userName, token, title, id };
         localStorage.setItem("user", JSON.stringify(userData));

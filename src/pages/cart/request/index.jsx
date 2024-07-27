@@ -72,6 +72,7 @@ function CartRequest() {
       );
 
       setRequests(combinedData);
+      console.log(combinedData);
     } catch (error) {
       console.error("Error fetching requests", error);
     }
@@ -366,6 +367,8 @@ function CartRequest() {
                 ) : item.status === "Approved" ||
                   item.status === "Ordering" ||
                   item.status === "finished" ||
+                  item.status === "Sending" ||
+                  item.status === "Depositing" ||
                   item.status === "Processing" ? (
                   <div className="col-span-1 p-2 bg-white">
                     <span>{item.status}</span>
@@ -408,6 +411,7 @@ function CartRequest() {
                 </div>
                 {item.status === "Approved" ||
                 item.status === "Ordering" ||
+                item.status === "Depositing" ||
                 item.status === "finished" ? (
                   <div className="col-span-1 p-2 bg-white border">
                     <button
