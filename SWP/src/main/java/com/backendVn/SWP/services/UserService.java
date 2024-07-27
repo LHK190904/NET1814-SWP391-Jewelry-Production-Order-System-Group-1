@@ -91,7 +91,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         userMapper.updateUser(user, request);
-        if (!request.getPassword().equals(user.getPassword())){
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())){
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
         return userMapper.toUserResponse(userRepository.save(user));
