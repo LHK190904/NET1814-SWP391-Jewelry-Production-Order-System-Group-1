@@ -180,8 +180,12 @@ public class RequestService {
         Material goldMaterial = findOrCreateGoldMaterial(requestCreationRequestForCustomerDesign);
 
         request.setMaterialID(goldMaterial);
-        request.setMainStone(getMaterialById(requestCreationRequestForCustomerDesign.getMainStoneId()));
-        request.setSubStone(getMaterialById(requestCreationRequestForCustomerDesign.getSubStoneId()));
+        if(requestCreationRequestForCustomerDesign.getMainStoneId() != null) {
+            request.setMainStone(getMaterialById(requestCreationRequestForCustomerDesign.getMainStoneId()));
+        }
+        if(requestCreationRequestForCustomerDesign.getSubStoneId() != null) {
+            request.setSubStone(getMaterialById(requestCreationRequestForCustomerDesign.getSubStoneId()));
+        }
         request.setProduceCost(makeProduceCost(request.getCategory()));
         request.setURLImage(designService.createCSV(requestCreationRequestForCustomerDesign.getListURLImage()));
         request.setStatus("Unapproved");
