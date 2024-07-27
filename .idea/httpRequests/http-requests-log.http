@@ -1,3 +1,25 @@
+GET http://localhost:8080/payment/getPayment/10005/Deposit
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-27T173230.200.json
+
+###
+
+GET http://localhost:8080/payment/getPayment/1002/Deposit
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> 2024-07-27T171710.200.json
+
+###
+
 POST http://localhost:8080/payment/9006
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -728,44 +750,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
 <> 2024-07-22T232215.400.json
-
-###
-
-PUT http://localhost:8080/cust/UpdateInfor/11008
-Content-Type: application/json
-Content-Length: 107
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "cusName": "asdasdasd",
-  "phoneNum": "asdasdasd",
-  "address": "asdasdasd",
-  "email": "asd@das.com"
-}
-
-<> 2024-07-22T173117.200.json
-
-###
-
-POST http://localhost:8080/cust/register_token
-Content-Type: application/json
-Content-Length: 92
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "userName": "123456789",
-  "password": "12345678",
-  "email": "g@g.com",
-  "title": ""
-}
-
-<> 2024-07-22T171017.200.json
 
 ###
 

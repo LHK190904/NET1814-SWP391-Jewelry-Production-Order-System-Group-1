@@ -37,10 +37,10 @@ public class PaymentController {
                 .build();
     }
 
-    @GetMapping("/getPayment/{paymentId}/{paymentType}")
-    public ApiResponse<PaymentResponse> getPayment(@PathVariable Integer paymentId, @PathVariable String paymentType){
+    @GetMapping("/getPayment/{requestId}/{paymentType}")
+    public ApiResponse<PaymentResponse> getPayment(@PathVariable Integer requestId, @PathVariable String paymentType){
         return ApiResponse.<PaymentResponse>builder()
-                .result(paymentService.getPayment(paymentId, paymentType))
+                .result(paymentService.getPayment(requestId, paymentType))
                 .build();
     }
 }
