@@ -22,5 +22,4 @@ public class QuotationResponse {
     BigDecimal capitalCost;
     BigDecimal cost;
     String deniedReason;
-
 }

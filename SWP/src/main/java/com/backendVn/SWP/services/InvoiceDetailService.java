@@ -2,15 +2,13 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.request.InvoiceDetailUpdateRequest;
 import com.backendVn.SWP.dtos.response.InvoiceDetailResponse;
-import com.backendVn.SWP.entities.Invoice;
-import com.backendVn.SWP.entities.InvoiceDetail;
-import com.backendVn.SWP.entities.Material;
-import com.backendVn.SWP.entities.RequestOrder;
+import com.backendVn.SWP.entities.*;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.InvoiceDetailMapper;
 import com.backendVn.SWP.repositories.InvoiceDetailRepository;
 import com.backendVn.SWP.repositories.InvoiceRepository;
+import com.backendVn.SWP.repositories.QuotationRepository;
 import com.backendVn.SWP.repositories.RequestOrderRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +27,7 @@ public class InvoiceDetailService {
     InvoiceRepository invoiceRepository;
     InvoiceDetailMapper invoiceDetailMapper;
     private final RequestOrderRepository requestOrderRepository;
+    private final QuotationRepository quotationRepository;
 
     @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public List<InvoiceDetailResponse> createInvoiceDetail(Integer requestOrderId) {
@@ -37,6 +36,9 @@ public class InvoiceDetailService {
 
         Invoice invoice = invoiceRepository.findByRequestID(requestOrder.getRequestID())
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND));
+
+        List<Quotation> quotations = quotationRepository.findByRequestID(requestOrder.getRequestID())
+                .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
 
         List<InvoiceDetailResponse> invoiceDetailResponses = invoiceDetailRepository.findByInvoiceID(invoice)
                 .orElseThrow(() -> new AppException(ErrorCode.INVOICE_DETAIL_NOT_FOUND))
@@ -69,8 +71,7 @@ public class InvoiceDetailService {
             }
         }
 
-        invoice.setTotalCost(invoice.getTotalCost()
-                .add(requestOrder.getRequestID().getProduceCost()));
+        invoice.setTotalCost(quotations.getLast().getCost());
 
         invoiceRepository.save(invoice);
 

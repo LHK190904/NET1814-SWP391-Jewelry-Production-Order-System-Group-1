@@ -1,3 +1,80 @@
+GET http://localhost:8080/generate-certificate/13
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+content-length: 0
+
+<> GeneratedWarrantyCertificate-11.pdf
+
+###
+
+POST http://localhost:8080/user
+Content-Type: application/json
+Content-Length: 186
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "userName": "admin",
+  "password": "12345678",
+  "email": "giangnguyen102004@gmail.com",
+  "address": "600 ts",
+  "title": "ADMIN",
+  "cusName": "admin",
+  "phoneNum": "0909910224"
+}
+
+<> 2024-07-28T144901.400.json
+
+###
+
+POST http://localhost:8080/user
+Content-Type: application/json
+Content-Length: 174
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "userName": "admin",
+  "password": "12345678",
+  "email": "admin@gmail.com",
+  "address": "600 ts",
+  "title": "ADMIN",
+  "cusName": "admin",
+  "phoneNum": "0909910224"
+}
+
+<> 2024-07-28T144606.400.json
+
+###
+
+POST http://localhost:8080/user
+Content-Type: application/json
+Content-Length: 171
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
+
+{
+  "userName": "admin",
+  "password": "admin",
+  "email": "admin@gmail.com",
+  "address": "600 ts",
+  "title": "ADMIN",
+  "cusName": "admin",
+  "phoneNum": "0909910224"
+}
+
+<> 2024-07-28T144555.400.json
+
+###
+
 GET http://localhost:8080/generate-certificate/12009
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -599,78 +676,6 @@ Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
 content-length: 0
 
 <> 2024-07-25T165815.200.json
-
-###
-
-PUT http://localhost:8080/requests/denyQuotationFromCustomer/8004?deniedReason="asdasd"
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-07-25T165749.200.json
-
-###
-
-PUT http://localhost:8080/requests/sendRequest/8004
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-content-length: 0
-
-<> 2024-07-25T165505.200.json
-
-###
-
-POST http://localhost:8080/requests/11008
-Content-Type: application/json
-Content-Length: 236
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "description": "testing",
-  "buyCost": 10,
-  "sellCost": 10,
-  "updated": "29/06/2024 10:06:22.160",
-  "goldType": "Gold",
-  "materialWeight": 1,
-  "mainStoneId": 0,
-  "subStoneId": 0,
-  "category": "RING",
-  "listURLImage": [2,3]
-}
-
-<> 2024-07-25T164953.400.json
-
-###
-
-POST http://localhost:8080/requests/11008
-Content-Type: application/json
-Content-Length: 236
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.1.2
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=11071553CD0B53B7EE9C4EA936E0675C
-
-{
-  "description": "testing",
-  "buyCost": 10,
-  "sellCost": 10,
-  "updated": "2024/06/29 10:06:22.160",
-  "goldType": "Gold",
-  "materialWeight": 1,
-  "mainStoneId": 0,
-  "subStoneId": 0,
-  "category": "RING",
-  "listURLImage": [2,3]
-}
-
-<> 2024-07-25T164944.400.json
 
 ###
 
