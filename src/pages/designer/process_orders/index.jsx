@@ -145,7 +145,6 @@ function ProcessOrder() {
       try {
         designData = await fetchDesignData(selectedOrderItem.id);
       } catch (error) {
-        console.error("Failed to fetch design data:", error);
         designData = null;
       }
       setDesignID(designData?.id || null); // Đặt designID thành null nếu không có dữ liệu thiết kế
@@ -173,6 +172,19 @@ function ProcessOrder() {
       <div style={{ marginTop: 8 }}>Tải lên</div>
     </div>
   );
+
+  const getStatusInVietnamese = (status) => {
+    switch (status) {
+      case "Waiting for customer's decision":
+        return "Chờ khách hàng duyệt";
+      case "Assigned":
+        return "Chưa xử lí";
+      case "Design Denied":
+        return "Từ chối bản thiết kế";
+      default:
+        return status;
+    }
+  };
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
@@ -216,7 +228,7 @@ function ProcessOrder() {
         </Link>
       </div>
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-start-1 col-span-9 bg-white m-4 rounded-lg p-4">
+        <div className="col-start-1 col-span-8 bg-white m-4 rounded-lg p-4">
           <h1 className="text-center font-extrabold text-3xl">
             CHI TIẾT ĐƠN HÀNG {selectedOrderItem?.id}
           </h1>
@@ -242,29 +254,33 @@ function ProcessOrder() {
           </div>
         </div>
 
-        <div className="col-start-10 col-span-3 bg-white m-4 rounded-lg p-4">
+        <div className="col-start-9 col-span-4 bg-white m-4 rounded-lg p-4">
           <h1 className="text-center text-3xl font-bold">ĐƠN HÀNG</h1>
           <div className="grid grid-cols-2 text-center mt-4 max-h-screen">
-            <div className="col-span-1 font-bold">Mã ID</div>
+            <div className="col-span-1 font-bold">Mã đơn</div>
             <div className="col-span-1 font-bold">TRẠNG THÁI</div>
-            {listItems.map((item) => (
-              <React.Fragment key={item.id}>
-                <div
-                  className={`col-span-1 cursor-pointer ${
-                    selectedOrderItem?.id === item.id ? "underline" : ""
-                  }`}
-                  onClick={() => setSelectedOrderItem(item)}
-                >
-                  {item.id}
-                </div>
-                <div
-                  className="col-span-1 cursor-pointer"
-                  onClick={() => setSelectedOrderItem(item)}
-                >
-                  {item.status}
-                </div>
-              </React.Fragment>
-            ))}
+            {listItems.map(
+              (item) =>
+                item.status !== "finished" &&
+                item.status !== "Completed!!!" && (
+                  <React.Fragment key={item.id}>
+                    <div
+                      className={`col-span-1 cursor-pointer ${
+                        selectedOrderItem?.id === item.id ? "underline" : ""
+                      }`}
+                      onClick={() => setSelectedOrderItem(item)}
+                    >
+                      {item.id}
+                    </div>
+                    <div
+                      className="col-span-1 cursor-pointer"
+                      onClick={() => setSelectedOrderItem(item)}
+                    >
+                      {getStatusInVietnamese(item.status)}
+                    </div>
+                  </React.Fragment>
+                )
+            )}
           </div>
         </div>
       </div>
@@ -284,7 +300,7 @@ function ProcessOrder() {
             disabled={fileList.length === 0}
             loading={uploading}
           >
-            {uploading ? "Uploading" : "Tải lên"}
+            {uploading ? "Đang tải lên" : "Tải lên"}
           </Button>,
         ]}
       >

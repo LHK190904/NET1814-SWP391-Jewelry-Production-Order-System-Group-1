@@ -265,7 +265,7 @@ function CartRequest() {
         sellCost,
         updated,
       };
-      // console.log(payload);
+      console.log(payload);
       await axiosInstance.put(`/requests/${selectedReqID}`, payload);
       handleHideModal();
       message.success("Cập nhật yêu cầu thành công.");

@@ -89,6 +89,15 @@ function ProductionStaff() {
   );
   const totalPages = Math.ceil(dataSource.length / itemsPerPage);
 
+  const getStatusInVietnamese = (status) => {
+    switch (status) {
+      case "Producing":
+        return "Đang gia công";
+      default:
+        return status;
+    }
+  };
+
   return (
     <>
       <div className="bg-[#353640] text-white h-40 flex justify-between items-center px-10">
@@ -233,15 +242,19 @@ function ProductionStaff() {
                   className="grid grid-cols-2 text-center border"
                   key={order.id}
                 >
-                  <div className="col-span-1 p-2 bg-white border">
-                    <button onClick={() => handleSelectOrder(order.id)}>
-                      {order.id}
-                    </button>
+                  <div
+                    className={`col-span-1 p-2 bg-white border cursor-pointer ${
+                      orderId === order.id ? "underline" : ""
+                    }`}
+                    onClick={() => handleSelectOrder(order.id)}
+                  >
+                    {order.id}
                   </div>
-                  <div className="col-span-1 p-2 bg-white border">
-                    <button onClick={() => handleSelectOrder(order.id)}>
-                      {order.status}
-                    </button>
+                  <div
+                    className="col-span-1 p-2 bg-white border cursor-pointer"
+                    onClick={() => handleSelectOrder(order.id)}
+                  >
+                    {getStatusInVietnamese(order.status)}
                   </div>
                 </div>
               ))}

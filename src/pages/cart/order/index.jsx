@@ -256,7 +256,7 @@ function CartOrder() {
                   <div className="col-span-1 md:col-span-6 text-lg md:text-xl">
                     <div className="flex flex-col justify-evenly h-full p-1">
                       <form>
-                        <label className="text-lg md:text-2xl">Feedback</label>
+                        <label className="text-lg md:text-2xl">Nhận xét</label>
                         <textarea
                           value={feedback}
                           onChange={handleChange}
@@ -268,7 +268,7 @@ function CartOrder() {
                             className="w-full md:w-auto bg-green-400 p-2 font-bold"
                             onClick={handleApprove}
                           >
-                            Approve
+                            Chấp nhận
                           </Button>
                           <Button
                             className="w-full md:w-auto bg-red-400 p-2 font-bold"
@@ -337,18 +337,23 @@ function CartOrder() {
                           ? new Date(process.updatedAt).toLocaleString()
                           : ""}
                       </div>
-                      <button
-                        onClick={handleShowModal}
-                        className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
-                      >
-                        XEM HÓA ĐƠN
-                      </button>
-                      <button
-                        onClick={handleViewWarranty}
-                        className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
-                      >
-                        XEM GIẤY BẢO HÀNH
-                      </button>
+                      {(order.status === "finished" ||
+                        order.status === "Completed!!!") && (
+                        <>
+                          <button
+                            onClick={handleShowModal}
+                            className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
+                          >
+                            XEM HÓA ĐƠN
+                          </button>
+                          <button
+                            onClick={handleViewWarranty}
+                            className="bg-[#F7EF8A] w-full p-2 rounded-lg text-lg md:text-2xl hover:bg-gradient-to-br hover:from-white hover:to-[#fcec5f] mt-4"
+                          >
+                            XEM GIẤY BẢO HÀNH
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -385,13 +390,24 @@ function CartOrder() {
               <TableRow>
                 <TableCell>{design.designName}</TableCell>
                 <TableCell>{invoice.materialName}</TableCell>
-                <TableCell>{invoice.materialTotalCost} VNĐ</TableCell>
+                <TableCell>
+                  {new Intl.NumberFormat().format(invoice.materialTotalCost)}{" "}
+                  VNĐ
+                </TableCell>
                 <TableCell>{invoice.mainStone}</TableCell>
-                <TableCell>{invoice.mainStoneCost} VNĐ</TableCell>
+                <TableCell>
+                  {new Intl.NumberFormat().format(invoice.mainStoneCost)} VNĐ
+                </TableCell>
                 <TableCell>{invoice.subStone}</TableCell>
-                <TableCell>{invoice.subStoneCost} VNĐ</TableCell>
-                <TableCell>{invoice.produceCost} VNĐ</TableCell>
-                <TableCell>{invoice.invoiceTotalCost} VNĐ</TableCell>
+                <TableCell>
+                  {new Intl.NumberFormat().format(invoice.subStoneCost)} VNĐ
+                </TableCell>
+                <TableCell>
+                  {new Intl.NumberFormat().format(invoice.produceCost)} VNĐ
+                </TableCell>
+                <TableCell>
+                  {new Intl.NumberFormat().format(invoice.invoiceTotalCost)} VNĐ
+                </TableCell>
                 <TableCell>
                   {new Date(invoice.invoiceCreatedAt).toDateString()}
                 </TableCell>

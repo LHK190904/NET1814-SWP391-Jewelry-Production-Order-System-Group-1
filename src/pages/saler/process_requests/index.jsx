@@ -106,9 +106,9 @@ function ProcessRequests() {
       const response = await axiosInstance.get(`/quotation/${record.id}`);
       const data = response.data.result;
       formDataQuotation.setFieldsValue({
-        createdAt: data.createdAt,
-        capitalCost: data.capitalCost,
-        cost: data.cost,
+        createdAt: new Date(data.createdAt).toLocaleString(),
+        capitalCost: new Intl.NumberFormat().format(data.capitalCost),
+        cost: new Intl.NumberFormat().format(data.cost),
       });
     } catch (error) {
       console.error("Không thể lấy thông tin báo giá:", error);
@@ -199,7 +199,7 @@ function ProcessRequests() {
         let showStatus = "Hoàn thành";
         if (status === "Ordering") {
           color = "yellow";
-          showStatus = "Đã duyệt";
+          showStatus = "Khách đã duyệt";
         } else if (status === "Processing") {
           color = "gray";
           showStatus = "Chưa xử lí";
@@ -376,7 +376,7 @@ function ProcessRequests() {
         </p>
         <Form form={formDataQuotation}>
           <div className="flex flex-row gap-4">
-            <FormItem label="Ngày tạo" name="createdAt">
+            <FormItem label="Thời điểm báo giá" name="createdAt">
               <Input disabled />
             </FormItem>
             <FormItem label="Giá vốn" name="capitalCost">

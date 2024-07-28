@@ -12,6 +12,7 @@ function ManagerOrder() {
   const [designStaffList, setDesignStaffList] = useState([]);
   const [productionStaffList, setProductionStaffList] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [form] = Form.useForm(); // Sử dụng hook Form
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -47,6 +48,7 @@ function ManagerOrder() {
   const handleHideModal = () => {
     setOpenModal(false);
     setSelectedOrder(null);
+    form.resetFields(); 
   };
 
   const handleSubmit = async (values) => {
@@ -131,6 +133,7 @@ function ManagerOrder() {
         footer={null}
       >
         <Form
+          form={form} // Liên kết form với hook Form
           initialValues={{
             designStaff: "",
             productionStaff: "",
