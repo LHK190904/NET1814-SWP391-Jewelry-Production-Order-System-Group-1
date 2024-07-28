@@ -48,6 +48,7 @@ public class QuotationMapperImpl implements QuotationMapper {
         if ( id1 != null ) {
             quotationResponse.approvedBy( id1 );
         }
+        quotationResponse.deniedReason( quotation.getDeniedReason() );
         if ( quotation.getId() != null ) {
             quotationResponse.id( quotation.getId() );
         }
