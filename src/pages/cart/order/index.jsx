@@ -409,7 +409,7 @@ function CartOrder() {
                   {new Intl.NumberFormat().format(invoice.invoiceTotalCost)} VNĐ
                 </TableCell>
                 <TableCell>
-                  {new Date(invoice.invoiceCreatedAt).toDateString()}
+                  {new Date(invoice.invoiceCreatedAt).toLocaleString()}
                 </TableCell>
               </TableRow>
             </TableBody>

@@ -327,21 +327,45 @@ function ProcessRequests() {
           <div className="flex flex-row gap-4">
             <div className="flex flex-col flex-wrap w-1/2">
               <FormItem label="Giá vàng" name="materialPrice">
-                <Input readOnly />
+                <InputNumber
+                  readOnly
+                  style={{ width: "100%" }}
+                  formatter={(value) =>
+                    `${new Intl.NumberFormat().format(value)}`
+                  }
+                />
               </FormItem>
               <FormItem label="Trọng lượng" name="materialWeight">
                 <Input readOnly />
               </FormItem>
               <FormItem label="Tiền công" name="producePrice">
-                <Input readOnly />
+                <InputNumber
+                  readOnly
+                  style={{ width: "100%" }}
+                  formatter={(value) =>
+                    `${new Intl.NumberFormat().format(value)}`
+                  }
+                />
               </FormItem>
             </div>
             <div className="flex flex-col flex-wrap w-1/2">
               <FormItem label="Tiền đá" name="stonePrice">
-                <Input readOnly />
+                <InputNumber
+                  readOnly
+                  style={{ width: "100%" }}
+                  formatter={(value) =>
+                    `${new Intl.NumberFormat().format(value)}`
+                  }
+                />
               </FormItem>
               <FormItem label="Giá vốn" name="capitalCost">
-                <Input readOnly />
+                <InputNumber
+                  readOnly
+                  style={{ width: "100%" }}
+                  formatter={(value) =>
+                    `${new Intl.NumberFormat().format(value)}`
+                  }
+                />
               </FormItem>
               <FormItem
                 label="Tổng giá bán"
@@ -352,7 +376,13 @@ function ProcessRequests() {
                   },
                 ]}
               >
-                <InputNumber min={0} style={{ width: "100%" }} />
+                <InputNumber
+                  min={0}
+                  style={{ width: "100%" }}
+                  formatter={(value) =>
+                    `${new Intl.NumberFormat().format(value)}`
+                  }
+                />
               </FormItem>
             </div>
           </div>

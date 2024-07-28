@@ -111,7 +111,7 @@ function CartRequest() {
 
   const handleConfirmDeny = async () => {
     try {
-      const respone = await axiosInstance.put(
+      await axiosInstance.put(
         `requests/denyQuotationFromCustomer/${selectedReqID}`,
         deniedReason,
         {
@@ -120,7 +120,7 @@ function CartRequest() {
           },
         }
       );
-      console.log(respone);
+
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
           req.id === selectedReqID ? { ...req, status: "Denied" } : req
@@ -265,7 +265,7 @@ function CartRequest() {
         sellCost,
         updated,
       };
-      console.log(payload);
+
       await axiosInstance.put(`/requests/${selectedReqID}`, payload);
       handleHideModal();
       message.success("Cập nhật yêu cầu thành công.");
@@ -464,12 +464,14 @@ function CartRequest() {
                         <DeleteOutlined />
                       </button>
                     </Popconfirm>
-                    <button
-                      onClick={() => openUpdateModal(item.id)}
-                      className="p-2 rounded-md hover:bg-slate-300"
-                    >
-                      <EditOutlined />
-                    </button>
+                    {item.companyDesign === null && (
+                      <button
+                        onClick={() => openUpdateModal(item.id)}
+                        className="p-2 rounded-md hover:bg-slate-300"
+                      >
+                        <EditOutlined />
+                      </button>
+                    )}
                     <Popconfirm
                       title="Xác nhận gửi yêu cầu "
                       onConfirm={() => handleSendRequest(item.id)}
