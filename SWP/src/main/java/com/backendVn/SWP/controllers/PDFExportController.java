@@ -30,7 +30,7 @@ public class PDFExportController {
 
     @GetMapping("/generate-certificate/{requestId}")
     public ResponseEntity<byte[]>generateCertificate(@PathVariable Integer requestId) {
-        String templatePath = "SWP/src/media/PDFForm (2).pdf"; // Absolute path to the template
+        String templatePath = "SWP/src/media/PDFForm.pdf"; // Absolute path to the template
         String outputPath = "GeneratedWarrantyCertificate.pdf";
 
         try {

@@ -158,6 +158,10 @@ import org.springframework.stereotype.Service;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -192,20 +196,32 @@ public class PDFGeneratorService {
 
             PdfCanvas canvas = new PdfCanvas(pdfDoc.getFirstPage());
 
-            addTextAtPosition(document, request.getCustomerID().getCusName(), 150, 650);
-            addTextAtPosition(document, "SuperWidget", 150, 630);
-            addTextAtPosition(document, "Gadget", 150, 610);
-            addTextAtPosition(document, "Aluminum", 150, 590);
-            addTextAtPosition(document, "Diamond", 150, 570);
-            addTextAtPosition(document, "Ruby", 150, 550);
-            addTextAtPosition(document, "2024-01-01", 450, 320);
-            addTextAtPosition(document, "2025-01-01", 628, 320);
+            addTextAtPosition(document, request.getCustomerID().getCusName(), 430, 435);
+            addTextAtPosition(document, requestOrder.getDesignID().getDesignName(), 415, 410);
+            addTextAtPosition(document, request.getCategory(), 410, 387);
+            addTextAtPosition(document, request.getMaterialID().getMaterialName(), 565, 387);
+            if (request.getMainStone()!=null) {
+                addTextAtPosition(document, request.getMainStone().getMaterialName(), 400, 365);
+            }
+            if(request.getSubStone()!=null){
+                addTextAtPosition(document, request.getSubStone().getMaterialName(), 390, 343);
+            }
+            String formattedStartDate = formatInstantToString(String.valueOf(warrantyCard.getCreatedAt()));
+            String formattedEndDate = formatInstantToString(String.valueOf(warrantyCard.getEndAt()));
+             addTextAtPosition(document, formattedStartDate, 452, 320);
+            addTextAtPosition(document, formattedEndDate, 683, 320);
 
             pdfDoc.close();
             System.out.println("PDF filled successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private String formatInstantToString(String instantString) {
+        Instant instant = Instant.parse(instantString);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return localDateTime.format(formatter);
     }
 
     private static void addTextAtPosition(Document document, String text, float x, float y) {
