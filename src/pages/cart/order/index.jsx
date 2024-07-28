@@ -25,7 +25,6 @@ function CartOrder() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [stones, setStones] = useState([]);
   const [isPaid, setIsPaid] = useState(false);
-  const [paymentID, setPaymentID] = useState("");
 
   const fetchOrders = async () => {
     if (!requestID) {
@@ -94,7 +93,6 @@ function CartOrder() {
   useEffect(() => {
     if (order.status === "Completed!!!") {
       fetchInvoice();
-      // fetchPaymentId();
     } else if (order.status === "finished") {
       fetchInvoice();
       setIsPaid(true);
@@ -194,9 +192,12 @@ function CartOrder() {
 
   const handleViewWarranty = async () => {
     try {
-      const response = await axiosInstance.get(`/pdf/generate/${order.id}`, {
-        responseType: "blob", // Đảm bảo rằng phản hồi từ API là dạng blob
-      });
+      const response = await axiosInstance.get(
+        `/generate-certificate/${requestID}`,
+        {
+          responseType: "blob", // Đảm bảo rằng phản hồi từ API là dạng blob
+        }
+      );
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
