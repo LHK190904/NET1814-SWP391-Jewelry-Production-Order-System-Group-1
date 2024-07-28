@@ -145,17 +145,21 @@ import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.repositories.RequestOrderRepository;
 import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.WarrantyCardRepository;
-import com.itextpdf.forms.PdfAcroForm;
-import com.itextpdf.forms.fields.PdfFormField;
+import com.itextpdf.layout.Document;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.properties.TextAlignment;
 import org.springframework.stereotype.Service;
 
+
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
+
 
 @Service
 public class PDFGeneratorService {
@@ -181,52 +185,35 @@ public class PDFGeneratorService {
 
         // Load the PDF template
         InputStream templateStream = new FileInputStream(templatePath);
-        PdfDocument pdfDoc = new PdfDocument(new PdfReader(templateStream), new PdfWriter(outputPath));
-        PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
 
-        // Fill in the form fields
-//        for (Map.Entry<String, String> entry : data.entrySet()) {
-//            PdfFormField field = form.getField(entry.getKey());
-//            if (field != null) {
-//                field.setValue(entry.getValue());
-//            }
-//        }
-        for (String fileName : data) {
-            PdfFormField field = form.getField(fileName);
-            if (field != null) {
-                if(field.equals("Customer Name ________________")){
-                    field.setValue(request.getCustomerID().getCusName());
-                }
-                if(field.equals("Product Name __________________")){
-                    field.setValue(requestOrder.getDesignID().getDesignName());
-                }
-                if(field.equals("Product Type____________")){
-                    field.setValue(request.getCategory());
-                }
-                if(field.equals("Material _____________")){
-                    field.setValue(request.getMaterialID().getMaterialName());
-                }
-                if(field.equals("Main Stone ________________")){
-                    field.setValue(request.getMainStone().getMaterialName());
-                }
-                if(field.equals("Sub Stone _________________")){
-                    field.setValue(request.getSubStone().getMaterialName());
-                }
-                if(field.equals("Warranty Start Date ______")){
-                   field.setValue(String.valueOf(warrantyCard.getCreatedAt()));
-                }
-                if(field.equals("Warranty End Date ______")){
-                    field.setValue(String.valueOf(warrantyCard.getEndAt()));
-                }
-            }
+        try {
+            PdfDocument pdfDoc = new PdfDocument(new PdfReader(templateStream), new PdfWriter(outputPath));
+            Document document = new Document(pdfDoc);
+
+            PdfCanvas canvas = new PdfCanvas(pdfDoc.getFirstPage());
+
+            addTextAtPosition(document, request.getCustomerID().getCusName(), 150, 650);
+            addTextAtPosition(document, "SuperWidget", 150, 630);
+            addTextAtPosition(document, "Gadget", 150, 610);
+            addTextAtPosition(document, "Aluminum", 150, 590);
+            addTextAtPosition(document, "Diamond", 150, 570);
+            addTextAtPosition(document, "Ruby", 150, 550);
+            addTextAtPosition(document, "2024-01-01", 450, 320);
+            addTextAtPosition(document, "2025-01-01", 628, 320);
+
+            pdfDoc.close();
+            System.out.println("PDF filled successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
+    private static void addTextAtPosition(Document document, String text, float x, float y) {
+        Paragraph paragraph = new Paragraph(text)
+                .setFontSize(12)
+                .setTextAlignment(TextAlignment.LEFT);
 
-        // Flatten the form to make it uneditable
-        form.flattenFields();
-
-        // Close the document
-        pdfDoc.close();
+        document.showTextAligned(paragraph, x, y, TextAlignment.LEFT);
     }
 }
 

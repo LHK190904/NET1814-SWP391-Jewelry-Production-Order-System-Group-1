@@ -29,8 +29,8 @@ public class PDFExportController {
     private PDFGeneratorService pdfGeneratorService;
 
     @GetMapping("/generate-certificate/{requestId}")
-    public ResponseEntity<byte[]> generateCertificate(@PathVariable Integer requestId) {
-        String templatePath = "D:/pdffile/PDFForm.pdf"; // Absolute path to the template
+    public ResponseEntity<byte[]>generateCertificate(@PathVariable Integer requestId) {
+        String templatePath = "SWP/src/media/PDFForm (2).pdf"; // Absolute path to the template
         String outputPath = "GeneratedWarrantyCertificate.pdf";
 
         try {
