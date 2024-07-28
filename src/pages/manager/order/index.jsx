@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Select, message } from "antd";
+import { Button, Form, Menu, Modal, Select, message, Dropdown } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
@@ -48,7 +48,7 @@ function ManagerOrder() {
   const handleHideModal = () => {
     setOpenModal(false);
     setSelectedOrder(null);
-    form.resetFields(); 
+    form.resetFields();
   };
 
   const handleSubmit = async (values) => {
@@ -71,6 +71,29 @@ function ManagerOrder() {
     }
   };
 
+  const menu = (
+    <Menu>
+      <Menu.Item key="requests">
+        <button onClick={() => handleNavigateClick("/manager/request")}>
+          QUẢN LÝ YÊU CẦU
+        </button>
+      </Menu.Item>
+      <Menu.Item key="orders">
+        <button onClick={() => handleNavigateClick("/manager/order")}>
+          QUẢN LÝ ĐƠN HÀNG
+        </button>
+      </Menu.Item>
+      <Menu.Item key="dashboard">
+        <button onClick={() => handleNavigateClick("/dashboard")}>
+          DASHBOARD
+        </button>
+      </Menu.Item>
+      <Menu.Item key="logout">
+        <LogoutButton />
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
       <div className="bg-[#1d1d1d] text-white h-40 flex justify-between items-center px-10">
@@ -85,27 +108,15 @@ function ManagerOrder() {
           <h1 className="text-5xl">QUẢN LÝ</h1>
         </div>
         <div className="w-80 text-right">
-          <LogoutButton />
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <Button className="bg-[#F7EF8A]">MENU</Button>
+          </Dropdown>
         </div>
       </div>
       <Navbar />
-      <h1 className="text-center text-[#F7EF8A] text-4xl font-bold">
+      <h1 className="text-center text-[#F7EF8A] text-4xl font-bold my-4">
         QUẢN LÝ ĐƠN HÀNG
       </h1>
-      <div className="flex justify-center gap-1 mb-1 text-white">
-        <button
-          onClick={() => handleNavigateClick("/manager/request")}
-          className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
-        >
-          QUẢN LÝ YÊU CẦU
-        </button>
-        <button
-          onClick={() => handleNavigateClick("/manager/order")}
-          className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
-        >
-          QUẢN LÝ ĐƠN HÀNG
-        </button>
-      </div>
       <div className="grid grid-cols-3 w-3/4 mx-auto bg-gray-300 p-4 rounded-lg">
         <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
           ID ĐƠN HÀNG

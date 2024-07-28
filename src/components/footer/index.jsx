@@ -25,9 +25,7 @@ function Footer() {
         </div>
         <div>
           <div className="text-xl font-bold">Phương thức thanh toán</div>
-          <p>Visa</p>
-          <p>Mastercard</p>
-          <p>Momo</p>
+          <p>Paypal</p>
           <div className="text-xl font-bold">Chính sách</div>
           <p>Chính sách hoàn tiền</p>
         </div>

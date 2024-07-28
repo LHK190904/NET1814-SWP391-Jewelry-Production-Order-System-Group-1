@@ -79,8 +79,13 @@ function CartRequest() {
   };
 
   useEffect(() => {
-    fetchRequests();
-    fetchAPI();
+    const user = authService.getCurrentUser();
+    if (!user) {
+      navigate("/login");
+    } else {
+      fetchRequests();
+      fetchAPI();
+    }
   }, []);
 
   useEffect(() => {
@@ -111,7 +116,7 @@ function CartRequest() {
 
   const handleConfirmDeny = async () => {
     try {
-      await axiosInstance.put(
+      const response = await axiosInstance.put(
         `requests/denyQuotationFromCustomer/${selectedReqID}`,
         deniedReason,
         {
@@ -120,7 +125,7 @@ function CartRequest() {
           },
         }
       );
-
+      console.log(response);
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
           req.id === selectedReqID ? { ...req, status: "Denied" } : req
@@ -265,7 +270,7 @@ function CartRequest() {
         sellCost,
         updated,
       };
-
+      // console.log(payload);
       await axiosInstance.put(`/requests/${selectedReqID}`, payload);
       handleHideModal();
       message.success("Cập nhật yêu cầu thành công.");
@@ -342,6 +347,35 @@ function CartRequest() {
     }
   };
 
+  const getStatusTranslation = (status) => {
+    switch (status) {
+      case "Approved":
+        return "Đã được phê duyệt";
+      case "Unapproved":
+        return "Chưa được phê duyệt";
+      case "Denied from manager":
+        return "Quản lý từ chối giá đã báo";
+      case "Ordering":
+        return "Đang đặt hàng";
+      case "finished":
+        return "Đã hoàn thành";
+      case "Sending":
+        return "Đã gửi yêu cầu";
+      case "Denied":
+        return "Khách hàng từ chối giá đã báo";
+      case "Depositing":
+        return "Thực hiện đặt cọc";
+      case "Processing":
+        return "Đang xử lý";
+      case "Pending quotation for manager":
+        return "Đợi quản lý phê duyệt giá";
+      case "Pending quotation for customer":
+        return "Đợi khách hàng phê duyệt giá";
+      default:
+        return status;
+    }
+  };
+
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -392,38 +426,9 @@ function CartRequest() {
                       Từ chối
                     </button>
                   </div>
-                ) : item.status === "Approved" ||
-                  item.status === "Unapproved" ||
-                  item.status === "Denied from manager" ||
-                  item.status === "Ordering" ||
-                  item.status === "finished" ||
-                  item.status === "Sending" ||
-                  item.status === "Denied" ||
-                  item.status === "Depositing" ||
-                  item.status === "Processing" ? (
-                  <div className="col-span-1 p-2 bg-white">
-                    <span>{item.status}</span>
-                  </div>
-                ) : item.status === "Pending quotation for manager" ? (
-                  <div className="col-span-1 p-2 bg-white">
-                    <span>{item.status}</span>
-                  </div>
                 ) : (
                   <div className="col-span-1 p-2 bg-white">
-                    <button
-                      onClick={() =>
-                        setRequests((prevRequest) =>
-                          prevRequest.map((req) =>
-                            req.id === item.id
-                              ? { ...req, status: "action" }
-                              : req
-                          )
-                        )
-                      }
-                      className="bg-blue-400 p-2 rounded-lg hover:bg-blue-500"
-                    >
-                      {item.status}
-                    </button>
+                    <span>{getStatusTranslation(item.status)}</span>
                   </div>
                 )}
                 <div className="col-span-1 p-2 bg-white border">
@@ -464,14 +469,12 @@ function CartRequest() {
                         <DeleteOutlined />
                       </button>
                     </Popconfirm>
-                    {item.companyDesign === null && (
-                      <button
-                        onClick={() => openUpdateModal(item.id)}
-                        className="p-2 rounded-md hover:bg-slate-300"
-                      >
-                        <EditOutlined />
-                      </button>
-                    )}
+                    <button
+                      onClick={() => openUpdateModal(item.id)}
+                      className="p-2 rounded-md hover:bg-slate-300"
+                    >
+                      <EditOutlined />
+                    </button>
                     <Popconfirm
                       title="Xác nhận gửi yêu cầu "
                       onConfirm={() => handleSendRequest(item.id)}

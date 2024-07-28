@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Input } from "antd";
+import { Modal, Button, Input, Dropdown, Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
 import LogoutButton from "../../../components/logoutButton";
@@ -15,6 +15,8 @@ function ManagerRequest() {
   const [denyReason, setDenyReason] = useState("");
   const [currentRequestId, setCurrentRequestId] = useState(null);
   const [currentQuotationId, setCurrentQuotationId] = useState(null);
+
+  const navigate = useNavigate();
 
   const fetchRequests = async () => {
     try {
@@ -104,13 +106,34 @@ function ManagerRequest() {
     setDenyReason("");
   };
 
-  const navigate = useNavigate();
-
   const handleNavigateClick = (path) => {
     if (location.pathname !== path) {
       navigate(path);
     }
   };
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="requests">
+        <button onClick={() => handleNavigateClick("/manager/request")}>
+          QUẢN LÝ YÊU CẦU
+        </button>
+      </Menu.Item>
+      <Menu.Item key="orders">
+        <button onClick={() => handleNavigateClick("/manager/order")}>
+          QUẢN LÝ ĐƠN HÀNG
+        </button>
+      </Menu.Item>
+      <Menu.Item key="dashboard">
+        <button onClick={() => handleNavigateClick("/dashboard")}>
+          DASHBOARD
+        </button>
+      </Menu.Item>
+      <Menu.Item key="logout">
+        <LogoutButton />
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <div className="bg-[#434343] min-h-screen w-screen">
@@ -126,27 +149,15 @@ function ManagerRequest() {
           <h1 className="text-5xl">QUẢN LÝ</h1>
         </div>
         <div className="w-80 text-right">
-          <LogoutButton />
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <Button className="bg-[#F7EF8A]">MENU</Button>
+          </Dropdown>
         </div>
       </div>
       <Navbar />
-      <h1 className="text-center text-[#F7EF8A] text-4xl font-bold">
+      <h1 className="text-center text-[#F7EF8A] text-4xl font-bold my-4">
         QUẢN LÝ YÊU CẦU
       </h1>
-      <div className="flex justify-center gap-1 mb-1 text-white">
-        <button
-          onClick={() => handleNavigateClick("/manager/request")}
-          className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
-        >
-          QUẢN LÝ YÊU CẦU
-        </button>
-        <button
-          onClick={() => handleNavigateClick("/manager/order")}
-          className="w-1/3 p-1 rounded-lg bg-blue-400 hover:bg-blue-500"
-        >
-          QUẢN LÝ ĐƠN HÀNG
-        </button>
-      </div>
       <div className="grid grid-cols-6 w-3/4 mx-auto bg-gray-400 p-4 rounded-lg">
         <div className="col-span-1 p-2 font-bold">ID YÊU CẦU</div>
         <div className="col-span-1 p-2 font-bold">ID KHÁCH HÀNG</div>
