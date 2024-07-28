@@ -137,74 +137,96 @@
 
 package com.backendVn.SWP.services;
 
+import com.backendVn.SWP.entities.Request;
 import com.backendVn.SWP.entities.RequestOrder;
 import com.backendVn.SWP.entities.WarrantyCard;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.repositories.RequestOrderRepository;
+import com.backendVn.SWP.repositories.RequestRepository;
 import com.backendVn.SWP.repositories.WarrantyCardRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.apache.pdfbox.pdmodel.interactive.form.PDField;
+import com.itextpdf.forms.PdfAcroForm;
+import com.itextpdf.forms.fields.PdfFormField;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
-import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class PDFGeneratorService {
 
-    RequestOrderRepository requestOrderRepository;
-    WarrantyCardRepository warrantyCardRepository;
+    private final RequestRepository requestRepository;
+    private final RequestOrderRepository requestOrderRepository;
+    private final WarrantyCardRepository warrantyCardRepository;
 
-    public void export(HttpServletResponse response, Integer orderID) throws IOException {
-        RequestOrder requestOrder = requestOrderRepository.findById(orderID).orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
-        WarrantyCard warrantyCard = warrantyCardRepository.findById(orderID).orElseThrow(() -> new AppException(ErrorCode.WARRANTY_CARD_NOT_FOUND));
+    public PDFGeneratorService(RequestRepository requestRepository, RequestOrderRepository requestOrderRepository,
+                               WarrantyCardRepository warrantyCardRepository) {
+        this.requestRepository = requestRepository;
+        this.requestOrderRepository = requestOrderRepository;
+        this.warrantyCardRepository = warrantyCardRepository;
+    }
+
+    public void generateWarrantyCertificate(List<String> data, String templatePath, String outputPath, Integer requestId) throws Exception {
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+        RequestOrder requestOrder = requestOrderRepository.findByRequestID(request)
+                .orElseThrow(()-> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
+        WarrantyCard warrantyCard = warrantyCardRepository.findByRequestOrder(requestOrder)
+                .orElseThrow(()-> new AppException(ErrorCode.WARRANTY_CARD_NOT_FOUND));
 
         // Load the PDF template
-        File file = new File("C:\\Users\\truon\\Downloads\\PDFForm (2).pdf"); // Path to your PDF form
-        try (PDDocument document = PDDocument.load(file)) {
-            PDAcroForm acroForm = document.getDocumentCatalog().getAcroForm();
+        InputStream templateStream = new FileInputStream(templatePath);
+        PdfDocument pdfDoc = new PdfDocument(new PdfReader(templateStream), new PdfWriter(outputPath));
+        PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
 
-            if (acroForm != null) {
-                // Fill in the form fields
-                fillField(acroForm, "productName", getProductName(requestOrder));
-                fillField(acroForm, "productType", requestOrder.getRequestID().getCategory());
-                fillField(acroForm, "material", requestOrder.getRequestID().getMaterialID().getMaterialName());
-                fillField(acroForm, "mainStone", requestOrder.getRequestID().getMainStone() != null ? requestOrder.getRequestID().getMainStone().getMaterialName() : "");
-                fillField(acroForm, "subStone", requestOrder.getRequestID().getSubStone() != null ? requestOrder.getRequestID().getSubStone().getMaterialName() : "");
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy").withZone(ZoneId.systemDefault());
-                fillField(acroForm, "duration", formatter.format(warrantyCard.getCreatedAt()) + " - " + formatter.format(warrantyCard.getEndAt()));
-
-                // Set the response content type
-                response.setContentType("application/pdf");
-                response.setHeader("Content-Disposition", "attachment; filename=warranty_card.pdf");
-
-                // Save the filled PDF to the response output stream
-                document.save(response.getOutputStream());
+        // Fill in the form fields
+//        for (Map.Entry<String, String> entry : data.entrySet()) {
+//            PdfFormField field = form.getField(entry.getKey());
+//            if (field != null) {
+//                field.setValue(entry.getValue());
+//            }
+//        }
+        for (String fileName : data) {
+            PdfFormField field = form.getField(fileName);
+            if (field != null) {
+                if(field.equals("Customer Name ________________")){
+                    field.setValue(request.getCustomerID().getCusName());
+                }
+                if(field.equals("Product Name __________________")){
+                    field.setValue(requestOrder.getDesignID().getDesignName());
+                }
+                if(field.equals("Product Type____________")){
+                    field.setValue(request.getCategory());
+                }
+                if(field.equals("Material _____________")){
+                    field.setValue(request.getMaterialID().getMaterialName());
+                }
+                if(field.equals("Main Stone ________________")){
+                    field.setValue(request.getMainStone().getMaterialName());
+                }
+                if(field.equals("Sub Stone _________________")){
+                    field.setValue(request.getSubStone().getMaterialName());
+                }
+                if(field.equals("Warranty Start Date ______")){
+                   field.setValue(String.valueOf(warrantyCard.getCreatedAt()));
+                }
+                if(field.equals("Warranty End Date ______")){
+                    field.setValue(String.valueOf(warrantyCard.getEndAt()));
+                }
             }
         }
-    }
 
-    private void fillField(PDAcroForm acroForm, String fieldName, String value) throws IOException {
-        PDField field = acroForm.getField(fieldName);
-        if (field != null) {
-            field.setValue(value);
-        }
-    }
 
-    private String getProductName(RequestOrder requestOrder) {
-        if (requestOrder.getRequestID().getCompanyDesign() != null) {
-            return requestOrder.getRequestID().getCompanyDesign().getDesignName();
-        } else {
-            return requestOrder.getDesignID().getDesignName();
-        }
+        // Flatten the form to make it uneditable
+        form.flattenFields();
+
+        // Close the document
+        pdfDoc.close();
     }
 }
+
