@@ -79,13 +79,8 @@ function CartRequest() {
   };
 
   useEffect(() => {
-    const user = authService.getCurrentUser();
-    if (!user) {
-      navigate("/login");
-    } else {
-      fetchRequests();
-      fetchAPI();
-    }
+    fetchRequests();
+    fetchAPI();
   }, []);
 
   useEffect(() => {
@@ -116,7 +111,7 @@ function CartRequest() {
 
   const handleConfirmDeny = async () => {
     try {
-      const response = await axiosInstance.put(
+      const respone = await axiosInstance.put(
         `requests/denyQuotationFromCustomer/${selectedReqID}`,
         deniedReason,
         {
@@ -125,7 +120,7 @@ function CartRequest() {
           },
         }
       );
-      console.log(response);
+      console.log(respone);
       setRequests((prevRequest) =>
         prevRequest.map((req) =>
           req.id === selectedReqID ? { ...req, status: "Denied" } : req
@@ -347,35 +342,6 @@ function CartRequest() {
     }
   };
 
-  const getStatusTranslation = (status) => {
-    switch (status) {
-      case "Approved":
-        return "Đã được phê duyệt";
-      case "Unapproved":
-        return "Chưa được phê duyệt";
-      case "Denied from manager":
-        return "Quản lý từ chối giá đã báo";
-      case "Ordering":
-        return "Đang đặt hàng";
-      case "finished":
-        return "Đã hoàn thành";
-      case "Sending":
-        return "Đã gửi yêu cầu";
-      case "Denied":
-        return "Khách hàng từ chối giá đã báo";
-      case "Depositing":
-        return "Thực hiện đặt cọc";
-      case "Processing":
-        return "Đang xử lý";
-      case "Pending quotation for manager":
-        return "Đợi quản lý phê duyệt giá";
-      case "Pending quotation for customer":
-        return "Đợi khách hàng phê duyệt giá";
-      default:
-        return status;
-    }
-  };
-
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -428,7 +394,29 @@ function CartRequest() {
                   </div>
                 ) : (
                   <div className="col-span-1 p-2 bg-white">
-                    <span>{getStatusTranslation(item.status)}</span>
+                    <span>
+                      {item.status === "Approved"
+                        ? "Đã được phê duyệt"
+                        : item.status === "Unapproved"
+                        ? "Chưa được phê duyệt"
+                        : item.status === "Denied from manager"
+                        ? "Quản lý từ chối giá đã báo"
+                        : item.status === "Ordering"
+                        ? "Đang đặt hàng"
+                        : item.status === "finished"
+                        ? "Đã hoàn thành"
+                        : item.status === "Sending"
+                        ? "Đã gửi yêu cầu"
+                        : item.status === "Denied"
+                        ? "Khách hàng từ chối giá đã báo"
+                        : item.status === "Depositing"
+                        ? "Thực hiện đặt cọc"
+                        : item.status === "Processing"
+                        ? "Đang xử lý"
+                        : item.status === "Pending quotation for manager"
+                        ? "Đợi quản lý phê duyệt"
+                        : item.status}
+                    </span>
                   </div>
                 )}
                 <div className="col-span-1 p-2 bg-white border">
