@@ -576,7 +576,7 @@ function CartRequest() {
             <Upload
               listType="picture-card"
               fileList={fileList}
-              accept=".png,.jpg"
+              accept=".png,.jpg,.jpeg,.jfif"
               onPreview={handlePreview}
               onChange={handleChange}
               beforeUpload={() => false}

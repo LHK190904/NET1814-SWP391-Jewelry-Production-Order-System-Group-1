@@ -23,7 +23,7 @@ function ManagerOrder() {
           axiosInstance.get("request-orders/getUserByRole/DESIGN_STAFF"),
           axiosInstance.get("request-orders/getUserByRole/PRODUCTION_STAFF"),
         ]);
-
+      console.log(orderResponse.data.result);
       setOrderList(orderResponse.data.result);
       setDesignStaffList(designResponse.data.result);
       setProductionStaffList(productionResponse.data.result);
@@ -117,9 +117,12 @@ function ManagerOrder() {
       <h1 className="text-center text-[#F7EF8A] text-4xl font-bold my-4">
         QUẢN LÝ ĐƠN HÀNG
       </h1>
-      <div className="grid grid-cols-3 w-3/4 mx-auto bg-gray-300 p-4 rounded-lg">
+      <div className="grid grid-cols-4 w-3/4 mx-auto bg-gray-300 p-4 rounded-lg">
         <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
           ID ĐƠN HÀNG
+        </div>
+        <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
+          ID YÊU CẦU
         </div>
         <div className="col-span-2 bg-gray-400 p-2 font-bold text-center">
           CHỈ ĐỊNH CÔNG VIỆC
@@ -128,6 +131,9 @@ function ManagerOrder() {
           <React.Fragment key={item.id}>
             <div className="col-span-1 border p-2 text-center bg-white">
               {item.id}
+            </div>
+            <div className="col-span-1 border p-2 text-center bg-white">
+              {item.requestID}
             </div>
             <div className="col-span-2 border p-2 text-center bg-white">
               <Button type="link" onClick={() => handleShowModal(item)}>
