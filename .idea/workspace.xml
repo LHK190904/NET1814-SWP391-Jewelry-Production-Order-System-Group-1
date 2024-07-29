@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e1af738b-bf98-4814-9a93-12f34525442e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/79e2c04e-6146-46f3-8fc6-a3cb80a9b5e2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/79e2c04e-6146-46f3-8fc6-a3cb80a9b5e2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GeneratedWarrantyCertificate.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/GeneratedWarrantyCertificate.pdf" afterDir="false" />
     </list>
     <list id="6954d707-cf86-43f1-88d4-158668584ab2" name="Changes by Truong Giang" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -136,6 +136,7 @@
       <workItem from="1722136996751" duration="1497000" />
       <workItem from="1722148371007" duration="6018000" />
       <workItem from="1722158785642" duration="944000" />
+      <workItem from="1722216752072" duration="672000" />
     </task>
     <servers />
   </component>
