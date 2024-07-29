@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findByStatus(String pendingQuotation);
@@ -22,9 +23,11 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 
     List<Request> findAllByCompanyDesignIsNotNull();
 
-    Request findFirstByCompanyDesign(Design design);
+    Optional<Request> findFirstByCompanyDesignAndStatus(Design design, String finished);
 
     Long countByCreatedAtBetween(Instant startDate, Instant endDate);
 
     List<Request> findByCreatedAtBetweenAndStatus(Instant startDate, Instant endDate, String finished);
+
+    boolean existsByCompanyDesignAndStatus(Design design, String finished);
 }
