@@ -66,10 +66,12 @@ public class ProcessService {
         }
 
         requestOrderRepository.save(requestOrder);
-
-        Process savedProcess = processRepository.save(process);
-
-        return processMapper.toProcessResponse(savedProcess);
+        if(processList.size() == 4){
+            return null;
+        } else {
+            Process savedProcess = processRepository.save(process);
+            return processMapper.toProcessResponse(savedProcess);
+        }
     }
 
     public ProcessResponse updateProcess(Integer requestOrderId, ProcessUpdateRequest processUpdateRequest) {

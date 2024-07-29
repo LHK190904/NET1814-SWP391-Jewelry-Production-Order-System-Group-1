@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -41,6 +43,12 @@ public class PaymentService {
         List<Quotation> quotations = quotationRepository.findByRequestID(request)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
         quotations.sort(Comparator.comparing(Quotation::getCreatedAt));
+        List<Payment> payments = paymentRepository.findByRequestIDAndPaymentType(request, "Deposit")
+                .orElse(new ArrayList<>());
+
+        if (payments.isEmpty()){
+            return null;
+        }
 
         Payment payment = Payment.builder()
                 .paymentType("Deposit")
@@ -61,6 +69,12 @@ public class PaymentService {
         List<Quotation> quotations = quotationRepository.findByRequestID(request)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
         quotations.sort(Comparator.comparing(Quotation::getCreatedAt));
+        List<Payment> payments = paymentRepository.findByRequestIDAndPaymentType(request, "Deposit")
+                .orElse(new ArrayList<>());
+
+        if (payments.isEmpty()){
+            return null;
+        }
 
         Payment payment = Payment.builder()
                 .paymentType("Payment")
@@ -105,8 +119,14 @@ public class PaymentService {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
 
-        Payment payment = paymentRepository.findByRequestIDAndPaymentType(request, paymentType)
-                .orElseThrow(()-> new AppException(ErrorCode.PAYMENT_NOT_FOUND));
-        return paymentMapper.toPaymentResponse(payment);
+        List<Payment> payments = paymentRepository.findByRequestIDAndPaymentType(request, paymentType)
+                .orElse(new ArrayList<>());
+
+        if (payments.isEmpty()){
+            return null;
+        }
+
+        payments.sort(Comparator.comparing(Payment::getCreatedAt));
+        return paymentMapper.toPaymentResponse(payments.getLast());
     }
 }
