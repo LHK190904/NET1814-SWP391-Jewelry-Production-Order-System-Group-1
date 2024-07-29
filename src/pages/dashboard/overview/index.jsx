@@ -53,7 +53,7 @@ function Overview() {
 
   return (
     <div className="grid grid-cols-12 m-2">
-      <div className="col-span-3 bg-white p-2 mx-2 rounded-lg">
+      <div className="col-span-4 bg-white p-2 mx-2 rounded-lg">
         <div className="text-2xl font-bold">Total Sales</div>
         <div
           className={getTextColor(
@@ -64,7 +64,7 @@ function Overview() {
         </div>
         <div>from last month</div>
       </div>
-      <div className="col-span-3 bg-white p-2 mx-2 rounded-lg">
+      <div className="col-span-4 bg-white p-2 mx-2 rounded-lg">
         <div className="text-2xl font-bold">Order Complete</div>
         <div
           className={getTextColor(
@@ -75,7 +75,7 @@ function Overview() {
         </div>
         <div>from last month</div>
       </div>
-      <div className="col-span-3 bg-white p-2 mx-2 rounded-lg">
+      <div className="col-span-4 bg-white p-2 mx-2 rounded-lg">
         <div className="text-2xl font-bold">Total Requests</div>
         <div
           className={getTextColor(
