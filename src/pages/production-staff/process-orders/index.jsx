@@ -16,8 +16,19 @@ function ProductionStaff() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [statusProcess, setStatusProcess] = useState("");
   const [user, setUser] = useState(null);
+  const [material, setMaterial] = useState([]);
   const itemsPerPage = 12;
   const navigate = useNavigate();
+
+  const fetchMaterial = async () => {
+    try {
+      const response = await axiosInstance.get(`material/notGold`);
+      setMaterial(response.data.result);
+      console.log(response.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchSalerData = async () => {
     const currentUser = authService.getCurrentUser();
@@ -39,6 +50,7 @@ function ProductionStaff() {
   useEffect(() => {
     if (authorService.checkPermission("PRODUCTION_STAFF")) {
       fetchSalerData();
+      fetchMaterial();
     } else {
       navigate("/unauthorized");
     }
@@ -47,6 +59,7 @@ function ProductionStaff() {
   const handleSelectOrder = async (id) => {
     try {
       const response = await axiosInstance.get(`design/${id}`);
+      console.log(response.data.result);
       setSelectedOrder(response.data.result || null);
       setOrderId(id);
       const statusResponse = await axiosInstance.get(
@@ -96,6 +109,11 @@ function ProductionStaff() {
       default:
         return status;
     }
+  };
+
+  const getMaterialName = (id) => {
+    const materialItem = material.find((item) => item.id === id);
+    return materialItem ? materialItem.materialName : "Không có";
   };
 
   return (
@@ -190,13 +208,13 @@ function ProductionStaff() {
                   <div className="flex-1 space-y-2">
                     <div className="font-bold mt-2">Đá chính</div>
                     <div className="bg-white p-2 rounded-md w-full">
-                      {selectedOrder.mainStoneId || 0}
+                      {getMaterialName(selectedOrder.mainStoneId)}
                     </div>
                   </div>
                   <div className="flex-1 space-y-2">
                     <div className="font-bold">Đá phụ</div>
                     <div className="bg-white p-2 rounded-md w-full">
-                      {selectedOrder.subStoneId || 0}
+                      {getMaterialName(selectedOrder.subStoneId)}
                     </div>
                   </div>
                 </div>
