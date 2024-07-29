@@ -2,6 +2,8 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.response.*;
 import com.backendVn.SWP.entities.*;
+import com.backendVn.SWP.exception.AppException;
+import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.PaymentMapper;
 import com.backendVn.SWP.mappers.RequestMapper;
 import com.backendVn.SWP.mappers.UserMapper;
@@ -83,10 +85,30 @@ public class DashboardService {
 
     //SAFU SAFUUUUUUUUUUUUUUUUUUUU
     public BigDecimal calculateTotalRevenue(Instant startDate, Instant endDate) {
-        List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(startDate, endDate);
+        List<Invoice> invoices = requestRepository.findByCreatedAtBetweenAndStatus(startDate, endDate, "finished")
+                .stream()
+                .map(request -> invoiceRepository.findByRequestID(request)
+                        .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND)))
+                .toList();
+
         return invoices.stream()
                 .map(Invoice::getTotalCost)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal calculateTotalProfit(Instant startDate, Instant endDate) {
+        // Lấy revenue từ khoảng thời gian xác định
+        BigDecimal revenue = calculateTotalRevenue(startDate, endDate);
+
+        List<Request> requests = requestRepository.findByCreatedAtBetweenAndStatus(startDate, endDate, "finished");
+
+        BigDecimal totalCapitalCost = requests.stream()
+                .map(request -> quotationRepository.findTopByRequestIDOrderByCreatedAtDesc(request)
+                        .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND))
+                        .getCapitalCost())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return revenue.subtract(totalCapitalCost);
     }
 
     public List<MonthlyIncomeResponse> calculateMonthlyProfit(int year, int startMonth, int endMonth) {
@@ -104,7 +126,7 @@ public class DashboardService {
     }
 
     // LAT XEM PROFIT
-    public BigDecimal calculateTotalProfit(Instant startDate, Instant endDate) {
+    public BigDecimal calculateTotalProfit1(Instant startDate, Instant endDate) {
         BigDecimal totalRevenue = calculateTotalRevenue(startDate, endDate);
         BigDecimal totalExpense = quotationRepository.findByCreatedAtBetween(startDate, endDate).stream()
                 .map(Quotation::getCapitalCost)
