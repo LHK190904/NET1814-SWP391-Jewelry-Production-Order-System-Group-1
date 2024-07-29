@@ -96,6 +96,21 @@ public class DashboardService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public BigDecimal calculateTotalProfit(Instant startDate, Instant endDate) {
+        // Lấy revenue từ khoảng thời gian xác định
+        BigDecimal revenue = calculateTotalRevenue(startDate, endDate);
+
+        List<Request> requests = requestRepository.findByCreatedAtBetweenAndStatus(startDate, endDate, "finished");
+
+        BigDecimal totalCapitalCost = requests.stream()
+                .map(request -> quotationRepository.findTopByRequestIDOrderByCreatedAtDesc(request)
+                        .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND))
+                        .getCapitalCost())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return revenue.subtract(totalCapitalCost);
+    }
+
     public List<MonthlyIncomeResponse> calculateMonthlyProfit(int year, int startMonth, int endMonth) {
         List<MonthlyIncomeResponse> monthlyProfits = new ArrayList<>();
 
@@ -111,7 +126,7 @@ public class DashboardService {
     }
 
     // LAT XEM PROFIT
-    public BigDecimal calculateTotalProfit(Instant startDate, Instant endDate) {
+    public BigDecimal calculateTotalProfit1(Instant startDate, Instant endDate) {
         BigDecimal totalRevenue = calculateTotalRevenue(startDate, endDate);
         BigDecimal totalExpense = quotationRepository.findByCreatedAtBetween(startDate, endDate).stream()
                 .map(Quotation::getCapitalCost)
