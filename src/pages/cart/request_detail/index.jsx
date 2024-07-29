@@ -8,11 +8,17 @@ import PayPalButton from "../../../components/paypalButton";
 function RequestDetail() {
   const { requestID } = useParams();
   const [request, setRequest] = useState({});
-  const [stones, setStones] = useState([]);
   const navigate = useNavigate();
   const [totalCost, setTotalCost] = useState("0");
   const [paymentID, setPaymentID] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const jewelryTypeMapping = {
+    "NECKLACE": "Dây chuyền",
+    "RING": "Nhẫn",
+    "BRACELET": "Vòng tay",
+    "EARRINGS": "Bông tai"
+  };
 
   const fetchRequest = async () => {
     if (!requestID) {
@@ -43,25 +49,10 @@ function RequestDetail() {
     }
   };
 
-  const fetchStone = async () => {
-    try {
-      const response = await axiosInstance.get(`material/notGold`);
-      setStones(response.data.result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     fetchRequest();
-    fetchStone();
     fetchPaymentId();
   }, [requestID]);
-
-  const getStoneType = (stoneId) => {
-    const stone = stones.find((stone) => stone.id === stoneId);
-    return stone ? stone.materialName : "N/A";
-  };
 
   const handleDelete = async (reqID) => {
     try {
@@ -116,7 +107,7 @@ function RequestDetail() {
               <div className="col-span-1 md:col-span-5 bg-white p-4 rounded-lg shadow">
                 <div className="text-lg md:text-xl">
                   <div className="mb-2">
-                    <b>LOẠI TRANG SỨC:</b> {request.category}
+                    <b>LOẠI TRANG SỨC:</b> {jewelryTypeMapping[request.category] ?? request.category}
                   </div>
                   <div className="mb-2">
                     <b>LOẠI VÀNG:</b> {request.materialName}
@@ -125,10 +116,10 @@ function RequestDetail() {
                     <b>TRỌNG LƯỢNG:</b> {request.materialWeight}
                   </div>
                   <div className="mb-2">
-                    <b>ĐÁ CHÍNH:</b> {getStoneType(request.mainStoneId)}
+                    <b>ĐÁ CHÍNH:</b> {request.mainStone ?? "N/A"}
                   </div>
                   <div className="mb-2">
-                    <b>ĐÁ PHỤ:</b> {getStoneType(request.subStoneId)}
+                    <b>ĐÁ PHỤ:</b> {request.subStone ?? "N/A"}
                   </div>
                   <div className="mb-2">
                     <b>MÔ TẢ:</b> {request.description}
