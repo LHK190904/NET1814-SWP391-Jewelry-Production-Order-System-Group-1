@@ -119,10 +119,10 @@ function ManagerOrder() {
       </h1>
       <div className="grid grid-cols-4 w-3/4 mx-auto bg-gray-300 p-4 rounded-lg">
         <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
-          ID ĐƠN HÀNG
+          MÃ ĐƠN HÀNG
         </div>
         <div className="col-span-1 bg-gray-400 p-2 font-bold text-center">
-          ID YÊU CẦU
+          MÃ YÊU CẦU
         </div>
         <div className="col-span-2 bg-gray-400 p-2 font-bold text-center">
           CHỈ ĐỊNH CÔNG VIỆC

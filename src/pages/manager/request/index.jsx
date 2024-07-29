@@ -191,7 +191,7 @@ function ManagerRequest() {
                     onClick={() => handleApprove(item.quotation.id, item.id)}
                     className="bg-green-400 text-black p-2 rounded-lg mr-2"
                   >
-                    Approve
+                    Chấp nhận 
                   </button>
                   <button
                     onClick={() =>
@@ -199,7 +199,7 @@ function ManagerRequest() {
                     }
                     className="bg-red-400 text-black p-2 rounded-lg"
                   >
-                    Deny
+                    Từ chối
                   </button>
                 </div>
               ) : (
