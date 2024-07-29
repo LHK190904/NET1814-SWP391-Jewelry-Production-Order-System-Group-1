@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e1af738b-bf98-4814-9a93-12f34525442e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/controllers/DashboardController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DashboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/SWP/src/main/java/com/backendVn/SWP/services/DashboardService.java" afterDir="false" />
     </list>
     <list id="6954d707-cf86-43f1-88d4-158668584ab2" name="Changes by Truong Giang" comment="" />
