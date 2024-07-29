@@ -196,7 +196,7 @@ public class PDFGeneratorService {
 
             PdfCanvas canvas = new PdfCanvas(pdfDoc.getFirstPage());
 
-            addTextAtPosition(document, request.getCustomerID().getCusName(), 430, 435);
+            addTextAtPosition(document, request.getCustomerID().getCusName(), 430, 433);
             addTextAtPosition(document, requestOrder.getDesignID().getDesignName(), 415, 410);
             addTextAtPosition(document, request.getCategory(), 410, 387);
             addTextAtPosition(document, request.getMaterialID().getMaterialName(), 565, 387);

@@ -3,10 +3,7 @@ package com.backendVn.SWP.services;
 import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
-import com.backendVn.SWP.entities.Design;
-import com.backendVn.SWP.entities.Material;
-import com.backendVn.SWP.entities.Request;
-import com.backendVn.SWP.entities.User;
+import com.backendVn.SWP.entities.*;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestMapper;
@@ -27,6 +24,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +38,7 @@ public class RequestService {
     MaterialRepository materialRepository;
     DesignRepository designRepository;
     DesignService designService;
+    private final RequestOrderRepository requestOrderRepository;
 
     public RequestResponse sendRequest(Integer requestId){
         Request request = requestRepository.findById(requestId)
@@ -223,8 +222,16 @@ public class RequestService {
     public void deleteRequest(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-        request.setStatus("Disable");
-        requestRepository.save(request);
+
+        Optional<RequestOrder> optionalRequestOrder = requestOrderRepository.findByRequestID(request);
+
+            if (optionalRequestOrder.isPresent()) {
+                RequestOrder requestOrder = optionalRequestOrder.get();
+                requestOrder.setStatus("Disable");
+                requestOrderRepository.save(requestOrder);
+            }
+                request.setStatus("Disable");
+                requestRepository.save(request);
     }
 
     public List<RequestResponse> getAllRequests() {
