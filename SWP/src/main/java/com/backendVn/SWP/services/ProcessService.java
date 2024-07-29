@@ -60,7 +60,7 @@ public class ProcessService {
             process.setStatus("50%");
         } else if(processList.size() == 2) {
             process.setStatus("75%");
-        } else {
+        } else if(processList.size() == 3){
             process.setStatus("100%");
             requestOrder.setStatus("Completed!!!");
         }
