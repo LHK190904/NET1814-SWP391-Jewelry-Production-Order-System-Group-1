@@ -75,11 +75,12 @@ public class AuthenticationService {
 
         log.info("User Info {}", userInfo);
 
-        var user = userRepository.findByUserName(userInfo.getEmail()).orElseGet(
+        var user = userRepository.findByUserName(userInfo.getName()).orElseGet(
                 () -> userRepository.save(User.builder()
                         .userName(userInfo.getName())
                         .title("CUSTOMER")
                         .email(userInfo.getEmail())
+                        .cusName(userInfo.getGivenName() + " " + userInfo.getFamilyName())
                         .build()));
 
         var token = generateToken(user);
