@@ -253,7 +253,11 @@ public class DashboardService {
     }
 
     public Long countOrders(Instant startDate, Instant endDate) {
-        return invoiceRepository.countByCreatedAtBetween(startDate, endDate);
+        return requestRepository.findByCreatedAtBetweenAndStatus(startDate, endDate, "finished")
+                .stream()
+                .map(request -> invoiceRepository.findByRequestID(request)
+                        .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND)))
+                .count();
     }
 
     //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
