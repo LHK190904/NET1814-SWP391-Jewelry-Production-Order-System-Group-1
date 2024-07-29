@@ -89,6 +89,7 @@ function CartOrder() {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     const user = authService.getCurrentUser();
     if (user) {
       fetchOrders();
@@ -97,6 +98,11 @@ function CartOrder() {
       navigate("/");
     }
   }, [requestID]);
+=======
+    fetchOrders();
+    fetchStone();
+  }, [requestID, isPaid]);
+>>>>>>> c06885e08e3c1d7683b6e693bcb9820fb88c656a
 
   useEffect(() => {
     if (order.status === "Completed!!!") {
@@ -117,6 +123,7 @@ function CartOrder() {
       await axiosInstance.put(`/payment/makePayment/${payID.data.result.id}`);
       await axiosInstance.post(`/warranty-cards/${order.id}`);
       setIsPaid(true);
+
       message.success("Thanh toán thành công!");
     } catch (error) {
       console.error("Error during payment success handling:", error);
@@ -141,7 +148,7 @@ function CartOrder() {
       window.location.reload();
     } catch (error) {
       console.log(error);
-      message.error("Có lỗi xảy ra");
+      message.error("Nhân viên thiết kế chưa gửi bản thiết kế");
     }
   };
 
@@ -155,7 +162,7 @@ function CartOrder() {
       setFeedback("");
     } catch (error) {
       console.log(error);
-      message.error("Có lỗi xảy ra");
+      message.error("Nhân viên thiết kế chưa gửi bản thiết kế");
     }
   };
 
@@ -267,9 +274,10 @@ function CartOrder() {
                     </div>
                   ) : (
                     <div className="col-span-1 md:col-span-12 text-center">
-                      Chưa có hình ảnh
+                      Chưa có hình ảnh bản thiết kế chưa hoàn thành
                     </div>
                   )}
+
                   <div className="col-span-1 md:col-span-6 text-lg md:text-xl">
                     <div className="flex flex-col justify-evenly h-full p-1">
                       <form>
@@ -295,13 +303,14 @@ function CartOrder() {
                           </Button>
                         </div>
                       </form>
+
                       <Popconfirm
                         title="Xác nhận hủy đơn "
                         onConfirm={() => handleDelete(requestID)}
                         okText="Xóa"
                         cancelText="Hủy"
                       >
-                        <button className="bg-red-500 p-2 rounded-md hover:bg-red-600 text-white">
+                        <button className="bg-red-500 p-2 rounded-md hover:bg-red-600 text-white mt-28">
                           Huỷ đơn <DeleteOutlined />
                         </button>
                       </Popconfirm>
@@ -364,16 +373,18 @@ function CartOrder() {
                           ? new Date(process.updatedAt).toLocaleString()
                           : "N/A"}
                       </div>
-                      <Popconfirm
-                        title="Xác nhận hủy đơn "
-                        onConfirm={() => handleDelete(requestID)}
-                        okText="Có"
-                        cancelText="Không"
-                      >
-                        <button className="bg-red-500 p-2 rounded-md hover:bg-red-600 text-white">
-                          Huỷ đơn <DeleteOutlined />
-                        </button>
-                      </Popconfirm>
+                      {order.status !== "finished" && (
+                        <Popconfirm
+                          title="Xác nhận hủy đơn "
+                          onConfirm={() => handleDelete(requestID)}
+                          okText="Có"
+                          cancelText="Không"
+                        >
+                          <button className="bg-red-500 p-2 rounded-md hover:bg-red-600 text-white">
+                            Huỷ đơn <DeleteOutlined />
+                          </button>
+                        </Popconfirm>
+                      )}
                       {(order.status === "finished" ||
                         order.status === "Completed!!!") && (
                         <>
