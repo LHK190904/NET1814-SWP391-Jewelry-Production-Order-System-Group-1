@@ -4,6 +4,7 @@ import axiosInstance from "../../../services/axiosInstance";
 import { message, Popconfirm, Modal } from "antd";
 import { DeleteOutlined } from "@mui/icons-material";
 import PayPalButton from "../../../components/paypalButton";
+import authService from "../../../services/authService";
 
 function RequestDetail() {
   const { requestID } = useParams();
@@ -14,10 +15,10 @@ function RequestDetail() {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const jewelryTypeMapping = {
-    "NECKLACE": "Dây chuyền",
-    "RING": "Nhẫn",
-    "BRACELET": "Vòng tay",
-    "EARRINGS": "Bông tai"
+    NECKLACE: "Dây chuyền",
+    RING: "Nhẫn",
+    BRACELET: "Vòng tay",
+    EARRINGS: "Bông tai",
   };
 
   const fetchRequest = async () => {
@@ -50,8 +51,13 @@ function RequestDetail() {
   };
 
   useEffect(() => {
-    fetchRequest();
-    fetchPaymentId();
+    const user = authService.getCurrentUser();
+    if (user) {
+      fetchRequest();
+      fetchPaymentId();
+    } else {
+      navigate("/");
+    }
   }, [requestID]);
 
   const handleDelete = async (reqID) => {
@@ -107,7 +113,8 @@ function RequestDetail() {
               <div className="col-span-1 md:col-span-5 bg-white p-4 rounded-lg shadow">
                 <div className="text-lg md:text-xl">
                   <div className="mb-2">
-                    <b>LOẠI TRANG SỨC:</b> {jewelryTypeMapping[request.category] ?? request.category}
+                    <b>LOẠI TRANG SỨC:</b>{" "}
+                    {jewelryTypeMapping[request.category] ?? request.category}
                   </div>
                   <div className="mb-2">
                     <b>LOẠI VÀNG:</b> {request.materialName}

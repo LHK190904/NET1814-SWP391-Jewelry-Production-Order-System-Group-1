@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import PayPalButton from "../../../components/paypalButton";
 import { DeleteOutlined } from "@mui/icons-material";
+import authService from "../../../services/authService";
 
 function CartOrder() {
   const { requestID } = useParams();
@@ -88,8 +89,13 @@ function CartOrder() {
   };
 
   useEffect(() => {
-    fetchOrders();
-    fetchStone();
+    const user = authService.getCurrentUser();
+    if (user) {
+      fetchOrders();
+      fetchStone();
+    } else {
+      navigate("/");
+    }
   }, [requestID]);
 
   useEffect(() => {
