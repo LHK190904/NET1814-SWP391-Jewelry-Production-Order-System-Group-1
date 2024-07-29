@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../services/axiosInstance";
-import { Button, message, Modal } from "antd";
+import { Button, message, Modal, Popconfirm } from "antd";
 import Stepper from "../../../components/stepper";
 import {
   Table,
@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@mui/material";
 import PayPalButton from "../../../components/paypalButton";
+import { DeleteOutlined } from "@mui/icons-material";
 
 function CartOrder() {
   const { requestID } = useParams();
@@ -25,6 +26,7 @@ function CartOrder() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [stones, setStones] = useState([]);
   const [isPaid, setIsPaid] = useState(false);
+  const navigate = useNavigate();
 
   const fetchOrders = async () => {
     if (!requestID) {
@@ -184,7 +186,15 @@ function CartOrder() {
   const handleHideModal = () => {
     setIsOpenModal(false);
   };
-
+  const handleDelete = async (reqID) => {
+    try {
+      await axiosInstance.put(`requests/deleteRequest/${reqID}`);
+      navigate("/cart/request");
+      message.success("Huỷ đơn thành công");
+    } catch (error) {
+      console.error(`Error deleting request ID ${reqID}`, error);
+    }
+  };
   const getStoneType = (stoneId) => {
     const stone = stones.find((stone) => stone.id === stoneId);
     return stone ? stone.materialName : "N/A";
@@ -279,6 +289,16 @@ function CartOrder() {
                           </Button>
                         </div>
                       </form>
+                      <Popconfirm
+                        title="Xác nhận hủy đơn "
+                        onConfirm={() => handleDelete(requestID)}
+                        okText="Xóa"
+                        cancelText="Hủy"
+                      >
+                        <button className="bg-red-500 p-2 rounded-md hover:bg-red-600 text-white">
+                          Huỷ đơn <DeleteOutlined />
+                        </button>
+                      </Popconfirm>
                     </div>
                   </div>
                 </div>
@@ -332,12 +352,22 @@ function CartOrder() {
                         <b>TIẾN TRÌNH:</b> {process ? process.status : "N/A"}
                       </div>
                       <Stepper currentStep={getCurrentStep()} />
-                      <div>
+                      <div className="mb-10 mt-3">
                         <b>CẬP NHẬT LÚC:</b>
                         {process
                           ? new Date(process.updatedAt).toLocaleString()
-                          : ""}
+                          : "N/A"}
                       </div>
+                      <Popconfirm
+                        title="Xác nhận hủy đơn "
+                        onConfirm={() => handleDelete(requestID)}
+                        okText="Có"
+                        cancelText="Không"
+                      >
+                        <button className="bg-red-500 p-2 rounded-md hover:bg-red-600 text-white">
+                          Huỷ đơn <DeleteOutlined />
+                        </button>
+                      </Popconfirm>
                       {(order.status === "finished" ||
                         order.status === "Completed!!!") && (
                         <>

@@ -470,12 +470,15 @@ function CartRequest() {
                         <DeleteOutlined />
                       </button>
                     </Popconfirm>
-                    <button
-                      onClick={() => openUpdateModal(item.id)}
-                      className="p-2 rounded-md hover:bg-slate-300"
-                    >
-                      <EditOutlined />
-                    </button>
+
+                    {item.companyDesign === null && (
+                      <button
+                        onClick={() => openUpdateModal(item.id)}
+                        className="p-2 rounded-md hover:bg-slate-300"
+                      >
+                        <EditOutlined />
+                      </button>
+                    )}
                     <Popconfirm
                       title="Xác nhận gửi yêu cầu "
                       onConfirm={() => handleSendRequest(item.id)}
