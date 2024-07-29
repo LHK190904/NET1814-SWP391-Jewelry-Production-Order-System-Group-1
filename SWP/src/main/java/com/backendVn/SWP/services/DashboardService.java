@@ -2,6 +2,8 @@ package com.backendVn.SWP.services;
 
 import com.backendVn.SWP.dtos.response.*;
 import com.backendVn.SWP.entities.*;
+import com.backendVn.SWP.exception.AppException;
+import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.PaymentMapper;
 import com.backendVn.SWP.mappers.RequestMapper;
 import com.backendVn.SWP.mappers.UserMapper;
@@ -83,7 +85,12 @@ public class DashboardService {
 
     //SAFU SAFUUUUUUUUUUUUUUUUUUUU
     public BigDecimal calculateTotalRevenue(Instant startDate, Instant endDate) {
-        List<Invoice> invoices = invoiceRepository.findByCreatedAtBetween(startDate, endDate);
+        List<Invoice> invoices = requestRepository.findByCreatedAtBetweenAndStatus(startDate, endDate, "finished")
+                .stream()
+                .map(request -> invoiceRepository.findByRequestID(request)
+                        .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND)))
+                .toList();
+
         return invoices.stream()
                 .map(Invoice::getTotalCost)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

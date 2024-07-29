@@ -6,6 +6,7 @@ import com.backendVn.SWP.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 
 public interface RequestRepository extends JpaRepository<Request, Integer> {
@@ -24,4 +25,6 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     Request findFirstByCompanyDesign(Design design);
 
     Long countByCreatedAtBetween(Instant startDate, Instant endDate);
+
+    List<Request> findByCreatedAtBetweenAndStatus(Instant startDate, Instant endDate, String finished);
 }
