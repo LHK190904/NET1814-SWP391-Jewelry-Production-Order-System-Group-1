@@ -3,7 +3,6 @@ import axiosInstace from "../../../services/axiosInstance";
 
 function Overview() {
   const [totalSales, setTotalSales] = useState([]);
-  const [totalOrders, setTotalOrders] = useState([]);
   const [orderComplete, setOrderComplete] = useState([]);
   const [totalRequests, setTotalRequests] = useState([]);
 
@@ -17,11 +16,6 @@ function Overview() {
         `dashboard/monthly-profit-count?year=${currentYear}&startMonth=${lastMonth}&endMonth=${currentMonth}`
       );
       setTotalSales(responseTotalSales.data.result);
-
-      const responseTotalOrders = await axiosInstace.get(
-        `dashboard/monthly-order-count?year=${currentYear}&startMonth=${lastMonth}&endMonth=${currentMonth}`
-      );
-      setTotalOrders(responseTotalOrders.data.result);
 
       const responseOrderComplete = await axiosInstace.get(
         `dashboard/monthly-order-complete-count?year=${currentYear}&startMonth=${lastMonth}&endMonth=${currentMonth}`
@@ -67,17 +61,6 @@ function Overview() {
           )}
         >
           {calculateDifference(totalSales, "totalProfit")}
-        </div>
-        <div>from last month</div>
-      </div>
-      <div className="col-span-3 bg-white p-2 mx-2 rounded-lg">
-        <div className="text-2xl font-bold">Total Orders</div>
-        <div
-          className={getTextColor(
-            calculateDifference(totalOrders, "orderCount")
-          )}
-        >
-          {calculateDifference(totalOrders, "orderCount")}
         </div>
         <div>from last month</div>
       </div>
