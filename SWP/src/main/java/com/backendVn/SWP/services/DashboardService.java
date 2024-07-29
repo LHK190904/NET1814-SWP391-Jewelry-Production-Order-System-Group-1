@@ -12,7 +12,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.control.MappingControl;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -253,11 +252,8 @@ public class DashboardService {
     }
 
     public Long countOrders(Instant startDate, Instant endDate) {
-        return requestRepository.findByCreatedAtBetweenAndStatus(startDate, endDate, "finished")
-                .stream()
-                .map(request -> invoiceRepository.findByRequestID(request)
-                        .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND)))
-                .count();
+        return (long) requestRepository.findByCreatedAtBetweenAndStatus(startDate, endDate, "finished")
+                .size();
     }
 
     //SAFU SAFUUUUUUUUUUUUUUUUUUUUUUUUUU
@@ -281,7 +277,9 @@ public class DashboardService {
             for (Map.Entry<Design, Integer> entry : sortedEntries) {
                 Design design = entry.getKey();
                 Integer orderCount = entry.getValue();
-                BigDecimal price = quotationRepository.findFirstByRequestID(requestRepository.findFirstByCompanyDesign(design)).getCapitalCost();
+                BigDecimal price = invoiceRepository.findByRequestID(requestRepository.findFirstByCompanyDesign(design))
+                        .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND))
+                        .getTotalCost();
 
                 SellingProductResponse sellingProductResponse = new SellingProductResponse();
                 sellingProductResponse.setId(design.getId());
