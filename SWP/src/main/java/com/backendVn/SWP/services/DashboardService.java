@@ -207,6 +207,7 @@ public class DashboardService {
             transactionResponse = requestMapper.toTransactionResponse(request);
             paymentMapper.updateTransactionResponseFromPayment(payment, transactionResponse);
             userMapper.updateTransactionResponseFromUser(user, transactionResponse);
+            transactionResponse.setId(request.getId());
             transactionResponses.add(transactionResponse);
         }
         return transactionResponses;
