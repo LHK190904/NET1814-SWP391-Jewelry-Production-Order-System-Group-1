@@ -96,7 +96,7 @@ function CartOrder() {
     } else {
       navigate("/");
     }
-  }, [requestID]);
+  }, [requestID, isPaid]);
 
   useEffect(() => {
     if (order.status === "Completed!!!") {
