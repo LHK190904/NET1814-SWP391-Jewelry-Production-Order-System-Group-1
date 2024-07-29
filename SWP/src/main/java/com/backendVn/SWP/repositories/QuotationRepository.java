@@ -12,4 +12,6 @@ public interface QuotationRepository extends JpaRepository<Quotation, Integer> {
     Optional<List<Quotation>> findByRequestID(Request request);
     List<Quotation> findByCreatedAtBetween(Instant start, Instant end);
     Quotation findFirstByRequestID(Request request);
+
+    Optional<Quotation> findTopByRequestIDOrderByCreatedAtDesc(Request request);
 }

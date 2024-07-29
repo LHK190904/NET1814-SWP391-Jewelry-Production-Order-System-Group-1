@@ -44,7 +44,7 @@ public class QuotationService {
         if (request.getMainStone() != null || request.getSubStone() != null){
             capitalCost = capitalCost.add(quotationCreationRequest.getStonePrice());
         }
-        if (quotationCreationRequest.getCost().compareTo(capitalCost)<0){
+        if (quotationCreationRequest.getCost().compareTo(capitalCost)<=0){
             throw new AppException(ErrorCode.INVALID_SALE_COST);
         }
         quotation.setCapitalCost(capitalCost);
@@ -125,7 +125,11 @@ public class QuotationService {
             autoPricingResponse.setStonePrice(request.getMainStone().getPricePerUnit());
         }
         if(request.getSubStone() != null){
-            autoPricingResponse.setStonePrice(autoPricingResponse.getStonePrice().add(request.getSubStone().getPricePerUnit()));
+            if (autoPricingResponse.getStonePrice() != null) {
+                autoPricingResponse.setStonePrice(autoPricingResponse.getStonePrice().add(request.getSubStone().getPricePerUnit()));
+            } else {
+                autoPricingResponse.setStonePrice(request.getSubStone().getPricePerUnit());
+            }
         }
         return autoPricingResponse;
     }

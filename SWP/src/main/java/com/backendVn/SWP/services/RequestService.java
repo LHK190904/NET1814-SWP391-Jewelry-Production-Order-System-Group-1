@@ -3,10 +3,7 @@ package com.backendVn.SWP.services;
 import com.backendVn.SWP.dtos.request.RequestCreationRequestForCustomerDesign;
 import com.backendVn.SWP.dtos.response.RequestResponse;
 import com.backendVn.SWP.dtos.response.UserResponse;
-import com.backendVn.SWP.entities.Design;
-import com.backendVn.SWP.entities.Material;
-import com.backendVn.SWP.entities.Request;
-import com.backendVn.SWP.entities.User;
+import com.backendVn.SWP.entities.*;
 import com.backendVn.SWP.exception.AppException;
 import com.backendVn.SWP.exception.ErrorCode;
 import com.backendVn.SWP.mappers.RequestMapper;
@@ -27,6 +24,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +38,7 @@ public class RequestService {
     MaterialRepository materialRepository;
     DesignRepository designRepository;
     DesignService designService;
+    private final RequestOrderRepository requestOrderRepository;
 
     public RequestResponse sendRequest(Integer requestId){
         Request request = requestRepository.findById(requestId)
@@ -68,10 +67,10 @@ public class RequestService {
 
     public BigDecimal makeProduceCost(String input) {
         return switch (input) {
-            case "RING" -> BigDecimal.valueOf(1500);
-            case "NECKLACE" -> BigDecimal.valueOf(2200);
-            case "BRACELET" -> BigDecimal.valueOf(2000);
-            default -> BigDecimal.valueOf(1800);
+            case "RING" -> BigDecimal.valueOf(1500000);
+            case "NECKLACE" -> BigDecimal.valueOf(2200000);
+            case "BRACELET" -> BigDecimal.valueOf(2000000);
+            default -> BigDecimal.valueOf(1800000);
         };
     }
 
@@ -180,8 +179,12 @@ public class RequestService {
         Material goldMaterial = findOrCreateGoldMaterial(requestCreationRequestForCustomerDesign);
 
         request.setMaterialID(goldMaterial);
-        request.setMainStone(getMaterialById(requestCreationRequestForCustomerDesign.getMainStoneId()));
-        request.setSubStone(getMaterialById(requestCreationRequestForCustomerDesign.getSubStoneId()));
+        if(requestCreationRequestForCustomerDesign.getMainStoneId() != null) {
+            request.setMainStone(getMaterialById(requestCreationRequestForCustomerDesign.getMainStoneId()));
+        }
+        if(requestCreationRequestForCustomerDesign.getSubStoneId() != null) {
+            request.setSubStone(getMaterialById(requestCreationRequestForCustomerDesign.getSubStoneId()));
+        }
         request.setProduceCost(makeProduceCost(request.getCategory()));
         request.setURLImage(designService.createCSV(requestCreationRequestForCustomerDesign.getListURLImage()));
         request.setStatus("Unapproved");
@@ -219,8 +222,16 @@ public class RequestService {
     public void deleteRequest(Integer id) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-        request.setStatus("Disable");
-        requestRepository.save(request);
+
+        Optional<RequestOrder> optionalRequestOrder = requestOrderRepository.findByRequestID(request);
+
+            if (optionalRequestOrder.isPresent()) {
+                RequestOrder requestOrder = optionalRequestOrder.get();
+                requestOrder.setStatus("Disable");
+                requestOrderRepository.save(requestOrder);
+            }
+                request.setStatus("Disable");
+                requestRepository.save(request);
     }
 
     public List<RequestResponse> getAllRequests() {

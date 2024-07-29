@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -34,13 +36,19 @@ public class PaymentService {
     RequestOrderRepository requestOrderRepository;
     PaymentMapper paymentMapper;
 
-    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
-    public PaymentResponse createDeposit(Integer requestId){
+//    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
+    public PaymentResponse createDeposit(Integer requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
         List<Quotation> quotations = quotationRepository.findByRequestID(request)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
         quotations.sort(Comparator.comparing(Quotation::getCreatedAt));
+        List<Payment> payments = paymentRepository.findByRequestIDAndPaymentType(request, "Deposit")
+                .orElse(new ArrayList<>());
+
+        if (!payments.isEmpty()){
+            return null;
+        }
 
         Payment payment = Payment.builder()
                 .paymentType("Deposit")
@@ -61,6 +69,12 @@ public class PaymentService {
         List<Quotation> quotations = quotationRepository.findByRequestID(request)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
         quotations.sort(Comparator.comparing(Quotation::getCreatedAt));
+        List<Payment> payments = paymentRepository.findByRequestIDAndPaymentType(request, "Payment")
+                .orElse(new ArrayList<>());
+
+        if (!payments.isEmpty()){
+            return null;
+        }
 
         Payment payment = Payment.builder()
                 .paymentType("Payment")
@@ -75,14 +89,14 @@ public class PaymentService {
         return paymentMapper.toPaymentResponse(payment);
     }
 
-    public PaymentResponse makePayment(Integer paymentId){
+    public PaymentResponse makePayment(Integer paymentId) {
         Payment payment = paymentRepository.findById(paymentId)
                 .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_NOT_FOUND));
 
         payment.setStatus("Paid");
         payment.setPaymentDate(Instant.now());
 
-        if(payment.getPaymentType().equals("Deposit")){
+        if (payment.getPaymentType().equals("Deposit")) {
             payment.getRequestID().setStatus("Ordering");
             requestRepository.save(payment.getRequestID());
         } else {
@@ -99,5 +113,20 @@ public class PaymentService {
         paymentRepository.save(payment);
 
         return paymentMapper.toPaymentResponse(payment);
+    }
+    
+    public PaymentResponse getPayment(Integer requestId, String paymentType) {
+        Request request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+
+        List<Payment> payments = paymentRepository.findByRequestIDAndPaymentType(request, paymentType)
+                .orElse(new ArrayList<>());
+
+        if (payments.isEmpty()){
+            return null;
+        }
+
+        payments.sort(Comparator.comparing(Payment::getCreatedAt));
+        return paymentMapper.toPaymentResponse(payments.getLast());
     }
 }

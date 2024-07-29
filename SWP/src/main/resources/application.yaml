@@ -3,9 +3,9 @@
 #SWP391_NET1814_Jewelry_Production_Order_System
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost:1433;database=SWP1;encrypt=false
+    url: jdbc:sqlserver://mssql.recs.site;database=SWP391_NET1814_Jewelry_Production_Order_System;encrypt=false
     username: sa
-    password: Abc@1234
+    password: Thomas1910@
   mail:
     host: smtp.gmail.com
     port: 587

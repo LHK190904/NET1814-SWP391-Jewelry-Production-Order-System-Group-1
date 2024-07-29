@@ -16,6 +16,7 @@ public interface QuotationMapper {
 
     @Mapping(target = "requestID", source = "requestID.id")
     @Mapping(target = "approvedBy", source = "approveBy.id")
+    @Mapping(target = "deniedReason", source = "deniedReason")
     QuotationResponse toQuotationResponse(Quotation quotation);
 
     @Mapping(target = "materialPrice", source = "materialID.pricePerUnit")

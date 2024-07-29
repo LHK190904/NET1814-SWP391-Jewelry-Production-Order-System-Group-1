@@ -115,7 +115,7 @@ public class DesignService {
         return designMapper.toDesignResponse(designRepository.save(design), brokeCSV(design.getURLImage()));
     }
 
-    @PreAuthorize("hasAnyAuthority('SCOPE_CUSTOMER', 'SCOPE_DEISGN_STAFF', 'SCOPE_PRODUCTION_STAFF')")
+//    @PreAuthorize("hasAnyAuthority('SCOPE_CUSTOMER', 'SCOPE_DEISGN_STAFF', 'SCOPE_PRODUCTION_STAFF')")
     public DesignResponse getDesignById(Integer requestOrderId) {
         RequestOrder requestOrder = requestOrderRepository.findById(requestOrderId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));

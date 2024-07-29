@@ -26,6 +26,7 @@ public class PaymentMapperImpl implements PaymentMapper {
         paymentResponse.id( payment.getId() );
         paymentResponse.amount( payment.getAmount() );
         paymentResponse.paymentDate( payment.getPaymentDate() );
+        paymentResponse.createdAt( payment.getCreatedAt() );
         paymentResponse.paymentType( payment.getPaymentType() );
         paymentResponse.status( payment.getStatus() );
 
