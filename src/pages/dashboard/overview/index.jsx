@@ -60,7 +60,9 @@ function Overview() {
             calculateDifference(totalSales, "totalProfit")
           )}
         >
-          {calculateDifference(totalSales, "totalProfit")}
+          {new Intl.NumberFormat().format(
+            calculateDifference(totalSales, "totalProfit")
+          )}
         </div>
         <div>from last month</div>
       </div>
@@ -71,7 +73,9 @@ function Overview() {
             calculateDifference(orderComplete, "orderCount")
           )}
         >
-          {calculateDifference(orderComplete, "orderCount")}
+          {new Intl.NumberFormat().format(
+            calculateDifference(orderComplete, "orderCount")
+          )}
         </div>
         <div>from last month</div>
       </div>
@@ -82,7 +86,9 @@ function Overview() {
             calculateDifference(totalRequests, "orderCount")
           )}
         >
-          {calculateDifference(totalRequests, "orderCount")}
+          {new Intl.NumberFormat().format(
+            calculateDifference(totalRequests, "orderCount")
+          )}
         </div>
         <div>from last month</div>
       </div>
