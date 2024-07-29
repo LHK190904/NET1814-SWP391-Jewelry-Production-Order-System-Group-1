@@ -89,7 +89,6 @@ function CartOrder() {
   };
 
   useEffect(() => {
-<<<<<<< HEAD
     const user = authService.getCurrentUser();
     if (user) {
       fetchOrders();
@@ -97,12 +96,7 @@ function CartOrder() {
     } else {
       navigate("/");
     }
-  }, [requestID]);
-=======
-    fetchOrders();
-    fetchStone();
   }, [requestID, isPaid]);
->>>>>>> c06885e08e3c1d7683b6e693bcb9820fb88c656a
 
   useEffect(() => {
     if (order.status === "Completed!!!") {
