@@ -16,12 +16,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.Year;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -29,8 +27,6 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class DashboardService {
     InvoiceRepository invoiceRepository;
-    RequestOrderRepository requestOrderRepository;
-    UserRepository userRepository;
     QuotationRepository quotationRepository;
     RequestRepository requestRepository;
     PaymentRepository paymentRepository;
@@ -65,7 +61,6 @@ public class DashboardService {
     }
 
     public BigDecimal calculateTotalProfit(Instant startDate, Instant endDate) {
-        // Lấy revenue từ khoảng thời gian xác định
         BigDecimal revenue = calculateTotalRevenue(startDate, endDate);
 
         List<Request> requests = requestRepository.findByCreatedAtBetweenAndStatus(startDate, endDate, "finished");
@@ -138,15 +133,13 @@ public class DashboardService {
     }
 
     public List<SellingProductResponse> sellingProducts() {
-        List<Request> requests = requestRepository.findAllByCompanyDesignIsNotNull();
+        List<Request> requests = requestRepository.findAllByCompanyDesignIsNotNullAndStatus("finished");
         Map<Design, Integer> map = new HashMap<>();
 
         // Count the occurrences of each design
         for (Request request : requests) {
             Design design = request.getCompanyDesign();
-            if (requestRepository.existsByCompanyDesignAndStatus(design, "finished")) {
-                map.put(design, map.getOrDefault(design, 0) + 1);
-            }
+            map.put(design, map.getOrDefault(design, 0) + 1);
         }
 
         // Sort the map entries by value (order count) in descending order
@@ -161,17 +154,11 @@ public class DashboardService {
             log.info("Processing design name {}, ID{}", design.getDesignName(), design.getId());
             Integer orderCount = entry.getValue();
 
-            Request request;
+            BigDecimal price;
+            Request request = null;
             try {
                 request = requestRepository.findFirstByCompanyDesignAndStatus(design, "finished")
                         .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
-            } catch (AppException e) {
-                log.error("No finished request found for design name {}, ID{}", design.getDesignName(), design.getId());
-                throw e;
-            }
-
-            BigDecimal price;
-            try {
                 price = invoiceRepository.findByRequestID(request)
                         .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND))
                         .getTotalCost();
@@ -202,7 +189,7 @@ public class DashboardService {
             Request request = payment.getRequestID();
             User user = request.getCustomerID();
 
-            TransactionResponse transactionResponse = new TransactionResponse();
+            TransactionResponse transactionResponse;
 
             transactionResponse = requestMapper.toTransactionResponse(request);
             paymentMapper.updateTransactionResponseFromPayment(payment, transactionResponse);
