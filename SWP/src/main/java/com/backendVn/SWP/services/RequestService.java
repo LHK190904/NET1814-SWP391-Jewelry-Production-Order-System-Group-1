@@ -67,10 +67,10 @@ public class RequestService {
 
     public BigDecimal makeProduceCost(String input) {
         return switch (input) {
-            case "RING" -> BigDecimal.valueOf(1500);
-            case "NECKLACE" -> BigDecimal.valueOf(2200);
-            case "BRACELET" -> BigDecimal.valueOf(2000);
-            default -> BigDecimal.valueOf(1800);
+            case "RING" -> BigDecimal.valueOf(1500000);
+            case "NECKLACE" -> BigDecimal.valueOf(2200000);
+            case "BRACELET" -> BigDecimal.valueOf(2000000);
+            default -> BigDecimal.valueOf(1800000);
         };
     }
 
