@@ -44,7 +44,7 @@ function Overview() {
     const valueLastMonth = getValueForMonth(data, lastMonth, key);
     const valueCurrentMonth = getValueForMonth(data, currentMonth, key);
 
-    return valueLastMonth - valueCurrentMonth;
+    return valueCurrentMonth - valueLastMonth;
   };
 
   const getTextColor = (difference) => {

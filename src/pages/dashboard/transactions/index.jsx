@@ -23,8 +23,8 @@ function LatestTransaction() {
         ĐƠN ĐÃ THANH TOÁN MỚI NHẤT
       </h2>
       <div className="grid grid-cols-9 text-xl border bg-gray-400">
-        <div className="col-span-1 border p-2">MÃ ĐƠN</div>
-        <div className="col-span-2 border p-2">KHÁCH HÀNG</div>
+        <div className="col-span-1 border p-2">MÃ KHÁCH HÀNG</div>
+        <div className="col-span-2 border p-2">TÊN KHÁCH HÀNG</div>
         <div className="col-span-3 border p-2">EMAIL</div>
         <div className="col-span-1 border p-2">SĐT</div>
         <div className="col-span-1 border p-2">TỔNG TIỀN</div>
