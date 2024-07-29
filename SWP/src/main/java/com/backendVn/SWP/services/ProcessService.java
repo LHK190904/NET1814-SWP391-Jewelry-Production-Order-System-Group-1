@@ -66,7 +66,7 @@ public class ProcessService {
         }
 
         requestOrderRepository.save(requestOrder);
-        if(processList.size() == 4){
+        if(!processList.isEmpty() && processList.getLast().getStatus().equals("100%")){
             return null;
         } else {
             Process savedProcess = processRepository.save(process);

@@ -36,7 +36,7 @@ public class PaymentService {
     RequestOrderRepository requestOrderRepository;
     PaymentMapper paymentMapper;
 
-    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
+//    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public PaymentResponse createDeposit(Integer requestId) {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
@@ -46,7 +46,7 @@ public class PaymentService {
         List<Payment> payments = paymentRepository.findByRequestIDAndPaymentType(request, "Deposit")
                 .orElse(new ArrayList<>());
 
-        if (payments.isEmpty()){
+        if (!payments.isEmpty()){
             return null;
         }
 
@@ -69,10 +69,10 @@ public class PaymentService {
         List<Quotation> quotations = quotationRepository.findByRequestID(request)
                 .orElseThrow(() -> new AppException(ErrorCode.QUOTATION_NOT_FOUND));
         quotations.sort(Comparator.comparing(Quotation::getCreatedAt));
-        List<Payment> payments = paymentRepository.findByRequestIDAndPaymentType(request, "Deposit")
+        List<Payment> payments = paymentRepository.findByRequestIDAndPaymentType(request, "Payment")
                 .orElse(new ArrayList<>());
 
-        if (payments.isEmpty()){
+        if (!payments.isEmpty()){
             return null;
         }
 
