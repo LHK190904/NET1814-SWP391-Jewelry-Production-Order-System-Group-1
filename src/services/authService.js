@@ -13,11 +13,9 @@ const login = async (username, password) => {
       const userData = { username, token, title, id };
       localStorage.setItem("user", JSON.stringify(userData));
       return userData;
-    } else {
-      message.error("Tài khoản hoặc mật khẩu không hợp lệ");
     }
   } catch (error) {
-    message.error("Đăng nhập thất bại");
+    message.error("Tài khoản hoặc mật khẩu không hợp lệ");
   }
 };
 

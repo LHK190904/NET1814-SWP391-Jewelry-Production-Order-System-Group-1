@@ -35,12 +35,8 @@ function Login() {
           navigate("/");
           window.location.reload();
         }
-      } else {
-        setErrorMessage("Login failed");
       }
-    } catch (error) {
-      setErrorMessage(error.message);
-    }
+    } catch (error) {}
   };
 
   const handleContinueWithGoogle = () => {
