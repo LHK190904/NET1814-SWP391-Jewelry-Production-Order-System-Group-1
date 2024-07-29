@@ -13,7 +13,7 @@ function Overview() {
   const fetchData = async () => {
     try {
       const responseTotalSales = await axiosInstace.get(
-        `dashboard/monthly-profit-count?year=${currentYear}&startMonth=${lastMonth}&endMonth=${currentMonth}`
+        `dashboard/monthly-revenue?year=${currentYear}&startMonth=${lastMonth}&endMonth=${currentMonth}`
       );
       setTotalSales(responseTotalSales.data.result);
 
