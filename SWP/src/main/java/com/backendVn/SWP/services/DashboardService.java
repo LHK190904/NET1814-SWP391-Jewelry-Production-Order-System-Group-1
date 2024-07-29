@@ -144,7 +144,9 @@ public class DashboardService {
         // Count the occurrences of each design
         for (Request request : requests) {
             Design design = request.getCompanyDesign();
-            map.put(design, map.getOrDefault(design, 0) + 1);
+            if (requestRepository.existsByCompanyDesignAndStatus(design, "finished")) {
+                map.put(design, map.getOrDefault(design, 0) + 1);
+            }
         }
 
         // Sort the map entries by value (order count) in descending order
@@ -156,10 +158,27 @@ public class DashboardService {
 
         for (Map.Entry<Design, Integer> entry : sortedEntries) {
             Design design = entry.getKey();
+            log.info("Processing design name {}, ID{}", design.getDesignName(), design.getId());
             Integer orderCount = entry.getValue();
-            BigDecimal price = invoiceRepository.findByRequestID(requestRepository.findFirstByCompanyDesign(design))
-                    .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND))
-                    .getTotalCost();
+
+            Request request;
+            try {
+                request = requestRepository.findFirstByCompanyDesignAndStatus(design, "finished")
+                        .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
+            } catch (AppException e) {
+                log.error("No finished request found for design name {}, ID{}", design.getDesignName(), design.getId());
+                throw e;
+            }
+
+            BigDecimal price;
+            try {
+                price = invoiceRepository.findByRequestID(request)
+                        .orElseThrow(() -> new AppException(ErrorCode.INVOICE_NOT_FOUND))
+                        .getTotalCost();
+            } catch (AppException e) {
+                log.error("No invoice found for request ID{}", request.getId());
+                throw e;
+            }
 
             SellingProductResponse sellingProductResponse = new SellingProductResponse();
             sellingProductResponse.setId(design.getId());

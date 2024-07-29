@@ -60,16 +60,18 @@ public class ProcessService {
             process.setStatus("50%");
         } else if(processList.size() == 2) {
             process.setStatus("75%");
-        } else {
+        } else if(processList.size() == 3){
             process.setStatus("100%");
             requestOrder.setStatus("Completed!!!");
         }
 
         requestOrderRepository.save(requestOrder);
-
-        Process savedProcess = processRepository.save(process);
-
-        return processMapper.toProcessResponse(savedProcess);
+        if(!processList.isEmpty() && processList.getLast().getStatus().equals("100%")){
+            return null;
+        } else {
+            Process savedProcess = processRepository.save(process);
+            return processMapper.toProcessResponse(savedProcess);
+        }
     }
 
     public ProcessResponse updateProcess(Integer requestOrderId, ProcessUpdateRequest processUpdateRequest) {

@@ -125,7 +125,11 @@ public class QuotationService {
             autoPricingResponse.setStonePrice(request.getMainStone().getPricePerUnit());
         }
         if(request.getSubStone() != null){
-            autoPricingResponse.setStonePrice(autoPricingResponse.getStonePrice().add(request.getSubStone().getPricePerUnit()));
+            if (autoPricingResponse.getStonePrice() != null) {
+                autoPricingResponse.setStonePrice(autoPricingResponse.getStonePrice().add(request.getSubStone().getPricePerUnit()));
+            } else {
+                autoPricingResponse.setStonePrice(request.getSubStone().getPricePerUnit());
+            }
         }
         return autoPricingResponse;
     }
