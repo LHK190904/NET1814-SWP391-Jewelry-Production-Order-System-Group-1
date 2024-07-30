@@ -30,4 +30,6 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findByCreatedAtBetweenAndStatus(Instant startDate, Instant endDate, String finished);
 
     boolean existsByCompanyDesignAndStatus(Design design, String finished);
+
+    List<Request> findAllByCompanyDesignIsNotNullAndStatus(String finished);
 }

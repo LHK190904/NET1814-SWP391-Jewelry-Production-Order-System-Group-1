@@ -31,7 +31,8 @@ outbound:
   identity:
     client-id: "878798429133-i8k172q7439p32s13rqnl1np9g4g8l18.apps.googleusercontent.com"
     client-secret: "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"
-    redirect-uri: "http://localhost:5173/authenticate"
+#    redirect-uri: "http://localhost:5173/authenticate"
+    redirect-uri: "https://deploy-theta-blue.vercel.app/authenticate"
 
 jwt:
   signerKey: "ha+MtmyenlAuB5AZutl1uNHRhrkmDGfFI7xpExHY50pZP+50iuif23teGaUwNa1I"
