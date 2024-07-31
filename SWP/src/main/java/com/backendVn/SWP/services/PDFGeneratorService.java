@@ -55,7 +55,8 @@ public class PDFGeneratorService {
                 .orElseThrow(()-> new AppException(ErrorCode.WARRANTY_CARD_NOT_FOUND));
 
         // Load the PDF template
-        InputStream templateStream = new FileInputStream(templatePath);
+        ClassPathResource resource = new ClassPathResource(templatePath);
+        InputStream templateStream = resource.getInputStream();
 
         try {
             PdfDocument pdfDoc = new PdfDocument(new PdfReader(templateStream), new PdfWriter(outputPath));
