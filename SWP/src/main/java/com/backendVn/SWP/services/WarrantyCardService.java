@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 
 @Service
@@ -27,7 +28,7 @@ public class WarrantyCardService {
     RequestOrderRepository requestOrderRepository;
     WarrantyCardMapper warrantyCardMapper;
 
-    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
+//    @PreAuthorize("hasAuthority('SCOPE_CUSTOMER')")
     public WarrantyCardResponse createWarrantyCard(Integer id) {
         RequestOrder requestOrder = requestOrderRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_ORDER_NOT_FOUND));
@@ -37,8 +38,7 @@ public class WarrantyCardService {
         warrantyCard.setCreatedAt(Instant.now());
         Instant endAt = Instant.now();
         ZonedDateTime zonedDateTime = endAt.atZone(ZoneId.systemDefault());
-        zonedDateTime.plusYears(2);
-        endAt = zonedDateTime.toInstant();
+        endAt = zonedDateTime.plusYears(2).toInstant();
         warrantyCard.setEndAt(endAt);
 
         requestOrder.setEndAt(Instant.now());
