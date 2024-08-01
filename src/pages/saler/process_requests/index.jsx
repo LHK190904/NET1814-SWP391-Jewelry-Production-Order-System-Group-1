@@ -66,7 +66,6 @@ function ProcessRequests() {
       const quotationData = quotationResponse.data.result;
       const autoPricingData = autoPricingResponse.data.result;
 
-      console.log(quotationData.deniedReason);
       setDeniedReasons(quotationData.deniedReason);
       setSelectedRecord(record);
 
@@ -313,13 +312,13 @@ function ProcessRequests() {
         </p>
         {selectedRecord.deniedReason !== null && (
           <p className="p-4 border border-red-500 bg-red-100 text-red-700 rounded-md mb-5">
-            <span className="font-extrabold">Lí do từ chối:</span>{" "}
+            <span className="font-extrabold">Lí do từ chối - (KH):</span>{" "}
             {selectedRecord.deniedReason}
           </p>
         )}
         {deniedReasons !== null && (
           <p className="p-4 border border-red-500 bg-red-100 text-red-700 rounded-md mb-5">
-            <span className="font-extrabold">Lí do từ chối:</span>{" "}
+            <span className="font-extrabold">Lí do từ chối - (QL):</span>{" "}
             {deniedReasons}
           </p>
         )}

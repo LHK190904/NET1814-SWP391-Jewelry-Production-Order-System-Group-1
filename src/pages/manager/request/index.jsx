@@ -30,6 +30,7 @@ function ManagerRequest() {
           return { ...req, quotation: quoRes.data.result };
         })
       );
+      console.log(combinedData);
       setRequests(combinedData);
     } catch (error) {
       console.error(error);
@@ -191,7 +192,7 @@ function ManagerRequest() {
                     onClick={() => handleApprove(item.quotation.id, item.id)}
                     className="bg-green-400 text-black p-2 rounded-lg mr-2"
                   >
-                    Chấp nhận 
+                    Chấp nhận
                   </button>
                   <button
                     onClick={() =>
@@ -207,7 +208,13 @@ function ManagerRequest() {
                   onClick={() => handleStatusClick(item.id)}
                   className="bg-blue-400 p-2 rounded-lg"
                 >
-                  {statuses[item.id] || item.status}
+                  {statuses[item.id] || item.status === "Approved" ? (
+                    <div>Đã duyệt</div>
+                  ) : statuses[item.id] || item.status === "Denied" ? (
+                    <div>Đã từ chối</div>
+                  ) : (
+                    <div>Đợi phê duyệt</div>
+                  )}
                 </button>
               )}
             </div>

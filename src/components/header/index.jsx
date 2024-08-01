@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
 import axiosInstance from "../../services/axiosInstance";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, message } from "antd";
 
 function Header() {
   const [user, setUser] = useState(null);
@@ -44,6 +44,10 @@ function Header() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    if (searchQuery.trim() === "") {
+      message.error("Vui lòng nhập từ khóa để tìm kiếm");
+      return;
+    }
     navigate(`/search/${searchQuery.toLowerCase()}`);
     setSearchQuery("");
   };
@@ -108,6 +112,7 @@ function Header() {
             onClick: handleLogout,
           },
         ];
+
   return (
     <div>
       <div className="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 bg-black text-[#F7EF8A] items-center w-screen">
