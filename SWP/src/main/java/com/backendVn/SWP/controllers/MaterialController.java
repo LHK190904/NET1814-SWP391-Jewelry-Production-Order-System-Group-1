@@ -32,7 +32,12 @@ public class MaterialController {
                 .build();
     }
 
-
+    @GetMapping("/notGold")
+    public ApiResponse<List<MaterialResponse>> getMaterialNotGold(){
+        return ApiResponse.<List<MaterialResponse>>builder()
+                .result(materialService.getMaterialNotGold())
+                .build();
+    }
 
     @DeleteMapping("/{materialID}")
     public void deleteMaterial(@PathVariable Integer materialID){

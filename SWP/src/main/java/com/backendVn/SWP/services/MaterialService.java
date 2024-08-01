@@ -44,7 +44,10 @@ public class MaterialService {
         return materialMapper.toMaterialResponse(materialRepository.save(material));
     }
 
-
+    public List<MaterialResponse> getMaterialNotGold() {
+        return materialRepository.findAllByTypeIsNotGold("Gold").orElseThrow(() -> new AppException(ErrorCode.NO_MATERIAL_IN_THE_LIST))
+                .stream().map(materialMapper::toMaterialResponse).toList();
+    }
 
     public void deleteMaterial(Integer id) {
         materialRepository.deleteById(id);
