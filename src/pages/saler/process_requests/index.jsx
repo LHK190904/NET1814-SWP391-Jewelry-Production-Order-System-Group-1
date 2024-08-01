@@ -38,7 +38,6 @@ function ProcessRequests() {
     if (saler && saler.id) {
       try {
         const response = await axiosInstance.get(`/requests/sales/${saler.id}`);
-        console.log(response);
         setRequests(response.data.result);
       } catch (error) {
         console.error("Không thể lấy yêu cầu:", error);
@@ -312,13 +311,17 @@ function ProcessRequests() {
         </p>
         {selectedRecord.deniedReason !== null && (
           <p className="p-4 border border-red-500 bg-red-100 text-red-700 rounded-md mb-5">
-            <span className="font-extrabold">Lí do từ chối - (KH):</span>{" "}
+
+            <span className="font-extrabold">Lí do từ chối-(KH):</span>{" "}
+
             {selectedRecord.deniedReason}
           </p>
         )}
         {deniedReasons !== null && (
           <p className="p-4 border border-red-500 bg-red-100 text-red-700 rounded-md mb-5">
-            <span className="font-extrabold">Lí do từ chối - (QL):</span>{" "}
+
+            <span className="font-extrabold">Lí do từ chối-(QL):</span>{" "}
+
             {deniedReasons}
           </p>
         )}

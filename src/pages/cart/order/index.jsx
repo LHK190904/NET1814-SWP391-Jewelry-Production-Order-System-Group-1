@@ -39,7 +39,7 @@ function CartOrder() {
         `request-orders/getOrderByRequestIdForCustomer/${requestID}`
       );
       setOrder(responseOrder.data.result);
-      console.log(responseOrder.data.result);
+
       if (responseOrder.data.result.status === "finished") {
         setIsPaid(true);
       }
@@ -73,7 +73,6 @@ function CartOrder() {
         `invoices/getInvoiceInfor/${order.id}`
       );
       setInvoice(response.data.result);
-      console.log(response.data.result);
     } catch (error) {
       console.log(error);
     }

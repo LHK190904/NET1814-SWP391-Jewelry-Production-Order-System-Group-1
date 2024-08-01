@@ -72,7 +72,7 @@ function CartRequest() {
       );
 
       setRequests(combinedData);
-      console.log(combinedData);
+      // console.log(combinedData);
     } catch (error) {
       console.error("Error fetching requests", error);
     }
@@ -161,7 +161,7 @@ function CartRequest() {
       setDataGoldAPI(goldData);
 
       const materialResponse = await axiosInstance.get(`material/notGold`);
-      console.log(materialResponse.data.result);
+
       setMaterial(materialResponse.data.result);
     } catch (error) {
       console.error(error);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../../services/axiosInstance";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import LogoutButton from "../../../components/logoutButton";
-import { Modal, Input, Button, Form } from "antd";
+import { Modal, Input, Button, Form, InputNumber } from "antd";
 import Navbar from "../../../components/navbar";
 import authorService from "../../../services/authorService";
 
@@ -126,7 +126,9 @@ function ManageMaterial() {
               {materials.map((material) => (
                 <tr key={material.id} className="border-b">
                   <td className="p-4">{material.type}</td>
-                  <td className="p-4">{material.pricePerUnit}</td>
+                  <td className="p-4">
+                    {new Intl.NumberFormat().format(material.pricePerUnit)} VNĐ
+                  </td>
                   <td className="p-4">{material.materialName}</td>
                   <td className="p-4 text-center">
                     <Button
@@ -162,7 +164,11 @@ function ManageMaterial() {
             name="pricePerUnit"
             rules={[{ required: true, message: "Không được để trống" }]}
           >
-            <Input type="number" />
+            <InputNumber
+              min={0}
+              style={{ width: "100%" }}
+              formatter={(value) => `${new Intl.NumberFormat().format(value)} `}
+            />
           </Form.Item>
           <Form.Item
             label="Tên vật liệu"
