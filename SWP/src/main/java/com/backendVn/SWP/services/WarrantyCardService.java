@@ -36,6 +36,7 @@ public class WarrantyCardService {
         WarrantyCard warrantyCard = new WarrantyCard();
         warrantyCard.setRequestOrder(requestOrder);
         warrantyCard.setCreatedAt(Instant.now());
+
         Instant endAt = Instant.now();
         ZonedDateTime zonedDateTime = endAt.atZone(ZoneId.systemDefault());
         endAt = zonedDateTime.plusYears(2).toInstant();
