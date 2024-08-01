@@ -45,8 +45,8 @@ public class PDFGeneratorService {
         this.requestOrderRepository = requestOrderRepository;
         this.warrantyCardRepository = warrantyCardRepository;
     }
-
-    public void generateWarrantyCertificate(List<String> data, String templatePath, String outputPath, Integer requestId) throws Exception {
+//    List<String> data,
+    public void generateWarrantyCertificate(String templatePath, String outputPath, Integer requestId) throws Exception {
         Request request = requestRepository.findById(requestId)
                 .orElseThrow(() -> new AppException(ErrorCode.REQUEST_NOT_FOUND));
         RequestOrder requestOrder = requestOrderRepository.findByRequestID(request)
@@ -55,7 +55,8 @@ public class PDFGeneratorService {
                 .orElseThrow(()-> new AppException(ErrorCode.WARRANTY_CARD_NOT_FOUND));
 
         // Load the PDF template
-        InputStream templateStream = new FileInputStream(templatePath);
+        ClassPathResource resource = new ClassPathResource(templatePath);
+        InputStream templateStream = resource.getInputStream();
 
         try {
             PdfDocument pdfDoc = new PdfDocument(new PdfReader(templateStream), new PdfWriter(outputPath));
@@ -77,7 +78,7 @@ public class PDFGeneratorService {
             }
             String formattedStartDate = formatInstantToString(String.valueOf(warrantyCard.getCreatedAt()));
             String formattedEndDate = formatInstantToString(String.valueOf(warrantyCard.getEndAt()));
-             addTextAtPosition(document, formattedStartDate, 452, 320,customFont);
+            addTextAtPosition(document, formattedStartDate, 452, 320,customFont);
             addTextAtPosition(document, formattedEndDate, 683, 320,customFont);
 
             pdfDoc.close();
@@ -102,4 +103,5 @@ public class PDFGeneratorService {
         document.showTextAligned(paragraph, x, y, TextAlignment.LEFT);
     }
 }
+
 
